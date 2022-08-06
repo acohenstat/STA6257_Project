@@ -1,2 +1,4 @@
-- name: .qmd files for slides
-  link: https://github.com/samanthaseals/STA5176/tree/main/qmd
+- name: .R files for practice
+  link: https://github.com/UWFTeaching/AdvStatsModeling/tree/main/codes
+- name: .Rmd template for project report
+  link: https://github.com/UWFTeaching/AdvStatsModeling
