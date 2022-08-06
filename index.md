@@ -8,10 +8,10 @@ show_sidebar: false
 
 ## Tentative Schedule
 
-| Week | Day | Date  | Topic(s) | Lecture | Assignment | Due |
+| Week | Day | Date  | Topic(s) | Codes | Assignment | Due |
 |:-:|:-:|:---:|--------------------|:--:|:-:|:-:
 | 1    | T   | 08/23 | Data management; summarizing data; data visualization | | | |
-|      | Thur   | 08/25 | Practice (no meeting) | | | 08/29 |
+|      | Thur   | 08/25 | Practice (no meeting) |[Tydiverse](https://samanthaseals.github.io/STA5176/slides/L01.html) | | 08/29 |
 | 2    | T   | 08/30 | Review of linear models | | | |
 |      | Thur   | 09/01 | Categorical predictors; interaction terms | | | |
 | 3    | T   | 09/06 | Generalized linear models; gamma regression and Practice (no meeting) | | | |
