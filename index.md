@@ -11,7 +11,7 @@ show_sidebar: false
 | Week | Day | Date  | Topic(s) | Codes | Assignment | Due |
 |:-:|:-:|:---:|--------------------|:--:|:-:|:-:
 | 1    | T   | 08/23 | Data management; summarizing data; data visualization | | | |
-|      | Thur   | 08/25 | Practice (no meeting) |[Tydiverse](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Tidyverse_R.R{:target="_blank"}) | | 08/29 |
+|      | Thur   | 08/25 | Practice (no meeting) |[Tydiverse](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Tidyverse_R.R){:target="_blank"} | | 08/29 |
 | 2    | T   | 08/30 | Review of linear models | | | |
 |      | Thur   | 09/01 | Categorical predictors; interaction terms | | | |
 | 3    | T   | 09/06 | Generalized linear models; gamma regression and Practice (no meeting) | | | |
