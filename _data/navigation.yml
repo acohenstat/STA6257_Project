@@ -1,4 +1,4 @@
-- name: .R files for practice
-  link: https://github.com/UWFTeaching/AdvStatsModeling/tree/main/codes
+- name: Project Instructions
+  link: 
 - name: .Rmd template for project report
-  link: https://github.com/UWFTeaching/AdvStatsModeling
+  link: https://github.com/UWFTeaching/AdvStatsModeling/tree/main/Template_Rmd_Report
