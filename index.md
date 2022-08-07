@@ -1,6 +1,6 @@
 ---
 title: STA6257 - Advanced Statistical Modeling
-subtitle: Fall 2022 - Dr. Cohen
+subtitle: Fall 2022 
 layout: page
 #callouts: home_callouts
 show_sidebar: false
@@ -12,17 +12,18 @@ show_sidebar: false
 |:-:|:-:|:---:|--------------------|:--:|:-:|:-:
 | 1    | T   | 08/23 | Data management; summarizing data; data visualization | | | |
 |      | Th  | 08/25 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Tidyverse_R.R) | | 08/29 |
-| 2    | T   | 08/30 | Review of linear models | [HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/NormalLinearModels.R) | [1-25](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
+| 2    | T   | 08/30 | Review of linear models; weighted regression | [Normal](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/NormalLinearModels.R);[Weighted](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/WeightedMLR.R) | [1-25](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
 |      | Th  | 09/01 | Introduction to Generalized linear models | |[26-47](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
-| 3    | T   | 09/06 | Generalized linear models; gamma regression |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/GammaLinearModels.R) |[26-47; 55](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
-|      | Th  | 09/08 | Practice (no meeting) | | | 09/12 |
+| 3    | T   | 09/06 | Generalized linear models; gamma regression (**positive continuous data**) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/GammaLinearModels.R) |[26-47; 55](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
+|      | Th  | 09/08 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/GammaLinearModels.R) | | 09/12 |
 | 4    | T   | 09/13 | Project 1 (no meeting) | | | |
 |      | Th  | 09/15 | Project 1 (no meeting) | | | 09/19 |
-| 5    | T   | 09/20 | Binary, ordinal, and multinomial logistic regressions | | | |
+| 5    | T   | 09/20 | Binomial, ordinal, and multinomial regressions (**proportion data**) | 
+[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Bin_Ord_MultinomialModels.R) |[48-51](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
 |      | Th  | 09/22 | Practice (no meeting) | | | 09/26 |
 | 6    | T   | 09/27 | Project 2 (short meeting) | | | |
 |      | Th  | 09/29 | Project 2 (no meeting) | | | 10/03 |
-| 7    | T   | 10/04 | Poisson and negative binomial regressions | | | |
+| 7    | T   | 10/04 | Poisson and negative binomial regressions (**counts data**) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/PoissonNBModels.R) |[52-54](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
 |      | Th  | 10/06 | Practice (no meeting) | | | 10/10 |
 | 8    | T   | 10/11 | Project 3 (short meeting) | | | |
 |      | Th  | 10/13 | Project 3 (no meeting) | | | 10/17 |
