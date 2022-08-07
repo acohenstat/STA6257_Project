@@ -14,7 +14,7 @@ show_sidebar: false
 |      | Th  | 08/25 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Tidyverse_R.R) | | 08/29 |
 | 2    | T   | 08/30 | Review of linear models | [HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/NormalLinearModels.R) | [1-25](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
 |      | Th  | 09/01 | Categorical predictors; interaction terms | [HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/NormalLinearModels.R) | | |
-| 3    | T   | 09/06 | Generalized linear models; gamma regression | |[26-47; 55](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
+| 3    | T   | 09/06 | Generalized linear models; gamma regression |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/GammaLinearModels.R) |[26-47; 55](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf) | |
 |      | Th  | 09/08 | Practice (no meeting) | | | 09/12 |
 | 4    | T   | 09/13 | Project 1 (no meeting) | | | |
 |      | Th  | 09/15 | Project 1 (no meeting) | | | 09/19 |
