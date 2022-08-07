@@ -1,6 +1,6 @@
 ---
 title: STA6257 - Advanced Statistical Modeling
-subtitle: Fall 2022 
+subtitle: Fall 2022 - Dr. Cohen
 layout: page
 #callouts: home_callouts
 show_sidebar: false
