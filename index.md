@@ -8,7 +8,7 @@ show_sidebar: false
 
 ## Tentative Schedule
 
-| Week | Day | Date  | Topic(s) | Codes | Slides | Due |
+| Week | Day | Date  | Topic(s) | R Codes | Slides | Due |
 |:-:|:-:|:---:|--------------------|:--:|:-:|:-:
 | 1    | T   | 08/23 | Data management; summarizing data; data visualization | | | |
 |      | Th  | 08/25 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Tidyverse_R.R) | | 08/29 |
