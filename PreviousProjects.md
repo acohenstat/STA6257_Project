@@ -9,5 +9,7 @@ show_sidebar: false
 ## Previous Reports
 
 | **Topic** | **Report** | **R Code**  |
-|:---------:|:-:|:---:|-----|
+|:---------:|:-:|:---:|
 | General Additive Models   | [PDF]()   | [.R]() | 
+| Qunatile Regression   | [PDF]()   | [.R]() | 
+| Kernel Regression   | [PDF]()   | [.R]() | 
