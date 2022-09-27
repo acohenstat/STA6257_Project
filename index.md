@@ -18,7 +18,7 @@ show_sidebar: false
 |      | Th  | 09/08 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/GammaLinearModels.R) | | 09/12 |
 | 4    | T   | 09/13 | Project 1 (short meeting) | | | |
 |      | Th  | 09/15 | Project 1 (no meeting) | | | 09/19 |
-| 5    | T   | 09/20 | Binomial, ordinal, and multinomial regressions (**proportion data**) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Bin_Ord_MultinomialModels.R) |[48-51](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
+| 5    | T   | 09/20 | Binomial regressions (**proportion data**) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Bin_Ord_MultinomialModels.R) |[48-51](http://pages.uwf.edu/acohen/teaching/slides/Slides_STA6257_Adv_Statistical_Modeling.pdf)| |
 |      | Th  | 09/22 | Practice (no meeting) |[HERE](https://github.com/UWFTeaching/AdvStatsModeling/blob/main/codes/Bin_Ord_MultinomialModels.R) | | 09/26 |
 | 6    | T   | 09/27 | Project 2 (short meeting) | | | |
 |      | Th  | 09/29 | Project 2 (no meeting) | | | 10/03 |
