@@ -1,14 +1,13 @@
 ---
 title: "Report Sample"
 author: "Student name"
-date: "Fall 2022"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+date: '`r Sys.Date()`'
+format:
+  html:
+    code-fold: true
 course: STA 6257 - Advance Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
-always_allow_html: true # this allows to get PDF with HTML features
+#always_allow_html: true # this allows to get PDF with HTML features
 ---
 
 ## Introduction
