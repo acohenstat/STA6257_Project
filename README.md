@@ -16,4 +16,5 @@ Create a GitHub page for the project
 
 More information:
 - [GitHub](https://happygitwithr.com/index.html)
-- [Video RStudio connection to GitHub](https://www.youtube.com/watch?v=MdmnE3AnkQE)
+- [Video1 RStudio connection to GitHub](https://www.youtube.com/watch?v=MdmnE3AnkQE)
+- [Video2 RStudio connection to GitHub](https://www.youtube.com/watch?v=jN6tvgt3GK8)
