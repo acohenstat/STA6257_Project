@@ -8,6 +8,7 @@ Create a GitHub page for the project
 ![fork](fork.png)
 #### 3. Change the name of the repo to *STA6257_Project_NameofGroup*
 #### 4. Go to *Settings* -> *Pages* -> under *Branch* -> select *main*
+#### 5. Wait for a few seconds and refresh the page. You see the link of the page. 
 
 ## RStudio:
 #### 1. Go to RStudio
