@@ -1,4 +1,4 @@
-# STA6257_Project
+# Instructions
 
 Create a GitHub page for the project
 
