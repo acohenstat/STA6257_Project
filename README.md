@@ -12,7 +12,8 @@ Create a GitHub page for the project
 
 ## RStudio:
 #### 1. Go to RStudio
-#### 2. Create a Version Control Project and Clone the repo. 
+#### 2. Create a Version Control Project and Clone the repo.
+#### 3. Commit and push to see changes on the website et Voilà!
 
 More information:
 - [GitHub](https://happygitwithr.com/index.html)
