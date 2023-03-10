@@ -1,4 +1,4 @@
-# Name Entity Recognition using Deep Learning Techniques
+# Name Entity Recognition (NER) using Deep Learning Techniques
 
 ## Group Members:
 #### 1. Sara Ericson
