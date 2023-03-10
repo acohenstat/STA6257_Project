@@ -1,21 +1,7 @@
-# Instructions
+# Name Entity Recognition using Deep Learning Techniques
 
-Create a GitHub page for the project
+## Group Members:
+#### 1. Sara Ericson
+#### 2. Andrew Campbell
+#### 2. Jorge Sanchez
 
-## GitHub:
-#### 1. Create a GitHub account and Sign in
-#### 2. Go to https://github.com/acohenstat/STA6257_Project and fork (create a copy to your GitHub)
-![fork](fork.png)
-#### 3. Change the name of the repo to *STA6257_Project_NameofGroup*
-#### 4. Go to *Settings* -> *Pages* -> under *Branch* -> select *main*
-#### 5. Wait for a few seconds and refresh the page. You see the link of the page. 
-
-## RStudio:
-#### 1. Go to RStudio
-#### 2. Create a Version Control Project and Clone the repo.
-#### 3. Commit and push to see changes on the website et Voilà!
-
-More information:
-- [GitHub](https://happygitwithr.com/index.html)
-- [Video1 RStudio connection to GitHub](https://www.youtube.com/watch?v=MdmnE3AnkQE)
-- [Video2 RStudio connection to GitHub](https://www.youtube.com/watch?v=jN6tvgt3GK8)
