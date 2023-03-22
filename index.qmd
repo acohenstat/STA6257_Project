@@ -5,6 +5,10 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
+    css: styles.css
+    theme: morph
+    toc: true
+    toc-location: left
 course: STA 6257 - Advance Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
@@ -21,28 +25,83 @@ editor:
 
 ## Introduction
 
-Missing Data... Imputation... [@van2020]. Cite this paper [@won2023].
+**What is missing data?**
+
+Missing data occurs when there are missing values in a dataset. There
+are many reasons why this occurs. It can be intentional or unintentional
+and can be classified into the following three categories [@van2020]:
+
+-   Missing completely at random (MCAR) -- missing data is completely
+    independent of other variables
+
+-   Missing at random (MAR) -- there is a relationship between missing
+    data and other variables
+
+-   Not missing at random (NMAR) -- missing data is dependent on
+    observed data
+
+The problem with missing data is that it does not give a true
+representation of the dataset and can lead to bias when analyzing. This
+in turn "reduces the statistical power of the analysis." There are two
+ways to handle missing values: delete or impute.
+
+**Deleting missing data**
+
+Listwise deletion is when the entire observation (row) is removed from
+the dataset. Pairwise deletion is when the variable (column) of an
+observation is removed. Deleting missing data can lead to omitting
+useful information.
+
+T-tests and chi-square tests can be used to assess pairs of predictor
+variables to determine whether the groups' means differ significantly.
+If significant, the null hypothesis is rejected; therefore, listwise
+deletion would be wasteful. Alternate methods of dealing with the
+missing data is recommended (pairwise deletion or imputation).
+
+**What is imputation?**
+
+Imputation is the method of replacing missing data with an estimate so
+as to have a full data set in order to analyze. There are two types:
+single and multiple. Single imputation is xxx. Multiple imputation is
+xxx.
+
+Multiple imputation is most commonly used [@won2023].
+
+[@don2013]
+
+[@kan2013]
+
+[@hug2019]
+
+[@car2021]
+
+[@alr2021]
+
+[@oli2003]
+
+[@don2006]
+
+[@ura2020]
+
+[@cha2023]
+
+[@mai2023]
+
+[@jav2021]
+
+[@cao2021]
+
+[@end2001]
+
+[@tho2022]
+
+[@fan2021]
 
 ## Methods
 
-The common non-parametric regression model is
-$Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of
-the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown
-and $\varepsilon_i$ some errors. With the help of this definition, we
-can create the estimation for local averaging i.e. $m(x)$ can be
-estimated with the product of $Y_i$ average and $X_i$ is near to $x$. In
-other words, this means that we are discovering the line through the
-data points with the help of surrounding data points. The estimation
-formula is printed below [@R-base]:
-
-$$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
-Weights are positive numbers and small if $X_i$ is far from $x$.
-
 ## Analysis and Results
 
-### Data and Vizualisation
+### Data and Visualization
 
 A study was conducted to determine how...
 
@@ -57,22 +116,20 @@ library(dslabs)
 
 ```{r, warning=FALSE, echo=TRUE}
 # Load Data
-kable(head(murders))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_wsj()
-  
-
+# kable(head(murders))
+# 
+# ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+# 
+#   ggplot1 + geom_point(aes(col=region), size = 4) +
+#   geom_text_repel(aes(label=abb)) +
+#   scale_x_log10() +
+#   scale_y_log10() +
+#   geom_smooth(formula = "y~x", method=lm,se = F)+
+#   xlab("Populations in millions (log10 scale)") + 
+#   ylab("Total number of murders (log10 scale)") +
+#   ggtitle("US Gun Murders in 2010") +
+#   scale_color_discrete(name = "Region")+
+#       theme_wsj()
 ```
 
 ### Statistical Modeling
