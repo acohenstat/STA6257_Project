@@ -15,7 +15,7 @@ editor:
 
 ## Website
 
-https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/
+<https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/>
 
 ## Slides
 
