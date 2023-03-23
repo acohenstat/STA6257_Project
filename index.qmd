@@ -1,6 +1,6 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "Latent Content Analysis"
+author: "Kameron Standhaft"
 date: '`r Sys.Date()`'
 format:
   html:
