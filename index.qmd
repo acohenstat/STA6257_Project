@@ -1,6 +1,6 @@
 ---
 title: "Latent Content Analysis"
-author: "Kameron Standhaft"
+author: "Kameron Standhaft, Daniel Martin, Esra"
 date: '`r Sys.Date()`'
 format:
   html:
