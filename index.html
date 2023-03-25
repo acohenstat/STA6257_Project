@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Javier Estrada, Michael Underwood, Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-03-23">
+<meta name="author" content="Javier Estrada">
+<meta name="author" content="Michael Underwood">
+<meta name="author" content="Elizabeth Subject-Scott">
+<meta name="dcterms.date" content="2023-03-25">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -132,19 +134,12 @@ div.csl-indent {
   <ul>
   <li><a href="#website" id="toc-website" class="nav-link active" data-scroll-target="#website">Website</a></li>
   <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
-  <ul class="collapse">
-  <li><a href="#what-is-missing-data" id="toc-what-is-missing-data" class="nav-link" data-scroll-target="#what-is-missing-data">What is missing data?</a></li>
-  <li><a href="#deleting-missing-data" id="toc-deleting-missing-data" class="nav-link" data-scroll-target="#deleting-missing-data">Deleting missing data</a></li>
-  <li><a href="#what-is-imputation" id="toc-what-is-imputation" class="nav-link" data-scroll-target="#what-is-imputation">What is imputation?</a></li>
-  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
-  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
-  <ul class="collapse">
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a></li>
   <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a></li>
   <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -163,16 +158,18 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
-             <p>Javier Estrada, Michael Underwood, Elizabeth Subject-Scott </p>
+             <p>Javier Estrada </p>
+             <p>Michael Underwood </p>
+             <p>Elizabeth Subject-Scott </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 23, 2023</p>
+      <p class="date">March 25, 2023</p>
     </div>
   </div>
     
@@ -190,9 +187,9 @@ div.csl-indent {
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<section id="what-is-missing-data" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-missing-data">What is missing data?</h3>
-<p>Missing data occurs when there are missing values in a dataset. There are many reasons why this occurs. It can be intentional or unintentional and can be classified into the following three categories <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">Ginkel 2020</a>)</span>:</p>
+<section id="what-is-missing-data" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-missing-data">What is missing data?</h4>
+<p>Missing data occurs when there are missing values in a dataset. There are many reasons why this occurs. It can be intentional or unintentional and can be classified into the following three categories <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel and Voort 2020</a>)</span>:</p>
 <ul>
 <li><p>Missing completely at random (MCAR) – missing data is completely independent of other variables</p></li>
 <li><p>Missing at random (MAR) – there is a relationship between missing data and other variables</p></li>
@@ -200,42 +197,49 @@ div.csl-indent {
 </ul>
 <p>The problem with missing data is that it does not give a true representation of the dataset and can lead to bias when analyzing. This in turn “reduces the statistical power of the analysis.” There are two ways to handle missing values: delete or impute.</p>
 </section>
-<section id="deleting-missing-data" class="level3">
-<h3 class="anchored" data-anchor-id="deleting-missing-data">Deleting missing data</h3>
+<section id="deleting-missing-data" class="level4">
+<h4 class="anchored" data-anchor-id="deleting-missing-data">Deleting missing data</h4>
 <p>Listwise deletion is when the entire observation (row) is removed from the dataset. Pairwise deletion is when the variable (column) of an observation is removed. Deleting missing data can lead to omitting useful information.</p>
 <p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly. If significant, the null hypothesis is rejected; therefore, listwise deletion would be wasteful. Alternate methods of dealing with the missing data is recommended (pairwise deletion or imputation).</p>
 </section>
-<section id="what-is-imputation" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-imputation">What is imputation?</h3>
-<p>Imputation is the method of replacing missing data with an estimate so as to have a full data set in order to analyze. There are two types: single and multiple. Single imputation is xxx. Multiple imputation is xxx.</p>
-<p>Multiple imputation is most commonly used <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong 2023</a>)</span>.</p>
-<p><span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span></p>
+<section id="what-is-imputation" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-imputation">What is imputation?</h4>
+<p>Imputation is the method of replacing missing data with an estimate so as to have a full data set in order to analyze. There are two types: single and multiple. Single imputation is when only one estimate is used; multiple imputation uses various estimates <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>.</p>
+<p>Multiple imputation is most commonly used <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span>.</p>
 <p><span class="citation" data-cites="kan2013">(<a href="#ref-kan2013" role="doc-biblioref">Kang 2013</a>)</span></p>
-<p><span class="citation" data-cites="hug2019">(<a href="#ref-hug2019" role="doc-biblioref">Hughes 2019</a>)</span></p>
+<p><span class="citation" data-cites="hug2019">(<a href="#ref-hug2019" role="doc-biblioref">Hughes and Tilling 2019</a>)</span></p>
 <p><span class="citation" data-cites="car2021">(<a href="#ref-car2021" role="doc-biblioref">Carpenter and Smuk 2021</a>)</span></p>
 <p><span class="citation" data-cites="alr2021">(<a href="#ref-alr2021" role="doc-biblioref">Alruhaymi and Kim 2021</a>)</span></p>
-<p><span class="citation" data-cites="oli2003">(<a href="#ref-oli2003" role="doc-biblioref">Olinsky 2003</a>)</span></p>
-<p><span class="citation" data-cites="don2006">(<a href="#ref-don2006" role="doc-biblioref">Donders 2006</a>)</span></p>
-<p><span class="citation" data-cites="ura2020">(<a href="#ref-ura2020" role="doc-biblioref">Uranga 2020</a>)</span></p>
-<p><span class="citation" data-cites="cha2023">(<a href="#ref-cha2023" role="doc-biblioref">Chakrabarti 2023</a>)</span></p>
-<p><span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer 2023</a>)</span></p>
-<p><span class="citation" data-cites="jav2021">(<a href="#ref-jav2021" role="doc-biblioref">Javadi 2021</a>)</span></p>
-<p><span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao 2021</a>)</span></p>
+<p><span class="citation" data-cites="oli2003">(<a href="#ref-oli2003" role="doc-biblioref">Olinsky and Harlow 2003</a>)</span></p>
+<p><span class="citation" data-cites="don2006">(<a href="#ref-don2006" role="doc-biblioref">Donders and Moons 2006</a>)</span></p>
+<p><span class="citation" data-cites="ura2020">(<a href="#ref-ura2020" role="doc-biblioref">Uranga and Allende 2020</a>)</span></p>
+<p><span class="citation" data-cites="cha2023">(<a href="#ref-cha2023" role="doc-biblioref">Chakrabarti and Ashili 2023</a>)</span></p>
+<p><span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer and Lee 2023</a>)</span></p>
+<p><span class="citation" data-cites="jav2021">(<a href="#ref-jav2021" role="doc-biblioref">Javadi and Baneshi 2021</a>)</span></p>
+<p><span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao and R. 2021</a>)</span></p>
 <p><span class="citation" data-cites="end2001">(<a href="#ref-end2001" role="doc-biblioref">Enders 2001</a>)</span></p>
 <p><span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
 <p><span class="citation" data-cites="fan2021">(<a href="#ref-fan2021" role="doc-biblioref">Fang and Yi 2021</a>)</span></p>
-<p><span class="citation" data-cites="fie2008">(<a href="#ref-fie2008" role="doc-biblioref">Fielding 2008</a>)</span></p>
+<p><span class="citation" data-cites="fie2008">(<a href="#ref-fie2008" role="doc-biblioref">Fielding and Ramsay 2008</a>)</span></p>
 <p><span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span></p>
-<p><span class="citation" data-cites="ham2021">(<a href="#ref-ham2021" role="doc-biblioref">Hamzah 2021</a>)</span></p>
+<p><span class="citation" data-cites="ham2021">(<a href="#ref-ham2021" role="doc-biblioref">Hamzah and Samad 2021</a>)</span></p>
+<p><span class="citation" data-cites="yan2005">(<a href="#ref-yan2005" role="doc-biblioref">Yang and Boscardin 2005</a>)</span></p>
 </section>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="single-imputation" class="level4">
+<h4 class="anchored" data-anchor-id="single-imputation">Single Imputation</h4>
+</section>
+<section id="multiple-imputation" class="level4">
+<h4 class="anchored" data-anchor-id="multiple-imputation">Multiple Imputation</h4>
+</section>
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<section id="data-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h3>
+</section>
+<section id="data-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h2>
 <p>A study was conducted to determine how…</p>
 <div class="cell">
 <details>
@@ -269,12 +273,11 @@ div.csl-indent {
 </details>
 </div>
 </section>
-<section id="statistical-modeling" class="level3">
-<h3 class="anchored" data-anchor-id="statistical-modeling">Statistical Modeling</h3>
+<section id="statistical-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-modeling">Statistical Modeling</h2>
 </section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 </section>
 <section id="references" class="level2 unnumbered">
 
@@ -286,16 +289,16 @@ div.csl-indent {
 Alruhaymi, A. Z., and C. J. Kim. 2021. <span>“Study on the Missing Data Mechanisms and Imputation Methods.”</span> <em>Open Journal of Statistics</em> 11 (4): 477–92. <a href="https://doi.org/10.4236/ojs.2021.114030">https://doi.org/10.4236/ojs.2021.114030</a>.
 </div>
 <div id="ref-cao2021" class="csl-entry" role="doc-biblioentry">
-Cao, Allore, Y. 2021. <span>“Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.”</span> <em>Statistics in Medicine</em> 41 (30): 5844–76. <a href="https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592">https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592</a>.
+Cao, Allore, Y., and Gutman R. 2021. <span>“Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.”</span> <em>Statistics in Medicine</em> 41 (30): 5844–76. <a href="https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592">https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592</a>.
 </div>
 <div id="ref-car2021" class="csl-entry" role="doc-biblioentry">
 Carpenter, J. R., and M. Smuk. 2021. <span>“Missing Data: A Statistical Framework for Practice.”</span> <em>Biometrical Journal</em> 63 (5): 915–47. <a href="https://doi.org/10.1002/bimj.202000196">https://doi.org/10.1002/bimj.202000196</a>.
 </div>
 <div id="ref-cha2023" class="csl-entry" role="doc-biblioentry">
-Chakrabarti, Biswas, S. 2023. <span>“Binned Data Provide Better Imputation of Missing Time Series Data from Wearables.”</span> <em>Sensors</em> 23 (3): 1454. <a href="https://doi.org/10.3390/s23031454">https://doi.org/10.3390/s23031454</a>.
+Chakrabarti, Biswas, S., and S. Ashili. 2023. <span>“Binned Data Provide Better Imputation of Missing Time Series Data from Wearables.”</span> <em>Sensors</em> 23 (3): 1454. <a href="https://doi.org/10.3390/s23031454">https://doi.org/10.3390/s23031454</a>.
 </div>
 <div id="ref-don2006" class="csl-entry" role="doc-biblioentry">
-Donders, van der Heijden, A. R. 2006. <span>“Review: A Gentle Introduction to Imputation of Missing Values.”</span> <em>Journal of Clinical Epidemiology</em> 59 (10): 1087–91. <a href="https://doi.org/10.1016/j.jclinepi.2006.01.014">https://doi.org/10.1016/j.jclinepi.2006.01.014</a>.
+Donders, van der Heijden, A. R., and K. G. Moons. 2006. <span>“Review: A Gentle Introduction to Imputation of Missing Values.”</span> <em>Journal of Clinical Epidemiology</em> 59 (10): 1087–91. <a href="https://doi.org/10.1016/j.jclinepi.2006.01.014">https://doi.org/10.1016/j.jclinepi.2006.01.014</a>.
 </div>
 <div id="ref-don2013" class="csl-entry" role="doc-biblioentry">
 Dong, Y., and C. J. Peng. 2013. <span>“Principled Missing Data Methods for Researchers.”</span> <em>SpringerPlus</em> 2 (222). <a href="https://doi.org/10.1186/2193-1801-2-222">https://doi.org/10.1186/2193-1801-2-222</a>.
@@ -307,28 +310,25 @@ Enders, C. K. 2001. <span>“The Performance of the Full Information Maximum Lik
 Fang, J., and G. Y. Yi. 2021. <span>“Imputation and Likelihood Methods for Matrix-Variate Logistic Regression with Response Misclassification.”</span> <em>The Canadian Journal of Statistics</em> 49 (4): 1298–1316. <a href="https://doi.org/10.1002/cjs.11620">https://doi.org/10.1002/cjs.11620</a>.
 </div>
 <div id="ref-fie2008" class="csl-entry" role="doc-biblioentry">
-Fielding, Maclennan, S. 2008. <span>“A Review of RCTs in Four Medical Journals to Assess the Use of Imputation to Overcome Missing Data in Quality of Life Outcomes.”</span> <em>Trials</em> 9 (51): 1–6. <a href="https://doi.org/10.1186/1745-6215-9-51">https://doi.org/10.1186/1745-6215-9-51</a>.
-</div>
-<div id="ref-van2020" class="csl-entry" role="doc-biblioentry">
-Ginkel, Linting van, J. R. 2020. <span>“Rebutting Existing Misconceptions about Multiple Imputation as a Method for Handling Missing Data.”</span> <em>Journal of Personality Assessment</em> 102 (3): 2812–31. <a href="https://doi.org/10.1080/00223891.2018.1530680">https://doi.org/10.1080/00223891.2018.1530680</a>.
+Fielding, Maclennan, S., and C. R. Ramsay. 2008. <span>“A Review of RCTs in Four Medical Journals to Assess the Use of Imputation to Overcome Missing Data in Quality of Life Outcomes.”</span> <em>Trials</em> 9 (51): 1–6. <a href="https://doi.org/10.1186/1745-6215-9-51">https://doi.org/10.1186/1745-6215-9-51</a>.
 </div>
 <div id="ref-ham2021" class="csl-entry" role="doc-biblioentry">
-Hamzah, Hamzah, F. B. 2021. <span>“A Comparison of Multiple Imputation Methods for Recovering Missing Data in Hydrological Studies.”</span> <em>Civil Engineering Journal</em> 7 (9): 1608–19. <a href="https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf">https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf</a>.
+Hamzah, Hamzah, F. B., and H. Samad. 2021. <span>“A Comparison of Multiple Imputation Methods for Recovering Missing Data in Hydrological Studies.”</span> <em>Civil Engineering Journal</em> 7 (9): 1608–19. <a href="https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf">https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf</a>.
 </div>
 <div id="ref-hug2019" class="csl-entry" role="doc-biblioentry">
-Hughes, Heron, R. A. 2019. <span>“Accounting for Missing Data in Statistical Analyses: Multiple Imputation Is Not Always the Answer.”</span> <em>International Journal of Epidemiology</em> 48 (4): 1294–304. <a href="https://doi.org/10.1093/ije/dyz032">https://doi.org/10.1093/ije/dyz032</a>.
+Hughes, Heron, R. A., and K. Tilling. 2019. <span>“Accounting for Missing Data in Statistical Analyses: Multiple Imputation Is Not Always the Answer.”</span> <em>International Journal of Epidemiology</em> 48 (4): 1294–304. <a href="https://doi.org/10.1093/ije/dyz032">https://doi.org/10.1093/ije/dyz032</a>.
 </div>
 <div id="ref-jav2021" class="csl-entry" role="doc-biblioentry">
-Javadi, Bahrampour, S. 2021. <span>“Evaluation of Four Multiple Imputation Methods for Handling Missing Binary Outcome Data in the Presence of an Interaction Between a Dummy and a Continuous Variable.”</span> <em>Journal of Probability and Statistic</em> 2021 (6668822): 1–14. <a href="https://doi.org/10.1155/2021/6668822">https://doi.org/10.1155/2021/6668822</a>.
+Javadi, Bahrampour, S., and M. R. Baneshi. 2021. <span>“Evaluation of Four Multiple Imputation Methods for Handling Missing Binary Outcome Data in the Presence of an Interaction Between a Dummy and a Continuous Variable.”</span> <em>Journal of Probability and Statistic</em> 2021 (6668822): 1–14. <a href="https://doi.org/10.1155/2021/6668822">https://doi.org/10.1155/2021/6668822</a>.
 </div>
 <div id="ref-kan2013" class="csl-entry" role="doc-biblioentry">
 Kang, H. 2013. <span>“The Prevention and Handling of the Missing Data.”</span> <em>Korean Journal of Anesthesiology</em> 64 (5): 402–6. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3668100/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3668100/</a>.
 </div>
 <div id="ref-mai2023" class="csl-entry" role="doc-biblioentry">
-Mainzer, Moreno-Betancur, R. 2023. <span>“Handling of Missing Data with Multiple Imputation in Observational Studies That Address Causal Questions: Protocol for a Scoping Review.”</span> <em>BMJ Open</em> 13: 1–6. <a href="http://dx.doi.org/10.1136/bmjopen-2022-065576">http://dx.doi.org/10.1136/bmjopen-2022-065576</a>.
+Mainzer, Moreno-Betancur, R., and K. Lee. 2023. <span>“Handling of Missing Data with Multiple Imputation in Observational Studies That Address Causal Questions: Protocol for a Scoping Review.”</span> <em>BMJ Open</em> 13: 1–6. <a href="http://dx.doi.org/10.1136/bmjopen-2022-065576">http://dx.doi.org/10.1136/bmjopen-2022-065576</a>.
 </div>
 <div id="ref-oli2003" class="csl-entry" role="doc-biblioentry">
-Olinsky, Chen, A. 2003. <span>“The Comparative Efficacy of Imputation Methods for Missing Data in Structural Equation Modeling.”</span> <em>European Journal of Operational Research</em> 151 (1): 53–79. <a href="https://doi.org/10.1016/S0377-2217(02)00578-7">https://doi.org/10.1016/S0377-2217(02)00578-7</a>.
+Olinsky, Chen, A., and L. Harlow. 2003. <span>“The Comparative Efficacy of Imputation Methods for Missing Data in Structural Equation Modeling.”</span> <em>European Journal of Operational Research</em> 151 (1): 53–79. <a href="https://doi.org/10.1016/S0377-2217(02)00578-7">https://doi.org/10.1016/S0377-2217(02)00578-7</a>.
 </div>
 <div id="ref-str2008" class="csl-entry" role="doc-biblioentry">
 Streiner, D. L. 2008. <span>“Missing Data and the Trouble with LOCF.”</span> <em>EBMH</em> 11 (1): 1–5. <a href="http://dx.doi.org/10.1136/ebmh.11.1.3-a">http://dx.doi.org/10.1136/ebmh.11.1.3-a</a>.
@@ -337,10 +337,16 @@ Streiner, D. L. 2008. <span>“Missing Data and the Trouble with LOCF.”</span>
 Thongsri, T., and K. Samart. 2022. <span>“Composite Imputation Method for the Multiple Linear Regression with Missing at Random Data.”</span> <em>International Journal of Mathematics and Mathematics and Computer Science</em> 17 (1): 51–62. <a href="http://ijmcs.future-in-tech.net/17.1/R-Samart.pdf">http://ijmcs.future-in-tech.net/17.1/R-Samart.pdf</a>.
 </div>
 <div id="ref-ura2020" class="csl-entry" role="doc-biblioentry">
-Uranga, Molenberghs, R. 2020. <span>“A Multiple Regression Imputation Method with Application to Sensitivity Analysis Under Intermittent Missingness.”</span> <em>Communications in Statistics - Theory and Methods</em> 51 (15): 5146–61. <a href="https://doi.org/10.1080/03610926.2020.1834581">https://doi.org/10.1080/03610926.2020.1834581</a>.
+Uranga, Molenberghs, R., and S. Allende. 2020. <span>“A Multiple Regression Imputation Method with Application to Sensitivity Analysis Under Intermittent Missingness.”</span> <em>Communications in Statistics - Theory and Methods</em> 51 (15): 5146–61. <a href="https://doi.org/10.1080/03610926.2020.1834581">https://doi.org/10.1080/03610926.2020.1834581</a>.
+</div>
+<div id="ref-van2020" class="csl-entry" role="doc-biblioentry">
+van_Ginkel, Linting, J. R., and A. van der Voort. 2020. <span>“Rebutting Existing Misconceptions about Multiple Imputation as a Method for Handling Missing Data.”</span> <em>Journal of Personality Assessment</em> 102 (3): 2812–31. <a href="https://doi.org/10.1080/00223891.2018.1530680">https://doi.org/10.1080/00223891.2018.1530680</a>.
 </div>
 <div id="ref-won2023" class="csl-entry" role="doc-biblioentry">
-Wongkamthong, &amp; Akande, C. 2023. <span>“A Comparative Study of Imputation Methods for Multivariate Ordinal Data.”</span> <em>Journal of Survey Statistics and Methodology</em> 11 (1): 189–212. <a href="https://doi.org/10.1093/jssam/smab028">https://doi.org/10.1093/jssam/smab028</a>.
+Wongkamthong, C., and O. Akande. 2023. <span>“A Comparative Study of Imputation Methods for Multivariate Ordinal Data.”</span> <em>Journal of Survey Statistics and Methodology</em> 11 (1): 189–212. <a href="https://doi.org/10.1093/jssam/smab028">https://doi.org/10.1093/jssam/smab028</a>.
+</div>
+<div id="ref-yan2005" class="csl-entry" role="doc-biblioentry">
+Yang, Belin, W., and W. J. Boscardin. 2005. <span>“Imputation and Variable Selection in Linear Regression Models with Missing Covariates.”</span> <em>Biometrics</em> 61: 498–506. <a href="https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis">https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->

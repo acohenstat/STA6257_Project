@@ -1,6 +1,9 @@
 ---
 title: "Missing Data and Imputation"
-author: "Javier Estrada, Michael Underwood, Elizabeth Subject-Scott"
+author:
+  - Javier Estrada
+  - Michael Underwood
+  - Elizabeth Subject-Scott
 date: '`r Sys.Date()`'
 format:
   html:
@@ -9,7 +12,7 @@ format:
     theme: morph
     toc: true
     toc-location: left
-course: STA 6257 - Advance Statistical Modeling
+course: STA 6257 - Advanced Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
 editor: 
@@ -25,7 +28,7 @@ editor:
 
 ## Introduction
 
-### What is missing data?
+#### What is missing data?
 
 Missing data occurs when there are missing values in a dataset. There
 are many reasons why this occurs. It can be intentional or unintentional
@@ -45,7 +48,7 @@ representation of the dataset and can lead to bias when analyzing. This
 in turn "reduces the statistical power of the analysis." There are two
 ways to handle missing values: delete or impute.
 
-### Deleting missing data
+#### Deleting missing data
 
 Listwise deletion is when the entire observation (row) is removed from
 the dataset. Pairwise deletion is when the variable (column) of an
@@ -58,16 +61,14 @@ If significant, the null hypothesis is rejected; therefore, listwise
 deletion would be wasteful. Alternate methods of dealing with the
 missing data is recommended (pairwise deletion or imputation).
 
-### What is imputation?
+#### What is imputation?
 
 Imputation is the method of replacing missing data with an estimate so
 as to have a full data set in order to analyze. There are two types:
-single and multiple. Single imputation is xxx. Multiple imputation is
-xxx.
+single and multiple. Single imputation is when only one estimate is
+used; multiple imputation uses various estimates [@don2013].
 
 Multiple imputation is most commonly used [@won2023].
-
-[@don2013]
 
 [@kan2013]
 
@@ -103,11 +104,17 @@ Multiple imputation is most commonly used [@won2023].
 
 [@ham2021]
 
+[@yan2005]
+
 ## Methods
+
+#### Single Imputation
+
+#### Multiple Imputation
 
 ## Analysis and Results
 
-### Data and Visualization
+## Data and Visualization
 
 A study was conducted to determine how...
 
@@ -138,8 +145,8 @@ library(dslabs)
 #       theme_wsj()
 ```
 
-### Statistical Modeling
+## Statistical Modeling
 
-### Conclusion
+## Conclusion
 
 ## References
