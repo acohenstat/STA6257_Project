@@ -106,6 +106,8 @@ Multiple imputation is most commonly used [@won2023].
 
 [@yan2005]
 
+[@ped2017]
+
 ## Methods
 
 #### Single Imputation
