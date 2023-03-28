@@ -20,11 +20,9 @@ editor:
     wrap: 72
 ---
 
-## Website
+[Website](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/)
 
-<https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/>
-
-## Slides
+[Slides](https://rstudio.hmcse.uwf.edu/s/4c3307ed3545b19414f79/files/STA6257_Missing_Data_and_Imputation/Slides.html#/title-slide)
 
 ## Introduction
 
@@ -66,9 +64,12 @@ missing data is recommended (pairwise deletion or imputation).
 Imputation is the method of replacing missing data with an estimate so
 as to have a full data set in order to analyze. There are two types:
 single and multiple. Single imputation is when only one estimate is
-used; multiple imputation uses various estimates [@don2013].
+used; multiple imputation uses various estimates.
 
-Multiple imputation is most commonly used [@won2023].
+Multiple imputation is most commonly used
+[@don2013]
+
+[@won2023]
 
 [@kan2013]
 
@@ -107,6 +108,10 @@ Multiple imputation is most commonly used [@won2023].
 [@yan2005]
 
 [@ped2017]
+
+[@pam2016]
+
+[@van2020]
 
 ## Methods
 

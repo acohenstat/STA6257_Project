@@ -4,7 +4,9 @@ author:
   - Javier Estrada
   - Michael Underwood
   - Elizabeth Subject-Scott
-format: revealjs
+format: 
+  revealjs:
+    theme: sky
 editor: visual
 ---
 
