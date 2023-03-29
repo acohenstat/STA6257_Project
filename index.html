@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kameron Standhaft, Daniel Martin, Esra Acar">
-<meta name="dcterms.date" content="2023-03-26">
+<meta name="dcterms.date" content="2023-03-29">
 
 <title>Latent Content Analysis</title>
 <style>
@@ -147,7 +147,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 26, 2023</p>
+      <p class="date">March 29, 2023</p>
     </div>
   </div>
   
@@ -159,7 +159,7 @@ div.csl-indent {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Kernel regression is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric statistics. In kernel estimator, weight function is known as kernel function <span class="citation" data-cites="efr2008">(<a href="#ref-efr2008" role="doc-biblioref">Efromovich 2008</a>)</span>. Cite this paper <span class="citation" data-cites="bro2014principal">(<a href="#ref-bro2014principal" role="doc-biblioref">Bro and Smilde 2014</a>)</span>.</p>
+<p>Latent Class Analysis is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric statistics. In kernel estimator, weight function is known as kernel function <span class="citation" data-cites="efr2008">(<a href="#ref-efr2008" role="doc-biblioref">Efromovich 2008</a>)</span>. Cite this paper <span class="citation" data-cites="bro2014principal">(<a href="#ref-bro2014principal" role="doc-biblioref">Bro and Smilde 2014</a>)</span>.</p>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
@@ -170,9 +170,9 @@ M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<section id="data-and-vizualisation" class="level3">
-<h3 class="anchored" data-anchor-id="data-and-vizualisation">Data and Vizualisation</h3>
-<p>A study was conducted to determine how…</p>
+<section id="data-overview" class="level3">
+<h3 class="anchored" data-anchor-id="data-overview">Data Overview</h3>
+<p>For the purpose of this paper, we are using a dataset from Kaggle called Zoo Animals (https://www.kaggle.com/datasets/ulrikthygepedersen/zoo-animals). There are a total of 18 variables in this dataset and they give information on the physical attributes of each animal. Of the 18 variables, 15 of them are binary variables and one of them is discrete. This majority of binary variables is why we chose this dataset for Latent Class Analysis. Since the variables Domestic and Catsize could be seen as subjective, we decided to omit these categories in our analysis.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -187,84 +187,8 @@ M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(murders))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead>
-<tr class="header">
-<th style="text-align: left;">state</th>
-<th style="text-align: left;">abb</th>
-<th style="text-align: left;">region</th>
-<th style="text-align: right;">population</th>
-<th style="text-align: right;">total</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Alabama</td>
-<td style="text-align: left;">AL</td>
-<td style="text-align: left;">South</td>
-<td style="text-align: right;">4779736</td>
-<td style="text-align: right;">135</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Alaska</td>
-<td style="text-align: left;">AK</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">710231</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Arizona</td>
-<td style="text-align: left;">AZ</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">6392017</td>
-<td style="text-align: right;">232</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Arkansas</td>
-<td style="text-align: left;">AR</td>
-<td style="text-align: left;">South</td>
-<td style="text-align: right;">2915918</td>
-<td style="text-align: right;">93</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">California</td>
-<td style="text-align: left;">CA</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">37253956</td>
-<td style="text-align: right;">1257</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Colorado</td>
-<td style="text-align: left;">CO</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">5029196</td>
-<td style="text-align: right;">65</td>
-</tr>
-</tbody>
-</table>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ggplot1 <span class="ot">=</span> murders <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">y=</span>total)) </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ggplot1 <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>region), <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>abb)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> <span class="st">"y~x"</span>, <span class="at">method=</span>lm,<span class="at">se =</span> F)<span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Populations in millions (log10 scale)"</span>) <span class="sc">+</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Total number of murders (log10 scale)"</span>) <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"US Gun Murders in 2010"</span>) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"Region"</span>)<span class="sc">+</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_wsj</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 </section>
 <section id="statistical-modeling" class="level3">
