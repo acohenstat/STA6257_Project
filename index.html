@@ -9,7 +9,7 @@
 <meta name="author" content="Javier Estrada">
 <meta name="author" content="Michael Underwood">
 <meta name="author" content="Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-03-27">
+<meta name="dcterms.date" content="2023-03-29">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -119,6 +119,10 @@ div.csl-indent {
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="index_files/libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="index_files/libs/viz-1.8.2/viz.js"></script>
+<link href="index_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="index_files/libs/grViz-binding-1.0.9/grViz.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -167,7 +171,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 27, 2023</p>
+      <p class="date">March 29, 2023</p>
     </div>
   </div>
     
@@ -182,7 +186,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <section id="what-is-missing-data" class="level4">
 <h4 class="anchored" data-anchor-id="what-is-missing-data">What is missing data?</h4>
-<p>Missing data occurs when there are missing values in a dataset. There are many reasons why this occurs. It can be intentional or unintentional and can be classified into the following three categories <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">Van_Ginkel and Van_der_Voort 2020</a>)</span>:</p>
+<p>Missing data occurs when there are missing values in a dataset. There are many reasons why this occurs. It can be intentional or unintentional and can be classified into the following three categories <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>:</p>
 <ul>
 <li><p>Missing completely at random (MCAR) – missing data is completely independent of other variables</p></li>
 <li><p>Missing at random (MAR) – there is a relationship between missing data and other variables</p></li>
@@ -198,29 +202,30 @@ div.csl-indent {
 <section id="what-is-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="what-is-imputation">What is imputation?</h4>
 <p>Imputation is the method of replacing missing data with an estimate so as to have a full data set in order to analyze. There are two types: single and multiple. Single imputation is when only one estimate is used; multiple imputation uses various estimates.</p>
-<p>Multiple imputation is most commonly used <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span></p>
+<p>Multiple imputation is most commonly used.</p>
+<p><span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span></p>
 <p><span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span></p>
 <p><span class="citation" data-cites="kan2013">(<a href="#ref-kan2013" role="doc-biblioref">Kang 2013</a>)</span></p>
-<p><span class="citation" data-cites="hug2019">(<a href="#ref-hug2019" role="doc-biblioref">Hughes and Tilling 2019</a>)</span></p>
+<p><span class="citation" data-cites="hug2019">(<a href="#ref-hug2019" role="doc-biblioref">Hughes et al. 2019</a>)</span></p>
 <p><span class="citation" data-cites="car2021">(<a href="#ref-car2021" role="doc-biblioref">Carpenter and Smuk 2021</a>)</span></p>
 <p><span class="citation" data-cites="alr2021">(<a href="#ref-alr2021" role="doc-biblioref">Alruhaymi and Kim 2021</a>)</span></p>
-<p><span class="citation" data-cites="oli2003">(<a href="#ref-oli2003" role="doc-biblioref">Olinsky and Harlow 2003</a>)</span></p>
-<p><span class="citation" data-cites="don2006">(<a href="#ref-don2006" role="doc-biblioref">Donders and Moons 2006</a>)</span></p>
-<p><span class="citation" data-cites="ura2020">(<a href="#ref-ura2020" role="doc-biblioref">Uranga and Allende 2020</a>)</span></p>
-<p><span class="citation" data-cites="cha2023">(<a href="#ref-cha2023" role="doc-biblioref">Chakrabarti and Ashili 2023</a>)</span></p>
-<p><span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer and Lee 2023</a>)</span></p>
-<p><span class="citation" data-cites="jav2021">(<a href="#ref-jav2021" role="doc-biblioref">Javadi and Baneshi 2021</a>)</span></p>
-<p><span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao and R. 2021</a>)</span></p>
+<p><span class="citation" data-cites="oli2003">(<a href="#ref-oli2003" role="doc-biblioref">Olinsky, Chen, and Harlow 2003</a>)</span></p>
+<p><span class="citation" data-cites="don2006">(<a href="#ref-don2006" role="doc-biblioref">Donders et al. 2006</a>)</span></p>
+<p><span class="citation" data-cites="ura2020">(<a href="#ref-ura2020" role="doc-biblioref">Uranga, Molenberghs, and Allende 2020</a>)</span></p>
+<p><span class="citation" data-cites="cha2023">(<a href="#ref-cha2023" role="doc-biblioref">Chakrabarti et al. 2023</a>)</span></p>
+<p><span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer et al. 2023</a>)</span></p>
+<p><span class="citation" data-cites="jav2021">(<a href="#ref-jav2021" role="doc-biblioref">Javadi et al. 2021</a>)</span></p>
+<p><span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
 <p><span class="citation" data-cites="end2001">(<a href="#ref-end2001" role="doc-biblioref">Enders 2001</a>)</span></p>
 <p><span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
 <p><span class="citation" data-cites="fan2021">(<a href="#ref-fan2021" role="doc-biblioref">Fang and Yi 2021</a>)</span></p>
-<p><span class="citation" data-cites="fie2008">(<a href="#ref-fie2008" role="doc-biblioref">Fielding and Ramsay 2008</a>)</span></p>
+<p><span class="citation" data-cites="fie2008">(<a href="#ref-fie2008" role="doc-biblioref">Fielding et al. 2008</a>)</span></p>
 <p><span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span></p>
-<p><span class="citation" data-cites="ham2021">(<a href="#ref-ham2021" role="doc-biblioref">Hamzah and Samad 2021</a>)</span></p>
-<p><span class="citation" data-cites="yan2005">(<a href="#ref-yan2005" role="doc-biblioref">Yang and Boscardin 2005</a>)</span></p>
-<p><span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen and Petersen 2017</a>)</span></p>
-<p><span class="citation" data-cites="pam2016">(<a href="#ref-pam2016" role="doc-biblioref">Pampka and Williams 2016</a>)</span></p>
-<p><span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">Van_Ginkel and Van_der_Voort 2020</a>)</span></p>
+<p><span class="citation" data-cites="ham2021">(<a href="#ref-ham2021" role="doc-biblioref">Hamzah et al. 2021</a>)</span></p>
+<p><span class="citation" data-cites="yan2005">(<a href="#ref-yan2005" role="doc-biblioref">Yang, Belin, and Boscardin 2005</a>)</span></p>
+<p><span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen et al. 2017</a>)</span></p>
+<p><span class="citation" data-cites="pam2016">(<a href="#ref-pam2016" role="doc-biblioref">Pampka, Hutcheson, and Williams 2016</a>)</span></p>
+<p><span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
 </section>
 </section>
 <section id="methods" class="level2">
@@ -230,6 +235,55 @@ div.csl-indent {
 </section>
 <section id="multiple-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="multiple-imputation">Multiple Imputation</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#loading packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">"digraph {</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st"># initiate graph</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">graph [layout = dot, rankdir = LR, label = 'The MICE-Process</span><span class="sc">\n\n</span><span class="st">',labelloc = t, fontcolor = DarkSlateBlue]</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st"># global node settings</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st"># label nodes</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">incomplete [label =  'Incomplete data set']</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">imputed1 [label = 'Imputed </span><span class="sc">\n</span><span class="st"> data set 1']</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">estimates1 [label = 'Estimates from </span><span class="sc">\n</span><span class="st"> analysis 1']</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">rubin [label = 'Rubin rules', shape = diamond]</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">combined [label = 'Combined results']</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">imputed2 [label = 'Imputed </span><span class="sc">\n</span><span class="st"> data set 2']</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">estimates2 [label = 'Estimates from </span><span class="sc">\n</span><span class="st"> analysis 2']</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">imputedm [label = 'Imputed </span><span class="sc">\n</span><span class="st"> data set m']</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">estimatesm [label = 'Estimates from </span><span class="sc">\n</span><span class="st"> anaalysis m']</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st"># edge definitions with the node IDs</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="st">incomplete -&gt; imputed1 [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">imputed1 -&gt; estimates1 [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="st">estimates1 -&gt; rubin [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">incomplete -&gt; imputed2 [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">imputed2 -&gt; estimates2 [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="st">estimates2-&gt; rubin [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="st">incomplete -&gt; imputedm [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="st">imputedm -&gt; estimatesm [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="st">estimatesm -&gt; rubin [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="st">rubin -&gt; combined [arrowhead = vee, color = DarkSlateBlue]</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-7ae35595051773d90d89" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7ae35595051773d90d89">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Figure 1: The MICE-process (Rubin 1987)</p>
 </section>
 </section>
 <section id="analysis-and-results" class="level2">
@@ -241,32 +295,32 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -286,16 +340,16 @@ div.csl-indent {
 Alruhaymi, A. Z., and C. J. Kim. 2021. <span>“Study on the Missing Data Mechanisms and Imputation Methods.”</span> <em>Open Journal of Statistics</em> 11 (4): 477–92. <a href="https://doi.org/10.4236/ojs.2021.114030">https://doi.org/10.4236/ojs.2021.114030</a>.
 </div>
 <div id="ref-cao2021" class="csl-entry" role="doc-biblioentry">
-Cao, Allore, Y., and Gutman R. 2021. <span>“Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.”</span> <em>Statistics in Medicine</em> 41 (30): 5844–76. <a href="https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592">https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592</a>.
+Cao, Y., H. Allore, B. V. Wyk, and Gutman R. 2021. <span>“Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.”</span> <em>Statistics in Medicine</em> 41 (30): 5844–76. <a href="https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592">https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592</a>.
 </div>
 <div id="ref-car2021" class="csl-entry" role="doc-biblioentry">
 Carpenter, J. R., and M. Smuk. 2021. <span>“Missing Data: A Statistical Framework for Practice.”</span> <em>Biometrical Journal</em> 63 (5): 915–47. <a href="https://doi.org/10.1002/bimj.202000196">https://doi.org/10.1002/bimj.202000196</a>.
 </div>
 <div id="ref-cha2023" class="csl-entry" role="doc-biblioentry">
-Chakrabarti, Biswas, S., and S. Ashili. 2023. <span>“Binned Data Provide Better Imputation of Missing Time Series Data from Wearables.”</span> <em>Sensors</em> 23 (3): 1454. <a href="https://doi.org/10.3390/s23031454">https://doi.org/10.3390/s23031454</a>.
+Chakrabarti, S., N. Biswas, K. Karnani, V. Padul, L. D. Jones, S. Kesari, and S. Ashili. 2023. <span>“Binned Data Provide Better Imputation of Missing Time Series Data from Wearables.”</span> <em>Sensors</em> 23 (3): 1454. <a href="https://doi.org/10.3390/s23031454">https://doi.org/10.3390/s23031454</a>.
 </div>
 <div id="ref-don2006" class="csl-entry" role="doc-biblioentry">
-Donders, van der Heijden, A. R., and K. G. Moons. 2006. <span>“Review: A Gentle Introduction to Imputation of Missing Values.”</span> <em>Journal of Clinical Epidemiology</em> 59 (10): 1087–91. <a href="https://doi.org/10.1016/j.jclinepi.2006.01.014">https://doi.org/10.1016/j.jclinepi.2006.01.014</a>.
+Donders, A. R., G. J. van der Heijden, T. Stijnen, and K. G. Moons. 2006. <span>“Review: A Gentle Introduction to Imputation of Missing Values.”</span> <em>Journal of Clinical Epidemiology</em> 59 (10): 1087–91. <a href="https://doi.org/10.1016/j.jclinepi.2006.01.014">https://doi.org/10.1016/j.jclinepi.2006.01.014</a>.
 </div>
 <div id="ref-don2013" class="csl-entry" role="doc-biblioentry">
 Dong, Y., and C. J. Peng. 2013. <span>“Principled Missing Data Methods for Researchers.”</span> <em>SpringerPlus</em> 2 (222). <a href="https://doi.org/10.1186/2193-1801-2-222">https://doi.org/10.1186/2193-1801-2-222</a>.
@@ -307,31 +361,31 @@ Enders, C. K. 2001. <span>“The Performance of the Full Information Maximum Lik
 Fang, J., and G. Y. Yi. 2021. <span>“Imputation and Likelihood Methods for Matrix-Variate Logistic Regression with Response Misclassification.”</span> <em>The Canadian Journal of Statistics</em> 49 (4): 1298–1316. <a href="https://doi.org/10.1002/cjs.11620">https://doi.org/10.1002/cjs.11620</a>.
 </div>
 <div id="ref-fie2008" class="csl-entry" role="doc-biblioentry">
-Fielding, Maclennan, S., and C. R. Ramsay. 2008. <span>“A Review of RCTs in Four Medical Journals to Assess the Use of Imputation to Overcome Missing Data in Quality of Life Outcomes.”</span> <em>Trials</em> 9 (51): 1–6. <a href="https://doi.org/10.1186/1745-6215-9-51">https://doi.org/10.1186/1745-6215-9-51</a>.
+Fielding, S., G. Maclennan, J. A. Cook, and C. R. Ramsay. 2008. <span>“A Review of RCTs in Four Medical Journals to Assess the Use of Imputation to Overcome Missing Data in Quality of Life Outcomes.”</span> <em>Trials</em> 9 (51): 1–6. <a href="https://doi.org/10.1186/1745-6215-9-51">https://doi.org/10.1186/1745-6215-9-51</a>.
 </div>
 <div id="ref-ham2021" class="csl-entry" role="doc-biblioentry">
-Hamzah, Hamzah, F. B., and H. Samad. 2021. <span>“A Comparison of Multiple Imputation Methods for Recovering Missing Data in Hydrological Studies.”</span> <em>Civil Engineering Journal</em> 7 (9): 1608–19. <a href="https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf">https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf</a>.
+Hamzah, F. B., F. M. Hamzah, S. R. Razali, and H. Samad. 2021. <span>“A Comparison of Multiple Imputation Methods for Recovering Missing Data in Hydrological Studies.”</span> <em>Civil Engineering Journal</em> 7 (9): 1608–19. <a href="https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf">https://pdfs.semanticscholar.org/e875/5b85e63669c6b3fd9ba6f380400f087b39fc.pdf</a>.
 </div>
 <div id="ref-hug2019" class="csl-entry" role="doc-biblioentry">
-Hughes, Heron, R. A., and K. Tilling. 2019. <span>“Accounting for Missing Data in Statistical Analyses: Multiple Imputation Is Not Always the Answer.”</span> <em>International Journal of Epidemiology</em> 48 (4): 1294–304. <a href="https://doi.org/10.1093/ije/dyz032">https://doi.org/10.1093/ije/dyz032</a>.
+Hughes, R. A., J. Heron, J. A. Sterne, and K. Tilling. 2019. <span>“Accounting for Missing Data in Statistical Analyses: Multiple Imputation Is Not Always the Answer.”</span> <em>International Journal of Epidemiology</em> 48 (4): 1294–304. <a href="https://doi.org/10.1093/ije/dyz032">https://doi.org/10.1093/ije/dyz032</a>.
 </div>
 <div id="ref-jav2021" class="csl-entry" role="doc-biblioentry">
-Javadi, Bahrampour, S., and M. R. Baneshi. 2021. <span>“Evaluation of Four Multiple Imputation Methods for Handling Missing Binary Outcome Data in the Presence of an Interaction Between a Dummy and a Continuous Variable.”</span> <em>Journal of Probability and Statistic</em> 2021 (6668822): 1–14. <a href="https://doi.org/10.1155/2021/6668822">https://doi.org/10.1155/2021/6668822</a>.
+Javadi, S., A. Bahrampour, M. M. Saber, B. Garrusi, and M. R. Baneshi. 2021. <span>“Evaluation of Four Multiple Imputation Methods for Handling Missing Binary Outcome Data in the Presence of an Interaction Between a Dummy and a Continuous Variable.”</span> <em>Journal of Probability and Statistic</em> 2021 (6668822): 1–14. <a href="https://doi.org/10.1155/2021/6668822">https://doi.org/10.1155/2021/6668822</a>.
 </div>
 <div id="ref-kan2013" class="csl-entry" role="doc-biblioentry">
 Kang, H. 2013. <span>“The Prevention and Handling of the Missing Data.”</span> <em>Korean Journal of Anesthesiology</em> 64 (5): 402–6. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3668100/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3668100/</a>.
 </div>
 <div id="ref-mai2023" class="csl-entry" role="doc-biblioentry">
-Mainzer, Moreno-Betancur, R., and K. Lee. 2023. <span>“Handling of Missing Data with Multiple Imputation in Observational Studies That Address Causal Questions: Protocol for a Scoping Review.”</span> <em>BMJ Open</em> 13: 1–6. <a href="http://dx.doi.org/10.1136/bmjopen-2022-065576">http://dx.doi.org/10.1136/bmjopen-2022-065576</a>.
+Mainzer, R., M. Moreno-Betancur, C. Nguyen, J. Simpson, J. Carlin, and K. Lee. 2023. <span>“Handling of Missing Data with Multiple Imputation in Observational Studies That Address Causal Questions: Protocol for a Scoping Review.”</span> <em>BMJ Open</em> 13: 1–6. <a href="http://dx.doi.org/10.1136/bmjopen-2022-065576">http://dx.doi.org/10.1136/bmjopen-2022-065576</a>.
 </div>
 <div id="ref-oli2003" class="csl-entry" role="doc-biblioentry">
-Olinsky, Chen, A., and L. Harlow. 2003. <span>“The Comparative Efficacy of Imputation Methods for Missing Data in Structural Equation Modeling.”</span> <em>European Journal of Operational Research</em> 151 (1): 53–79. <a href="https://doi.org/10.1016/S0377-2217(02)00578-7">https://doi.org/10.1016/S0377-2217(02)00578-7</a>.
+Olinsky, A., S. Chen, and L. Harlow. 2003. <span>“The Comparative Efficacy of Imputation Methods for Missing Data in Structural Equation Modeling.”</span> <em>European Journal of Operational Research</em> 151 (1): 53–79. <a href="https://doi.org/10.1016/S0377-2217(02)00578-7">https://doi.org/10.1016/S0377-2217(02)00578-7</a>.
 </div>
 <div id="ref-pam2016" class="csl-entry" role="doc-biblioentry">
-Pampka, Hutcheson, M., and J. Williams. 2016. <span>“Handling Missing Data: Analysis of a Challenging Data Set Using Multiple Imputation.”</span> <em>International Journal of Research &amp; Method in Education</em> 39 (1): 19–37. <a href="https://doi.org/10.1080/1743727X.2014.979146">https://doi.org/10.1080/1743727X.2014.979146</a>.
+Pampka, M., G. Hutcheson, and J. Williams. 2016. <span>“Handling Missing Data: Analysis of a Challenging Data Set Using Multiple Imputation.”</span> <em>International Journal of Research &amp; Method in Education</em> 39 (1): 19–37. <a href="https://doi.org/10.1080/1743727X.2014.979146">https://doi.org/10.1080/1743727X.2014.979146</a>.
 </div>
 <div id="ref-ped2017" class="csl-entry" role="doc-biblioentry">
-Pedersen, Mikkelsen, A. B., and I. Petersen. 2017. <span>“Missing Data and Multiple Imputation in Clinical Epidemiological Research.”</span> <em>Clinical Epidemiology</em> 9: 157–66. <a href="https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785">https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785</a>.
+Pedersen, A. B., E. M. Mikkelsen, D. Cronin-Fenton, N. R. Kristensen, T. M. Pham, L. Pedersen, and I. Petersen. 2017. <span>“Missing Data and Multiple Imputation in Clinical Epidemiological Research.”</span> <em>Clinical Epidemiology</em> 9: 157–66. <a href="https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785">https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785</a>.
 </div>
 <div id="ref-str2008" class="csl-entry" role="doc-biblioentry">
 Streiner, D. L. 2008. <span>“Missing Data and the Trouble with LOCF.”</span> <em>EBMH</em> 11 (1): 1–5. <a href="http://dx.doi.org/10.1136/ebmh.11.1.3-a">http://dx.doi.org/10.1136/ebmh.11.1.3-a</a>.
@@ -340,16 +394,16 @@ Streiner, D. L. 2008. <span>“Missing Data and the Trouble with LOCF.”</span>
 Thongsri, T., and K. Samart. 2022. <span>“Composite Imputation Method for the Multiple Linear Regression with Missing at Random Data.”</span> <em>International Journal of Mathematics and Mathematics and Computer Science</em> 17 (1): 51–62. <a href="http://ijmcs.future-in-tech.net/17.1/R-Samart.pdf">http://ijmcs.future-in-tech.net/17.1/R-Samart.pdf</a>.
 </div>
 <div id="ref-ura2020" class="csl-entry" role="doc-biblioentry">
-Uranga, Molenberghs, R., and S. Allende. 2020. <span>“A Multiple Regression Imputation Method with Application to Sensitivity Analysis Under Intermittent Missingness.”</span> <em>Communications in Statistics - Theory and Methods</em> 51 (15): 5146–61. <a href="https://doi.org/10.1080/03610926.2020.1834581">https://doi.org/10.1080/03610926.2020.1834581</a>.
+Uranga, R., G. Molenberghs, and S. Allende. 2020. <span>“A Multiple Regression Imputation Method with Application to Sensitivity Analysis Under Intermittent Missingness.”</span> <em>Communications in Statistics - Theory and Methods</em> 51 (15): 5146–61. <a href="https://doi.org/10.1080/03610926.2020.1834581">https://doi.org/10.1080/03610926.2020.1834581</a>.
 </div>
 <div id="ref-van2020" class="csl-entry" role="doc-biblioentry">
-Van_Ginkel, Linting, J. R., and A. Van_der_Voort. 2020. <span>“Rebutting Existing Misconceptions about Multiple Imputation as a Method for Handling Missing Data.”</span> <em>Journal of Personality Assessment</em> 102 (3): 2812–31. <a href="https://doi.org/10.1080/00223891.2018.1530680">https://doi.org/10.1080/00223891.2018.1530680</a>.
+van_Ginkel, J. R., M. Linting, R. C. Rippe, and A. van der Voort. 2020. <span>“Rebutting Existing Misconceptions about Multiple Imputation as a Method for Handling Missing Data.”</span> <em>Journal of Personality Assessment</em> 102 (3): 2812–31. <a href="https://doi.org/10.1080/00223891.2018.1530680">https://doi.org/10.1080/00223891.2018.1530680</a>.
 </div>
 <div id="ref-won2023" class="csl-entry" role="doc-biblioentry">
 Wongkamthong, C., and O. Akande. 2023. <span>“A Comparative Study of Imputation Methods for Multivariate Ordinal Data.”</span> <em>Journal of Survey Statistics and Methodology</em> 11 (1): 189–212. <a href="https://doi.org/10.1093/jssam/smab028">https://doi.org/10.1093/jssam/smab028</a>.
 </div>
 <div id="ref-yan2005" class="csl-entry" role="doc-biblioentry">
-Yang, Belin, W., and W. J. Boscardin. 2005. <span>“Imputation and Variable Selection in Linear Regression Models with Missing Covariates.”</span> <em>Biometrics</em> 61: 498–506. <a href="https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis">https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis</a>.
+Yang, W., T. R. Belin, and W. J. Boscardin. 2005. <span>“Imputation and Variable Selection in Linear Regression Models with Missing Covariates.”</span> <em>Biometrics</em> 61: 498–506. <a href="https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis">https://web-s-ebscohost-com.ezproxy.lib.uwf.edu/ehost/pdfviewer/pdfviewer?vid=0&amp;sid=a4db468b-e77f-45ae-958e-935ed046e8be%40redis</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
