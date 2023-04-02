@@ -30,43 +30,136 @@ editor:
 
 Missing data occurs when there are missing values in a dataset. There
 are many reasons why this occurs. It can be intentional or unintentional
-and can be classified into the following three categories [@van2020]:
+and can be classified into the following three categories, otherwise
+known as missingness mechanisms [@mai2023]:
 
--   Missing completely at random (MCAR) -- missing data is completely
-    independent of other variables
+-   Missing completely at random (MCAR) is the probability of missing
+    data being completely independent of any other variables.
 
--   Missing at random (MAR) -- there is a relationship between missing
-    data and other variables
+-   Missing at random (MAR) is the probability of missing data being
+    related to the observed values.
 
--   Not missing at random (NMAR) -- missing data is dependent on
-    observed data
+-   Missing not at random (MNAR) is the probability of missing data
+    being dependent on the missing and observed values.
 
-The problem with missing data is that it does not give a true
+The problem with ignoring missing data is that it does not give a true
 representation of the dataset and can lead to bias when analyzing. This
-in turn "reduces the statistical power of the analysis." There are two
+reduces the statistical power of the analysis [@van2020]. There are two
 ways to handle missing values: delete or impute.
 
 #### Deleting missing data
 
-Listwise deletion is when the entire observation (row) is removed from
-the dataset. Pairwise deletion is when the variable (column) of an
-observation is removed. Deleting missing data can lead to omitting
-useful information.
+Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but you are losing some information which may be important.
 
-T-tests and chi-square tests can be used to assess pairs of predictor
-variables to determine whether the groups' means differ significantly.
-If significant, the null hypothesis is rejected; therefore, listwise
-deletion would be wasteful. Alternate methods of dealing with the
-missing data is recommended (pairwise deletion or imputation).
+T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly [@van2020]. If significant, the null hypothesis is rejected; therefore, listwise deletion would be wasteful. Alternate methods of dealing with the missing data is recommended: pairwise deletion or imputation.
+
+Pairwise deletion is when only the missing variable of an observation is removed. It allows more data to be analyzed than listwise deletion but limits the ability to make inferences of the total sample. For this reason, it is recommended to use imputation to properly deal with missing data.
 
 #### What is imputation?
 
-Imputation is the method of replacing missing data with an estimate so
-as to have a full data set in order to analyze. There are two types:
-single and multiple. Single imputation is when only one estimate is
-used; multiple imputation uses various estimates.
+Imputation is the method of replacing missing data with an estimate so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.). There are two types of imputation: single and multiple. Single imputation is when only one estimate is used to replace the missing data; multiple imputation is when various estimates are used to replace the missing data [@don2013].
 
-Multiple imputation is most commonly used.
+## Methods
+
+#### Single Imputation
+
+Methods of single imputation include using the mean, the last observation carried forward, and random imputation. These imputation methods often result in underestimation of standard errors or too small p-values [@don2013]; therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.
+
+#### Multiple Imputation
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+#loading packages
+library(DiagrammeR)
+```
+
+```{r}
+DiagrammeR::grViz("digraph {
+
+# initiate graph
+graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue]
+
+# global node settings
+node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]
+bgcolor = none
+
+# label nodes
+incomplete [label =  'Incomplete data set']
+imputed1 [label = 'Imputed \n data set 1']
+estimates1 [label = 'Estimates from \n analysis 1']
+rubin [label = 'Rubin rules', shape = diamond]
+combined [label = 'Combined results']
+imputed2 [label = 'Imputed \n data set 2']
+estimates2 [label = 'Estimates from \n analysis 2']
+imputedm [label = 'Imputed \n data set m']
+estimatesm [label = 'Estimates from \n anaalysis m']
+
+
+# edge definitions with the node IDs
+incomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]
+imputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]
+estimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]
+imputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]
+estimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]
+imputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]
+estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
+rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
+}")
+```
+
+Figure 1: The MICE-process (Rubin 1987)
+
+##### Step 1
+
+Create m sets of data from original dataset with missing values 
+
+##### Step 2
+
+##### Step 3
+
+##### Step 4
+
+## Analysis and Results
+
+## Data and Visualization
+
+A study was conducted to determine how...
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# loading packages 
+library(tidyverse)
+library(knitr)
+library(ggthemes)
+library(ggrepel)
+library(dslabs)
+```
+
+```{r, warning=FALSE, echo=TRUE}
+# Load Data
+# kable(head(murders))
+# 
+# ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+# 
+#   ggplot1 + geom_point(aes(col=region), size = 4) +
+#   geom_text_repel(aes(label=abb)) +
+#   scale_x_log10() +
+#   scale_y_log10() +
+#   geom_smooth(formula = "y~x", method=lm,se = F)+
+#   xlab("Populations in millions (log10 scale)") + 
+#   ylab("Total number of murders (log10 scale)") +
+#   ggtitle("US Gun Murders in 2010") +
+#   scale_color_discrete(name = "Region")+
+#       theme_wsj()
+```
+
+## Statistical Modeling
+
+## Conclusion
+
+## References
+
+[@van2020]
 
 [@don2013]
 
@@ -114,87 +207,4 @@ Multiple imputation is most commonly used.
 
 [@van2020]
 
-## Methods
-
-#### Single Imputation
-
-#### Multiple Imputation
-```{r, warning=FALSE, echo=T, message=FALSE}
-#loading packages
-library(DiagrammeR)
-```
-
-```{r}
-DiagrammeR::grViz("digraph {
-
-# initiate graph
-graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue]
-
-# global node settings
-node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]
-
-# label nodes
-incomplete [label =  'Incomplete data set']
-imputed1 [label = 'Imputed \n data set 1']
-estimates1 [label = 'Estimates from \n analysis 1']
-rubin [label = 'Rubin rules', shape = diamond]
-combined [label = 'Combined results']
-imputed2 [label = 'Imputed \n data set 2']
-estimates2 [label = 'Estimates from \n analysis 2']
-imputedm [label = 'Imputed \n data set m']
-estimatesm [label = 'Estimates from \n anaalysis m']
-
-
-# edge definitions with the node IDs
-incomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]
-imputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]
-estimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]
-incomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]
-imputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]
-estimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]
-incomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]
-imputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]
-estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
-rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
-}")
-```
-Figure 1: The MICE-process (Rubin 1987)
-
-## Analysis and Results
-
-## Data and Visualization
-
-A study was conducted to determine how...
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
-
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-# kable(head(murders))
-# 
-# ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-# 
-#   ggplot1 + geom_point(aes(col=region), size = 4) +
-#   geom_text_repel(aes(label=abb)) +
-#   scale_x_log10() +
-#   scale_y_log10() +
-#   geom_smooth(formula = "y~x", method=lm,se = F)+
-#   xlab("Populations in millions (log10 scale)") + 
-#   ylab("Total number of murders (log10 scale)") +
-#   ggtitle("US Gun Murders in 2010") +
-#   scale_color_discrete(name = "Region")+
-#       theme_wsj()
-```
-
-## Statistical Modeling
-
-## Conclusion
-
-## References
+[@wul2017]
