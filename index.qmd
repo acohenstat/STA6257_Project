@@ -49,23 +49,74 @@ ways to handle missing values: delete or impute.
 
 #### Deleting missing data
 
-Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but you are losing some information which may be important.
+Listwise deletion is when the entire observation is removed from the
+dataset. Deleting missing data can lead to the loss of important
+information regarding your dataset and is therefore not recommended. In
+certain cases, when the amount of missing data is small and the type is
+MCAR, listwise deletion can be used. There usually won't be bias but you
+are losing some information which may be important.
 
-T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly [@van2020]. If significant, the null hypothesis is rejected; therefore, listwise deletion would be wasteful. Alternate methods of dealing with the missing data is recommended: pairwise deletion or imputation.
+T-tests and chi-square tests can be used to assess pairs of predictor
+variables to determine whether the groups' means differ significantly
+[@van2020]. If significant, the null hypothesis is rejected; therefore,
+listwise deletion would be wasteful. Alternate methods of dealing with
+the missing data is recommended: either pairwise deletion or imputation.
 
-Pairwise deletion is when only the missing variable of an observation is removed. It allows more data to be analyzed than listwise deletion but limits the ability to make inferences of the total sample. For this reason, it is recommended to use imputation to properly deal with missing data.
+Pairwise deletion is when only the missing variable of an observation is
+removed. It allows more data to be analyzed than listwise deletion but
+limits the ability to make inferences of the total sample. For this
+reason, it is recommended to use imputation to properly deal with
+missing data.
 
 #### What is imputation?
 
-Imputation is the method of replacing missing data with an estimate so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.). There are two types of imputation: single and multiple. Single imputation is when only one estimate is used to replace the missing data; multiple imputation is when various estimates are used to replace the missing data [@don2013].
+Imputation is the method of replacing missing data with an estimate
+obtained from the available data so there is a full data set to analyze.
+To improve statistical power, the number of imputations created should
+be at least equal to the percent of missing data (5% equals 5
+imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
+[@ped2017]. There are two types of imputation: single and multiple.
 
 ## Methods
 
 #### Single Imputation
 
-Methods of single imputation include using the mean, the last observation carried forward, and random imputation. These imputation methods often result in underestimation of standard errors or too small p-values [@don2013]; therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.
+Single or univariate imputation is when only one estimate is used to
+replace the missing data. Methods of single imputation include using the
+mean, the last observation carried forward, and random imputation. These
+imputation methods often result in underestimation of standard errors or
+too small p-values [@don2013]; therefore, multiple imputation is the
+better method because it handles missing data better and provides less
+biased results.
 
 #### Multiple Imputation
+
+Multiple or multivariate imputation is when various estimates are used
+to replace the missing data by creating multiple datasets from versions
+of the original dataset. A set of *m* plausible values are generated for
+each unobserved data point, resulting in *m* complete data sets
+[@don2013]. The new values are randomly drawn from predictive
+distributions either through joint modeling (JM) or fully conditional
+specification (FCS) [@won2023]. It is then analyzed and the results are
+combined to obtain a single value for the missing data.
+
+Before imputing the missing data, it is important to check whether the
+data has a linear relationship. Nonlinear data should be accounted for
+in the analysis as well as the imputation process. Otherwise, an
+incorrect statistical model will result. It is also important to check
+for anomalies that may occur during imputation. Imputation models may
+need to be adjusted if the imputed values fall outside the minimum and
+maximum range of the observed values. More or fewer variables in the
+imputation model may be needed for these types of anomalies.
+
+The purpose of multiple imputation is to create a pool of imputed data
+for analysis, but if the pooled results are lacking, then multiple
+imputation should not be done [@mai2023]. Another reason not to use
+multiple imputation is if there are very few missing values; there may
+be no benefit in using it. Some statistical analyses software already
+have built-in features to deal with missing data.
+
+Flowchart of the MICE-process based on Rubin's procedure [@wul2017]:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
@@ -112,7 +163,7 @@ Figure 1: The MICE-process (Rubin 1987)
 
 ##### Step 1
 
-Create m sets of data from original dataset with missing values 
+Create m sets of data from original dataset with missing values
 
 ##### Step 2
 
@@ -120,11 +171,32 @@ Create m sets of data from original dataset with missing values
 
 ##### Step 4
 
+The quality of research will be enhanced if [@don2013]:
+
+-   Researchers explicitly acknowledge missing data problems and the
+    conditions under which they occurred.
+
+-   Principled methods are employed to handle missing data.
+
+-   The appropriate treatment of missing data is incorporated into
+    review standards of manuscripts submitted for publication.
+
+In most epidemiological research, missing data is seldomly MCAR.
+Multiple imputation is heavily emphasized throughout epidemiological
+research as it provides unbiased valid estimates of associations based
+on information from already-existing data [@ped2017]. 
+
 ## Analysis and Results
 
 ## Data and Visualization
 
-A study was conducted to determine how...
+##### Summary of Data
+
+```{r}
+# Load data
+credit = read.csv("credit_data.csv")
+summary(credit)
+```
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 

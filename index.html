@@ -9,7 +9,7 @@
 <meta name="author" content="Javier Estrada">
 <meta name="author" content="Michael Underwood">
 <meta name="author" content="Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-04-01">
+<meta name="dcterms.date" content="2023-04-03">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -171,7 +171,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 1, 2023</p>
+      <p class="date">April 3, 2023</p>
     </div>
   </div>
     
@@ -197,22 +197,26 @@ div.csl-indent {
 <section id="deleting-missing-data" class="level4">
 <h4 class="anchored" data-anchor-id="deleting-missing-data">Deleting missing data</h4>
 <p>Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but you are losing some information which may be important.</p>
-<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. If significant, the null hypothesis is rejected; therefore, listwise deletion would be wasteful. Alternate methods of dealing with the missing data is recommended: pairwise deletion or imputation.</p>
+<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. If significant, the null hypothesis is rejected; therefore, listwise deletion would be wasteful. Alternate methods of dealing with the missing data is recommended: either pairwise deletion or imputation.</p>
 <p>Pairwise deletion is when only the missing variable of an observation is removed. It allows more data to be analyzed than listwise deletion but limits the ability to make inferences of the total sample. For this reason, it is recommended to use imputation to properly deal with missing data.</p>
 </section>
 <section id="what-is-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="what-is-imputation">What is imputation?</h4>
-<p>Imputation is the method of replacing missing data with an estimate so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.). There are two types of imputation: single and multiple. Single imputation is when only one estimate is used to replace the missing data; multiple imputation is when various estimates are used to replace the missing data <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>.</p>
+<p>Imputation is the method of replacing missing data with an estimate obtained from the available data so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.) <span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen et al. 2017</a>)</span>. There are two types of imputation: single and multiple.</p>
 </section>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
 <section id="single-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="single-imputation">Single Imputation</h4>
-<p>Methods of single imputation include using the mean, the last observation carried forward, and random imputation. These imputation methods often result in underestimation of standard errors or too small p-values <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>; therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.</p>
+<p>Single or univariate imputation is when only one estimate is used to replace the missing data. Methods of single imputation include using the mean, the last observation carried forward, and random imputation. These imputation methods often result in underestimation of standard errors or too small p-values <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>; therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.</p>
 </section>
 <section id="multiple-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="multiple-imputation">Multiple Imputation</h4>
+<p>Multiple or multivariate imputation is when various estimates are used to replace the missing data by creating multiple datasets from versions of the original dataset. A set of <em>m</em> plausible values are generated for each unobserved data point, resulting in <em>m</em> complete data sets <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. The new values are randomly drawn from predictive distributions either through joint modeling (JM) or fully conditional specification (FCS) <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span>. It is then analyzed and the results are combined to obtain a single value for the missing data.</p>
+<p>Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result. It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these types of anomalies.</p>
+<p>The purpose of multiple imputation is to create a pool of imputed data for analysis, but if the pooled results are lacking, then multiple imputation should not be done <span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer et al. 2023</a>)</span>. Another reason not to use multiple imputation is if there are very few missing values; there may be no benefit in using it. Some statistical analyses software already have built-in features to deal with missing data.</p>
+<p>Flowchart of the MICE-process based on Rubin’s procedure <span class="citation" data-cites="wul2017">(<a href="#ref-wul2017" role="doc-biblioref">Wulff and Jeppesen 2017</a>)</span>:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -258,8 +262,8 @@ div.csl-indent {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-600181a4dc2e3c3c5b8a" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-600181a4dc2e3c3c5b8a">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b683ae9f76d5635ff302" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b683ae9f76d5635ff302">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Figure 1: The MICE-process (Rubin 1987)</p>
@@ -283,44 +287,113 @@ div.csl-indent {
 </section>
 <section id="data-and-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h2>
-<p>A study was conducted to determine how…</p>
+<section id="summary-of-data" class="level5">
+<h5 class="anchored" data-anchor-id="summary-of-data">Summary of Data</h5>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X           Status            Seniority          Home          
+ Min.   :   1   Length:4454        Min.   : 0.000   Length:4454       
+ 1st Qu.:1114   Class :character   1st Qu.: 2.000   Class :character  
+ Median :2228   Mode  :character   Median : 5.000   Mode  :character  
+ Mean   :2228                      Mean   : 7.987                     
+ 3rd Qu.:3341                      3rd Qu.:12.000                     
+ Max.   :4454                      Max.   :48.000                     
+                                                                      
+      Time            Age          Marital            Records         
+ Min.   : 6.00   Min.   :18.00   Length:4454        Length:4454       
+ 1st Qu.:36.00   1st Qu.:28.00   Class :character   Class :character  
+ Median :48.00   Median :36.00   Mode  :character   Mode  :character  
+ Mean   :46.44   Mean   :37.08                                        
+ 3rd Qu.:60.00   3rd Qu.:45.00                                        
+ Max.   :72.00   Max.   :68.00                                        
+                                                                      
+     Job               Expenses          Income          Assets      
+ Length:4454        Min.   : 35.00   Min.   :  6.0   Min.   :     0  
+ Class :character   1st Qu.: 35.00   1st Qu.: 90.0   1st Qu.:     0  
+ Mode  :character   Median : 51.00   Median :125.0   Median :  3000  
+                    Mean   : 55.57   Mean   :141.7   Mean   :  5404  
+                    3rd Qu.: 72.00   3rd Qu.:170.0   3rd Qu.:  6000  
+                    Max.   :180.00   Max.   :959.0   Max.   :300000  
+                                     NA's   :381     NA's   :47      
+      Debt           Amount         Price      
+ Min.   :    0   Min.   : 100   Min.   :  105  
+ 1st Qu.:    0   1st Qu.: 700   1st Qu.: 1117  
+ Median :    0   Median :1000   Median : 1400  
+ Mean   :  343   Mean   :1039   Mean   : 1463  
+ 3rd Qu.:    0   3rd Qu.:1300   3rd Qu.: 1692  
+ Max.   :30000   Max.   :5000   Max.   :11140  
+ NA's   :18                                    </code></pre>
+</div>
+</div>
+</section>
+<section id="variables" class="level5">
+<h5 class="anchored" data-anchor-id="variables">Variables</h5>
+<p>X</p>
+<p>Status</p>
+<p>Seniority</p>
+<p>Home</p>
+<p>Time</p>
+<p>Age</p>
+<p>Marital</p>
+<p>Records</p>
+<p>Job</p>
+<p>Expenses</p>
+<p>Income</p>
+<p>Assets</p>
+<p>Debt</p>
+<p>Amount</p>
+<p>Price</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
 </section>
 <section id="statistical-modeling" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-modeling">Statistical Modeling</h2>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The quality of research will be enhanced if <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>:</p>
+<ul>
+<li><p>Researchers explicitly acknowledge missing data problems and the conditions under which they occurred.</p></li>
+<li><p>Principled methods are employed to handle missing data.</p></li>
+<li><p>The appropriate treatment of missing data is incorporated into review standards of manuscripts submitted for publication.</p></li>
+</ul>
+<p>In most epidemiological research, missing data is seldomly MCAR. Multiple imputation is heavily emphasized throughout epidemiological research as it provides unbiased valid estimates of associations based on information from already-existing data <span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen et al. 2017</a>)</span>.&nbsp;</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
