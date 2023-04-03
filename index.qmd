@@ -44,8 +44,11 @@ known as missingness mechanisms [@mai2023]:
 
 The problem with ignoring missing data is that it does not give a true
 representation of the dataset and can lead to bias when analyzing. This
-reduces the statistical power of the analysis [@van2020]. There are two
-ways to handle missing values: delete or impute.
+reduces the statistical power of the analysis [@van2020]. To enhance the
+quality of the research, the following should be followed: explicitly
+acknowledge missing data problems and the conditions under which they
+occur and employ principled methods to handle missing data [@don2013].
+There are two ways to handle missing values: delete or impute.
 
 #### Deleting missing data
 
@@ -71,9 +74,9 @@ missing data.
 #### What is imputation?
 
 Imputation is the method of replacing missing data with an estimate
-obtained from the available data so there is a full data set to analyze.
-To improve statistical power, the number of imputations created should
-be at least equal to the percent of missing data (5% equals 5
+obtained from the original available data so there is a full data set to
+analyze. To improve statistical power, the number of imputations created
+should be at least equal to the percent of missing data (5% equals 5
 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
 [@ped2017]. There are two types of imputation: single and multiple.
 
@@ -93,30 +96,25 @@ biased results.
 
 Multiple or multivariate imputation is when various estimates are used
 to replace the missing data by creating multiple datasets from versions
-of the original dataset. A set of *m* plausible values are generated for
-each unobserved data point, resulting in *m* complete data sets
-[@don2013]. The new values are randomly drawn from predictive
-distributions either through joint modeling (JM) or fully conditional
+of the original dataset. It can be done by using a regression model, or
+a sequence of regression models, such as linear, logistic and Poison. A
+set of *m* plausible values are generated for each unobserved data
+point, resulting in *m* complete data sets [@don2013]. The new values
+are randomly drawn from predictive distributions either through joint
+modeling (JM, which is not used much anymore) or fully conditional
 specification (FCS) [@won2023]. It is then analyzed and the results are
 combined to obtain a single value for the missing data.
-
-Before imputing the missing data, it is important to check whether the
-data has a linear relationship. Nonlinear data should be accounted for
-in the analysis as well as the imputation process. Otherwise, an
-incorrect statistical model will result. It is also important to check
-for anomalies that may occur during imputation. Imputation models may
-need to be adjusted if the imputed values fall outside the minimum and
-maximum range of the observed values. More or fewer variables in the
-imputation model may be needed for these types of anomalies.
 
 The purpose of multiple imputation is to create a pool of imputed data
 for analysis, but if the pooled results are lacking, then multiple
 imputation should not be done [@mai2023]. Another reason not to use
 multiple imputation is if there are very few missing values; there may
-be no benefit in using it. Some statistical analyses software already
-have built-in features to deal with missing data.
+be no benefit in using it. Also worth noting is some statistical
+analyses software already have built-in features to deal with missing
+data.
 
-Flowchart of the MICE-process based on Rubin's procedure [@wul2017]:
+Figure 1: Flowchart of the MICE-process based on procedures proposed by
+Rubin [@wul2017]:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
@@ -159,32 +157,31 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 }")
 ```
 
-Figure 1: The MICE-process (Rubin 1987)
+Before imputing the missing data, it is important to check whether the
+data has a linear relationship. Nonlinear data should be accounted for
+in the analysis as well as the imputation process. Otherwise, an
+incorrect statistical model will result. It is also important to check
+for anomalies that may occur during imputation. Imputation models may
+need to be adjusted if the imputed values fall outside the minimum and
+maximum range of the observed values. More or fewer variables in the
+imputation model may be needed for these types of anomalies.
 
 ##### Step 1
 
-Create m sets of data from original dataset with missing values
+Evaluate data and select independent variables
 
 ##### Step 2
 
+Create m sets of data from original dataset with missing values
+
 ##### Step 3
+
+Perform analysis on each of the m sets
 
 ##### Step 4
 
-The quality of research will be enhanced if [@don2013]:
-
--   Researchers explicitly acknowledge missing data problems and the
-    conditions under which they occurred.
-
--   Principled methods are employed to handle missing data.
-
--   The appropriate treatment of missing data is incorporated into
-    review standards of manuscripts submitted for publication.
-
-In most epidemiological research, missing data is seldomly MCAR.
-Multiple imputation is heavily emphasized throughout epidemiological
-research as it provides unbiased valid estimates of associations based
-on information from already-existing data [@ped2017]. 
+Average the estimates across m estimates. Calculate the standard errors
+and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 ## Analysis and Results
 
@@ -205,13 +202,13 @@ library(knitr)
 library(ggthemes)
 library(ggrepel)
 library(dslabs)
+library(ggfortify)
 ```
 
 ```{r, warning=FALSE, echo=TRUE}
-# Load Data
-# kable(head(murders))
-# 
-# ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
+autoplot(model1)
+# ggplot1 = credit %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
 # 
 #   ggplot1 + geom_point(aes(col=region), size = 4) +
 #   geom_text_repel(aes(label=abb)) +
@@ -225,17 +222,11 @@ library(dslabs)
 #       theme_wsj()
 ```
 
+The dataset appears to have a linear relationship.
+
 ## Statistical Modeling
 
 ## Conclusion
-
-## References
-
-[@van2020]
-
-[@don2013]
-
-[@won2023]
 
 [@kan2013]
 
@@ -252,8 +243,6 @@ library(dslabs)
 [@ura2020]
 
 [@cha2023]
-
-[@mai2023]
 
 [@jav2021]
 
@@ -273,10 +262,6 @@ library(dslabs)
 
 [@yan2005]
 
-[@ped2017]
-
 [@pam2016]
 
 [@van2020]
-
-[@wul2017]
