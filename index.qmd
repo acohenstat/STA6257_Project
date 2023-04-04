@@ -114,7 +114,7 @@ be no benefit in using it. Also worth noting is some statistical
 analyses software already have built-in features to deal with missing
 data.
 
-### Description of Data Being Used:
+#### Description of Data Being Used:
 
 The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
 
