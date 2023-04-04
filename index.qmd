@@ -187,18 +187,34 @@ and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 ## Data and Visualization
 
-##### Data
-
-The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
-
-Statistical summary of data:
-
 ```{r}
 # Load data
 credit = read.csv("credit_data.csv")
+```
+
+##### Description
+
+Credit score data
+
+##### Details
+
+The credit_data.csv file contains data of 4454 subjects and stores a
+combination of continuous, categorical and count values for 15
+variables. Of the 15 variables, the "Status" variable contains binomial
+categorical values of "good" and "bad" to describe the kind of credit
+score each subject has.
+
+##### Structure:
+```{r}
+str(credit)
+```
+
+##### Statistical summary:
+```{r}
 summary(credit)
 ```
 
+##### Diagnostics
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(tidyverse)
@@ -225,8 +241,6 @@ autoplot(model1)
 #   scale_color_discrete(name = "Region")+
 #       theme_wsj()
 ```
-
-The dataset appears to have a linear relationship.
 
 ## Statistical Modeling
 

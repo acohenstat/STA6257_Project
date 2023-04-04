@@ -9,7 +9,7 @@
 <meta name="author" content="Javier Estrada">
 <meta name="author" content="Michael Underwood">
 <meta name="author" content="Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-04-03">
+<meta name="dcterms.date" content="2023-04-04">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -170,7 +170,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 3, 2023</p>
+      <p class="date">April 4, 2023</p>
     </div>
   </div>
     
@@ -260,8 +260,8 @@ div.csl-indent {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b5b4d1ec2cef428701fe" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-b5b4d1ec2cef428701fe">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ee6716d288ada3a95194" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ee6716d288ada3a95194">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result. It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these types of anomalies.</p>
@@ -288,16 +288,54 @@ div.csl-indent {
 </section>
 <section id="data-and-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h2>
-<section id="data" class="level5">
-<h5 class="anchored" data-anchor-id="data">Data</h5>
-<p>The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has.</p>
-<p>Statistical summary of data:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="description" class="level5">
+<h5 class="anchored" data-anchor-id="description">Description</h5>
+<p>Credit score data</p>
+</section>
+<section id="details" class="level5">
+<h5 class="anchored" data-anchor-id="details">Details</h5>
+<p>The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has.</p>
+</section>
+<section id="structure" class="level5">
+<h5 class="anchored" data-anchor-id="structure">Structure:</h5>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   4454 obs. of  15 variables:
+ $ X        : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Status   : chr  "good" "good" "bad" "good" ...
+ $ Seniority: int  9 17 10 0 0 1 29 9 0 0 ...
+ $ Home     : chr  "rent" "rent" "owner" "rent" ...
+ $ Time     : int  60 60 36 60 36 60 60 12 60 48 ...
+ $ Age      : int  30 58 46 24 26 36 44 27 32 41 ...
+ $ Marital  : chr  "married" "widow" "married" "single" ...
+ $ Records  : chr  "no" "no" "yes" "no" ...
+ $ Job      : chr  "freelance" "fixed" "freelance" "fixed" ...
+ $ Expenses : int  73 48 90 63 46 75 75 35 90 90 ...
+ $ Income   : int  129 131 200 182 107 214 125 80 107 80 ...
+ $ Assets   : int  0 0 3000 2500 0 3500 10000 0 15000 0 ...
+ $ Debt     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ Amount   : int  800 1000 2000 900 310 650 1600 200 1200 1200 ...
+ $ Price    : int  846 1658 2985 1325 910 1645 1800 1093 1957 1468 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="statistical-summary" class="level5">
+<h5 class="anchored" data-anchor-id="statistical-summary">Statistical summary:</h5>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>       X           Status            Seniority          Home          
@@ -334,44 +372,46 @@ div.csl-indent {
  NA's   :18                                    </code></pre>
 </div>
 </div>
+</section>
+<section id="diagnostics" class="level5">
+<h5 class="anchored" data-anchor-id="diagnostics">Diagnostics</h5>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">=</span><span class="fu">lm</span>(Amount<span class="sc">~</span>Status<span class="sc">+</span>Seniority<span class="sc">+</span>Home<span class="sc">+</span>Time<span class="sc">+</span>Age<span class="sc">+</span>Marital<span class="sc">+</span>Records<span class="sc">+</span>Job<span class="sc">+</span>Expenses<span class="sc">+</span>Income<span class="sc">+</span>Assets<span class="sc">+</span>Debt<span class="sc">+</span>Price, <span class="at">data=</span>credit)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">=</span><span class="fu">lm</span>(Amount<span class="sc">~</span>Status<span class="sc">+</span>Seniority<span class="sc">+</span>Home<span class="sc">+</span>Time<span class="sc">+</span>Age<span class="sc">+</span>Marital<span class="sc">+</span>Records<span class="sc">+</span>Job<span class="sc">+</span>Expenses<span class="sc">+</span>Income<span class="sc">+</span>Assets<span class="sc">+</span>Debt<span class="sc">+</span>Price, <span class="at">data=</span>credit)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The dataset appears to have a linear relationship.</p>
 </section>
 </section>
 <section id="statistical-modeling" class="level2">
