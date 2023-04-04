@@ -114,6 +114,227 @@ be no benefit in using it. Also worth noting is some statistical
 analyses software already have built-in features to deal with missing
 data.
 
+Summaries:
+
+Elizabeth:
+(1)
+Van Ginkel, J.R., Linting , M., Rippe, R.C., and Van der Voort, A. 2020. “Rebutting Existing Misconceptions about Multiple Imputation as a Method for Handling Missing Data.” Journal of Personality Assessment 102 (3): 2812–31. https://doi.org/10.1080/00223891.2018.1530680
+When there is missing data in a dataset, it can lead to bias when analyzing the data. Missing data can be classified into the following categories:
+Missing Completely at Random (MCAR) – respondent accidentally skips question; listwise deletion reduces sample size (thus power) but does not give any biased results because the sample after removal is still as representative of the original data
+Missing at Random (MAR) – respondent skips question purposely (may be more frequent in some subgroups than others; example is a female not answering about her income); listwise deletion may not be a true representative of total population (systematic dropout can be traced) leading to bias in the analysis
+Not Missing at Random (NMAR) – similar to MAR except that systematic dropout cannot be traced (example is people with high incomes not answering about their income); listwise deletion results in bias in the analysis
+T-test and chi-square tests can be used to assess pairs of predictor variables to determine whether groups differ significantly in means or frequency distribution of the response variable; if significant, MCAR assumption may have been violated (does not provide whether MAR or NMAR); shortfall: if none of the tests are significant, it doesn’t necessarily mean MCAR occurred either; only tells us that null hypothesis has been rejected when significant; listwise deletion is wasteful—alternative methods are necessary
+Alternative Methods:
+Pairwise deletion – is less wasteful than listwise deletion but still causes bias (especially when missing data is not MCAR)
+Single Imputation – is less wasteful than listwise/pairwise deletion but still causes variable bias downward and covariance upward
+Multiple imputation – is not wasteful or biased; is the preferred method but is not most frequently used (perhaps due to unfamiliarity or nonuser-friendly software especially for more complex problems)
+Regression imputation – imputation based on a linear model used when variables are continuous or imputation based on a logistic model when variables are categorical
+Predictive mean matching – an imputation method (same as regression imputation) except that draws are not random; the regression model is used to find similar predicted values so that results don’t fall outside the range of the data
+Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result.
+It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these anomalies.
+The purpose of multiple imputation is to create a pool of imputed data for analysis. If pooled results are lacking, multiple imputation should not be done. Another reason not to use multiple imputation is if there are very few missing values; there may be no benefit in using it. Another reason multiple imputation may not be needed is some statistical analyses already have built in features to deal with missing data.
+---------------------------------------------------------------------------------------------------------------------
+(2)
+Wongkamthong, C., and Akande, C. 2023. “A Comparative Study of Imputation Methods for Multivariate Ordinal Data.” Journal of Survey Statistics and Methodology 11 (1): 189–212. https://doi.org/10.1093/jssam/smab028 
+Missing data occur in large surveys when participants, either intentionally or unintentionally, do not answer questions. Ignoring the missing data can lead to bias in the analysis. Multiple imputation (MI) is most commonly used to address the missing data problem. Multiple datasets are created from versions of the original dataset by replacing the missing data with values that are drawn from  predictive distributions either through joint modeling (JM) or fully conditional specification (FCS).
+Imputation engines under JM specify a multiple variable distribution by predicting the missing values using implied conditional distributions. They include the following:
+Bayesian nonparametric models
+Dirichlet process (DP) mixture models
+DPMPM – used for multivariate categorical data
+DPMMVN – used for multivariate ordinal data
+Imputation methods under FCS (simple and flexible—lacks theoretical foundation) specify a univariate model for the missing data using estimated prediction models without using joint distribution. They include the following:
+Variable by variable imputation
+Sequential regression multivariate imputation (SRMI)
+Multiple imputation by chained equations (MICE) – most popular name for method through software implementation; includes the following:
+Generalized linear models (GLMs) for univariate conditional (predictive) distributions
+For ordinal data
+multinominal/polytomous logistic regression models
+proportional odds or cumulative logistic regression models
+For high-dimensional datasets (drawback: many interaction effects can be tedious and computationally intensive; therefore, machine learning and tree-based models are used as conditional distributions)
+Classification and regression trees (CART)
+Random forests
+Generative adversarial imputation nets (GAIN) – use more advanced machine learning to improve drawbacks of other methods
+Multivariate ordinal data
+MICE using multinominal logistic regression models (MI-multireg) – good for categorical data with multiple levels/outcomes, both ordinal and nominal values; “polyreg” option in R
+MICE using proportional odds logistic regression models (MI-Polr) – good for categorical data with multiple levels/outcomes, ordinal values; “polr” option in R
+MICE using CART (MI-CART); for categorical, nonparametric approach modeling relationship between categorical response and predictor variables; follows decision tree structure using binary splits: top of tree corresponds to root and branches are successive splits (splits that do not decrease lack of fit are pruned off) until minimum number of observations is met; can use both regression trees and classification trees; “cart” option in R
+MICE using random forests (MI-Forest); nonparametric approach; uses random forests (ensemble of multiple decision trees) using bootstrapped datasets only using a sample of predictors for each split to keep same variables from dominating split and should result in predictions with less variance; “rf” option in R
+MI using DP mixtures of products of multinominal distributions (MI-DPMPM)
+MI using DP mixtures of multivariate normal distributions (MI-DPMMVN)
+FCS
+Advantages/disadvantages in determining whether to use MICE or JM:
+MICE is preferred for its simplicity and flexibility but conditional distributions may be incompatible (do not refer to joint distribution)
+JM is desirable but specifying accurate joint distributions for large number of variables may be challenging when dealing with different variable types
+Parametric vs nonparametric models under MICE or JM:
+Nonparametric or machine learning models
+---------------------------------------------------------------------------------------------------------------------
+(3)
+Donders, A.R., van der Heijden, G.J., Stijnen, T., and Moons, K.G. 2006. “Review: A Gentle Introduction to Imputation of Missing Values.” Journal of Clinical Epidemiology 59 (10): 1087–91. https://doi.org/10.1016/j.jclinepi.2006.01.014 
+Missing data is a common problem in medical research studies. Ignoring the missing data can lead to problems in the efficiency and bias of the analysis. There are many different methods to handle missing data that range from simple to complex (using software for the more complexed methods).
+Different types of missing data:
+MCAR – example: test tube with blood sample is broken and can’t be measured; missing completely at random
+MNAR – example: respondents with high income do not report their income in survey (missing not completely at random)
+MAR – example: tests results for all diseased subjects are known but unknown for a random sample of non-diseased subjects (conditional on the presence or absence of the disease)
+Types of imputation:
+Missing Indicator method is when dummy variables are used to replace the missing values. Missing values are coded as 0, the others as 1. The advantage to this method is that all observations are included (no missing data) but the downfall is it leads to a pretty heavy bias in the analysis.
+Mean imputation is when the sample mean is used to replace the missing value. The simplest form is using the association between two variables: indicator and predictor.
+Single imputation is when only one missing value is replaced based on the characteristics of other known data (not the mean of the observed values). It results in unbiased results but in underestimation of the standard errors (narrow confidence interval) and too small of p-values commonly occur, especially when the number of covariates is high.
+Multiple imputation is when multiple imputed data sets are created in order to replace missing data from draws of random estimates, each with an unbiased standard error (wide confidence interval) and multiple regression coefficients (odds ratios). This method is preferred over single imputation.
+---------------------------------------------------------------------------------------------------------------------
+(4) 
+Thongsri, T., and Samart, K. 2022. “Composite Imputation Method for the Multiple Linear Regression with Missing at Random Data.” International Journal of Mathematics and Mathematics and Computer Science 17 (1): 51–62. http://ijmcs.future-in-tech.net/17.1/R-Samart.pdf
+Multiple linear regression is a form of statistical analysis of the relationship between a response and independent variables. Oftentimes there can be missing data due to nonresponse, miscommunication, lack of information, privacy, loss of questionnaires, or researchers themselves. When missing data occurs, it leads to unreliable analysis.
+The type of missing data determines the technique used to replace the missing data. There are three types of missing data:
+Missing completely at random (MCAR) – missing data is totally random and independent of any variable; increases standard error but not bias
+Missing at random (MAR) – missing data is dependent upon observed values of other variables
+Missing not at random (MNAR) – missing data is dependent upon unobserved values instead of observed values
+There are two strategies for handling missing data: ignore or impute. Another option is to use listwise deletion but this method causes high standard errors and biased results in MAR (unbiased in MCAR) and is not recommended. Ignoring is the simplest method but creates biased estimates and loss of precision. It may be suitable to use this method only when there is a small proportion of missing values in the dataset. Imputing is the better approach because it replaces the missing values with an estimate based on plausible values. The advantage of this approach is that it reduces the bias.
+Imputation techniques:
+Hot deck (HD) – missing data (the recipient) is replaced with an observed response from a similar unit (the donor)
+If donor is selected at random, then called “random hot deck method”; if donor is based on some specific metric, then called “deterministic hot deck method”
+It does not rely on model fitting for the variable to be imputed and is less sensitive to model misspecification; only plausible values are imputed from observed responses in the donor pool
+Commonly used by government statistics agencies
+Predictive mean matching (PMM) – missing data is calculated based on sampling from observed values of donors that match predicted values as close as possible
+Imputed values based only on observed values
+6 step process that may be repeated multiple times for multiple imputation
+Stochastic regression (SR) – missing data is estimated based on regression equation obtained from the observed values
+Imputed values will fall on a regression line implying a correlation between predictors and missing outcome variable; because this is impossible in reality, a residual term is added to the imputed value
+It is drawn from a normal distribution with a mean of zero and a variance equal to the residual variance from the regression of the predictor outcome to preserve variability in data
+Parameter estimates are unbiased with MAR
+Random forest (RF) – better for increasing correlation when MNAR is moderate to high
+Based on machine learning algorithms designed for mixed continuous/categorical data using mean (continuous data)/mode (categorical data) and training/prediction sets; repeated several times; datasets become well imputed after 4-5 iterations
+Stochastic regression random forest with equivalent weight (SREW) – combination of SR and RF methods; tend to outperform other techniques listed
+---------------------------------------------------------------------------------------------------------------------
+(5)
+Mainzer, R., Moreno-Betancur, R., Nguyen, C., Simpson, J., Carlin, J., and Lee, K. 2023. “Handling of Missing Data with Multiple Imputation in Observational Studies That Address Causal Questions: Protocol for a Scoping Review.” BMJ Open 13: 1–6. http://dx.doi.org/10.1136/bmjopen-2022-065576 
+The purpose of observational studies in health and clinical related research is to answer causal questions. Missing data can be common and can cause bias in the analysis and loss of precision in the estimates. Multiple imputation is a common method used to replace missing data.
+First, the missing data are imputed multiple times with random draws from the predictive distribution. It is then analyzed and the results are combined using Ruben’s rule to obtain a single value for the missing data.
+Ruben’s classification of missing data mechanisms:
+Missing Completely at Random (MCAR) – probability of missing data is independent on the observed or unobserved data
+Missing at Random (MAR) – probability of missing data is independent of the unobserved data and conditional on the observed data
+Missing not at Random (MNAR) – probability of missing data is dependent on unobserved data even after conditioning of observed data
+This framework is useful for missing data in a single variable, but issues arise if used when more than one variable is missing. Sensitivity analysis is needed to properly determine the correct classification.
+Missingness directed acyclic graphs (m-DAGs), also known as m-graphs, are a tool used to formulate casual assumptions in the presence of multivariate missingness. The application of this theory helps to determine whether the missing data replacement can be estimated without bias.
+---------------------------------------------------------------------------------------------------------------------
+(6)
+Cao, Y., Allore, H., Wyk, B.V., Gutman, R. 2021. “Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.” Statistics in Medicine 41 (30): 5844–76. https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592
+Missing data occurs frequently in longitudinal studies due to nonresponse. There are different methods to deal with missing data. The data first needs to be classified in order to deal with it appropriately. There are three missing data mechanisms:
+Missing Completely at Random (MCAR) – unrelated to missing and observed values
+Missing at Random (MAR) – depends only on observed values
+Not Missing at Random (NMAR) – depends on both observed and unobserved values
+There are three types of statistic methods used to deal with missing data:
+Likelihood and Bayesian methods – define model for observed and unobserved variables by providing estimates for the missing data; may result in bias estimates when the model is mis-specified or the data mechanism is unignorable 
+Weighting methods – an alternate approach which assigns weights to the observed data to account for the missing data; most commonly used for monotone missing data patterns and the missing variable is scalar
+Imputation methods – fills in the missing data with plausible values
+Single Imputation – result in small sampling variance
+Multiple Imputation – does not result in small sampling variance but its procedure is complex
+Imputation by Fully Conditional Specifications (FCS), also referred to as Multivariate Imputation by Chained Equations (MICE)
+Using wide format data
+Multilevel linear model
+Multilevel linear model with latent variables
+Multilevel generalized linear model
+Imputation by Joint Modeling (JM)
+General location model
+Multivariate multilevel linear model
+Multivariate multilevel linear model with latent variables
+Multivariate generalized multilevel linear model
+
+Javier’s summaries:
+
+---------------------------------------------------------------------------------------------------------------------
+Principled missing data methods for researchers
+Missing data can lead to:
+Biased estimates of parameters
+Loss of information
+Decreased statistical power and weak reliability of findings.
+Three principled missing data methods discussed:
+Multiple imputation
+Full information maximum likelihood (FIML) 
+Expectation-maximization algorithm (EM)
+In multiple imputation, a set of m plausible values are generated for each unobserved data point, resulting in m complete data sets, each with one unique estimate of the missing values.
+FIML obtains parameter estimates by maximizing the likelihood function of the incomplete data. 
+Expectation-maximization (EM) algorithm does not “fill in” missing data, but rather estimates the parameters by maximizing the complete data log likelihood function.
+The quality of research will be enhanced if:
+Researchers explicitly acknowledge missing data problems and the conditions under which they occurred
+Principled methods are employed to handle missing data
+The appropriate treatment of missing data is incorporated into review standards of manuscripts submitted for publication.
+Dong, Y., Peng, CY.J. Principled missing data methods for researchers. SpringerPlus 2, 222 (2013). https://doi.org/10.1186/2193-1801-2-222
+---------------------------------------------------------------------------------------------------------------------
+(2) Missing data and imputation in clinical epidemiological research
+When discussing the subject of missing data in epidemiological research, three missing data types are emphasized:
+Missing completely at random (MCAR)
+Missing at random (MAR)
+Missing not random (MNAR)
+Examples of each kind of missing data include:
+Missing completely at random (MCAR) - blood pressure measurements are missing because of a malfunction of an automatic sphygmomanometer.
+Missing at random (MAR) - blood pressure being lower than measured blood pressure but only because younger people are more likely to have missing blood pressure measurements.
+Missing not random (MNAR) - people with high blood pressure not showing up to clinical appointments because they have headaches.
+In most epidemiological research, missing data is seldomly MCAR. 
+Multiple imputation is heavily emphasized throughout epidemiological research as it provides unbiased valid estimates of associations based on information from already-existing data. 
+Pedersen AB, Mikkelsen EM, Cronin-Fenton D, Kristensen NR, Pham TM, Pedersen L, Petersen I. Missing data and multiple imputation in clinical epidemiological research. Clin Epidemiol. 2017 Mar 15;9:157-166. doi: 10.2147/CLEP.S129785. PMID: 28352203; PMCID: PMC5358992.
+---------------------------------------------------------------------------------------------------------------------
+(3) A review of RCTs in four medical journals to assess the use of imputation to overcome missing data in quality of life outcomes
+The bias in the observed results of data in randomized controlled trials (RCTs) when a substantial proportion of outcome data is emphasized along with the proper protocols to handle the missing data.
+Missing quality of life (QoL) data can be very informative in its own right in cases such as a patient is not well enough to complete questionnaires or take part in interviews.
+Methods of dealing with missing QoL data:
+Simple imputation
+Last value carried forward (LVCF)
+Regression
+Mean imputation
+QoL Outcomes were reported in 61 (21%) of 568 trials. The majority of studies did not impute missing data and carried out a complete-case analysis.
+Fielding S, Maclennan G, Cook JA, Ramsay CR. A review of RCTs in four medical journals to assess the use of imputation to overcome missing data in quality of life outcomes. Trials. 2008 Aug 11;9:51. doi: 10.1186/1745-6215-9-51. PMID: 18694492; PMCID: PMC3225816.
+---------------------------------------------------------------------------------------------------------------------
+(4) Missing data and the trouble with LOCF
+The technique of last observation carried forward (LOCF) and its flaws are emphasized. In LOCF analysis, a missing follow-up visit is replaced by a previously observed value of the subject. The most recent observation is carried over.
+The problem with this is that it assumes that the previous observed value be perpetual in reality and would not change had the subject followed up on the study even though in actuality, there is a difference in the variable that is being measured. 
+Since LOCF carries major obvious flaws, the article suggests that the best way to handle missing data is to use multiple imputation for cross-section data and hierarchical linear modeling for longitudinal data.
+Streiner DL. Missing data and the trouble with LOCF. Evid Based Ment Health. 2008 Feb;11(1):3-5. doi: 10.1136/ebmh.11.1.3-a. PMID: 18223040.
+---------------------------------------------------------------------------------------------------------------------
+(5) Handling missing data: analysis of a challenging data set using multiple imputation
+Step-wise regression in educational research literature is discouraged as it has been shown to be dangerous when significant data are missing and multiple imputation is generally recommended by statisticians.
+The issues of educational longitudinal surveys are illustrated and missing data is collected through subsequent collection and analysis.
+Three recommendations are suggested as to what should be done about missing data in the literature:
+Always report details of missing data
+Adjust results for what is known about the missing data.
+Report the likely sensitivity of the reported results to the distribution of missing observations.
+Three general strategies for analyzing incomplete data:
+Direct analysis of the incomplete data - aka ‘complete case method’, involves the analysis of the observations without accounting for missing data. When missingness is completely random, the estimates produced with this method are unbiased.
+Weighting - Weights can be used to adjust for null values from readability available data or in the case of longitudinal surveys from another time point or wave.
+Imputation - Imputation methods involve replacing missing values with suitable estimates and then applying normal data methods to the filled data.
+In summary, the best procedure for any research facing similar missing data problems is to:
+Identify the missing data
+Investigate missing data patterns
+Define variables in the data set which be related to missing values to be used for imputation model
+Impute missing data to give ‘m’ complete data sets
+Run the models of interest using the ‘m’ imputed data sets
+Combine the ‘m’ models parameters
+Overall, the most important conclusion from this paper is that missing data can have adverse effects on analyses and imputation methods should be considered when this is an issue.
+Maria Pampaka, Graeme Hutcheson & Julian Williams (2016) Handling missing data: analysis of a challenging data set using multiple imputation, International Journal of Research & Method in Education, 39:1, 19-37, DOI: 10.1080/1743727X.2014.979146
+
+Michael’s summaries
+---------------------------------------------------------------------------------------------------------------------
+(1)
+Khan, S.I., Hoque, A.S.M.L. SICE: an improved missing data imputation technique.J Big Data 7, 37 (2020). https://doi.org/10.1186/s40537-020-00313-w
+In this article, Khan and Hoque examine the different methods for data imputation via the Multivariate Imputation by Chained Equation (MICE) package in "R". They delve a little into each command within the package, identifying its function and briefly overviewing the methodology used to operate each command within the package. A few of the commands within this package are: predictive mean matching, Amelia, logistical regression, and polygamous logistic regression.
+Khan and Hoque then introduce their own algorithm, SICE, Single Center Imputation from Multiple Chained Equation. SICE has two variants, one dealing with categorical data and one that deals with numeric. After applying these new algorithms to multiple data sets, they have found that SICE shows better performance over MICE when it comes to categorical and numeric data.  MICE performed better when it came to ordinal data.
+(2) 
+Olinsky, Chen, A. 2003. “The Comparative Efficacy of Imputation Methods for Missing Data in Structural Equation Modeling.” European Journal of Operational Research 151 (1): 53–79. https://doi.org/10.1016/S0377-2217(02)00578-7
+Links to an external site.
+.
+There are five current methods that deal with missing data that are compared within this paper.  Olinsky, et al. mainly focus on structural equation modeling, and use different parameters of sample size and percentage of incomplete data. The methods that are tested are expectation maximum, full information maximum likelihood, mean substitution, multiple imputation, and regression imputation. With the use and analysis of SEM matrices, they are able to analyze each method under the different parameters and find plausible relationships between the parameters.
+ (3)
+Carpenter, JR, Smuk, M. Missing data: A statistical framework for practice. Biometrical Journal. 2021; 63: 915– 947. https://doi.org/10.1002/bimj.202000196
+Links to an external site.
+Throughout this paper, Carpenter and Smoke review the types of missing data, those being, MAR, MCAR, and MNAR. They then go over the reasons to use, efficacy, and validity of using complete record analysis to deal with missing data. After examining CRA, they go into alternative methods to deal with MAR, such as direct likelihood, bayesian approach, and multiple imputation. After overviewing the methods used to deal with MAR, a sensitivity analysis is performed. From the sensitivity analysis, it can be concluded that, although a simple approach to MAR may provide an adequate result, a more sophosticated method may be required.
+ (4)
+Kang H. The prevention and handling of the missing data. Korean J Anesthesiol. 2013 May;64(5):402-6. doi: 10.4097/kjae.2013.64.5.402. Epub 2013 May 24. PMID: 23741561; PMCID: PMC3668100.
+I felt this article was a good place to start my journey into missing data and imputation.  This article goes over different types of missing data (MAR, MCAR, MNAR) and the different techniques used to compensate for the missing data. Then, it provides a brief recommendations sections on how to handle missing data.
+ (5)
+Rachael A Hughes, Jon Heron, Jonathan A C Sterne, Kate Tilling, Accounting for missing data in statistical analyses: multiple imputation is not always the answer, International Journal of Epidemiology, Volume 48, Issue 4, August 2019, Pages 1294–1304, https://doi.org/10.1093/ije/dyz032
+Links to an external site.
+This article dives deeper into multiple imputation and complete case analysis.  It is said through this article that, in most cases, multiple implication is the best technique to handling missing data.  The authors then make the argument that there are some instances where CCA is a better technique to use.  They observe result bias and model efficiency in real life data situations to make their point that MI is not always the best way to handle missing data.
+
+
 #### Description of Data Being Used:
 
 The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
