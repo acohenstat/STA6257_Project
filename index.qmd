@@ -26,7 +26,6 @@ editor:
 
 ## Introduction
 
-
 #### What is missing data?
 
 Missing data occurs when there are missing values in a dataset. There
@@ -61,10 +60,15 @@ MCAR, listwise deletion can be used. There usually won't be bias but you
 are losing some information which may be important.
 
 T-tests and chi-square tests can be used to assess pairs of predictor
-variables to determine whether the groups' means differ significantly
-[@van2020]. If significant, the null hypothesis is rejected; therefore,
-listwise deletion would be wasteful. Alternate methods of dealing with
-the missing data is recommended: either pairwise deletion or imputation.
+variables to determine whether the groups' means differ significantly.
+If significant, the null hypothesis is rejected; therefore, missing data
+is not randomly scattered throughout the data [@van2020]. This implies
+that the missing data is MAR or MNAR. If nonsignificant, this implies
+that the data cannot be MAR (cannot eliminate possibility that it is not
+MNAR--other information about the population is needed). Listwise
+deletion would be wasteful and analysis biased if data is MAR or MNAR.
+Alternate methods of dealing with the missing data is recommended:
+either pairwise deletion or imputation.
 
 Pairwise deletion is when only the missing variable of an observation is
 removed. It allows more data to be analyzed than listwise deletion but
@@ -81,17 +85,36 @@ should be at least equal to the percent of missing data (5% equals 5
 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
 [@ped2017]. There are two types of imputation: single and multiple.
 
-## Methods
+## Imputation Methods
 
 #### Single Imputation
 
 Single or univariate imputation is when only one estimate is used to
 replace the missing data. Methods of single imputation include using the
-mean, the last observation carried forward, and random imputation. These
-imputation methods often result in underestimation of standard errors or
-too small p-values [@don2013]; therefore, multiple imputation is the
-better method because it handles missing data better and provides less
-biased results.
+mean, the last observation carried forward, and random imputation. The
+following is a brief explanation of each:
+
+-   Using the mean to replace a missing value is a straight-forward
+    process. The mean of the dataset is calculated, including the
+    missing value. The mean is then multiplied by the number of
+    observations in the study. Next, the known values are subtracted
+    from the product, and this gives you the missing value.
+
+-   Last Observation Carried Forward (LOCF) is a tehcnique of replacing
+    a missing value in longitudinal studies with a previously observed
+    value (the most recent value is carried forward) [@str2008]. The
+    problem with this is that it assumes that the previous observed
+    value is perpetual when in reality there is a difference. This is a
+    flawed method and causes bias.
+
+-   Random imputation is a method of randomly drawing an observation and
+    using that observation for any missing values. The problem with this
+    is that it introduces additional variability.
+
+These single imputation methods often result in underestimation of
+standard errors or too small p-values [@don2013]; therefore, multiple
+imputation is the better method because it handles missing data better
+and provides less biased results.
 
 #### Multiple Imputation
 
@@ -184,6 +207,24 @@ Perform analysis on each of the m sets
 Average the estimates across m estimates. Calculate the standard errors
 and variance of m estimates. Combine using an adjustment term (1+1/m).
 
+#### Other Methods of Imputation
+
+Regression Imputation [@van2020]
+
+Predictive Mean Matching [@van2020]
+
+Hot Deck (HD) [@tho2022]
+
+Stochastic Regression (SR) [@tho2022]
+
+Random Forest (RF) [@tho2022]
+
+#### Alternative Methods to Impuation
+
+Likelihood and Bayesian Methods [@cao2021]
+
+Weighted Methods [@cao2021]
+
 ## Analysis and Results
 
 ## Data and Visualization
@@ -206,16 +247,19 @@ categorical values of "good" and "bad" to describe the kind of credit
 score each subject has.
 
 ##### Structure:
+
 ```{r}
 str(credit)
 ```
 
 ##### Statistical summary:
+
 ```{r}
 summary(credit)
 ```
 
 ##### Diagnostics
+
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(tidyverse)
@@ -247,40 +291,16 @@ autoplot(model1)
 
 ## Conclusion
 
-[@kan2013]
-
-[@hug2019]
-
-[@car2021]
-
-[@alr2021]
-
-[@oli2003]
-
-[@don2006]
-
-[@ura2020]
-
-[@cha2023]
-
-[@jav2021]
-
-[@cao2021]
-
-[@end2001]
-
-[@tho2022]
-
-[@fan2021]
-
-[@fie2008]
-
-[@str2008]
-
-[@ham2021]
-
-[@yan2005]
-
-[@pam2016]
-
-[@van2020]
+In conclusion, missing data can occur in research for a variety of
+reasons. It is never a good idea to ignore it. Doing this will lead to
+biased estimates of parameters, loss of information, decreased
+statistical power, and weak reliability of findings [@don2013]. The best
+course of action is to impute the missing data by using multiple
+imputation. When missing data is discovered, it is important to first
+identify it and look for missing data patterns. Next, define the
+variables in the dataset that are related to the missing values that
+will be used for imputation. Create the necessary number of complete
+data sets. Run the models and combine them using the imputed values, and
+finally, analyze the complete dataset. Performing these steps will
+minimize the adverse effects caused by missing data on the anaylsis
+[@pam2016].
