@@ -26,6 +26,7 @@ editor:
 
 ## Introduction
 
+
 #### What is missing data?
 
 Missing data occurs when there are missing values in a dataset. There
@@ -113,6 +114,10 @@ be no benefit in using it. Also worth noting is some statistical
 analyses software already have built-in features to deal with missing
 data.
 
+### Description of Data Being Used:
+
+The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
+
 Figure 1: Flowchart of the MICE-process based on procedures proposed by
 Rubin [@wul2017]:
 
@@ -188,6 +193,8 @@ and variance of m estimates. Combine using an adjustment term (1+1/m).
 ## Data and Visualization
 
 ##### Summary of Data
+
+The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
 
 ```{r}
 # Load data
