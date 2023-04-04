@@ -142,7 +142,6 @@ div.csl-indent {
   <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a></li>
   <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
 </div>
@@ -261,8 +260,8 @@ div.csl-indent {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3e4cd22347a7dcc2b468" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-3e4cd22347a7dcc2b468">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-d73a9ff87e0b17697218" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d73a9ff87e0b17697218">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result. It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these types of anomalies.</p>
@@ -378,9 +377,6 @@ div.csl-indent {
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
 <p><span class="citation" data-cites="kan2013">(<a href="#ref-kan2013" role="doc-biblioref">Kang 2013</a>)</span></p>
 <p><span class="citation" data-cites="hug2019">(<a href="#ref-hug2019" role="doc-biblioref">Hughes et al. 2019</a>)</span></p>
 <p><span class="citation" data-cites="car2021">(<a href="#ref-car2021" role="doc-biblioref">Carpenter and Smuk 2021</a>)</span></p>
