@@ -1,6 +1,10 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "Latent Content Analysis"
+<<<<<<< HEAD
+author: "Kameron Standhaft, Daniel Martin, Esra Acar"
+=======
+author: "Kameron Standhaft, Daniel Martin"
+>>>>>>> 4d9c2a787de58cf45c74f95bd36eb0507487945d
 date: '`r Sys.Date()`'
 format:
   html:
