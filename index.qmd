@@ -187,7 +187,11 @@ and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 ## Data and Visualization
 
-##### Summary of Data
+##### Data
+
+The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has. 
+
+Statistical summary of data:
 
 ```{r}
 # Load data
