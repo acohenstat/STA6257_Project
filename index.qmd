@@ -26,6 +26,7 @@ editor:
 
 ## Introduction
 
+
 #### What is missing data?
 
 Missing data occurs when there are missing values in a dataset. There
