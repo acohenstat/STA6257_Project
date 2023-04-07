@@ -131,7 +131,29 @@ less biased results.
 
 #### Multiple Imputation
 
+<<<<<<< HEAD
 Multiple, or multivariate, imputation is when various estimates are used
+=======
+Multiple imputation is an imputation method for missing data which imputes the missing values with random values
+to generate m-amount of datasets with complete cases.
+
+For the purpose of this project, we uitilized Multiple Imputation (MI)
+for the credit dataset (dataset consists of 14 variables: status, home, time, age, marital, records, job, expenses,
+income, assets, debt, amount, price). 
+
+In R which is a statistical programming software, we created 5 datasets with imputed values using the MICE package 
+(Multivariate Imputation by Chained Equations) which can seamlessly impute missing values in a dataset
+by looking at the data from other columns and estimate the best prediction for each missing value.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+#loading packages
+library(mice)
+```
+
+
+
+Multiple or multivariate imputation is when various estimates are used
+>>>>>>> 5975008189f45027f68d36820e9780bf65dc1167
 to replace the missing data by creating multiple datasets from versions
 of the original dataset. It can be done by using a regression model, or
 a sequence of regression models, such as linear, logistic and Poison. A
@@ -281,6 +303,28 @@ Perform analysis on each of the m sets
 Average the estimates across m estimates. Calculate the standard errors
 and variance of m estimates. Combine using an adjustment term (1+1/m).
 
+<<<<<<< HEAD
+=======
+#### Other Methods of Imputation
+
+Regression Imputation [@van2020]
+
+Predictive Mean Matching [@van2020]
+
+Hot Deck (HD) [@tho2022]
+
+Stochastic Regression (SR) [@tho2022]
+
+Random Forest (RF) [@tho2022]
+
+#### Alternative Methods to Impuation
+
+Likelihood and Bayesian Methods [@cao2021]
+
+Weighted Methods [@cao2021]
+
+
+>>>>>>> 5975008189f45027f68d36820e9780bf65dc1167
 ## Analysis and Results
 
 ## Data and Visualization
