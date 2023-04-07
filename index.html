@@ -9,7 +9,7 @@
 <meta name="author" content="Javier Estrada">
 <meta name="author" content="Michael Underwood">
 <meta name="author" content="Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-04-04">
+<meta name="dcterms.date" content="2023-04-07">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -137,7 +137,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#imputation-methods" id="toc-imputation-methods" class="nav-link" data-scroll-target="#imputation-methods">Imputation Methods</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a></li>
   <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a></li>
   <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
@@ -170,7 +170,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 4, 2023</p>
+      <p class="date">April 7, 2023</p>
     </div>
   </div>
     
@@ -191,36 +191,36 @@ div.csl-indent {
 <li><p>Missing at random (MAR) is the probability of missing data being related to the observed values.</p></li>
 <li><p>Missing not at random (MNAR) is the probability of missing data being dependent on the missing and observed values.</p></li>
 </ul>
-<p>The problem with ignoring missing data is that it does not give a true representation of the dataset and can lead to bias when analyzing. This reduces the statistical power of the analysis <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. To enhance the quality of the research, the following should be followed: explicitly acknowledge missing data problems and the conditions under which they occur and employ principled methods to handle missing data <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. There are two ways to handle missing values: delete or impute.</p>
+<p><img src="GraphicalRepresentation.png" class="img-fluid"></p>
+<p>Figure 1: Graphical Representation of Missingness Mechanisms <span class="citation" data-cites="sch2002">(<a href="#ref-sch2002" role="doc-biblioref">Schafer and Graham 2002</a>)</span></p>
+<p>(X are completely observed values. Y are partly missing variables. Z is the component of the cause of missingness unrelated to X and Y. R is the missingness.)</p>
+<p>These categories are important in determining how to handle the missing data. The problem with just ignoring any missing values is that it does not give a true representation of the dataset and can lead to bias when analyzing. This reduces the statistical power of the analysis <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. To enhance the quality of the research, the following should be followed: explicitly acknowledge missing data problems and the conditions under which they occur and employ principled methods to handle the missing data <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. There are two ways to deal with missing values: delete or impute.</p>
 </section>
 <section id="deleting-missing-data" class="level4">
 <h4 class="anchored" data-anchor-id="deleting-missing-data">Deleting missing data</h4>
-<p>Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but you are losing some information which may be important.</p>
-<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly. If significant, the null hypothesis is rejected; therefore, missing data is not randomly scattered throughout the data <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. This implies that the missing data is MAR or MNAR. If nonsignificant, this implies that the data cannot be MAR (cannot eliminate possibility that it is not MNAR–other information about the population is needed). Listwise deletion would be wasteful and analysis biased if data is MAR or MNAR. Alternate methods of dealing with the missing data is recommended: either pairwise deletion or imputation.</p>
+<p>Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but potentially important information may be lost.</p>
+<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly. If significant, the null hypothesis is rejected; therefore, indicating that the missing values are not randomly scattered throughout the data <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. This implies that the missing data is MAR or MNAR. If nonsignificant, this implies that the data cannot be MAR (this does not eliminate the possibility that it is not MNAR–other information about the population is needed). Listwise deletion would be wasteful and analysis biased if data is MAR or MNAR. Alternate methods of dealing with the missing data is recommended: either pairwise deletion or imputation.</p>
 <p>Pairwise deletion is when only the missing variable of an observation is removed. It allows more data to be analyzed than listwise deletion but limits the ability to make inferences of the total sample. For this reason, it is recommended to use imputation to properly deal with missing data.</p>
 </section>
 <section id="what-is-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="what-is-imputation">What is imputation?</h4>
-<p>Imputation is the method of replacing missing data with an estimate obtained from the original available data so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.) <span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen et al. 2017</a>)</span>. There are two types of imputation: single and multiple.</p>
+<p>Imputation is the method of replacing missing data with an estimate obtained from the original, available data so there is a full data set to analyze. To improve statistical power, the number of imputations created should be at least equal to the percent of missing data (5% equals 5 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.) <span class="citation" data-cites="ped2017">(<a href="#ref-ped2017" role="doc-biblioref">Pedersen et al. 2017</a>)</span>. There are two types of imputation: single and multiple.</p>
 </section>
-</section>
-<section id="imputation-methods" class="level2">
-<h2 class="anchored" data-anchor-id="imputation-methods">Imputation Methods</h2>
 <section id="single-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="single-imputation">Single Imputation</h4>
-<p>Single or univariate imputation is when only one estimate is used to replace the missing data. Methods of single imputation include using the mean, the last observation carried forward, and random imputation. The following is a brief explanation of each:</p>
+<p>Single, or univariate, imputation is when only one estimate is used to replace the missing data. Methods of single imputation include using the mean, the last observation carried forward, and random imputation. The following is a brief explanation of each:</p>
 <ul>
-<li><p>Using the mean to replace a missing value is a straight-forward process. The mean of the dataset is calculated, including the missing value. The mean is then multiplied by the number of observations in the study. Next, the known values are subtracted from the product, and this gives you the missing value.</p></li>
-<li><p>Last Observation Carried Forward (LOCF) is a tehcnique of replacing a missing value in longitudinal studies with a previously observed value (the most recent value is carried forward) <span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span>. The problem with this is that it assumes that the previous observed value is perpetual when in reality there is a difference. This is a flawed method and causes bias.</p></li>
-<li><p>Random imputation is a method of randomly drawing an observation and using that observation for any missing values. The problem with this is that it introduces additional variability.</p></li>
+<li><p>Using the mean to replace a missing value is a straight-forward process. The mean of the dataset is calculated, including the missing value. The mean is then multiplied by the number of observations in the study. Next, the known values are subtracted from the product, and this gives an estimate that can be used for any missing values. The problem with this method is that it reduces the variance which leads to a smaller confidence interval.</p></li>
+<li><p>Last Observation Carried Forward (LOCF) is a tehcnique of replacing a missing value in longitudinal studies with a previously observed value (the most recent value is carried forward) <span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span>. The problem with this method is that it assumes that the previous observed value is perpetual when in reality that most likely is not the case.</p></li>
+<li><p>Random imputation is a method of randomly drawing an observation and using that observation for any of the missing values. The problem with this method is that it introduces additional variability.</p></li>
 </ul>
-<p>These single imputation methods often result in underestimation of standard errors or too small p-values <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>; therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.</p>
+<p>These single imputation methods are flawed. They often result in underestimation of standard errors or too small p-values <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>, which can cause bias in the analysis. Therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.</p>
 </section>
 <section id="multiple-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="multiple-imputation">Multiple Imputation</h4>
-<p>Multiple or multivariate imputation is when various estimates are used to replace the missing data by creating multiple datasets from versions of the original dataset. It can be done by using a regression model, or a sequence of regression models, such as linear, logistic and Poison. A set of <em>m</em> plausible values are generated for each unobserved data point, resulting in <em>m</em> complete data sets <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. The new values are randomly drawn from predictive distributions either through joint modeling (JM, which is not used much anymore) or fully conditional specification (FCS) <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span>. It is then analyzed and the results are combined to obtain a single value for the missing data.</p>
+<p>Multiple, or multivariate, imputation is when various estimates are used to replace the missing data by creating multiple datasets from versions of the original dataset. It can be done by using a regression model, or a sequence of regression models, such as linear, logistic and Poison. A set of <em>m</em> plausible values are generated for each unobserved data point, resulting in <em>m</em> complete data sets <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. The new values are randomly drawn from predictive distributions either through joint modeling (JM, which is not used much anymore) or fully conditional specification (FCS) <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span>. It is then analyzed and the results are combined to obtain a single value for the missing data.</p>
 <p>The purpose of multiple imputation is to create a pool of imputed data for analysis, but if the pooled results are lacking, then multiple imputation should not be done <span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer et al. 2023</a>)</span>. Another reason not to use multiple imputation is if there are very few missing values; there may be no benefit in using it. Also worth noting is some statistical analyses software already have built-in features to deal with missing data.</p>
-<p>Figure 1: Flowchart of the MICE-process based on procedures proposed by Rubin <span class="citation" data-cites="wul2017">(<a href="#ref-wul2017" role="doc-biblioref">Wulff and Jeppesen 2017</a>)</span>:</p>
+<p>Multiple imputation by chained methods, otherwise known as MICE, is the most common and preferred method of multiple imputation. For this reason, the rest of this paper will focus on this method and variations of it.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -228,16 +228,17 @@ div.csl-indent {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Figure 2: Flowchart of the MICE-process based on procedures proposed by Rubin <span class="citation" data-cites="wul2017">(<a href="#ref-wul2017" role="doc-biblioref">Wulff and Jeppesen 2017</a>)</span></p>
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">"digraph {</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st"># initiate graph</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">graph [layout = dot, rankdir = LR, label = 'The MICE-Process</span><span class="sc">\n\n</span><span class="st">',labelloc = t, fontcolor = DarkSlateBlue]</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">graph [layout = dot, rankdir = LR, label = 'The MICE-Process</span><span class="sc">\n\n</span><span class="st">',labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st"># global node settings</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">bgcolor = none</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st"># label nodes</span></span>
@@ -266,11 +267,33 @@ div.csl-indent {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8784a957ecc3bd64ecc3" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-8784a957ecc3bd64ecc3">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-259e63366e23e5c2a736" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-259e63366e23e5c2a736">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
+</section>
+<section id="other-methods-of-imputation" class="level4">
+<h4 class="anchored" data-anchor-id="other-methods-of-imputation">Other Methods of Imputation</h4>
+<p>Regression Imputation <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
+<p>Predictive Mean Matching <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
+<p>Hot Deck (HD) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
+<p>Stochastic Regression (SR) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
+<p>Random Forest (RF) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
+</section>
+<section id="alternative-methods-to-impuation" class="level4">
+<h4 class="anchored" data-anchor-id="alternative-methods-to-impuation">Alternative Methods to Impuation</h4>
+<p>Likelihood and Bayesian Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
+<p>Weighted Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>Multiple imputation is an imputation method for missing data which imputes the missing values with random values to generate m-amount of datasets with complete cases.</p>
+<p>For the purpose of this project, we uitilized Multiple Imputation (MI) for the credit dataset (dataset consists of 14 variables: status, home, time, age, marital, records, job, expenses, income, assets, debt, amount, price).</p>
+<p>In R which is a statistical programming software, we created 5 datasets with imputed values using the MICE package (Multivariate Imputation by Chained Equations) which can seamlessly impute missing values in a dataset by looking at the data from other columns and estimate the best prediction for each missing value.</p>
 <p>Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result. It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these types of anomalies.</p>
+<p>The chained equation process can be broken down into four general steps:</p>
+<p>Step 1: A simple imputation, such as imputing the mean, is performed for every missing value in the dataset. These mean imputations can be thought of as “place holders.” Step 2: The “place holder” mean imputations for one variable (“var”) are set back to missing. Step 3: The observed values from the variable “var” in Step 2 are regressed on the other variables in the imputation model, which may or may not consist of all of the variables in the dataset. In other words, “var” is the dependent variable in a regression model and all the other variables are independent variables in the regression model. These regression models operate under the same assumptions that one would make when performing linear, logistic, or Poison regression models outside of the context of imputing missing data. Step 4: The missing values for “var” are then replaced with predictions (imputations) from the regression model. When “var” is subsequently used as an independent variable in the regression models for other variables, both the observed and these imputed values will be used. Step 5: Steps 2–4 are then repeated for each variable that has missing data. The cycling through each of the variables constitutes one iteration or “cycle.” At the end of one cycle all of the missing values have been replaced with predictions from regressions that reflect the relationships observed in the data. Step 6: Steps 2–4 are repeated for a number of cycles, with the imputations being updated at each cycle.</p>
 <section id="step-1" class="level5">
 <h5 class="anchored" data-anchor-id="step-1">Step 1</h5>
 <p>Evaluate data and select independent variables</p>
@@ -288,20 +311,6 @@ div.csl-indent {
 <p>Average the estimates across m estimates. Calculate the standard errors and variance of m estimates. Combine using an adjustment term (1+1/m).</p>
 </section>
 </section>
-<section id="other-methods-of-imputation" class="level4">
-<h4 class="anchored" data-anchor-id="other-methods-of-imputation">Other Methods of Imputation</h4>
-<p>Regression Imputation <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
-<p>Predictive Mean Matching <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
-<p>Hot Deck (HD) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-<p>Stochastic Regression (SR) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-<p>Random Forest (RF) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-</section>
-<section id="alternative-methods-to-impuation" class="level4">
-<h4 class="anchored" data-anchor-id="alternative-methods-to-impuation">Alternative Methods to Impuation</h4>
-<p>Likelihood and Bayesian Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
-<p>Weighted Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
-</section>
-</section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
 </section>
@@ -310,9 +319,15 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>#BlackLivesMatter</code></pre>
+</div>
 </div>
 <section id="description" class="level5">
 <h5 class="anchored" data-anchor-id="description">Description</h5>
@@ -320,14 +335,569 @@ div.csl-indent {
 </section>
 <section id="details" class="level5">
 <h5 class="anchored" data-anchor-id="details">Details</h5>
-<p>The credit_data.csv file contains data of 4454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has.</p>
+<p>The credit_data.csv file contains data of 4,454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has.</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Status</td>
+<td>Character</td>
+<td>Describes credit score of subject: “good” or “bad”</td>
+</tr>
+<tr class="odd">
+<td>Seniority</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Home</td>
+<td>Character</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Time</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td>Integer</td>
+<td>Age of subject in years</td>
+</tr>
+<tr class="odd">
+<td>Marital</td>
+<td>Character</td>
+<td>Marital status of subject: “married” “single” “widow”</td>
+</tr>
+<tr class="even">
+<td>Records</td>
+<td>Character</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Job</td>
+<td>Character</td>
+<td>Type of job of subject: “fixed” “freelance” “partime”</td>
+</tr>
+<tr class="even">
+<td>Expenses</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Income</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Assets</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Debt</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Amount</td>
+<td>Integer</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Price</td>
+<td>Integer</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mice'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    cbind, rbind</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>credit<span class="sc">$</span>Income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [1] 129 131 200 182 107 214 125  80 107  80 125 121 199 170  50 131 330 200
+  [19] 130 137 107 324 112 140 143 130 180 251  85  NA 150 122 198 150 170 119
+  [37] 208 115  99 120  90 137 230 142  71 120 233 289 128 150 145  90 301 200
+  [55] 150 100 100 100 155 715 245 150  70 190 152 126 181 185 170 176 238 115
+  [73] 200 411  93 108 500  45 250 100  70 150  70 263 200  78 120 125  50 146
+  [91]  70 105 413 500 350 200 138  80 208 137  58 130 123 180 140 315 164 325
+ [109] 135 109 185 217 300  NA 253 101 200 124 143 250 135 115 160 214 390 500
+ [127]  95 200  85 214 140  60 180 300 200 242 155 100 105 166 120 115 350  NA
+ [145] 442 101 122 250  90 160 300  83  NA  60 205 133 179  NA 195 112 210 155
+ [163] 394 149 120 400 165 125  74  86 185 165 110 138 300 147  NA 112 350 110
+ [181]  75 230  85 210 125 149 201 105 183 113 126 300 160 160  NA  95 125 120
+ [199] 359  80  67 148 298 318 185  NA 194  80 147 156 178 130  63  88 140 115
+ [217]  83 144 200 172 200 318 177 133 150 208 145 157 190  86  90 100 214 100
+ [235] 117 110 168 150 166 337  NA  NA 250 120 236 277  55 200 235  80 200 140
+ [253] 125 185 190 150 102 170 315 130 156 177 341 240 142 333 125 170 220 230
+ [271] 157 340 120  91 150  88 120  NA 106 162  77 128 189 300  92 380 500 130
+ [289] 141 220 146 250 132 150 127  90 166  69 182  77  50 131  62  60  86 143
+ [307] 120 283 138  90  99 160 330 100 210 100  97  NA 227 140 115 150  90 275
+ [325] 176 110 140 500  66  NA 145  67  NA  80  NA 200 154 187 135 160 133 230
+ [343] 154  50 189 202  20  40  50 125 100 115 160  70 220  NA 107 160 150  NA
+ [361] 120 225 100  80 208 105  98 532 140  90 155 120 159 122 156  90 130  45
+ [379] 118 152 135 125 208  81 160 300 135 121 145 165 428 233 245  NA 200  42
+ [397]  87 200 250 350 105 100 160  NA 140 160 148 113  97 107 206 275 176 175
+ [415] 223  70  87  42  60 300 144  NA 180  69 110  50  86 172 109  95 203 114
+ [433] 186 155 195 246 113 290  NA 125 199 133 210  NA  78 200 100  95 183  43
+ [451] 120 198 100 150 133 110 202 140 123 275 200  NA  55 105 146 100 136  90
+ [469]  NA 116 128 105 125  68 400 251 225 140  NA 320  NA  87  NA  90  NA 110
+ [487]  87  93 110  81  98 155 167 190 110  NA 170  NA  70  55  80  81 139 206
+ [505]  NA 120 300 224  80 166 110 161  80 150 170 100 225 166 200 110 110 160
+ [523] 204 135 158 290 100 115 149 143 150 199 142  80  93 113  92 205 210 256
+ [541] 260 106 160 148 220  63 106  81 100 260 243  88 186 105  80 154  35  63
+ [559] 297 161 200 140 125  78  57 300  NA 202 175 150 158  NA 123 125 113 167
+ [577] 148 156 123 143 180  NA 150  92 139 250 315 121 180 129 214  99 110  85
+ [595] 138  93 100 160 215  90 464 167  86 125 274 135 300 300 128  90 115 107
+ [613] 300 230 122  43 250 190 100 246  85 173 150  86 183 100  94 150 140 107
+ [631] 117 230 470 102 210  42 130  90 120 117 160  90  50 100 182 135  67  NA
+ [649] 137 140  85 324  NA 100  42 251 180 400 158 300  90 146 255 250  50 150
+ [667]  NA 190 178 254 110  70 100 137  NA 242  85  NA 125 500 140  70 150 245
+ [685] 193 110  70 115  85 400 130 120 250 108 225 300 250 150  NA 319 100  51
+ [703] 145 168  54 100 115  NA 180  63 130 170 157  NA  64  NA  35 150  65 100
+ [721] 160 215 112 126 150 136 123  80  72 110 111  60  NA  NA 290 173 125  60
+ [739] 160 126 148 170 230 166  67  NA  80  60  91  96 180 130  67 100 830 125
+ [757]  30 237 152  95 139 145 300 135  80 100 275 250 125 100 130 131 350 538
+ [775] 276 107  NA 156 110 260  NA  81  76  98  NA 132 105 300 117 119 140  70
+ [793] 265 180  62 189  75  70 188 150 124 113  98  NA 195 159 959 170  28 268
+ [811] 155 240 500 135 225 100 190 200 154 210 145 210 102  NA  75 150 120  36
+ [829] 129 125 156  72 166  75 125 250 128 155 459 360 100  80 250 105 300 137
+ [847] 110 127  56  75  52 100 170 150 188 175  64 110 186 140 200 135 130 200
+ [865]  NA  NA  90 175 197 125 170 247 250 130 207  65 180 250 129  NA 116  88
+ [883] 120 100 100 113  80 150  NA  71  99  63 166 108 134 138 110 160 176  70
+ [901]  60 130 176 130 108  NA 150 183 108 200 180  NA 130 140 141 127 117 130
+ [919] 240 425 800  80  95  71 135  47 250 150 118 130 125 171 265 100  69 293
+ [937]  87 110  75  40 140  NA 161  70  65  66  73 178 140  50  78  NA 350 140
+ [955] 125 121 155 133 117 125 136  25 176 430 125  79  92 176  85 188 300 100
+ [973] 120  60 125 464 176  90 200 415 318 163  72 156  49 110 140  92  NA 145
+ [991] 104 400  95 150 160 177  85 380 107 134  NA 191 100 110 225 100 217 176
+[1009] 254 126 200 101 119 152 113 119  NA  75  80 137 107  62  62 125 190 124
+[1027] 144 184 100  80 129 225 191 150 127 283 195 114  NA 100 113 178 100  NA
+[1045] 310  86 139  94 135 110 145  53 229 285 240  86 165 129 131  69 123 208
+[1063] 133 500 102 150 100 110  NA 120  78 187 428  60 116 114 208 123  64 350
+[1081]  85  90 250 173 135 210  80 173 130 112  70 116 165 116  25 130  52  78
+[1099] 148  NA  74 138 155 247  85  42 157 236 137 152  NA 167 330 250  80 200
+[1117]  84 200 187  70 120  80  41  57  NA  70 250 222 150 175 138  72 136  40
+[1135] 130 190 243  98 126  55  88 181  77 110 125 225  74 115 137 202 135 145
+[1153]  54  80 140  90  32 130 285  75 150 172 300  73 165 300 217  NA  90 100
+[1171] 217  62  60 117  73  86  67 165 166  82  90 327 145 202 150 223 325 143
+[1189] 100 124 110 120 107  83 162 245 243  76 400 106 120 122  80 120 200 191
+[1207]  67  NA 210 110  45 150 100 345 122 110  90  76 340 185 101 196 158 221
+[1225] 133  NA 150 390 146 478  90 169 100  90 160 222 111 111 168 215  94  63
+[1243] 280 220 126 120  90 191 148  NA  88 150 115  76 145  69  NA  60  73 112
+[1261]  95 150 250  46  60  92 120 231 175 160 109 247 140 100 115  NA  63  79
+[1279] 333 183  NA  25 159 292 160 135 120 135  NA 209 100 148 130 101  49 200
+[1297]  NA 114  53 132  42  90 606 141 141  68  NA 165  70  70  60 241 426  NA
+[1315]  74 180 154  63 289 190 147 198 400 130 140 100 143  87 171 203 154 130
+[1333]  90  92  NA 210 115  80 110  86 117 138  88  54 166 364  65 109  57  99
+[1351] 227  57  80  70 105  65  45  72  80 157 117 100 130  NA  NA  NA 113 450
+[1369]  50 450  87 180 132 150 189 125  64 145  67 127 160  63  60  67  88 170
+[1387] 145  60  92 195  80  NA  42 125 161 117 164  75  85 120 240 250  78 102
+[1405] 152  96  92 199  71  80 190 200 140 140 114 140 140  90 424 155  NA 175
+[1423] 180  50 113 100  NA 905  52 157 400 157  NA 120 162  NA  NA  78 195 400
+[1441]  NA 166 135 204 155 120 130 356 230 100 130 145  81 136 200  NA 157  76
+[1459] 200 128  90  41 125 100 250  47  57  78 100 102 133 104  NA 500 100 150
+[1477] 115  38  67 123  85  60  82 345 142 107 161  63  79  93 137  74 131 113
+[1495]  30 154 164  84 199 120 234 275 250 110  65 200 300  58  NA 139 208  99
+[1513]  NA 140  78  79  80  85 121 250 104  78 157 192 103  75 177  75 210  NA
+[1531] 105  68  50 128  NA  NA 189 139 125 100  50 155 128  NA 183 160 160  75
+[1549]  NA  77 207 180 132 128  96  70 125  81 150 175 112  80  73  NA 186 391
+[1567]  80 280 136  70 199 150 140 175 125  78  75 210 125  NA 100 100  NA 110
+[1585] 180  79 183 205 118 117 135 113  60  85 135 146 150  NA  NA 110 132 177
+[1603]  74 112 125 220  96 100 200 100 196 152  86 113 200 150  95 160  NA 450
+[1621] 127  51  70  70 213  70 280 195  NA 138 205 137  79  95  80 134  65 159
+[1639]  40  70 115  67 102 125 180 240 250  NA 170 116 225  54 124 123  95 160
+[1657] 115 218 301 293 128  NA  25  96  98  55 154 105 117 318 219 102 250 107
+[1675]  60  83  NA  93 105  70 117 183 120  90  NA 200  74 313 197 320 210  40
+[1693] 250 110 134  19 131 260 100 101  69  52 128 122 150 211 109 139 140  88
+[1711]  60  39 120 161  90 110  60 154  97 178 104  NA 500  NA 200 144  80 137
+[1729] 218 129 196 182  NA  47 325  90  92 250  62 146  NA 105 100  77  NA  54
+[1747] 149  56 251  65 160 300  NA 118 174  86 233 285 105 122 160  NA 160 157
+[1765]  65  NA 105 120 130 154  NA 160 128 187 120 200 142 107 126 144  90  55
+[1783] 208 121  51 148 116 152 118  80 120 100 144  90 150  87  50  NA 250 112
+[1801] 121  NA  NA 143 250 244  NA 194 210 257  NA  92 175  90 171 159 166 100
+[1819] 100 160  59 142  53 305 185 142 107 153  66  65 111 100 131 125 110 113
+[1837]  80  93 227  81 110  44 175  NA  58 124 140 117 140 157  NA  NA 228  50
+[1855] 300 100 153 100 142 151  73 134 125 160 120  86 100 190 200  NA 126  NA
+[1873] 155 170 200  87 104 102 101 150  75  NA  NA 104 165 129 160 198  71 162
+[1891]  61 156  NA  95 200 158 110  NA  89  68  31 125  NA 155 110  82  NA  70
+[1909] 124 223  82 100 275 150 117 265 100 382  86  NA  70 120 100  85 125  60
+[1927] 150 110 144 122  75  60  80  78 125  NA  60 366 230 217  60 101 175 130
+[1945] 130  NA  97  NA 126  56 153 150 208 248 123  68 250 165 130 185  83  NA
+[1963]  NA 190  NA 110 126 173 147  NA 160  NA 300 150 150 120  NA 108  NA  NA
+[1981] 155 147  46  NA 112  89 120 145 115 138 125 157  43 373  75 110 174 148
+[1999] 187  90 224 178 133 185  70  NA 160 857 150 106 120 100 120  61  79  NA
+[2017] 146 118  69 130 113  NA 150  92  NA 100  60  53  59 165 111  93  50 111
+[2035]  60  68  60  60 117 110  65  NA  NA 177  90 150 120 150 180 320 260 140
+[2053] 182 129  88 350 190  70  80 140 112 150 112 100  85 162  95 400 700  72
+[2071] 100 100  64 124  80  NA  NA 206 213 120  97 180  NA  70 103 157 179  69
+[2089] 250  53  52 145  70 113 303 291 180 136 140 105  94 219  66  92  70 142
+[2107] 138 230 142 216 260  60  63 139 300  65 167 120  80 100 240 178  92 250
+[2125]  70 120  89  41 212 113 180 172  46  50  80 254 160 130 100 184 133  66
+[2143] 120  98  45 171 118 205 145 135 125 117 260 251 130  NA  NA 185 148 200
+[2161] 200  61 150 170 115 215  60 150 144  75  70 120 222 120 165 250  65  94
+[2179] 141 150  66  82 156 114  92  NA  74 178 150  59  60 110 150 154 220 115
+[2197]  NA 113 198  80  77 219 310 175  NA 179 185 210  77  33  70  83  17 176
+[2215]  65  76 110  NA 170  95  95  40 165  50 164 150  NA  90 200 100 110 150
+[2233]  NA 121 120 106 100  79  98  NA  90 210 160 120 211  80  70  67  71  92
+[2251] 158 115  80 176 321 112  NA  75 100  75  80 170 140 120 100 200  50  83
+[2269]  75  62 220 100 137  97 100 170 151 115 153  NA  67 135 177 140  85  95
+[2287] 119 145 100 200  NA  96  85  60 152  70  NA 138 187 110 148  89 106  NA
+[2305] 198  40 100 145  80  NA 208 212 169 120 180 136 130 205 148 174  90  68
+[2323]  NA 169 103 121 100  54 114  81  NA  65 250  90 103 164  NA 129 150  80
+[2341]  90  95  92  47 115 115 130 190  NA  58  75 260 136 152 209 186  90 120
+[2359] 110  80 132 245 200  66  NA   6 185 144  NA 108  50  80 120 168 183  90
+[2377] 156 102 142 280 195  79 220 122  87 114  NA 187  26 491 250 204 165 130
+[2395]  79  NA  96  85  NA  66 155  NA 100  NA 140 158 144 340 250 296 139 110
+[2413]  70  87 108  90  56 235  60 225  89  80  63 250 143  73 126 101  60 169
+[2431] 193  90 116  60 107 150  NA 319  90 122  93 121  93 162  NA  NA  51 135
+[2449]  60 106 160  76  NA 115  60 173  90 365 154  NA 100  70  75  60 128 120
+[2467]  NA 113  71 120  55  90  NA 154  16 416 105 210 146 150 105 148  84  60
+[2485]  80 226 130 100 175  NA 163 131 125 212  NA 104  65  75 126  91 103 100
+[2503] 164 131  NA  85  60  48 312  80  83  77  63  31 108  68 120 213 450 145
+[2521]  90 114 104 240  45  70  85  82  80  66  82  99  46 178 147 280  75 190
+[2539] 240 280  62  90  96 159 155  78 283 130  80 129 122  65 127 125 260 158
+[2557] 163 131 140 132  66 140 150 110  59  NA 139 100 135 137 120  NA  87 142
+[2575]  65 464  83  NA 126  66  90  84  61  NA  55 185  85 101 180 220 142  91
+[2593]  57  62  27  NA 176 124 128  92 100 300 167 222  NA  80  50 138 187 140
+[2611]  58  83  38  NA  35  84  95 104 390 209  71 200  48  NA  NA  82 126 111
+[2629]  87 535  NA  NA 270  53  49 140  67 189  80 170 110  98  67 120 150  62
+[2647] 100 160 205 115  NA  NA  NA 110 531 145 120 100 167 245 100 190 125  90
+[2665] 205  51 144  NA 235 160  90 115 213  85 192  NA  90  61  75  80  NA 178
+[2683]  NA 180 120 349  99 122 111  91 109  35 371  67  NA  NA  57  70  63 204
+[2701] 185 115 141  81 100  96  NA 150 199  96 198  21  70  50 121  58  93 100
+[2719] 130  NA  55 110  NA  95  NA  35 156 105  58  NA 147  77  66 125 150 105
+[2737] 500 125  50  95 181 140  75 182 117 217  58 180 110  87  75 198 233 126
+[2755]  43 154 160 160  70 120  80  90 120 190 130 111 280 110  NA 150 150  85
+[2773] 200  88  58  98 198 171 150  NA  NA 122 306 200 107 147 100 172 300 109
+[2791] 345  92 410  70 107 115 165 200 180  87 154  NA  60 182  NA  NA  NA  85
+[2809] 115  NA 215 273  NA 110  NA  57 163 120  52 136  82 124 265 189  NA 230
+[2827] 260 111 125 440 200 245  88  92  92 130 150 112 134 101 143  92 150 162
+[2845]  45 100 118  72 129 110  80  97 103  NA  96  94  93 148 274 140  77  91
+[2863]  85 175 466 150  52  72  NA 139 105  93 642 155 120 155 165 150 105  65
+[2881]  86  NA 163  NA 122 126 100  27 167  45 136 150  NA 130 218 230 104 103
+[2899] 118 240 120  80  99 254 167 120 108 152 111 228 107 101 105 150  NA 125
+[2917] 240 110 122 152  60  90  40 186 131 153  NA 100 128 128 109 198 190  73
+[2935]  NA  NA 160 122  NA 130 169 150 142 101  65 285 151  72  80  71  NA 135
+[2953] 202  NA  25 110 103 216  75 114 198 270 200  64  90 132  70 164  NA 179
+[2971]  NA 164  25 111 123 384 217 234  NA 113 182 126  NA 170 184 147 200  42
+[2989]  69  93  NA 245  88 150  42  NA 176  64  NA  55  97 230 125  92  87 126
+[3007] 134  NA  85 203  47 230 102  NA 116 352 170  92 112 138  NA  90  84  72
+[3025] 200  NA 136 125  78 140  NA 197 122  85  87  93  86  NA  53  NA  91 105
+[3043] 147 335 173 147 260 100 264 132  53 123 292 100 135  90  60 152 145  80
+[3061] 110 172 115 190  56 298  72  80  NA 233 355  32  49 185 115  73 119 219
+[3079] 105  NA 134  40 184  90 119 170 118  85  95 133  81 190 191  70 127  NA
+[3097] 142 125 178 240 125  80 200  NA  70  NA 110 132 168  NA  19 100 130  95
+[3115]  70 383  63 215 104 164  NA  53  NA 142 182  92 100 121 130 123  78  41
+[3133] 113 160  86 100 100  92  NA 194 135  65 189 200 158  97 180 180 119 130
+[3151] 139 117 145  57 210 296 150 100 205  93  84  77 140 141  86 125  NA  93
+[3169]  42  NA 100 211  68 240 112  85 122 250 325  55  47 120  NA  39  NA 150
+[3187]  NA 109  77  65 140 107 181  77 241 350 149 203 158  90 150  93  NA  95
+[3205] 218 214  70 125 110 140  79 123 120 100  85  75  77  NA  55  60 173  NA
+[3223] 105  95  75 158 346  61  NA  72 207 195  NA 105 103  75  NA  97 135  80
+[3241] 121  71 125 170  NA 190 475  89 140 200  88  NA 180  83 110 100 125 159
+[3259] 105 140 120 100 142 314  64  NA  50 120 250 130 142  88 121  65  80 125
+[3277] 245 247  80 183 163  60 169  96  59  NA 119  NA 102  72 127  51 130  83
+[3295] 100 115 160  98 120  82 115 137  48  NA  72 143 107 180  65  NA 103 120
+[3313]  60  80  87  NA 143 125  70 290 350 151 139 178  NA 352  24  80 102 175
+[3331] 140 114 176  73 233  NA  73  NA 120  82  75 250  50 195  NA  90 178 274
+[3349]  85 195  70  NA 150 108 150 335 151 109 125 160  82 199 111 310  NA  57
+[3367]  95 103 120  65  90 116  75  93  90  64 190  95  76  74  78  NA 108 212
+[3385] 128 155  83 100 179  85  96  33 101 178  85  47  88 156  45 121 295 120
+[3403] 188 131 181  72 150 100 131  62 125  62 158 270 150 149 225 138 100 153
+[3421] 141 170  59  67  65 400 175 110 128  95 114 130  NA 100 142 164 150 320
+[3439]  NA 211 105 111  70 125  40  45 180  85 187 100  NA  NA 192  NA 174  NA
+[3457] 100 178 108 100  NA  NA 150 165 108  67 120  88  75 200 232 129  NA 100
+[3475]  85  92  NA  NA 110  80 143 105  88 124 184 100  50  80 292 100 130 150
+[3493] 183  NA  91 107 125  45  30  64 116 140  61  86  89 165  67  95 121 128
+[3511]  90 103  NA 130 229 143  65 163 162 154  55  53  NA 192  NA 115  90 175
+[3529]  60 114 110 130  92  NA  68 130 103 200 170 270  82  79 139 205 100 188
+[3547] 135 200  92 120 172  44 169 115 180  NA  86 130 200 167 100  73  22  83
+[3565] 122 116 100 117 135  72 266 293  98  57 116 200 104 225 141 145  45 146
+[3583] 225 142 161 105 121 436  76  37 148 214 174 400 120 210 155 185 244 130
+[3601] 167 145 149  78 266 175 169 170 140 271  91  75 162 135 147 177 102 200
+[3619] 130 150 125 108 150 142 188 140 122 112 110 106 150 105  72 106  65 300
+[3637]  92 100 118  71  NA 101 164  57  NA 140 180  80  81 114 350  73 107 120
+[3655] 110 130  NA  96 114 175  72 140 115  66 124 201  80  90 110 122 315 270
+[3673] 200  NA 242 364 182 105  NA 225 100  85 100 250 150 178 256  85  82 220
+[3691]  NA  61  88 244 160 119  63 257 189 123 130 113 102  NA 190 110  80  98
+[3709]  NA 147 250  95 230  NA 130 104  NA 128 120  66 247  63  66  70 140 178
+[3727] 203  87 555  NA  95  55 140  85 198 130  80 200  95  NA 224 168 179 107
+[3745] 160 111  80 110 108 181  67  25 150 170 150 294 100 100 192 100 171 245
+[3763]  NA 110  70  72 133  NA 250 196  92 325  NA 110 157 162  70 175  86  69
+[3781] 148 129 150 102 140 120  66 115  84 128 155 140 230  NA 140 207  75 250
+[3799] 200  NA 135 143  90 102 250 162 140 235  60 124  70 140 100 184  90 116
+[3817]  57 210  53 111 200 160  NA 159  NA  67 109  59  74 106  48  62  70 150
+[3835]  95 202 100 115 164 155 150 165 108  93 133  55 148 130 120  NA  99 120
+[3853] 250  37  NA  74  NA  NA  70  79 105 102  50 160 120 107 253 155 130 120
+[3871] 124  75 150 100  78  60 419 112 147 165 160  NA  34  73  98 123  NA 100
+[3889]  56  90 294  NA  80 112 100 115  67 375 113  53  73  NA 196  56 200 102
+[3907] 310 106 103 131 117 120  33  NA 130 110  60 107  65 173 134 173  78  95
+[3925]  89 155  87  NA  61 185 300  NA 320 139 159  79 260 100 231  82 120  91
+[3943] 203  96  NA  NA  NA  90 225 205  NA  51 144  80  NA 140  90 107 190 145
+[3961]  93 145  55 173 110  NA  68 170 160  48 128 125  72 115 288 160 114 118
+[3979]  60 139 195 108 140 145 105  56 216 130 120  90 103  NA 193 164 100  60
+[3997]  92 300  92 227 150  91  NA 161 113 146  70 318 115  90 215 340  42 104
+[4015]  81 114 210  83 223 117 100 105  NA 110  42  80 120  90 112 136  85 144
+[4033] 140 183 250  NA  56 170  71  94 112 115 100  71 125  35 200 160  NA 179
+[4051] 221 214 145 142 200  72 105 211  90 100 118  88 147  NA 197 127 235 126
+[4069]  NA 233  78 106 178 111  71  NA  53 116 237 165 128  NA 216 155  NA 105
+[4087]  82 695 180 125  85 167  45 174  95  NA 314 110 163  80 110  90  83 190
+[4105]  92  80  76 187 170 160 109 165  50  36  92 120  37 242  NA 214 234 125
+[4123] 251 140 300 119 158  91 195 160 110 201 130  68 157 233 104 168 120 230
+[4141] 136 185 155 145 169 135 120 200 197 130  55 111 136 157 160  81 160  81
+[4159]  NA  85  95 142  54  48 120 178 102  NA  96   8 106 193  NA 120  80  98
+[4177] 241 106 160 160  NA  80 178 193  60  80 103 107 111 200  NA  19 182 145
+[4195]  97 148 170  NA  NA  73  90 125 115 192  84 150 111 139 240  50  76 188
+[4213]  95 145  72 120  85  60 211  67 143  NA  NA  76 106  90 120  85 183  75
+[4231] 120  83 102  71  92 107  NA 150 120 112  60  78  73 130 165  NA  NA 166
+[4249] 210 110  87 194 150  52  75  NA 182 201 180 100 115  75 210 110 700 103
+[4267] 130  95 200 161 101 120 115 150 230 118  93 149  95 250  NA 190  56  70
+[4285] 208 210 102  50 214 140  23 110 127  60  NA 184  87 120 145  81  92  97
+[4303] 150 102  99  56  80  94 205 118 113 120  70 105  55 102  79 152 105  89
+[4321]  95  91  96 128 120  70 162  81 205  71 177  92  NA  67 100  75 100 117
+[4339]  63 146 200 300 231 130 114 110  72 125  NA 154 100 100  82 105  68 107
+[4357] 104 150 100  82 220 116 230 466 159  58 163  NA 137  50 131  70  NA  90
+[4375] 110 300 104 108 148 208  48 230 267 187 170  88  71  92  95 125 138 143
+[4393] 218 120 120 130 165  NA 114  84 174 140 142  90  75  74 124 110 120 205
+[4411]  NA 140  38 107  77 190 175 285 129  NA 114 108  60 100 140 154 150 175
+[4429] 260 170 172 150  NA  92 199  NA 130 200  50  NA  NA 219  63 242 100  69
+[4447] 190 160  77  92  75  90 140 140</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(credit, <span class="fu">aes</span>(Income)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"#000000"</span>, <span class="at">fill =</span> <span class="st">"#0099F8"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Variable distribution"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It’s a good idea to check distribution before and after imputation to make sure the distribution doesn’t change significantly.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> credit[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Status            Seniority           Time            Age       
+ Length:4454        Min.   : 0.000   Min.   : 6.00   Min.   :18.00  
+ Class :character   1st Qu.: 2.000   1st Qu.:36.00   1st Qu.:28.00  
+ Mode  :character   Median : 5.000   Median :48.00   Median :36.00  
+                    Mean   : 7.987   Mean   :46.44   Mean   :37.08  
+                    3rd Qu.:12.000   3rd Qu.:60.00   3rd Qu.:45.00  
+                    Max.   :48.000   Max.   :72.00   Max.   :68.00  
+                                                                    
+    Expenses          Income          Assets            Debt      
+ Min.   : 35.00   Min.   :  6.0   Min.   :     0   Min.   :    0  
+ 1st Qu.: 35.00   1st Qu.: 90.0   1st Qu.:     0   1st Qu.:    0  
+ Median : 51.00   Median :125.0   Median :  3000   Median :    0  
+ Mean   : 55.57   Mean   :141.7   Mean   :  5404   Mean   :  343  
+ 3rd Qu.: 72.00   3rd Qu.:170.0   3rd Qu.:  6000   3rd Qu.:    0  
+ Max.   :180.00   Max.   :959.0   Max.   :300000   Max.   :30000  
+                  NA's   :381     NA's   :47       NA's   :18     
+     Amount         Price      
+ Min.   : 100   Min.   :  105  
+ 1st Qu.: 700   1st Qu.: 1117  
+ Median :1000   Median : 1400  
+ Mean   :1039   Mean   : 1463  
+ 3rd Qu.:1300   3rd Qu.: 1692  
+ Max.   :5000   Max.   :11140  
+                               </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Status Seniority Time Age Expenses Amount Price Debt Assets Income    
+4040      1         1    1   1        1      1     1    1      1      1   0
+367       1         1    1   1        1      1     1    1      1      0   1
+22        1         1    1   1        1      1     1    1      0      1   1
+7         1         1    1   1        1      1     1    1      0      0   2
+11        1         1    1   1        1      1     1    0      0      1   2
+7         1         1    1   1        1      1     1    0      0      0   3
+          0         0    0   0        0      0     0   18     47    381 446</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Status Seniority      Time       Age  Expenses    Income    Assets      Debt 
+0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 8.5541087 1.0552313 0.4041311 
+   Amount     Price 
+0.0000000 0.0000000 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apply(data,1,pMiss)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The following variables are missing data:</p>
+<p>Income NA’s: 381/4454 = 8.6%</p>
+<p>Assets NA’s: 47/4454 = 1.1%</p>
+<p>Debt NA’s: 18/4454 = 0.4%</p>
+<p>We need to determine the missingness mechanism for each. We can do this in R using the mice package. There is a function that will help us determine the pattern of missing data: md.pattern().</p>
+<p>4,039 samples are complete</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: colorspace</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>VIM is ready to use.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'VIM'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:datasets':
+
+    sleep</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(credit), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram of missing data"</span>,<span class="st">"Pattern"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Variables sorted by number of missings: 
+  Variable       Count
+       Age 0.085541087
+   Marital 0.010552313
+   Records 0.004041311
+         X 0.000000000
+    Status 0.000000000
+ Seniority 0.000000000
+      Home 0.000000000
+      Time 0.000000000
+       Job 0.000000000
+  Expenses 0.000000000</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] mice.impute.2l.bin              mice.impute.2l.lmer            
+ [3] mice.impute.2l.norm             mice.impute.2l.pan             
+ [5] mice.impute.2lonly.mean         mice.impute.2lonly.norm        
+ [7] mice.impute.2lonly.pmm          mice.impute.cart               
+ [9] mice.impute.jomoImpute          mice.impute.lasso.logreg       
+[11] mice.impute.lasso.norm          mice.impute.lasso.select.logreg
+[13] mice.impute.lasso.select.norm   mice.impute.lda                
+[15] mice.impute.logreg              mice.impute.logreg.boot        
+[17] mice.impute.mean                mice.impute.midastouch         
+[19] mice.impute.mnar.logreg         mice.impute.mnar.norm          
+[21] mice.impute.mpmm                mice.impute.norm               
+[23] mice.impute.norm.boot           mice.impute.norm.nob           
+[25] mice.impute.norm.predict        mice.impute.panImpute          
+[27] mice.impute.passive             mice.impute.pmm                
+[29] mice.impute.polr                mice.impute.polyreg            
+[31] mice.impute.quadratic           mice.impute.rf                 
+[33] mice.impute.ri                  mice.impute.sample             
+[35] mice.mids                       mice.theme                     
+see '?methods' for accessing help and source code</code></pre>
+</div>
+</div>
 </section>
 <section id="structure" class="level5">
 <h5 class="anchored" data-anchor-id="structure">Structure:</h5>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   4454 obs. of  15 variables:
@@ -347,14 +917,9 @@ div.csl-indent {
  $ Amount   : int  800 1000 2000 900 310 650 1600 200 1200 1200 ...
  $ Price    : int  846 1658 2985 1325 910 1645 1800 1093 1957 1468 ...</code></pre>
 </div>
-</div>
-</section>
-<section id="statistical-summary" class="level5">
-<h5 class="anchored" data-anchor-id="statistical-summary">Statistical summary:</h5>
-<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>       X           Status            Seniority          Home          
@@ -392,43 +957,705 @@ div.csl-indent {
 </div>
 </div>
 </section>
+<section id="summary-of-data" class="level5">
+<h5 class="anchored" data-anchor-id="summary-of-data">Summary of Data:</h5>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>credit <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Status,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">missing_text =</span> <span class="st">"NA"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_p</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_n</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  add_overall <span class="sc">%&gt;%</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(label <span class="sc">~</span> <span class="st">"**Variable**"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Summary of Data**"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div id="wokkedasgd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#wokkedasgd) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#wokkedasgd) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#wokkedasgd) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#wokkedasgd) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#wokkedasgd) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#wokkedasgd) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#wokkedasgd) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#wokkedasgd) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#wokkedasgd) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#wokkedasgd) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#wokkedasgd) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#wokkedasgd) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#wokkedasgd) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#wokkedasgd) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wokkedasgd) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#wokkedasgd) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#wokkedasgd) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wokkedasgd) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#wokkedasgd) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wokkedasgd) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#wokkedasgd) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wokkedasgd) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wokkedasgd) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wokkedasgd) .gt_left {
+  text-align: left;
+}
+
+:where(#wokkedasgd) .gt_center {
+  text-align: center;
+}
+
+:where(#wokkedasgd) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#wokkedasgd) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#wokkedasgd) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#wokkedasgd) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#wokkedasgd) .gt_super {
+  font-size: 65%;
+}
+
+:where(#wokkedasgd) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#wokkedasgd) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#wokkedasgd) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#wokkedasgd) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#wokkedasgd) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#wokkedasgd) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#wokkedasgd) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><strong>Summary of Data</strong></caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="<strong>Variable</strong>"><strong>Variable</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>N</strong>"><strong>N</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>Overall</strong>, N = 4,454<sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>Overall</strong>, N = 4,454<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>bad</strong>, N = 1,254<sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>bad</strong>, N = 1,254<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>good</strong>, N = 3,200<sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>good</strong>, N = 3,200<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>p-value</strong><sup class=&quot;gt_footnote_marks&quot;>2</sup>"><strong>p-value</strong><sup class="gt_footnote_marks">2</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">X</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">2,228 (1,114, 3,341)</td>
+<td headers="stat_1" class="gt_row gt_center">2,222 (1,142, 3,366)</td>
+<td headers="stat_2" class="gt_row gt_center">2,232 (1,098, 3,326)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Seniority</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">5 (2, 12)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1, 6)</td>
+<td headers="stat_2" class="gt_row gt_center">7 (2, 14)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Home</td>
+<td headers="n" class="gt_row gt_center">4,448</td>
+<td headers="stat_0" class="gt_row gt_center"></td>
+<td headers="stat_1" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;ignore</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">20 (0.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">9 (0.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">11 (0.3%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;other</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">319 (7.2%)</td>
+<td headers="stat_1" class="gt_row gt_center">146 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">173 (5.4%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;owner</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">2,107 (47%)</td>
+<td headers="stat_1" class="gt_row gt_center">390 (31%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,717 (54%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;parents</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">783 (18%)</td>
+<td headers="stat_1" class="gt_row gt_center">233 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">550 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;priv</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">246 (5.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">84 (6.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">162 (5.1%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;rent</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">973 (22%)</td>
+<td headers="stat_1" class="gt_row gt_center">388 (31%)</td>
+<td headers="stat_2" class="gt_row gt_center">585 (18%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">6</td>
+<td headers="stat_1" class="gt_row gt_center">4</td>
+<td headers="stat_2" class="gt_row gt_center">2</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Time</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">48 (36, 60)</td>
+<td headers="stat_1" class="gt_row gt_center">48 (36, 60)</td>
+<td headers="stat_2" class="gt_row gt_center">48 (36, 60)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">36 (28, 45)</td>
+<td headers="stat_1" class="gt_row gt_center">34 (27, 42)</td>
+<td headers="stat_2" class="gt_row gt_center">36 (28, 46)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Marital</td>
+<td headers="n" class="gt_row gt_center">4,453</td>
+<td headers="stat_0" class="gt_row gt_center"></td>
+<td headers="stat_1" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;divorced</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">38 (0.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (1.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">24 (0.8%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;married</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">3,241 (73%)</td>
+<td headers="stat_1" class="gt_row gt_center">829 (66%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,412 (75%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;separated</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">130 (2.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">64 (5.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">66 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;single</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">977 (22%)</td>
+<td headers="stat_1" class="gt_row gt_center">328 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">649 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;widow</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">67 (1.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">19 (1.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">48 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">1</td>
+<td headers="stat_1" class="gt_row gt_center">0</td>
+<td headers="stat_2" class="gt_row gt_center">1</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Records</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">773 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">429 (34%)</td>
+<td headers="stat_2" class="gt_row gt_center">344 (11%)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Job</td>
+<td headers="n" class="gt_row gt_center">4,452</td>
+<td headers="stat_0" class="gt_row gt_center"></td>
+<td headers="stat_1" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;fixed</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">2,805 (63%)</td>
+<td headers="stat_1" class="gt_row gt_center">580 (46%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,225 (70%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;freelance</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">1,024 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">333 (27%)</td>
+<td headers="stat_2" class="gt_row gt_center">691 (22%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;others</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">171 (3.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">68 (5.4%)</td>
+<td headers="stat_2" class="gt_row gt_center">103 (3.2%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;partime</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">452 (10%)</td>
+<td headers="stat_1" class="gt_row gt_center">271 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">181 (5.7%)</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">2</td>
+<td headers="stat_1" class="gt_row gt_center">2</td>
+<td headers="stat_2" class="gt_row gt_center">0</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Expenses</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">51 (35, 72)</td>
+<td headers="stat_1" class="gt_row gt_center">49 (35, 75)</td>
+<td headers="stat_2" class="gt_row gt_center">52 (35, 68)</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Income</td>
+<td headers="n" class="gt_row gt_center">4,073</td>
+<td headers="stat_0" class="gt_row gt_center">125 (90, 170)</td>
+<td headers="stat_1" class="gt_row gt_center">100 (74, 148)</td>
+<td headers="stat_2" class="gt_row gt_center">130 (100, 178)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">381</td>
+<td headers="stat_1" class="gt_row gt_center">217</td>
+<td headers="stat_2" class="gt_row gt_center">164</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Assets</td>
+<td headers="n" class="gt_row gt_center">4,407</td>
+<td headers="stat_0" class="gt_row gt_center">3,000 (0, 6,000)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0, 4,000)</td>
+<td headers="stat_2" class="gt_row gt_center">4,000 (0, 7,000)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">47</td>
+<td headers="stat_1" class="gt_row gt_center">20</td>
+<td headers="stat_2" class="gt_row gt_center">27</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Debt</td>
+<td headers="n" class="gt_row gt_center">4,436</td>
+<td headers="stat_0" class="gt_row gt_center">0 (0, 0)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0, 0)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0, 0)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;NA</td>
+<td headers="n" class="gt_row gt_center"></td>
+<td headers="stat_0" class="gt_row gt_center">18</td>
+<td headers="stat_1" class="gt_row gt_center">13</td>
+<td headers="stat_2" class="gt_row gt_center">5</td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Amount</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">1,000 (700, 1,300)</td>
+<td headers="stat_1" class="gt_row gt_center">1,100 (800, 1,415)</td>
+<td headers="stat_2" class="gt_row gt_center">1,000 (700, 1,250)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Price</td>
+<td headers="n" class="gt_row gt_center">4,454</td>
+<td headers="stat_0" class="gt_row gt_center">1,400 (1,117, 1,692)</td>
+<td headers="stat_1" class="gt_row gt_center">1,423 (1,062, 1,728)</td>
+<td headers="stat_2" class="gt_row gt_center">1,400 (1,134, 1,678)</td>
+<td headers="p.value" class="gt_row gt_center">&gt;0.9</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> Median (IQR); n (%)</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">2</sup> Wilcoxon rank sum test; Pearson's Chi-squared test</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+</section>
 <section id="diagnostics" class="level5">
 <h5 class="anchored" data-anchor-id="diagnostics">Diagnostics</h5>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggthemes)</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggrepel)</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dslabs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">=</span><span class="fu">lm</span>(Amount<span class="sc">~</span>Status<span class="sc">+</span>Seniority<span class="sc">+</span>Home<span class="sc">+</span>Time<span class="sc">+</span>Age<span class="sc">+</span>Marital<span class="sc">+</span>Records<span class="sc">+</span>Job<span class="sc">+</span>Expenses<span class="sc">+</span>Income<span class="sc">+</span>Assets<span class="sc">+</span>Debt<span class="sc">+</span>Price, <span class="at">data=</span>credit)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># autoplot(model1)</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total))</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -457,6 +1684,9 @@ Pampka, M., G. Hutcheson, and J. Williams. 2016. <span>“Handling Missing Data:
 </div>
 <div id="ref-ped2017" class="csl-entry" role="doc-biblioentry">
 Pedersen, A. B., E. M. Mikkelsen, D. Cronin-Fenton, N. R. Kristensen, T. M. Pham, L. Pedersen, and I. Petersen. 2017. <span>“Missing Data and Multiple Imputation in Clinical Epidemiological Research.”</span> <em>Clinical Epidemiology</em> 9: 157–66. <a href="https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785">https://www.tandfonline.com/doi/full/10.2147/CLEP.S129785</a>.
+</div>
+<div id="ref-sch2002" class="csl-entry" role="doc-biblioentry">
+Schafer, J. L., and J. W. Graham. 2002. <span>“Missing Data: Our View of the State of the Art.”</span> <em>Psychological Methods</em> 7 (2): 147–77. <a href="https://psycnet.apa.org/doi/10.1037/1082-989X.7.2.147">https://psycnet.apa.org/doi/10.1037/1082-989X.7.2.147</a>.
 </div>
 <div id="ref-str2008" class="csl-entry" role="doc-biblioentry">
 Streiner, D. L. 2008. <span>“Missing Data and the Trouble with LOCF.”</span> <em>EBMH</em> 11 (1): 1–5. <a href="http://dx.doi.org/10.1136/ebmh.11.1.3-a">http://dx.doi.org/10.1136/ebmh.11.1.3-a</a>.

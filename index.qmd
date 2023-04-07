@@ -42,13 +42,23 @@ known as missingness mechanisms [@mai2023]:
 -   Missing not at random (MNAR) is the probability of missing data
     being dependent on the missing and observed values.
 
-The problem with ignoring missing data is that it does not give a true
-representation of the dataset and can lead to bias when analyzing. This
-reduces the statistical power of the analysis [@van2020]. To enhance the
-quality of the research, the following should be followed: explicitly
-acknowledge missing data problems and the conditions under which they
-occur and employ principled methods to handle missing data [@don2013].
-There are two ways to handle missing values: delete or impute.
+![](GraphicalRepresentation.png)
+
+Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
+
+(X are completely observed values. Y are partly missing variables. Z is
+the component of the cause of missingness unrelated to X and Y. R is the
+missingness.)
+
+These categories are important in determining how to handle the missing
+data. The problem with just ignoring any missing values is that it does
+not give a true representation of the dataset and can lead to bias when
+analyzing. This reduces the statistical power of the analysis
+[@van2020]. To enhance the quality of the research, the following should
+be followed: explicitly acknowledge missing data problems and the
+conditions under which they occur and employ principled methods to
+handle the missing data [@don2013]. There are two ways to deal with
+missing values: delete or impute.
 
 #### Deleting missing data
 
@@ -56,19 +66,20 @@ Listwise deletion is when the entire observation is removed from the
 dataset. Deleting missing data can lead to the loss of important
 information regarding your dataset and is therefore not recommended. In
 certain cases, when the amount of missing data is small and the type is
-MCAR, listwise deletion can be used. There usually won't be bias but you
-are losing some information which may be important.
+MCAR, listwise deletion can be used. There usually won't be bias but
+potentially important information may be lost.
 
 T-tests and chi-square tests can be used to assess pairs of predictor
 variables to determine whether the groups' means differ significantly.
-If significant, the null hypothesis is rejected; therefore, missing data
-is not randomly scattered throughout the data [@van2020]. This implies
-that the missing data is MAR or MNAR. If nonsignificant, this implies
-that the data cannot be MAR (cannot eliminate possibility that it is not
-MNAR--other information about the population is needed). Listwise
-deletion would be wasteful and analysis biased if data is MAR or MNAR.
-Alternate methods of dealing with the missing data is recommended:
-either pairwise deletion or imputation.
+If significant, the null hypothesis is rejected; therefore, indicating
+that the missing values are not randomly scattered throughout the data
+[@van2020]. This implies that the missing data is MAR or MNAR. If
+nonsignificant, this implies that the data cannot be MAR (this does not
+eliminate the possibility that it is not MNAR--other information about
+the population is needed). Listwise deletion would be wasteful and
+analysis biased if data is MAR or MNAR. Alternate methods of dealing
+with the missing data is recommended: either pairwise deletion or
+imputation.
 
 Pairwise deletion is when only the missing variable of an observation is
 removed. It allows more data to be analyzed than listwise deletion but
@@ -79,17 +90,16 @@ missing data.
 #### What is imputation?
 
 Imputation is the method of replacing missing data with an estimate
-obtained from the original available data so there is a full data set to
-analyze. To improve statistical power, the number of imputations created
-should be at least equal to the percent of missing data (5% equals 5
-imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
-[@ped2017]. There are two types of imputation: single and multiple.
-
-## Imputation Methods
+obtained from the original, available data so there is a full data set
+to analyze. To improve statistical power, the number of imputations
+created should be at least equal to the percent of missing data (5%
+equals 5 imputations, 10% equals 10 imputations, 20% equals 20
+imputations, etc.) [@ped2017]. There are two types of imputation: single
+and multiple.
 
 #### Single Imputation
 
-Single or univariate imputation is when only one estimate is used to
+Single, or univariate, imputation is when only one estimate is used to
 replace the missing data. Methods of single imputation include using the
 mean, the last observation carried forward, and random imputation. The
 following is a brief explanation of each:
@@ -98,27 +108,30 @@ following is a brief explanation of each:
     process. The mean of the dataset is calculated, including the
     missing value. The mean is then multiplied by the number of
     observations in the study. Next, the known values are subtracted
-    from the product, and this gives you the missing value.
+    from the product, and this gives an estimate that can be used for
+    any missing values. The problem with this method is that it reduces
+    the variance which leads to a smaller confidence interval.
 
 -   Last Observation Carried Forward (LOCF) is a tehcnique of replacing
     a missing value in longitudinal studies with a previously observed
     value (the most recent value is carried forward) [@str2008]. The
-    problem with this is that it assumes that the previous observed
-    value is perpetual when in reality there is a difference. This is a
-    flawed method and causes bias.
+    problem with this method is that it assumes that the previous
+    observed value is perpetual when in reality that most likely is not
+    the case.
 
 -   Random imputation is a method of randomly drawing an observation and
-    using that observation for any missing values. The problem with this
-    is that it introduces additional variability.
+    using that observation for any of the missing values. The problem
+    with this method is that it introduces additional variability.
 
-These single imputation methods often result in underestimation of
-standard errors or too small p-values [@don2013]; therefore, multiple
-imputation is the better method because it handles missing data better
-and provides less biased results.
+These single imputation methods are flawed. They often result in
+underestimation of standard errors or too small p-values [@don2013],
+which can cause bias in the analysis. Therefore, multiple imputation is
+the better method because it handles missing data better and provides
+less biased results.
 
 #### Multiple Imputation
 
-Multiple or multivariate imputation is when various estimates are used
+Multiple, or multivariate, imputation is when various estimates are used
 to replace the missing data by creating multiple datasets from versions
 of the original dataset. It can be done by using a regression model, or
 a sequence of regression models, such as linear, logistic and Poison. A
@@ -137,22 +150,27 @@ be no benefit in using it. Also worth noting is some statistical
 analyses software already have built-in features to deal with missing
 data.
 
-Figure 1: Flowchart of the MICE-process based on procedures proposed by
-Rubin [@wul2017]:
+Multiple imputation by chained methods, otherwise known as MICE, is the
+most common and preferred method of multiple imputation. For this
+reason, the rest of this paper will focus on this method and variations
+of it.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
 library(DiagrammeR)
 ```
 
+Figure 2: Flowchart of the MICE-process based on procedures proposed by
+Rubin [@wul2017]
+
 ```{r}
 DiagrammeR::grViz("digraph {
 
 # initiate graph
-graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue]
+graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]
 
 # global node settings
-node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue]
+node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]
 bgcolor = none
 
 # label nodes
@@ -181,32 +199,6 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 }")
 ```
 
-Before imputing the missing data, it is important to check whether the
-data has a linear relationship. Nonlinear data should be accounted for
-in the analysis as well as the imputation process. Otherwise, an
-incorrect statistical model will result. It is also important to check
-for anomalies that may occur during imputation. Imputation models may
-need to be adjusted if the imputed values fall outside the minimum and
-maximum range of the observed values. More or fewer variables in the
-imputation model may be needed for these types of anomalies.
-
-##### Step 1
-
-Evaluate data and select independent variables
-
-##### Step 2
-
-Create m sets of data from original dataset with missing values
-
-##### Step 3
-
-Perform analysis on each of the m sets
-
-##### Step 4
-
-Average the estimates across m estimates. Calculate the standard errors
-and variance of m estimates. Combine using an adjustment term (1+1/m).
-
 #### Other Methods of Imputation
 
 Regression Imputation [@van2020]
@@ -225,13 +217,80 @@ Likelihood and Bayesian Methods [@cao2021]
 
 Weighted Methods [@cao2021]
 
+## Methods
+
+Multiple imputation is an imputation method for missing data which imputes the missing values with random values
+to generate m-amount of datasets with complete cases.
+
+For the purpose of this project, we uitilized Multiple Imputation (MI)
+for the credit dataset (dataset consists of 14 variables: status, home, time, age, marital, records, job, expenses,
+income, assets, debt, amount, price). 
+
+In R which is a statistical programming software, we created 5 datasets with imputed values using the MICE package 
+(Multivariate Imputation by Chained Equations) which can seamlessly impute missing values in a dataset
+by looking at the data from other columns and estimate the best prediction for each missing value.
+
+Before imputing the missing data, it is important to check whether the
+data has a linear relationship. Nonlinear data should be accounted for
+in the analysis as well as the imputation process. Otherwise, an
+incorrect statistical model will result. It is also important to check
+for anomalies that may occur during imputation. Imputation models may
+need to be adjusted if the imputed values fall outside the minimum and
+maximum range of the observed values. More or fewer variables in the
+imputation model may be needed for these types of anomalies.
+
+The chained equation process can be broken down into four general steps:
+
+Step 1: A simple imputation, such as imputing the mean, is performed for
+every missing value in the dataset. These mean imputations can be
+thought of as "place holders." Step 2: The "place holder" mean
+imputations for one variable ("var") are set back to missing. Step 3:
+The observed values from the variable "var" in Step 2 are regressed on
+the other variables in the imputation model, which may or may not
+consist of all of the variables in the dataset. In other words, "var" is
+the dependent variable in a regression model and all the other variables
+are independent variables in the regression model. These regression
+models operate under the same assumptions that one would make when
+performing linear, logistic, or Poison regression models outside of the
+context of imputing missing data. Step 4: The missing values for "var"
+are then replaced with predictions (imputations) from the regression
+model. When "var" is subsequently used as an independent variable in the
+regression models for other variables, both the observed and these
+imputed values will be used. Step 5: Steps 2--4 are then repeated for
+each variable that has missing data. The cycling through each of the
+variables constitutes one iteration or "cycle." At the end of one cycle
+all of the missing values have been replaced with predictions from
+regressions that reflect the relationships observed in the data. Step 6:
+Steps 2--4 are repeated for a number of cycles, with the imputations
+being updated at each cycle.
+
+##### Step 1
+
+Evaluate data and select independent variables
+
+##### Step 2
+
+Create m sets of data from original dataset with missing values
+
+##### Step 3
+
+Perform analysis on each of the m sets
+
+##### Step 4
+
+Average the estimates across m estimates. Calculate the standard errors
+and variance of m estimates. Combine using an adjustment term (1+1/m).
+
 ## Analysis and Results
 
 ## Data and Visualization
 
 ```{r}
-# Load data
+# load data
 credit = read.csv("credit_data.csv")
+
+# load packages
+library(gtsummary)
 ```
 
 ##### Description
@@ -240,22 +299,105 @@ Credit score data
 
 ##### Details
 
-The credit_data.csv file contains data of 4454 subjects and stores a
+The credit_data.csv file contains data of 4,454 subjects and stores a
 combination of continuous, categorical and count values for 15
 variables. Of the 15 variables, the "Status" variable contains binomial
 categorical values of "good" and "bad" to describe the kind of credit
 score each subject has.
 
-##### Structure:
+| Variable  | Type      | Description                                           |
+|---------------|---------------|------------------------------------------|
+| X         | Integer   |                                                       |
+| Status    | Character | Describes credit score of subject: "good" or "bad"    |
+| Seniority | Integer   |                                                       |
+| Home      | Character |                                                       |
+| Time      | Integer   |                                                       |
+| Age       | Integer   | Age of subject in years                               |
+| Marital   | Character | Marital status of subject: "married" "single" "widow" |
+| Records   | Character |                                                       |
+| Job       | Character | Type of job of subject: "fixed" "freelance" "partime" |
+| Expenses  | Integer   |                                                       |
+| Income    | Integer   |                                                       |
+| Assets    | Integer   |                                                       |
+| Debt      | Integer   |                                                       |
+| Amount    | Integer   |                                                       |
+| Price     | Integer   |                                                       |
 
-```{r}
-str(credit)
+```{r, warning=FALSE, echo=TRUE}
+# load library
+library(mice)
+library(ggplot2)
+library(dplyr)
+library(cowplot)
+
+credit$Income
+
+ggplot(credit, aes(Income)) +
+  geom_histogram(color = "#000000", fill = "#0099F8") +
+  ggtitle("Variable distribution") +
+  theme_classic() +
+  theme(plot.title = element_text(size = 18))
 ```
 
-##### Statistical summary:
+It's a good idea to check distribution before and after imputation to
+make sure the distribution doesn't change significantly.
 
-```{r}
+```{r, warning=FALSE, echo=TRUE}
+data <- credit[-c(1,4,7,8,9)]
+summary(data)
+
+md.pattern(data)
+
+pMiss <- function(x){sum(is.na(x))/length(x)*100}
+apply(data,2,pMiss)
+# apply(data,1,pMiss)
+```
+
+The following variables are missing data:
+
+Income NA's: 381/4454 = 8.6%
+
+Assets NA's: 47/4454 = 1.1%
+
+Debt NA's: 18/4454 = 0.4%
+
+We need to determine the missingness mechanism for each. We can do this
+in R using the mice package. There is a function that will help us
+determine the pattern of missing data: md.pattern().
+
+4,039 samples are complete
+
+```{r, warning=FALSE, echo=TRUE}
+# load library
+library(VIM)
+
+aggr_plot <- aggr(data, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(credit), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+
+marginplot(data[c(1,2)])
+
+methods(mice)
+
+```
+
+##### Structure:
+
+```{r, warning=FALSE, echo=TRUE}
+str(credit)
 summary(credit)
+```
+
+##### Summary of Data:
+
+```{r, warning=FALSE, echo=TRUE}
+credit %>%
+  tbl_summary(by = Status,
+              missing_text = "NA") %>%
+  add_p() %>%
+  add_n() %>%
+  add_overall %>%
+  modify_header(label ~ "**Variable**") %>%
+  modify_caption("**Summary of Data**") %>%
+  bold_labels()
 ```
 
 ##### Diagnostics
@@ -263,17 +405,18 @@ summary(credit)
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+library(ggplot2)
 library(ggfortify)
+# library(knitr)
+# library(ggthemes)
+# library(ggrepel)
+# library(dslabs)
 ```
 
 ```{r, warning=FALSE, echo=TRUE}
-model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
-autoplot(model1)
-# ggplot1 = credit %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+# model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
+# autoplot(model1)
+# ggplot1 = credit %>% ggplot(mapping = aes(x=population/10^6, y=total))
 # 
 #   ggplot1 + geom_point(aes(col=region), size = 4) +
 #   geom_text_repel(aes(label=abb)) +
