@@ -118,6 +118,24 @@ and provides less biased results.
 
 #### Multiple Imputation
 
+Multiple imputation is an imputation method for missing data which imputes the missing values with random values
+to generate m-amount of datasets with complete cases.
+
+For the purpose of this project, we uitilized Multiple Imputation (MI)
+for the credit dataset (dataset consists of 14 variables: status, home, time, age, marital, records, job, expenses,
+income, assets, debt, amount, price). 
+
+In R which is a statistical programming software, we created 5 datasets with imputed values using the MICE package 
+(Multivariate Imputation by Chained Equations) which can seamlessly impute missing values in a dataset
+by looking at the data from other columns and estimate the best prediction for each missing value.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+#loading packages
+library(mice)
+```
+
+
+
 Multiple or multivariate imputation is when various estimates are used
 to replace the missing data by creating multiple datasets from versions
 of the original dataset. It can be done by using a regression model, or
@@ -224,6 +242,7 @@ Random Forest (RF) [@tho2022]
 Likelihood and Bayesian Methods [@cao2021]
 
 Weighted Methods [@cao2021]
+
 
 ## Analysis and Results
 
