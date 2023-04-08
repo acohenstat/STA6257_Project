@@ -46,19 +46,30 @@ known as missingness mechanisms [@mai2023]:
 
 Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
 
-(X are completely observed values. Y are partly missing variables. Z is
-the component of the cause of missingness unrelated to X and Y. R is the
-missingness.)
+(X are the completely observed variables. Y are the partly missing
+variables. Z is the component of the cause of missingness unrelated to X
+and Y. R is the missingness.)
 
-These categories are important in determining how to handle the missing
-data. The problem with just ignoring any missing values is that it does
-not give a true representation of the dataset and can lead to bias when
-analyzing. This reduces the statistical power of the analysis
-[@van2020]. To enhance the quality of the research, the following should
-be followed: explicitly acknowledge missing data problems and the
-conditions under which they occur and employ principled methods to
-handle the missing data [@don2013]. There are two ways to deal with
-missing values: delete or impute.
+Looking for patterns in the missing data can help us to determine to
+which category they belong. These mechanisms are important in
+determining how to handle the missing data. MCAR would be the best case
+scenario but seldom occur. MAR and MNAR are more common.
+
+The problem with ignoring any missing values is that it does not give a
+true representation of the dataset and can lead to bias when analyzing.
+This reduces the statistical power of the analysis [@van2020]. To
+enhance the quality of the research, the following should be followed:
+explicitly acknowledge missing data problems and the conditions under
+which they occur and employ principled methods to handle the missing
+data [@don2013].
+
+There are three types of methods to deal with missing data, the
+likelihood and Bayesian method, weighting methods, or imputation methods
+[@cao2021]. Missing data can also be handled by simply deleting.
+
+#### Likelihood Bayesian Method
+
+#### Weighting Method
 
 #### Deleting missing data
 
@@ -71,15 +82,16 @@ potentially important information may be lost.
 
 T-tests and chi-square tests can be used to assess pairs of predictor
 variables to determine whether the groups' means differ significantly.
-If significant, the null hypothesis is rejected; therefore, indicating
-that the missing values are not randomly scattered throughout the data
-[@van2020]. This implies that the missing data is MAR or MNAR. If
-nonsignificant, this implies that the data cannot be MAR (this does not
-eliminate the possibility that it is not MNAR--other information about
-the population is needed). Listwise deletion would be wasteful and
-analysis biased if data is MAR or MNAR. Alternate methods of dealing
-with the missing data is recommended: either pairwise deletion or
-imputation.
+According to [@van2020], if significant, the null hypothesis is
+rejected, therefore, indicating that the missing values are not randomly
+scattered throughout the data. This implies that the missing data is MAR
+or MNAR. Conversely, if nonsignificant, this implies that the data
+cannot be MAR. This does not eliminate the possibility that it is not
+MNAR--other information about the population is needed to determine
+this. Whenever missing data is categorized as MAR or MNAR, listwise
+deletion would be wasteful, and the analysis biased. Alternate methods
+of dealing with the missing data is recommended: either pairwise
+deletion or imputation.
 
 Pairwise deletion is when only the missing variable of an observation is
 removed. It allows more data to be analyzed than listwise deletion but
@@ -112,7 +124,7 @@ following is a brief explanation of each:
     any missing values. The problem with this method is that it reduces
     the variance which leads to a smaller confidence interval.
 
--   Last Observation Carried Forward (LOCF) is a tehcnique of replacing
+-   Last Observation Carried Forward (LOCF) is a technique of replacing
     a missing value in longitudinal studies with a previously observed
     value (the most recent value is carried forward) [@str2008]. The
     problem with this method is that it assumes that the previous
@@ -151,9 +163,10 @@ analyses software already have built-in features to deal with missing
 data.
 
 Multiple imputation by chained methods, otherwise known as MICE, is the
-most common and preferred method of multiple imputation. For this
-reason, the rest of this paper will focus on this method and variations
-of it.
+most common and preferred method of multiple imputation. It provides a
+more reliable way to analyze data with missing values. For this reason,
+this paper will focus on the methodology and application of the MICE
+process.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
@@ -163,7 +176,7 @@ library(DiagrammeR)
 Figure 2: Flowchart of the MICE-process based on procedures proposed by
 Rubin [@wul2017]
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 DiagrammeR::grViz("digraph {
 
 # initiate graph
@@ -201,27 +214,57 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 
 #### Other Methods of Imputation
 
-Regression Imputation [@van2020]
+*Regression Imputation* is based on a linear regression model. Missing
+data is randomly drawn from a conditional distribution when variables
+are continuous and from a logistic regression model when they are
+categorical [@van2020].
 
-Predictive Mean Matching [@van2020]
+*Predictive Mean Matching* is also based on a linear regression model.
+The approach is the same as regression imputation when it comes to
+categorical missing values but different for continuous variables.
+Instead of random draws from a conditional distribution, missing values
+are based on predicted values of the outcome variable [@van2020].
 
-Hot Deck (HD) [@tho2022]
+*Hot Deck (HD)* imputation is when a missing value is replaced by an
+observed response of a similar unit, also known as the donor. It can be
+either random or deterministic (based on a metric or value) [@tho2022].
+It does not rely on model fitting.
 
-Stochastic Regression (SR) [@tho2022]
+*Stochastic Regression (SR) Imputation* is an extension of regression
+imputation. The process is the same but a residual term from the normal
+distribution of the regression of the predictor outcome is added to the
+imputed value [@tho2022]. This maintains the variability of the data.
 
-Random Forest (RF) [@tho2022]
-
-#### Alternative Methods to Impuation
-
-Likelihood and Bayesian Methods [@cao2021]
-
-Weighted Methods [@cao2021]
+*Random Forest (RF) Imputation* is based on machine learning algorithms.
+Missing values are first replaced with the mean or mode of that
+particular variable and then the dataset is split into a training set
+and a prediction set [@tho2022]. The missing values are then replaced
+with predictions from these sets. This type of imputation can be used on
+continuous or categorical variables with complex interactions.
 
 ## Methods
 
-Multiple imputation is an imputation method for missing data which
-imputes the missing values with random values to generate m-amount of
-datasets with complete cases.
+**Multiple Imputation by Chained Equations (MICE)**
+
+In multiple imputation, *m* imputed values are created for each of the
+missing data and result in *m* complete datasets. For each of the *m*
+datasets, an estimate of $\theta$ is acquired.
+
+Combined estimator of $\theta$ is given by:
+
+${\hat{\theta}}_{M}$=$\displaystyle \frac{1}{M}$$\sum_{m = 1}^{M} {\hat{\theta}}_{m}$
+
+The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
+
+${\hat{\Phi}}_{M}$ =
+${\overline{\phi}}_{M}$+(1+$\displaystyle \frac{1}{M}$)*B*$_{M}$
+
+where ${\overline{\phi}}_{M}$ =
+$\displaystyle \frac{1}{M}$$\sum_{m = 1}^{M}$${\hat{\phi}}_m$ and
+B$_{M}$ =
+$\displaystyle \frac{1}{M-1}$$\sum_{m = 1}^{M}$(${\hat{\theta}}_{m}$-${\overline{\theta}}_{M}$)$^{2}$
+
+[@arn2017]
 
 For the purpose of this project, we uitilized Multiple Imputation (MI)
 for the credit dataset (dataset consists of 14 variables: status, home,
@@ -242,6 +285,12 @@ for anomalies that may occur during imputation. Imputation models may
 need to be adjusted if the imputed values fall outside the minimum and
 maximum range of the observed values. More or fewer variables in the
 imputation model may be needed for these types of anomalies.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# credit[is.na(credit) | credit=="Inf"] = NA
+# lm(Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Seniority + Price, data = credit)
+# credit_model = lm(formula = Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Seniority + Price, data = credit)
+```
 
 The chained equation process can be broken down into four general steps:
 
@@ -289,7 +338,7 @@ and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 ## Data and Visualization
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # load data
 credit = read.csv("credit_data.csv")
 
@@ -297,11 +346,11 @@ credit = read.csv("credit_data.csv")
 library(gtsummary)
 ```
 
-##### Description
+##### Description of Data
 
 Credit score data
 
-##### Details
+##### Details of Data
 
 The credit_data.csv file contains data of 4,454 subjects and stores a
 combination of continuous, categorical and count values for 15
@@ -309,46 +358,65 @@ variables. Of the 15 variables, the "Status" variable contains binomial
 categorical values of "good" and "bad" to describe the kind of credit
 score each subject has.
 
-| Variable  | Type      | Description                                           |
-|-----------|-----------|-------------------------------------------------------|
-| X         | Integer   |                                                       |
-| Status    | Character | Describes credit score of subject: "good" or "bad"    |
-| Seniority | Integer   |                                                       |
-| Home      | Character |                                                       |
-| Time      | Integer   |                                                       |
-| Age       | Integer   | Age of subject in years                               |
-| Marital   | Character | Marital status of subject: "married" "single" "widow" |
-| Records   | Character |                                                       |
-| Job       | Character | Type of job of subject: "fixed" "freelance" "partime" |
-| Expenses  | Integer   |                                                       |
-| Income    | Integer   |                                                       |
-| Assets    | Integer   |                                                       |
-| Debt      | Integer   |                                                       |
-| Amount    | Integer   |                                                       |
-| Price     | Integer   |                                                       |
+| Variable  | Type      | Description                                              |
+|------------------|------------------|-------------------------------------|
+| X         | Integer   | Observation number of subject                            |
+| Status    | Character | Describes credit score of subject: "good" or "bad"       |
+| Seniority | Integer   | ?                                                        |
+| Home      | Character | Home owner status of subject: "rent" "owner" "parents"   |
+| Time      | Integer   | ?                                                        |
+| Age       | Integer   | Age of subject in years                                  |
+| Marital   | Character | Marital status of subject: "married" "single" "widow"    |
+| Records   | Character | ?                                                        |
+| Job       | Character | Job type of subject: "fixed" "freelance" "partime"       |
+| Expenses  | Integer   | ? Monthly/Annually ?                                     |
+| Income    | Integer   | ? Annual income of subject (dollar amount in thousands?) |
+| Assets    | Integer   | Dollar amount of assets of subject (in thousands?)       |
+| Debt      | Integer   | Dollar amount of debt of subject (in thousands?)         |
+| Amount    | Integer   | ?                                                        |
+| Price     | Integer   | ?                                                        |
 
 ```{r, warning=FALSE, echo=TRUE}
 # load library
-library(mice)
+library(mice, warn.conflicts=FALSE)
 library(ggplot2)
-library(dplyr)
+library(dplyr, warn.conflicts=FALSE)
 library(cowplot)
 
-credit$Income
+credit$Amount
 
-ggplot(credit, aes(Income)) +
+ggplot(credit, aes(Amount, fill = credit, color = credit)) +
   geom_histogram(color = "#000000", fill = "#0099F8") +
   ggtitle("Variable distribution") +
   theme_classic() +
   theme(plot.title = element_text(size = 18))
+
+# # TRANSFORM TO LONG DATA FOR PLOTS
+# credit.Long<- credit %>% pivot_longer(!y, names_to="credit", values_to="score", values_transform=list(score=as.numeric))
+# 
+# # HISTOGRAMS
+# ggplot(credit, aes(Amount, fill=credit, color=credit)) +
+#   geom_histogram(alpha=0.2, breaks=seq(0,5,1)) +
+#   lemon::facet_rep_wrap(.~credit, nrow=2, labeller="label_both", repeat.tick.labels=T) +
+#   labs(title="Distributions of Raw Score") +
+#   theme_bw() +
+#   theme(legend.position = "none",
+#         panel.border = element_rect(color = "#8B814C"),
+#         strip.background = element_rect(fill = "#EAEAD6", color = "#8B814C"),
+#         strip.text = element_text(color = "#8B814C", size=14),
+#         plot.background = element_rect(fill = "#FAFAF5"),
+#         axis.text = element_text(color = "#8B814C"),
+#         axis.title = element_text(color = "#8B814C", size=14),
+#         plot.title = element_text(color = "#8B814C", size=14),
+#         axis.ticks = element_line(color = "#8B814C"))
 ```
 
 It's a good idea to check distribution before and after imputation to
 make sure the distribution doesn't change significantly.
 
-```{r, warning=FALSE, echo=TRUE}
+```{r, warning=FALSE, echo=T, message=FALSE}
 data <- credit[-c(1,4,7,8,9)]
-summary(data)
+# summary(data)
 
 md.pattern(data)
 
@@ -371,7 +439,7 @@ determine the pattern of missing data: md.pattern().
 
 4,039 samples are complete
 
-```{r, warning=FALSE, echo=TRUE}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # load library
 library(VIM)
 
@@ -385,14 +453,14 @@ methods(mice)
 
 ##### Structure:
 
-```{r, warning=FALSE, echo=TRUE}
+```{r, warning=FALSE, echo=T, message=FALSE}
 str(credit)
 summary(credit)
 ```
 
 ##### Summary of Data:
 
-```{r, warning=FALSE, echo=TRUE}
+```{r, warning=FALSE, echo=T, message=FALSE}
 credit %>%
   tbl_summary(by = Status,
               missing_text = "NA") %>%
@@ -400,7 +468,7 @@ credit %>%
   add_n() %>%
   add_overall %>%
   modify_header(label ~ "**Variable**") %>%
-  modify_caption("**Summary of Data**") %>%
+  modify_caption("**Summary of Credit Data**") %>%
   bold_labels()
 ```
 
@@ -418,9 +486,9 @@ library(ggfortify)
 # library(dslabs)
 ```
 
-```{r, warning=FALSE, echo=TRUE}
-# model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
-# autoplot(model1)
+```{r, warning=FALSE, echo=T, message=FALSE}
+model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
+autoplot(model1)
 
 # ggplot1 = credit %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
 # 
@@ -453,3 +521,49 @@ data sets. Run the models and combine them using the imputed values, and
 finally, analyze the complete dataset. Performing these steps will
 minimize the adverse effects caused by missing data on the anaylsis
 [@pam2016].
+
+
+#Load packages:
+```{r}
+library(mice)
+library(tidyverse)
+summary(credit)
+```
+
+
+#This contains a subset of the credit data where the rows having missing value.
+```{r}
+rows_na = credit[!complete.cases(credit),]  
+head(rows_na, 10)
+```
+
+#This shows a matrix where each row corresponds to a missing data pattern in the credit data set.
+```{r}
+md.pattern(credit)
+```
+
+
+#In order to perform multiple imputation on categorical data, all string variables must be converted to
+# factors using as.factor()
+```{r}
+data$Status = as.factor(credit$Status)
+data$Home = as.factor(credit$Home)
+data$Marital = as.factor(credit$Marital)
+data$Records = as.factor(credit$Records)
+data$Job = as.factor(credit$Job)
+```
+
+
+
+#Using the mice() function, 5 (default) multiple imputations for the null values for the credit data
+# will be generated.
+```{r}
+Multiple_Imputation = mice(data = credit,  defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
+```
+
+
+
+# Show the imputed values. Columns are imputations, rows are observations
+```{r}
+Multiple_Imputation$imp
+```

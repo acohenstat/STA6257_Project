@@ -9,7 +9,7 @@
 <meta name="author" content="Javier Estrada">
 <meta name="author" content="Michael Underwood">
 <meta name="author" content="Elizabeth Subject-Scott">
-<meta name="dcterms.date" content="2023-04-07">
+<meta name="dcterms.date" content="2023-04-08">
 
 <title>Missing Data and Imputation</title>
 <style>
@@ -124,6 +124,7 @@ div.csl-indent {
 <link href="index_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
 <script src="index_files/libs/grViz-binding-1.0.9/grViz.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -142,6 +143,7 @@ div.csl-indent {
   <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a></li>
   <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#show-the-imputed-values.-columns-are-imputations-rows-are-observations" id="toc-show-the-imputed-values.-columns-are-imputations-rows-are-observations" class="nav-link" data-scroll-target="#show-the-imputed-values.-columns-are-imputations-rows-are-observations">Show the imputed values. Columns are imputations, rows are observations</a></li>
   </ul>
 </nav>
 </div>
@@ -170,7 +172,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 7, 2023</p>
+      <p class="date">April 8, 2023</p>
     </div>
   </div>
     
@@ -193,13 +195,21 @@ div.csl-indent {
 </ul>
 <p><img src="GraphicalRepresentation.png" class="img-fluid"></p>
 <p>Figure 1: Graphical Representation of Missingness Mechanisms <span class="citation" data-cites="sch2002">(<a href="#ref-sch2002" role="doc-biblioref">Schafer and Graham 2002</a>)</span></p>
-<p>(X are completely observed values. Y are partly missing variables. Z is the component of the cause of missingness unrelated to X and Y. R is the missingness.)</p>
-<p>These categories are important in determining how to handle the missing data. The problem with just ignoring any missing values is that it does not give a true representation of the dataset and can lead to bias when analyzing. This reduces the statistical power of the analysis <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. To enhance the quality of the research, the following should be followed: explicitly acknowledge missing data problems and the conditions under which they occur and employ principled methods to handle the missing data <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. There are two ways to deal with missing values: delete or impute.</p>
+<p>(X are the completely observed variables. Y are the partly missing variables. Z is the component of the cause of missingness unrelated to X and Y. R is the missingness.)</p>
+<p>Looking for patterns in the missing data can help us to determine to which category they belong. These mechanisms are important in determining how to handle the missing data. MCAR would be the best case scenario but seldom occur. MAR and MNAR are more common.</p>
+<p>The problem with ignoring any missing values is that it does not give a true representation of the dataset and can lead to bias when analyzing. This reduces the statistical power of the analysis <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. To enhance the quality of the research, the following should be followed: explicitly acknowledge missing data problems and the conditions under which they occur and employ principled methods to handle the missing data <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>.</p>
+<p>There are three types of methods to deal with missing data, the likelihood and Bayesian method, weighting methods, or imputation methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span>. Missing data can also be handled by simply deleting.</p>
+</section>
+<section id="likelihood-bayesian-method" class="level4">
+<h4 class="anchored" data-anchor-id="likelihood-bayesian-method">Likelihood Bayesian Method</h4>
+</section>
+<section id="weighting-method" class="level4">
+<h4 class="anchored" data-anchor-id="weighting-method">Weighting Method</h4>
 </section>
 <section id="deleting-missing-data" class="level4">
 <h4 class="anchored" data-anchor-id="deleting-missing-data">Deleting missing data</h4>
 <p>Listwise deletion is when the entire observation is removed from the dataset. Deleting missing data can lead to the loss of important information regarding your dataset and is therefore not recommended. In certain cases, when the amount of missing data is small and the type is MCAR, listwise deletion can be used. There usually won’t be bias but potentially important information may be lost.</p>
-<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly. If significant, the null hypothesis is rejected; therefore, indicating that the missing values are not randomly scattered throughout the data <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>. This implies that the missing data is MAR or MNAR. If nonsignificant, this implies that the data cannot be MAR (this does not eliminate the possibility that it is not MNAR–other information about the population is needed). Listwise deletion would be wasteful and analysis biased if data is MAR or MNAR. Alternate methods of dealing with the missing data is recommended: either pairwise deletion or imputation.</p>
+<p>T-tests and chi-square tests can be used to assess pairs of predictor variables to determine whether the groups’ means differ significantly. According to <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>, if significant, the null hypothesis is rejected, therefore, indicating that the missing values are not randomly scattered throughout the data. This implies that the missing data is MAR or MNAR. Conversely, if nonsignificant, this implies that the data cannot be MAR. This does not eliminate the possibility that it is not MNAR–other information about the population is needed to determine this. Whenever missing data is categorized as MAR or MNAR, listwise deletion would be wasteful, and the analysis biased. Alternate methods of dealing with the missing data is recommended: either pairwise deletion or imputation.</p>
 <p>Pairwise deletion is when only the missing variable of an observation is removed. It allows more data to be analyzed than listwise deletion but limits the ability to make inferences of the total sample. For this reason, it is recommended to use imputation to properly deal with missing data.</p>
 </section>
 <section id="what-is-imputation" class="level4">
@@ -211,7 +221,7 @@ div.csl-indent {
 <p>Single, or univariate, imputation is when only one estimate is used to replace the missing data. Methods of single imputation include using the mean, the last observation carried forward, and random imputation. The following is a brief explanation of each:</p>
 <ul>
 <li><p>Using the mean to replace a missing value is a straight-forward process. The mean of the dataset is calculated, including the missing value. The mean is then multiplied by the number of observations in the study. Next, the known values are subtracted from the product, and this gives an estimate that can be used for any missing values. The problem with this method is that it reduces the variance which leads to a smaller confidence interval.</p></li>
-<li><p>Last Observation Carried Forward (LOCF) is a tehcnique of replacing a missing value in longitudinal studies with a previously observed value (the most recent value is carried forward) <span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span>. The problem with this method is that it assumes that the previous observed value is perpetual when in reality that most likely is not the case.</p></li>
+<li><p>Last Observation Carried Forward (LOCF) is a technique of replacing a missing value in longitudinal studies with a previously observed value (the most recent value is carried forward) <span class="citation" data-cites="str2008">(<a href="#ref-str2008" role="doc-biblioref">Streiner 2008</a>)</span>. The problem with this method is that it assumes that the previous observed value is perpetual when in reality that most likely is not the case.</p></li>
 <li><p>Random imputation is a method of randomly drawing an observation and using that observation for any of the missing values. The problem with this method is that it introduces additional variability.</p></li>
 </ul>
 <p>These single imputation methods are flawed. They often result in underestimation of standard errors or too small p-values <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>, which can cause bias in the analysis. Therefore, multiple imputation is the better method because it handles missing data better and provides less biased results.</p>
@@ -220,7 +230,7 @@ div.csl-indent {
 <h4 class="anchored" data-anchor-id="multiple-imputation">Multiple Imputation</h4>
 <p>Multiple, or multivariate, imputation is when various estimates are used to replace the missing data by creating multiple datasets from versions of the original dataset. It can be done by using a regression model, or a sequence of regression models, such as linear, logistic and Poison. A set of <em>m</em> plausible values are generated for each unobserved data point, resulting in <em>m</em> complete data sets <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. The new values are randomly drawn from predictive distributions either through joint modeling (JM, which is not used much anymore) or fully conditional specification (FCS) <span class="citation" data-cites="won2023">(<a href="#ref-won2023" role="doc-biblioref">Wongkamthong and Akande 2023</a>)</span>. It is then analyzed and the results are combined to obtain a single value for the missing data.</p>
 <p>The purpose of multiple imputation is to create a pool of imputed data for analysis, but if the pooled results are lacking, then multiple imputation should not be done <span class="citation" data-cites="mai2023">(<a href="#ref-mai2023" role="doc-biblioref">Mainzer et al. 2023</a>)</span>. Another reason not to use multiple imputation is if there are very few missing values; there may be no benefit in using it. Also worth noting is some statistical analyses software already have built-in features to deal with missing data.</p>
-<p>Multiple imputation by chained methods, otherwise known as MICE, is the most common and preferred method of multiple imputation. For this reason, the rest of this paper will focus on this method and variations of it.</p>
+<p>Multiple imputation by chained methods, otherwise known as MICE, is the most common and preferred method of multiple imputation. It provides a more reliable way to analyze data with missing values. For this reason, this paper will focus on the methodology and application of the MICE process.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -267,31 +277,41 @@ div.csl-indent {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e1f65bf010d70658076c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-e1f65bf010d70658076c">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c7f7da4f4bffcb7d4209" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c7f7da4f4bffcb7d4209">{"x":{"diagram":"digraph {\n\n# initiate graph\ngraph [layout = dot, rankdir = LR, label = \"The MICE-Process\n\n\",labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]\n\n# global node settings\nnode [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]\nbgcolor = none\n\n# label nodes\nincomplete [label =  \"Incomplete data set\"]\nimputed1 [label = \"Imputed \n data set 1\"]\nestimates1 [label = \"Estimates from \n analysis 1\"]\nrubin [label = \"Rubin rules\", shape = diamond]\ncombined [label = \"Combined results\"]\nimputed2 [label = \"Imputed \n data set 2\"]\nestimates2 [label = \"Estimates from \n analysis 2\"]\nimputedm [label = \"Imputed \n data set m\"]\nestimatesm [label = \"Estimates from \n anaalysis m\"]\n\n\n# edge definitions with the node IDs\nincomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]\nimputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]\nestimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]\nimputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]\nestimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]\nincomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]\nimputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]\nestimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]\nrubin -> combined [arrowhead = vee, color = DarkSlateBlue]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
 <section id="other-methods-of-imputation" class="level4">
 <h4 class="anchored" data-anchor-id="other-methods-of-imputation">Other Methods of Imputation</h4>
-<p>Regression Imputation <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
-<p>Predictive Mean Matching <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span></p>
-<p>Hot Deck (HD) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-<p>Stochastic Regression (SR) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-<p>Random Forest (RF) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span></p>
-</section>
-<section id="alternative-methods-to-impuation" class="level4">
-<h4 class="anchored" data-anchor-id="alternative-methods-to-impuation">Alternative Methods to Impuation</h4>
-<p>Likelihood and Bayesian Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
-<p>Weighted Methods <span class="citation" data-cites="cao2021">(<a href="#ref-cao2021" role="doc-biblioref">Cao et al. 2021</a>)</span></p>
+<p><em>Regression Imputation</em> is based on a linear regression model. Missing data is randomly drawn from a conditional distribution when variables are continuous and from a logistic regression model when they are categorical <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>.</p>
+<p><em>Predictive Mean Matching</em> is also based on a linear regression model. The approach is the same as regression imputation when it comes to categorical missing values but different for continuous variables. Instead of random draws from a conditional distribution, missing values are based on predicted values of the outcome variable <span class="citation" data-cites="van2020">(<a href="#ref-van2020" role="doc-biblioref">van_Ginkel et al. 2020</a>)</span>.</p>
+<p><em>Hot Deck (HD)</em> imputation is when a missing value is replaced by an observed response of a similar unit, also known as the donor. It can be either random or deterministic (based on a metric or value) <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span>. It does not rely on model fitting.</p>
+<p><em>Stochastic Regression (SR) Imputation</em> is an extension of regression imputation. The process is the same but a residual term from the normal distribution of the regression of the predictor outcome is added to the imputed value <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span>. This maintains the variability of the data.</p>
+<p><em>Random Forest (RF) Imputation</em> is based on machine learning algorithms. Missing values are first replaced with the mean or mode of that particular variable and then the dataset is split into a training set and a prediction set <span class="citation" data-cites="tho2022">(<a href="#ref-tho2022" role="doc-biblioref">Thongsri and Samart 2022</a>)</span>. The missing values are then replaced with predictions from these sets. This type of imputation can be used on continuous or categorical variables with complex interactions.</p>
 </section>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>Multiple imputation is an imputation method for missing data which imputes the missing values with random values to generate m-amount of datasets with complete cases.</p>
+<p><strong>Multiple Imputation by Chained Equations (MICE)</strong></p>
+<p>In multiple imputation, <em>m</em> imputed values are created for each of the missing data and result in <em>m</em> complete datasets. For each of the <em>m</em> datasets, an estimate of <span class="math inline">\(\theta\)</span> is acquired.</p>
+<p>Combined estimator of <span class="math inline">\(\theta\)</span> is given by:</p>
+<p><span class="math inline">\({\hat{\theta}}_{M}\)</span>=<span class="math inline">\(\displaystyle \frac{1}{M}\)</span><span class="math inline">\(\sum_{m = 1}^{M} {\hat{\theta}}_{m}\)</span></p>
+<p>The proposed variance estimator of <span class="math inline">\({\hat{\theta}}_{M}\)</span> is given by:</p>
+<p><span class="math inline">\({\hat{\Phi}}_{M}\)</span> = <span class="math inline">\({\overline{\phi}}_{M}\)</span>+(1+<span class="math inline">\(\displaystyle \frac{1}{M}\)</span>)<em>B</em><span class="math inline">\(_{M}\)</span></p>
+<p>where <span class="math inline">\({\overline{\phi}}_{M}\)</span> = <span class="math inline">\(\displaystyle \frac{1}{M}\)</span><span class="math inline">\(\sum_{m = 1}^{M}\)</span><span class="math inline">\({\hat{\phi}}_m\)</span> and B<span class="math inline">\(_{M}\)</span> = <span class="math inline">\(\displaystyle \frac{1}{M-1}\)</span><span class="math inline">\(\sum_{m = 1}^{M}\)</span>(<span class="math inline">\({\hat{\theta}}_{m}\)</span>-<span class="math inline">\({\overline{\theta}}_{M}\)</span>)<span class="math inline">\(^{2}\)</span></p>
+<p><span class="citation" data-cites="arn2017">(<a href="#ref-arn2017" role="doc-biblioref">Arnab 2017</a>)</span></p>
 <p>For the purpose of this project, we uitilized Multiple Imputation (MI) for the credit dataset (dataset consists of 14 variables: status, home, time, age, marital, records, job, expenses, income, assets, debt, amount, price).</p>
 <p>In R which is a statistical programming software, we created 5 datasets with imputed values using the MICE package (Multivariate Imputation by Chained Equations) which can seamlessly impute missing values in a dataset by looking at the data from other columns and estimate the best prediction for each missing value.</p>
 <p>Before imputing the missing data, it is important to check whether the data has a linear relationship. Nonlinear data should be accounted for in the analysis as well as the imputation process. Otherwise, an incorrect statistical model will result. It is also important to check for anomalies that may occur during imputation. Imputation models may need to be adjusted if the imputed values fall outside the minimum and maximum range of the observed values. More or fewer variables in the imputation model may be needed for these types of anomalies.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># credit[is.na(credit) | credit=="Inf"] = NA</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lm(Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Seniority + Price, data = credit)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># credit_model = lm(formula = Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Seniority + Price, data = credit)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>The chained equation process can be broken down into four general steps:</p>
 <p>Step 1: A simple imputation, such as imputing the mean, is performed for every missing value in the dataset. These mean imputations can be thought of as “place holders.” Step 2: The “place holder” mean imputations for one variable (“var”) are set back to missing. Step 3: The observed values from the variable “var” in Step 2 are regressed on the other variables in the imputation model, which may or may not consist of all of the variables in the dataset. In other words, “var” is the dependent variable in a regression model and all the other variables are independent variables in the regression model. These regression models operate under the same assumptions that one would make when performing linear, logistic, or Poison regression models outside of the context of imputing missing data. Step 4: The missing values for “var” are then replaced with predictions (imputations) from the regression model. When “var” is subsequently used as an independent variable in the regression models for other variables, both the observed and these imputed values will be used. Step 5: Steps 2–4 are then repeated for each variable that has missing data. The cycling through each of the variables constitutes one iteration or “cycle.” At the end of one cycle all of the missing values have been replaced with predictions from regressions that reflect the relationships observed in the data. Step 6: Steps 2–4 are repeated for a number of cycles, with the imputations being updated at each cycle.</p>
 <section id="step-1" class="level5">
@@ -319,25 +339,25 @@ div.csl-indent {
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>credit <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"credit_data.csv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="description" class="level5">
-<h5 class="anchored" data-anchor-id="description">Description</h5>
+<section id="description-of-data" class="level5">
+<h5 class="anchored" data-anchor-id="description-of-data">Description of Data</h5>
 <p>Credit score data</p>
 </section>
-<section id="details" class="level5">
-<h5 class="anchored" data-anchor-id="details">Details</h5>
+<section id="details-of-data" class="level5">
+<h5 class="anchored" data-anchor-id="details-of-data">Details of Data</h5>
 <p>The credit_data.csv file contains data of 4,454 subjects and stores a combination of continuous, categorical and count values for 15 variables. Of the 15 variables, the “Status” variable contains binomial categorical values of “good” and “bad” to describe the kind of credit score each subject has.</p>
 <table class="table">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 71%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -350,7 +370,7 @@ div.csl-indent {
 <tr class="odd">
 <td>X</td>
 <td>Integer</td>
-<td></td>
+<td>Observation number of subject</td>
 </tr>
 <tr class="even">
 <td>Status</td>
@@ -360,17 +380,17 @@ div.csl-indent {
 <tr class="odd">
 <td>Seniority</td>
 <td>Integer</td>
-<td></td>
+<td>?</td>
 </tr>
 <tr class="even">
 <td>Home</td>
 <td>Character</td>
-<td></td>
+<td>Home owner status of subject: “rent” “owner” “parents”</td>
 </tr>
 <tr class="odd">
 <td>Time</td>
 <td>Integer</td>
-<td></td>
+<td>?</td>
 </tr>
 <tr class="even">
 <td>Age</td>
@@ -385,394 +405,424 @@ div.csl-indent {
 <tr class="even">
 <td>Records</td>
 <td>Character</td>
-<td></td>
+<td>?</td>
 </tr>
 <tr class="odd">
 <td>Job</td>
 <td>Character</td>
-<td>Type of job of subject: “fixed” “freelance” “partime”</td>
+<td>Job type of subject: “fixed” “freelance” “partime”</td>
 </tr>
 <tr class="even">
 <td>Expenses</td>
 <td>Integer</td>
-<td></td>
+<td>? Monthly/Annually ?</td>
 </tr>
 <tr class="odd">
 <td>Income</td>
 <td>Integer</td>
-<td></td>
+<td>? Annual income of subject (dollar amount in thousands?)</td>
 </tr>
 <tr class="even">
 <td>Assets</td>
 <td>Integer</td>
-<td></td>
+<td>Dollar amount of assets of subject (in thousands?)</td>
 </tr>
 <tr class="odd">
 <td>Debt</td>
 <td>Integer</td>
-<td></td>
+<td>Dollar amount of debt of subject (in thousands?)</td>
 </tr>
 <tr class="even">
 <td>Amount</td>
 <td>Integer</td>
-<td></td>
+<td>?</td>
 </tr>
 <tr class="odd">
 <td>Price</td>
 <td>Integer</td>
-<td></td>
+<td>?</td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'mice'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:stats':
-
-    filter</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    cbind, rbind</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>credit<span class="sc">$</span>Income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice, <span class="at">warn.conflicts=</span><span class="cn">FALSE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr, <span class="at">warn.conflicts=</span><span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>credit<span class="sc">$</span>Amount</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>   [1] 129 131 200 182 107 214 125  80 107  80 125 121 199 170  50 131 330 200
-  [19] 130 137 107 324 112 140 143 130 180 251  85  NA 150 122 198 150 170 119
-  [37] 208 115  99 120  90 137 230 142  71 120 233 289 128 150 145  90 301 200
-  [55] 150 100 100 100 155 715 245 150  70 190 152 126 181 185 170 176 238 115
-  [73] 200 411  93 108 500  45 250 100  70 150  70 263 200  78 120 125  50 146
-  [91]  70 105 413 500 350 200 138  80 208 137  58 130 123 180 140 315 164 325
- [109] 135 109 185 217 300  NA 253 101 200 124 143 250 135 115 160 214 390 500
- [127]  95 200  85 214 140  60 180 300 200 242 155 100 105 166 120 115 350  NA
- [145] 442 101 122 250  90 160 300  83  NA  60 205 133 179  NA 195 112 210 155
- [163] 394 149 120 400 165 125  74  86 185 165 110 138 300 147  NA 112 350 110
- [181]  75 230  85 210 125 149 201 105 183 113 126 300 160 160  NA  95 125 120
- [199] 359  80  67 148 298 318 185  NA 194  80 147 156 178 130  63  88 140 115
- [217]  83 144 200 172 200 318 177 133 150 208 145 157 190  86  90 100 214 100
- [235] 117 110 168 150 166 337  NA  NA 250 120 236 277  55 200 235  80 200 140
- [253] 125 185 190 150 102 170 315 130 156 177 341 240 142 333 125 170 220 230
- [271] 157 340 120  91 150  88 120  NA 106 162  77 128 189 300  92 380 500 130
- [289] 141 220 146 250 132 150 127  90 166  69 182  77  50 131  62  60  86 143
- [307] 120 283 138  90  99 160 330 100 210 100  97  NA 227 140 115 150  90 275
- [325] 176 110 140 500  66  NA 145  67  NA  80  NA 200 154 187 135 160 133 230
- [343] 154  50 189 202  20  40  50 125 100 115 160  70 220  NA 107 160 150  NA
- [361] 120 225 100  80 208 105  98 532 140  90 155 120 159 122 156  90 130  45
- [379] 118 152 135 125 208  81 160 300 135 121 145 165 428 233 245  NA 200  42
- [397]  87 200 250 350 105 100 160  NA 140 160 148 113  97 107 206 275 176 175
- [415] 223  70  87  42  60 300 144  NA 180  69 110  50  86 172 109  95 203 114
- [433] 186 155 195 246 113 290  NA 125 199 133 210  NA  78 200 100  95 183  43
- [451] 120 198 100 150 133 110 202 140 123 275 200  NA  55 105 146 100 136  90
- [469]  NA 116 128 105 125  68 400 251 225 140  NA 320  NA  87  NA  90  NA 110
- [487]  87  93 110  81  98 155 167 190 110  NA 170  NA  70  55  80  81 139 206
- [505]  NA 120 300 224  80 166 110 161  80 150 170 100 225 166 200 110 110 160
- [523] 204 135 158 290 100 115 149 143 150 199 142  80  93 113  92 205 210 256
- [541] 260 106 160 148 220  63 106  81 100 260 243  88 186 105  80 154  35  63
- [559] 297 161 200 140 125  78  57 300  NA 202 175 150 158  NA 123 125 113 167
- [577] 148 156 123 143 180  NA 150  92 139 250 315 121 180 129 214  99 110  85
- [595] 138  93 100 160 215  90 464 167  86 125 274 135 300 300 128  90 115 107
- [613] 300 230 122  43 250 190 100 246  85 173 150  86 183 100  94 150 140 107
- [631] 117 230 470 102 210  42 130  90 120 117 160  90  50 100 182 135  67  NA
- [649] 137 140  85 324  NA 100  42 251 180 400 158 300  90 146 255 250  50 150
- [667]  NA 190 178 254 110  70 100 137  NA 242  85  NA 125 500 140  70 150 245
- [685] 193 110  70 115  85 400 130 120 250 108 225 300 250 150  NA 319 100  51
- [703] 145 168  54 100 115  NA 180  63 130 170 157  NA  64  NA  35 150  65 100
- [721] 160 215 112 126 150 136 123  80  72 110 111  60  NA  NA 290 173 125  60
- [739] 160 126 148 170 230 166  67  NA  80  60  91  96 180 130  67 100 830 125
- [757]  30 237 152  95 139 145 300 135  80 100 275 250 125 100 130 131 350 538
- [775] 276 107  NA 156 110 260  NA  81  76  98  NA 132 105 300 117 119 140  70
- [793] 265 180  62 189  75  70 188 150 124 113  98  NA 195 159 959 170  28 268
- [811] 155 240 500 135 225 100 190 200 154 210 145 210 102  NA  75 150 120  36
- [829] 129 125 156  72 166  75 125 250 128 155 459 360 100  80 250 105 300 137
- [847] 110 127  56  75  52 100 170 150 188 175  64 110 186 140 200 135 130 200
- [865]  NA  NA  90 175 197 125 170 247 250 130 207  65 180 250 129  NA 116  88
- [883] 120 100 100 113  80 150  NA  71  99  63 166 108 134 138 110 160 176  70
- [901]  60 130 176 130 108  NA 150 183 108 200 180  NA 130 140 141 127 117 130
- [919] 240 425 800  80  95  71 135  47 250 150 118 130 125 171 265 100  69 293
- [937]  87 110  75  40 140  NA 161  70  65  66  73 178 140  50  78  NA 350 140
- [955] 125 121 155 133 117 125 136  25 176 430 125  79  92 176  85 188 300 100
- [973] 120  60 125 464 176  90 200 415 318 163  72 156  49 110 140  92  NA 145
- [991] 104 400  95 150 160 177  85 380 107 134  NA 191 100 110 225 100 217 176
-[1009] 254 126 200 101 119 152 113 119  NA  75  80 137 107  62  62 125 190 124
-[1027] 144 184 100  80 129 225 191 150 127 283 195 114  NA 100 113 178 100  NA
-[1045] 310  86 139  94 135 110 145  53 229 285 240  86 165 129 131  69 123 208
-[1063] 133 500 102 150 100 110  NA 120  78 187 428  60 116 114 208 123  64 350
-[1081]  85  90 250 173 135 210  80 173 130 112  70 116 165 116  25 130  52  78
-[1099] 148  NA  74 138 155 247  85  42 157 236 137 152  NA 167 330 250  80 200
-[1117]  84 200 187  70 120  80  41  57  NA  70 250 222 150 175 138  72 136  40
-[1135] 130 190 243  98 126  55  88 181  77 110 125 225  74 115 137 202 135 145
-[1153]  54  80 140  90  32 130 285  75 150 172 300  73 165 300 217  NA  90 100
-[1171] 217  62  60 117  73  86  67 165 166  82  90 327 145 202 150 223 325 143
-[1189] 100 124 110 120 107  83 162 245 243  76 400 106 120 122  80 120 200 191
-[1207]  67  NA 210 110  45 150 100 345 122 110  90  76 340 185 101 196 158 221
-[1225] 133  NA 150 390 146 478  90 169 100  90 160 222 111 111 168 215  94  63
-[1243] 280 220 126 120  90 191 148  NA  88 150 115  76 145  69  NA  60  73 112
-[1261]  95 150 250  46  60  92 120 231 175 160 109 247 140 100 115  NA  63  79
-[1279] 333 183  NA  25 159 292 160 135 120 135  NA 209 100 148 130 101  49 200
-[1297]  NA 114  53 132  42  90 606 141 141  68  NA 165  70  70  60 241 426  NA
-[1315]  74 180 154  63 289 190 147 198 400 130 140 100 143  87 171 203 154 130
-[1333]  90  92  NA 210 115  80 110  86 117 138  88  54 166 364  65 109  57  99
-[1351] 227  57  80  70 105  65  45  72  80 157 117 100 130  NA  NA  NA 113 450
-[1369]  50 450  87 180 132 150 189 125  64 145  67 127 160  63  60  67  88 170
-[1387] 145  60  92 195  80  NA  42 125 161 117 164  75  85 120 240 250  78 102
-[1405] 152  96  92 199  71  80 190 200 140 140 114 140 140  90 424 155  NA 175
-[1423] 180  50 113 100  NA 905  52 157 400 157  NA 120 162  NA  NA  78 195 400
-[1441]  NA 166 135 204 155 120 130 356 230 100 130 145  81 136 200  NA 157  76
-[1459] 200 128  90  41 125 100 250  47  57  78 100 102 133 104  NA 500 100 150
-[1477] 115  38  67 123  85  60  82 345 142 107 161  63  79  93 137  74 131 113
-[1495]  30 154 164  84 199 120 234 275 250 110  65 200 300  58  NA 139 208  99
-[1513]  NA 140  78  79  80  85 121 250 104  78 157 192 103  75 177  75 210  NA
-[1531] 105  68  50 128  NA  NA 189 139 125 100  50 155 128  NA 183 160 160  75
-[1549]  NA  77 207 180 132 128  96  70 125  81 150 175 112  80  73  NA 186 391
-[1567]  80 280 136  70 199 150 140 175 125  78  75 210 125  NA 100 100  NA 110
-[1585] 180  79 183 205 118 117 135 113  60  85 135 146 150  NA  NA 110 132 177
-[1603]  74 112 125 220  96 100 200 100 196 152  86 113 200 150  95 160  NA 450
-[1621] 127  51  70  70 213  70 280 195  NA 138 205 137  79  95  80 134  65 159
-[1639]  40  70 115  67 102 125 180 240 250  NA 170 116 225  54 124 123  95 160
-[1657] 115 218 301 293 128  NA  25  96  98  55 154 105 117 318 219 102 250 107
-[1675]  60  83  NA  93 105  70 117 183 120  90  NA 200  74 313 197 320 210  40
-[1693] 250 110 134  19 131 260 100 101  69  52 128 122 150 211 109 139 140  88
-[1711]  60  39 120 161  90 110  60 154  97 178 104  NA 500  NA 200 144  80 137
-[1729] 218 129 196 182  NA  47 325  90  92 250  62 146  NA 105 100  77  NA  54
-[1747] 149  56 251  65 160 300  NA 118 174  86 233 285 105 122 160  NA 160 157
-[1765]  65  NA 105 120 130 154  NA 160 128 187 120 200 142 107 126 144  90  55
-[1783] 208 121  51 148 116 152 118  80 120 100 144  90 150  87  50  NA 250 112
-[1801] 121  NA  NA 143 250 244  NA 194 210 257  NA  92 175  90 171 159 166 100
-[1819] 100 160  59 142  53 305 185 142 107 153  66  65 111 100 131 125 110 113
-[1837]  80  93 227  81 110  44 175  NA  58 124 140 117 140 157  NA  NA 228  50
-[1855] 300 100 153 100 142 151  73 134 125 160 120  86 100 190 200  NA 126  NA
-[1873] 155 170 200  87 104 102 101 150  75  NA  NA 104 165 129 160 198  71 162
-[1891]  61 156  NA  95 200 158 110  NA  89  68  31 125  NA 155 110  82  NA  70
-[1909] 124 223  82 100 275 150 117 265 100 382  86  NA  70 120 100  85 125  60
-[1927] 150 110 144 122  75  60  80  78 125  NA  60 366 230 217  60 101 175 130
-[1945] 130  NA  97  NA 126  56 153 150 208 248 123  68 250 165 130 185  83  NA
-[1963]  NA 190  NA 110 126 173 147  NA 160  NA 300 150 150 120  NA 108  NA  NA
-[1981] 155 147  46  NA 112  89 120 145 115 138 125 157  43 373  75 110 174 148
-[1999] 187  90 224 178 133 185  70  NA 160 857 150 106 120 100 120  61  79  NA
-[2017] 146 118  69 130 113  NA 150  92  NA 100  60  53  59 165 111  93  50 111
-[2035]  60  68  60  60 117 110  65  NA  NA 177  90 150 120 150 180 320 260 140
-[2053] 182 129  88 350 190  70  80 140 112 150 112 100  85 162  95 400 700  72
-[2071] 100 100  64 124  80  NA  NA 206 213 120  97 180  NA  70 103 157 179  69
-[2089] 250  53  52 145  70 113 303 291 180 136 140 105  94 219  66  92  70 142
-[2107] 138 230 142 216 260  60  63 139 300  65 167 120  80 100 240 178  92 250
-[2125]  70 120  89  41 212 113 180 172  46  50  80 254 160 130 100 184 133  66
-[2143] 120  98  45 171 118 205 145 135 125 117 260 251 130  NA  NA 185 148 200
-[2161] 200  61 150 170 115 215  60 150 144  75  70 120 222 120 165 250  65  94
-[2179] 141 150  66  82 156 114  92  NA  74 178 150  59  60 110 150 154 220 115
-[2197]  NA 113 198  80  77 219 310 175  NA 179 185 210  77  33  70  83  17 176
-[2215]  65  76 110  NA 170  95  95  40 165  50 164 150  NA  90 200 100 110 150
-[2233]  NA 121 120 106 100  79  98  NA  90 210 160 120 211  80  70  67  71  92
-[2251] 158 115  80 176 321 112  NA  75 100  75  80 170 140 120 100 200  50  83
-[2269]  75  62 220 100 137  97 100 170 151 115 153  NA  67 135 177 140  85  95
-[2287] 119 145 100 200  NA  96  85  60 152  70  NA 138 187 110 148  89 106  NA
-[2305] 198  40 100 145  80  NA 208 212 169 120 180 136 130 205 148 174  90  68
-[2323]  NA 169 103 121 100  54 114  81  NA  65 250  90 103 164  NA 129 150  80
-[2341]  90  95  92  47 115 115 130 190  NA  58  75 260 136 152 209 186  90 120
-[2359] 110  80 132 245 200  66  NA   6 185 144  NA 108  50  80 120 168 183  90
-[2377] 156 102 142 280 195  79 220 122  87 114  NA 187  26 491 250 204 165 130
-[2395]  79  NA  96  85  NA  66 155  NA 100  NA 140 158 144 340 250 296 139 110
-[2413]  70  87 108  90  56 235  60 225  89  80  63 250 143  73 126 101  60 169
-[2431] 193  90 116  60 107 150  NA 319  90 122  93 121  93 162  NA  NA  51 135
-[2449]  60 106 160  76  NA 115  60 173  90 365 154  NA 100  70  75  60 128 120
-[2467]  NA 113  71 120  55  90  NA 154  16 416 105 210 146 150 105 148  84  60
-[2485]  80 226 130 100 175  NA 163 131 125 212  NA 104  65  75 126  91 103 100
-[2503] 164 131  NA  85  60  48 312  80  83  77  63  31 108  68 120 213 450 145
-[2521]  90 114 104 240  45  70  85  82  80  66  82  99  46 178 147 280  75 190
-[2539] 240 280  62  90  96 159 155  78 283 130  80 129 122  65 127 125 260 158
-[2557] 163 131 140 132  66 140 150 110  59  NA 139 100 135 137 120  NA  87 142
-[2575]  65 464  83  NA 126  66  90  84  61  NA  55 185  85 101 180 220 142  91
-[2593]  57  62  27  NA 176 124 128  92 100 300 167 222  NA  80  50 138 187 140
-[2611]  58  83  38  NA  35  84  95 104 390 209  71 200  48  NA  NA  82 126 111
-[2629]  87 535  NA  NA 270  53  49 140  67 189  80 170 110  98  67 120 150  62
-[2647] 100 160 205 115  NA  NA  NA 110 531 145 120 100 167 245 100 190 125  90
-[2665] 205  51 144  NA 235 160  90 115 213  85 192  NA  90  61  75  80  NA 178
-[2683]  NA 180 120 349  99 122 111  91 109  35 371  67  NA  NA  57  70  63 204
-[2701] 185 115 141  81 100  96  NA 150 199  96 198  21  70  50 121  58  93 100
-[2719] 130  NA  55 110  NA  95  NA  35 156 105  58  NA 147  77  66 125 150 105
-[2737] 500 125  50  95 181 140  75 182 117 217  58 180 110  87  75 198 233 126
-[2755]  43 154 160 160  70 120  80  90 120 190 130 111 280 110  NA 150 150  85
-[2773] 200  88  58  98 198 171 150  NA  NA 122 306 200 107 147 100 172 300 109
-[2791] 345  92 410  70 107 115 165 200 180  87 154  NA  60 182  NA  NA  NA  85
-[2809] 115  NA 215 273  NA 110  NA  57 163 120  52 136  82 124 265 189  NA 230
-[2827] 260 111 125 440 200 245  88  92  92 130 150 112 134 101 143  92 150 162
-[2845]  45 100 118  72 129 110  80  97 103  NA  96  94  93 148 274 140  77  91
-[2863]  85 175 466 150  52  72  NA 139 105  93 642 155 120 155 165 150 105  65
-[2881]  86  NA 163  NA 122 126 100  27 167  45 136 150  NA 130 218 230 104 103
-[2899] 118 240 120  80  99 254 167 120 108 152 111 228 107 101 105 150  NA 125
-[2917] 240 110 122 152  60  90  40 186 131 153  NA 100 128 128 109 198 190  73
-[2935]  NA  NA 160 122  NA 130 169 150 142 101  65 285 151  72  80  71  NA 135
-[2953] 202  NA  25 110 103 216  75 114 198 270 200  64  90 132  70 164  NA 179
-[2971]  NA 164  25 111 123 384 217 234  NA 113 182 126  NA 170 184 147 200  42
-[2989]  69  93  NA 245  88 150  42  NA 176  64  NA  55  97 230 125  92  87 126
-[3007] 134  NA  85 203  47 230 102  NA 116 352 170  92 112 138  NA  90  84  72
-[3025] 200  NA 136 125  78 140  NA 197 122  85  87  93  86  NA  53  NA  91 105
-[3043] 147 335 173 147 260 100 264 132  53 123 292 100 135  90  60 152 145  80
-[3061] 110 172 115 190  56 298  72  80  NA 233 355  32  49 185 115  73 119 219
-[3079] 105  NA 134  40 184  90 119 170 118  85  95 133  81 190 191  70 127  NA
-[3097] 142 125 178 240 125  80 200  NA  70  NA 110 132 168  NA  19 100 130  95
-[3115]  70 383  63 215 104 164  NA  53  NA 142 182  92 100 121 130 123  78  41
-[3133] 113 160  86 100 100  92  NA 194 135  65 189 200 158  97 180 180 119 130
-[3151] 139 117 145  57 210 296 150 100 205  93  84  77 140 141  86 125  NA  93
-[3169]  42  NA 100 211  68 240 112  85 122 250 325  55  47 120  NA  39  NA 150
-[3187]  NA 109  77  65 140 107 181  77 241 350 149 203 158  90 150  93  NA  95
-[3205] 218 214  70 125 110 140  79 123 120 100  85  75  77  NA  55  60 173  NA
-[3223] 105  95  75 158 346  61  NA  72 207 195  NA 105 103  75  NA  97 135  80
-[3241] 121  71 125 170  NA 190 475  89 140 200  88  NA 180  83 110 100 125 159
-[3259] 105 140 120 100 142 314  64  NA  50 120 250 130 142  88 121  65  80 125
-[3277] 245 247  80 183 163  60 169  96  59  NA 119  NA 102  72 127  51 130  83
-[3295] 100 115 160  98 120  82 115 137  48  NA  72 143 107 180  65  NA 103 120
-[3313]  60  80  87  NA 143 125  70 290 350 151 139 178  NA 352  24  80 102 175
-[3331] 140 114 176  73 233  NA  73  NA 120  82  75 250  50 195  NA  90 178 274
-[3349]  85 195  70  NA 150 108 150 335 151 109 125 160  82 199 111 310  NA  57
-[3367]  95 103 120  65  90 116  75  93  90  64 190  95  76  74  78  NA 108 212
-[3385] 128 155  83 100 179  85  96  33 101 178  85  47  88 156  45 121 295 120
-[3403] 188 131 181  72 150 100 131  62 125  62 158 270 150 149 225 138 100 153
-[3421] 141 170  59  67  65 400 175 110 128  95 114 130  NA 100 142 164 150 320
-[3439]  NA 211 105 111  70 125  40  45 180  85 187 100  NA  NA 192  NA 174  NA
-[3457] 100 178 108 100  NA  NA 150 165 108  67 120  88  75 200 232 129  NA 100
-[3475]  85  92  NA  NA 110  80 143 105  88 124 184 100  50  80 292 100 130 150
-[3493] 183  NA  91 107 125  45  30  64 116 140  61  86  89 165  67  95 121 128
-[3511]  90 103  NA 130 229 143  65 163 162 154  55  53  NA 192  NA 115  90 175
-[3529]  60 114 110 130  92  NA  68 130 103 200 170 270  82  79 139 205 100 188
-[3547] 135 200  92 120 172  44 169 115 180  NA  86 130 200 167 100  73  22  83
-[3565] 122 116 100 117 135  72 266 293  98  57 116 200 104 225 141 145  45 146
-[3583] 225 142 161 105 121 436  76  37 148 214 174 400 120 210 155 185 244 130
-[3601] 167 145 149  78 266 175 169 170 140 271  91  75 162 135 147 177 102 200
-[3619] 130 150 125 108 150 142 188 140 122 112 110 106 150 105  72 106  65 300
-[3637]  92 100 118  71  NA 101 164  57  NA 140 180  80  81 114 350  73 107 120
-[3655] 110 130  NA  96 114 175  72 140 115  66 124 201  80  90 110 122 315 270
-[3673] 200  NA 242 364 182 105  NA 225 100  85 100 250 150 178 256  85  82 220
-[3691]  NA  61  88 244 160 119  63 257 189 123 130 113 102  NA 190 110  80  98
-[3709]  NA 147 250  95 230  NA 130 104  NA 128 120  66 247  63  66  70 140 178
-[3727] 203  87 555  NA  95  55 140  85 198 130  80 200  95  NA 224 168 179 107
-[3745] 160 111  80 110 108 181  67  25 150 170 150 294 100 100 192 100 171 245
-[3763]  NA 110  70  72 133  NA 250 196  92 325  NA 110 157 162  70 175  86  69
-[3781] 148 129 150 102 140 120  66 115  84 128 155 140 230  NA 140 207  75 250
-[3799] 200  NA 135 143  90 102 250 162 140 235  60 124  70 140 100 184  90 116
-[3817]  57 210  53 111 200 160  NA 159  NA  67 109  59  74 106  48  62  70 150
-[3835]  95 202 100 115 164 155 150 165 108  93 133  55 148 130 120  NA  99 120
-[3853] 250  37  NA  74  NA  NA  70  79 105 102  50 160 120 107 253 155 130 120
-[3871] 124  75 150 100  78  60 419 112 147 165 160  NA  34  73  98 123  NA 100
-[3889]  56  90 294  NA  80 112 100 115  67 375 113  53  73  NA 196  56 200 102
-[3907] 310 106 103 131 117 120  33  NA 130 110  60 107  65 173 134 173  78  95
-[3925]  89 155  87  NA  61 185 300  NA 320 139 159  79 260 100 231  82 120  91
-[3943] 203  96  NA  NA  NA  90 225 205  NA  51 144  80  NA 140  90 107 190 145
-[3961]  93 145  55 173 110  NA  68 170 160  48 128 125  72 115 288 160 114 118
-[3979]  60 139 195 108 140 145 105  56 216 130 120  90 103  NA 193 164 100  60
-[3997]  92 300  92 227 150  91  NA 161 113 146  70 318 115  90 215 340  42 104
-[4015]  81 114 210  83 223 117 100 105  NA 110  42  80 120  90 112 136  85 144
-[4033] 140 183 250  NA  56 170  71  94 112 115 100  71 125  35 200 160  NA 179
-[4051] 221 214 145 142 200  72 105 211  90 100 118  88 147  NA 197 127 235 126
-[4069]  NA 233  78 106 178 111  71  NA  53 116 237 165 128  NA 216 155  NA 105
-[4087]  82 695 180 125  85 167  45 174  95  NA 314 110 163  80 110  90  83 190
-[4105]  92  80  76 187 170 160 109 165  50  36  92 120  37 242  NA 214 234 125
-[4123] 251 140 300 119 158  91 195 160 110 201 130  68 157 233 104 168 120 230
-[4141] 136 185 155 145 169 135 120 200 197 130  55 111 136 157 160  81 160  81
-[4159]  NA  85  95 142  54  48 120 178 102  NA  96   8 106 193  NA 120  80  98
-[4177] 241 106 160 160  NA  80 178 193  60  80 103 107 111 200  NA  19 182 145
-[4195]  97 148 170  NA  NA  73  90 125 115 192  84 150 111 139 240  50  76 188
-[4213]  95 145  72 120  85  60 211  67 143  NA  NA  76 106  90 120  85 183  75
-[4231] 120  83 102  71  92 107  NA 150 120 112  60  78  73 130 165  NA  NA 166
-[4249] 210 110  87 194 150  52  75  NA 182 201 180 100 115  75 210 110 700 103
-[4267] 130  95 200 161 101 120 115 150 230 118  93 149  95 250  NA 190  56  70
-[4285] 208 210 102  50 214 140  23 110 127  60  NA 184  87 120 145  81  92  97
-[4303] 150 102  99  56  80  94 205 118 113 120  70 105  55 102  79 152 105  89
-[4321]  95  91  96 128 120  70 162  81 205  71 177  92  NA  67 100  75 100 117
-[4339]  63 146 200 300 231 130 114 110  72 125  NA 154 100 100  82 105  68 107
-[4357] 104 150 100  82 220 116 230 466 159  58 163  NA 137  50 131  70  NA  90
-[4375] 110 300 104 108 148 208  48 230 267 187 170  88  71  92  95 125 138 143
-[4393] 218 120 120 130 165  NA 114  84 174 140 142  90  75  74 124 110 120 205
-[4411]  NA 140  38 107  77 190 175 285 129  NA 114 108  60 100 140 154 150 175
-[4429] 260 170 172 150  NA  92 199  NA 130 200  50  NA  NA 219  63 242 100  69
-[4447] 190 160  77  92  75  90 140 140</code></pre>
+<pre><code>   [1]  800 1000 2000  900  310  650 1600  200 1200 1200 1150  650 1500  600
+  [15]  400  900 1500  600 1100 1250 1500 1100  600  950 1350  700 1000 1800
+  [29]  600 1500 1100  400  450 1000 1100  700  500  800  950 1125 1300  900
+  [43]  950 1250 1500 1150 2100 1500  450  750 1600  900 1200  900  500 1000
+  [57] 1000  500  600  800 1830 1100  600 1000 1000 1350  600 1200  850 2000
+  [71]  900 1000  600  800  700 1000  500  900 1750  900 1000  550  850 1000
+  [85] 1000  500  600 1426 1040 1000  950 1490  750  800 1400 1000  250  950
+  [99] 1500  800 1500 1100  600  650 1950  400  900 1200 1600  350  950 1500
+ [113] 1340 1000  670 1200  800  460  950  700  600  900 1800 1300 1100 2380
+ [127] 1400 1550  650 1000  950 1400 1300  600  700 1300  900 1150 1100  500
+ [141]  800 1000 3800 1000  900 1300  850  700  600 1200  300 1000 1100 1300
+ [155] 1400 1500  900 1200  700  500 1550 1100 1500  200  800  930  900  600
+ [169]  600 1300 1000 1350 1275 1400  600 1886 1200  600  800  300  900  950
+ [183] 1400 1200 1200 1400 1100 1200  600  700  200 1000 1000  500 1600 1000
+ [197]  950 1177  870 1200 1050 1000 1700  700 1100  750 1200 1500  400  800
+ [211] 1000  400 1000  750 1200  750 1100 1000 1000 1100  900 1900 1370 1000
+ [225]  984 1000  300 2000 1800 1000  600 1500  800 1150  800  455 1200 1700
+ [239]  600 1300  700 1350 1500  600 1000 1700  950  600  800 1260 1540 1200
+ [253]  700 1200 1100 1200  700 1300 1000  250  700  800  900 1660  200 1000
+ [267]  770  700 3000  700 1000 1900 1000 1000  900  750  900 1000  650  400
+ [281] 1000  550 1200 2000 1700 1100 1500 1200 1100 1000  400 1400 1200 3000
+ [295] 1030 1000  875  500 1000  750  950 1050  350 1150 1200 1400 1300 2000
+ [309] 1400  500 1200 3250 1300 1000 1400  700  600 1500  600 1200 1100  700
+ [323] 1100 1000 1190 1150 1450 1900  600 1000  825 1080 1900 1030  800  700
+ [337]  850 1550 1200 1000 1500 1100 1000  600 1100 1400 1850  170  200  500
+ [351] 1250 1250  890  600 1000 1600  300 1550 1100  750 1000 1400  900  600
+ [365] 1500  200  860 1000 1000  500  800  300  300 1300 1300 1000 1100  200
+ [379]  600  400 1000 1200 1000 1150  200 1000 1300  850 1000 1300  500 1200
+ [393] 1700 1500 1400  910  500 1000  600 2200 1200  400 1350 1200 1150 1400
+ [407] 1400  700 1500 1250 1900 1600 1400 1000 1400  790 1200  500 1150 2400
+ [421]  450 1100 1350 1100  700  425 1400  900 1135  890 1100 1200  850  800
+ [435] 1000 1300  950 1500 1000 1200  250  700  700 2150  850 1100 1850 1340
+ [449] 1100  450  870 1100  700 1000  360  500 1400 1100 1450 1500 1350 1500
+ [463]  757 1200 1400 1350 1500 1100 1100 1400  700  850 1050 1200 1800 1000
+ [477]  800 1200  900 1050  900 1000 1800 1500 1400 1300  500 1000  450 1000
+ [491] 1350 1400  800 1850 1150  950 1800  750  900  800 1500 1000 1200 1500
+ [505]  500 1000 1700 1600 1000  800 1100  970 1100  500  350 1500 1300 2200
+ [519]  800 1500 1000 1200  200 1350  260 1200  450 1250  700  650 1000 1100
+ [533] 1000 1300  250  850 1220 1300 1700  600 1000 1200  450  750 1500  800
+ [547] 2375  870 1210 1500  600 1000  900  830  700  825 1920  800 1360 1700
+ [561] 1700  700  375  500 1000 1000 1400  900 1100 1420 1020  900 1100 1500
+ [575] 1200  340  900  600  900 1160 1200 1200 1100 1100 1450 1000  500  400
+ [589]  800  780 1120 1100  800 1100  500 1000 1100 1200 1470 1050 2000 1650
+ [603] 1000  360  300  690 1400 1000  500  300 1500  600 1000 1200  500  425
+ [617] 1700  500  950 1370  850 1100 1000 1600 1150  675  900  650 1000 1100
+ [631]  950  950 1350  650  900 1100  600  800  900 1100  700 1300 1600  900
+ [645] 1300 1400 1400 1000 1150 1300 1950 1550  250 1200 1600 1000 1000 2075
+ [659]  380 1450  400 1150 1500 1400 1000 1200 1200  750 1680 1200 1000 1650
+ [673] 1000 1200 1300 1550 1380 1300  700  600 1650 1200  700  375 1150  370
+ [687] 1000 1250 1100 1000 1600 1150 1900  500 1000 1000 1350  800  900 1800
+ [701] 1420  300 1000  850 1550 1000 1000  900 1000  800  950 1300 1200 1250
+ [715] 1055 1400  650 1400  350 1000  600 1600  750 1450  950  450 1100 1600
+ [729] 1760  450 1000  500 1400 1400  350 1000  500  530 1200 1300  500 1500
+ [743]  500 1350  800 1900  800  500  900  350 1200  250 1000 1210 2000 1300
+ [757]  900 1571  900  300  300 1700 3000  550 1200  450 2400 1250  800 1400
+ [771]  900 1200 1700 1400  750  700 1100  700 1350  800 1000  400  800  600
+ [785]  700 1400 1000 1060  768 1300  350 1000 1200 1600  300 1000 1000  900
+ [799] 1000 1000  700  900  500  850 1150  950 1050  950  400 1400  800  675
+ [813] 1800  978 1130 1600  800 1400  600 1100  650 2100 1100  400  400  500
+ [827] 1000 1150 1000  900 1100  750 1150  350  250 1200 1500 1000  600 1700
+ [841]  600  400  800  625 1100  300  125  850 1250 1000  400 1000  915 1000
+ [855]  600  475 1150  650 1900 1800  350 1100 1800 3075 1250  200  900 1000
+ [869]  860  800 1100 1500 1300  450  600 1000  700  700  970 1600 1100 1000
+ [883]  900  900  800 1500  850  800 2400  600  750  300 1000 1000  900  900
+ [897] 1270 1300 1800  925 1750  500 1100  800  350 1200 1000  950 1000 1550
+ [911]  300 1000 1000 2000 1250  700 1650  400 1300  900 2600 1000 1250 1150
+ [925] 1400  400  240  920  750 1480  375 2500 1400 1450 2000 1298  425 1400
+ [939] 1100  600  600  275  580  850  700 1300  579  700  763  960 1075 1000
+ [953] 1500 1800  600 1000 1100 1000 1000  600  940  100  350 1000 1200  850
+ [967]  475 1150 1050  700 1700 1500 1000  100 1100 1100 1000 1600  750  700
+ [981] 1350 1200 1200 1550  400  950  900  600 1700  500 1200 1500 1000  300
+ [995]  250 1450  500 1000 1000  625  850 2000 1000  500 1000  300 1250  950
+[1009]  500 1400  950  850 1600 1210  600  300 2350  850 1220  700  700  650
+[1023]  650  750 1250  500  475 1550  800  300 1125  600 1400  512 1000  900
+[1037] 1200  650 1550 1100 1100 1850  500  950 1600 1400 1100 1350  650  800
+[1051]  700  850 1700 1440  500 1200 1400  750 1250  500 1000 1200 1000  500
+[1065] 1000 1000 1350  500 1400 1650  800 1100 1900  750  950 1000 1000  700
+[1079] 1100 1000  105  400 1250  933  600 1330 1350  475  900  400 1000  925
+[1093]  950 1000  400  500  800  550 1300  850  475  950  300  900  650  400
+[1107] 1600 1500 1000  500 1400 2000 1000 1500  490  900 1390 1000 1500 1200
+[1121] 1100 1000 1200 1400 1200 1250  860  600 1000  750  900  350  600 2000
+[1135] 1100  700 1250 1100 1150 1500  850 1600 1500  300 1080  700  950  600
+[1149]  600  350 1000  680  450 1000 1000 1250  650  800  500 1450 1500  950
+[1163]  400  650  500 1200 1800 1000 1650 1000 1400  984  200 1400  940  900
+[1177] 1000  900 1500  480 1050  700 1500  600 1400  450  400 1300  850  800
+[1191] 1150  900  800 1400 1000 1520 1850  650  200  500  650 2000  700 1500
+[1205]  978 1000  800  800  300 1090  600 1100 1300  700  750 1500 1500  300
+[1219]  525 2000 1090  800 1000 1600 1600 1300  250  500  700 2100  500 1000
+[1233] 1060  300 1300 1900 1150 1100 1100 1000 1660  600  600 1300 1000  350
+[1247]  900 1000  835 1500  325 1100 1650  500 1250 1400 1370  775  700  850
+[1261] 1450 1000 1250  900 1150 1400  900  400 1650 1200 1000 1900 1550 1200
+[1275]  360  850  625 1570  700 1200  250 1300  750 1500 1000  240 1000  750
+[1289]  600 1800  450  700 2047 1300  750  520  775  400  600  300  500 1000
+[1303] 1550 1150 1300 2375 1000  250 1000  125 1200 3800  350 2000  600  900
+[1317]  700 1400 1200 2100 1300 1000  750 1450 3900  950  700  500 1000 1050
+[1331]  500  200 1000 1030  375 1800  500  600  860  900 1200 1400  850  600
+[1345]  900 1300 1500 2000  380  750 1150  700  150  850 1300  900 2000 1000
+[1359] 1450 1990  825  300  380  700  700 1450 1650 1030 1000 1500  300 1300
+[1373] 1275  650 1500 1100  600 1000 1000  600 1150 1100  525  900 1200 1300
+[1387] 1300 1200  100 1900  325  750  800 1000  800 1000  550 1000  400 1100
+[1401] 1300 1250 1250  450 1100  580 1000 1500 1100 1060 1100  700  400 1000
+[1415] 1000 1400 1150 1000 1000 1035 1650 1000  450  300 1200 1400 1600 1200
+[1429] 1000 1300  600 1300 1000 1570 1000  400  800  500  600 1450  500  500
+[1443] 1170 1400  400 1750  625  700  800  700 1400 1100  300 1000 1550  500
+[1457]  800 1640 1600  300  400 1300  350 1950  450  500  500  300 2100 1175
+[1471]  400 1300 1150 1300 1300 1580 1400 1050  775 1030 1500 1400 1300 2000
+[1485] 1000  800 1200  900 1000 1300 1000  870  770 1300 1000  850  600  475
+[1499] 1400 1100  610 1800 1600  900 1400  800 1500  175  900  460 1000  250
+[1513] 1000  400 1000  700  950 1200  750 1900 1150 1100 1450 1350  500 1175
+[1527] 1900  690  800  600 1000  500  900  800  850 1800 1600  900 1500 1150
+[1541] 1000  500  400 1000 1200 1300  550 1300 1700  900  700  700  400 1250
+[1555] 1100 1500 1450 1540  400 1000 1000  600  430  480 1250 2000  800  800
+[1569]  800  450 1600 1300  800 1500 1500  500  670 1650  500 1100 1100 1400
+[1583]  675  700 1450 1200 1170  450  900 1000 1000 1200 1100  375 1000 1600
+[1597] 1100 1000 1150  750 1000  500  500  200 2500 1600 1300 1250 1250 1000
+[1611] 1200  950  500 1800 1000 1400 1000  700 1385 1000 1400  500 1000  375
+[1625] 1000  800 1300 1500  700 1000 1400  800  650  940 1150 1100 1000 1280
+[1639]  400  500  800  970  900 1100 1000 1510 1500  700  887 1300 1300  550
+[1653] 1500  800  500 1350 2250 1400 1100  500  400  600 1700 1200  200 1300
+[1667] 1870 1000  475  740  600 1400 1300  800  600 1300 1350 1100 1100  700
+[1681] 1500 1900 1170  600 1100 1000 1700 2180 1590  700 1200 1000 1700 1300
+[1695]  700  425 1350 1200  900 1000 1500 1000  525 1400  450 1475  830 1000
+[1709] 1400 1100 1000 1000 1400 1500 1000  700  450  750 1000  150  800 1000
+[1723] 1000 1500  600 1465  425 1100 1100  900 1350 1100  700  820 2250  700
+[1737] 1300 1400 1000 1400 1200 1000 1220  200 1300 1500 1500  770 1100 1000
+[1751] 1220 1300 1100 1200 2000  350 1250 1000  700  950 1200 1145  450 1000
+[1765]  425 1500  300  560  350 1000 1200  550  900 1300 1075  943  450  600
+[1779] 1300 1225 1700 1350  400 1450 1000 1400 1300 2700 1200  400 1000  600
+[1793] 1450  900 1310  900 2750 1275 1700 1550 1100 1318  450 1150 1000  600
+[1807] 1800 1000  900 2200  400 1650 1150  930 1200  687  800  500  700 2000
+[1821]  500 1650  750 1400 1350 1300  600 1650  280  850  750  800  250  400
+[1835] 1550  370  600  600 1700 1500 1150  400 1500  175  200 1530 1100 1000
+[1849]  795  600  500  900 1200 1100  800 1350  800 2500  900 1100 1086 1000
+[1863] 1200 1700 1100 1350 1000 1300 1300 1600 1000  875 1250  800  740  500
+[1877] 1700  700 1600 1000 1150  550 2000 1000  750  850 1600  575  660 1500
+[1891]  800  950 5000 1250  800 1250 1250 2100  250 1300  250 1200  800 1250
+[1905] 1450 1100  500 1300 1350 1660 1000 1000  700  175  600  400 1000 1400
+[1919]  750 1200 1150 1350  800 1500 1500  800  850  500 2000 1400 1085  500
+[1933]  200 1400 1000 1000  700  500 1740 1245 1500  400  500  800  700 1800
+[1947] 1900  350 2000  500  600  800  800 1400  800  850  500  300 1500 1400
+[1961]  675  600  750  600 1200 1700  600  550  350 1250 1100  700  800  600
+[1975]  350  600 1200  550 1500 1400 1350  750 1340 2000 1350 1250  900 1300
+[1989] 1200 1600 1500 1000  800 1300  500  350 1300 1500  700  350  750 1100
+[2003] 1000  750 1200 1000 2000 1000 1000 2500 1100 1050  550 1200 1300  700
+[2017] 1450 1350  600 1300  400  600  400 1150 1600  800  850  600  600  900
+[2031]  775  800 1000  750  500  100 1500 1750  350  450  625 1700 1000 1300
+[2045]  800  700 1100 1550  700 2000 1650 1000  500  800 1100  600 1350  950
+[2059]  600 1500  800 1450 1000 1150  800 1250 1250  800 1350 1200 1550  500
+[2073]  400 1300  325  450  500 1500 1100 1150 1070 1500 1200 1750 1300 2500
+[2087] 2000 2000 1000  780  800 1800  600 1150 1000  900  700  900 1000  350
+[2101] 1000 1600  700 1000  300 1300 1000 1400 2500  983  500 1000 1100  600
+[2115] 2000 1800 1450  900 1000 1500 1000 1600  800  500 1150  760  800  850
+[2129] 1250  700 1100 1000  700  650 1100 1650 1200  750 1400 1600  750 1000
+[2143]  900  450 1350  550 1000  275 1450  400 1575  660  690 1450  500 2700
+[2157]  600  950  700 1600 1420 1250 1100  950 1400 1500  600  400  960  280
+[2171]  400  600 1000 2100 1500  700  225  500  800  910 1000 1000 1350 1330
+[2185]  550 1200  500 1100  550  500  600 1195 1150 1300 1200  325 1370  930
+[2199] 1800  900  800 1400 1300 1500 2000 1000 1500 1100  870  600  500 1140
+[2213]  450  700  400 1000  700 1400  600 1000  700  300 1600  750 1050 1000
+[2227]  190  450 1650 1250  780  660 1000 1320  950  870  800  600  900  700
+[2241] 2900 1575 1400 1000 1400  900 1050 1000 1500 1200 1000  200  500 1800
+[2255]  975 1100 1000 1100  700  800 1600 1300 1300 1500 1050  800 1600 1300
+[2269]  900 1700 1600 1100  350  850  900 1280 1635  700  450 1300 1500  250
+[2283]  700 1000  500 1180 1000  500  750  800  500 2050  850 1500 1250  600
+[2297]  525 1400 1150  650  300 1000 1200  150 1650  850  400 1250 1000 1100
+[2311]  500  600  400  880  850 1070  400 1350  700 1000  800  900  800 1000
+[2325] 1250 1200  375 1000 1000 1000 1500 1000 1000  750  950 1000  600 1300
+[2339] 1500  600  850 1100 1618  350  700 1870 1100 1300 1100  400  400  400
+[2353]  435 1400  900  900  949 1200 1020 1100 1000  500  750  300 1700 1200
+[2367]  600 1350 1800 1100  350 1000  250  650 1500  800  700 1000  950  850
+[2381]  900  900  800  500 2000 1200  900 1400 1350 4000  500 1500  500 1500
+[2395]  590  350  850 1200 2000  800 2000 1000  900 1450  550  500  500  700
+[2409] 1000  200 1000  900  500 1100 1400 1200 1400  500 1400 1500 1200 1300
+[2423] 2700 1550  600  950 1450  965 1450 1400 1140  550  480 1350 1000  500
+[2437] 2000 1200  400  350 1600  900  230 1000 1300 1000 1450 1000 1500  820
+[2451]  200 1300 1700 1250  800 1100  400 1300 2000  650 2400  900  650 1000
+[2465]  700 1000  700 1050 2000  900  775 1000  700  825  850 3875 1200  500
+[2479] 1000 1500 1000 1350  700  700 1400 1350 1000 1250 1250  600 1000  250
+[2493] 1000 1300  290  550  750 1100  900  600  500 1600  800  600  850 1450
+[2507] 1300  300 1033  650  200  350  600  625 1200  725  700 1700 1200 1500
+[2521]  800 1050 1400  900 1500 1300 1100 1090  500 1200  600 1000  900  740
+[2535] 1700 1000 1000  200  675 1100 1800  900  475 1100  600  730 1897 1700
+[2549]  700  525 1500  600  300 1500 1100 1000  400  980 1500 1100 1250 1150
+[2563] 2000 1150 1200  900  650 1400 1300 1100 1500  800 2000 1300 1100 1100
+[2577] 1530 1500 1170  550 1200 1400 1420 1050  700  319 1000  500 1100  600
+[2591] 2000  450 1200 1500 1050  250  700  800 1300 1050 1200 1100  250 1300
+[2605]  650 1200 1200 1080 1200 1600 1100  700  400 1300  650  700  900  900
+[2619] 1000 1450  800  600 1200  700 1200  800  800 1300  800  500  400 1500
+[2633] 2300  225 1200  700  316 2300 1000 1000  400 1200  200 1000 2800  750
+[2647] 1100 1500  600 1600 1000 1300 1300  700 1400 1000  775  500 1435  500
+[2661]  850  800 1350 1200 1300  800  850 1800 1400  600 1000 1000 1250 1500
+[2675]  575  950 1000  800  500 1000 1200 1600  760 1700 1400 1300  750 1350
+[2689] 1000 4500 1332 1000 1450  800 1350  750 1230 1200  890 1200  600 1200
+[2703] 1000 1200 1000 1100 1350 1500 1550  300  100 1050  700 1200 1400 1000
+[2717]  550  475  800  900  950 1200  240 1000 1800 1200 1000  800  500  500
+[2731] 1000 1805  600  944 1500  750  800 1000  250 1300 1050 1000  850 1500
+[2745]  600  750  500  400  900  600  900 1000 1400  500 1200 1350 1000  900
+[2759] 1388 1600 1000  600  250 1500  650 1600  850  850  900 1000 1200  500
+[2773] 1100 1200 1450  950  900 3000 1000 1000  550 1400 1000 1300  950  650
+[2787] 1050  850  750  900  830 1500 2000 1400  400  800 1000 1800  580 1150
+[2801] 1600  600  900  175 1600  700 1000  600  645  660  600 2000 1000 1500
+[2815] 1000 2500 1000  500 1050  450 1300 1600  500  800 2000 1700 1800  800
+[2829] 1000  550 1700 1450 1000  875  750 1400 1350 1450 1200 1600 1400 1450
+[2843]  800  900 1000  800  900  650  400  800  750  600  950 2500  960  900
+[2857]  600 1150 1600  650  550 1000  325 1143 1678 1500 1200  350  400  715
+[2871] 1400 1500 1000 1250 1250 1000 1300  500 1350 1000 1000 1000  880 1000
+[2885]  250 1000 1000  850  400 1300  350 1300  300  400 1600  600 1350  325
+[2899] 1500 1050  600 1300  350  350 1000 1150 1606 1000 1200 1150  850  790
+[2913]  500 1000 1550 1000 1000 1000 1000 1400  600 1800 1000 1600 1000  500
+[2927]  600 1200  800  800 1050  700  800  400  400 1550  900  800 1100 1400
+[2941] 1250  500  700 1400  895  850 1000  500 1500  950 4000  200  800 1250
+[2955] 1000 1000 1100 1000 1200 1150 1000 1000  600  700  200 1400 1050 1400
+[2969]  680 1000 1500 1500  880  750 1600  900 1230 1250 2300 1300 1200  850
+[2983]  750  500 1000  750 1370 1500 1200  800  600 1126  500 2000  200  700
+[2997] 1400  200 1700 2000 1000 1200  400 1300 1200 1350  300 2220  948  900
+[3011]  400  650 1000 2400  800 1300 1300  950  900 1700  900  500  700  700
+[3025] 1100 1400  900 1000 1000 1400 1000  400  900 1270 1000  950  700  500
+[3039] 1000 1600 1000  250 1080  600 1600 1050 1400  650 1000  850 1150 1800
+[3053]  950 1400  650 1200 1000 1050 1000 1570 1500 1100  400 1000 1100  500
+[3067] 1150  200  500  850 1900  700 1250 1600 1000  800  800 1000  500 1700
+[3081] 1000  800 1400 1370 1040 1000 1300  240 1000 1500  600  700  600  390
+[3095]  500  900 1889 1000 1200 1750  650 1000 1650  800  650 2200 1400  650
+[3109]  250 1500  800  700  600 1250 1000  800 1000 1100 1048 1100 1100 1250
+[3123]  400 1250 1500 1450 1000  900 1250 1600 1130  200  990  900  900 1500
+[3137]  650 1000 4000  700 1250 1500 2000 1300  700  225 1300  590 2000  500
+[3151]  750  500 1200  900 1350 1450 1150  970  800  400  400  800  250  700
+[3165]  250 1000  200 1190 1300 1300  475 1950  200 1795  700  250 1000 1650
+[3179]  860  750  375  900  500  800 2000 1000 1200  400 1300  500  850 1000
+[3193] 1400 1000  900 1000  850  600 1400 2000 1000  450 1300  800 1500 1400
+[3207] 1100  400 1300 1250 1400 1000 1400 1385 1000 1000 1750  700 1350 1100
+[3221]  300 1500 1900 1200  800 1300 1900 1100  900  850  550 1800 1200 1200
+[3235]  820 1050 1700  500 1200  350 2000  800  450  700 1000 1575 1300 1400
+[3249] 2000 1200  450 1300 1000 1200 1000 1600  750 1200 1000  350  250 1220
+[3263]  650 2800 1450  800 1300  900 1000 1450  370  600  650  800 1100 1285
+[3277] 2400 1700 1100 1300 1650  800  690 1700  500 1370 1000 2000  250  325
+[3291]  650  325 1000 1050 1600  600  550  500 1250 1050 1200 1350  900 1800
+[3305] 1078 3000 1250  375  600 2370 1070  975  750 1200 1400  500  850 1100
+[3319] 1300  775  800  800 1200  800  720  750 1700 1100  350  700 1500 1300
+[3333] 1200 1000 1980 1300 1700 3000  900 1550 1070  450 1750  525 1600  900
+[3347] 2400 2000  600  400 1050 1900 1300  475 1000 1800  900  400 1100 1100
+[3361]  400 1250 1200 1700 1300  600 1000 1200 1000  500 1500  860 1400  500
+[3375]  265 1500 1400  850  800 1550 1500 1600 1150 1150 1100 1650  600 1300
+[3389] 1150 1000  700  850  820  330 1500 1000 1000 1500  400  225 1950  400
+[3403] 1350  200  900  200 1350  800 1150 1650  600  250  400  900 1000  950
+[3417]  400 1600  700  175  200 1000  880  150  300  900  500 1300  900  950
+[3431]  500 1100  950  800  800 1000 1350  300  300 1050 1350 1000  921  700
+[3445] 1500  600 1000  320  500 1050  500 1000 1500 2000 1650  375 1150 1500
+[3459]  315  450 1300 1000 1050 1450 1550 1800 1000  650 1300  900 1130 1000
+[3473]  300  800 1000 1000 1100  600  800 1050  250  550  500 1100 1125  950
+[3487]  500  800 1800  549 1200 1450 3000 1250 1000 1300  870 1250  900  400
+[3501] 1100 1200  500 1650 1000 1300 1300 1060  900  600 1100 1000 1100  830
+[3515] 2550  700 1300 1000  600 1000  600 1200  180 1000  800 1250 1500 1186
+[3529] 2300  650 1200 1100 1200 1500  600  800  300  800  750 1800  750 1000
+[3543] 1350 1100  500  300  800 1450 1080  800 1850 1200 1500  250  700 2000
+[3557] 1300 1300 1250 1350  500 1000 1300  310  950  600 2250 1500 1658  850
+[3571] 2500 1500  300 1200  800 1400 1050 1300  650 1100 1200 1350  800  500
+[3585] 1000  360 1200 1500  400  120 1000 2000  900 1200 1200 1260  440 1000
+[3599]  700  950  250  900 1400 1030 1000 1000 1000  750 1100  800  900  800
+[3613]  400 1500  300 1750  400  900 1500 1300 1250 1100 1300  800 1400  700
+[3627]  825  800 1360  800 1000 1300  800  400  650 2000 1450  650 1250  900
+[3641] 1000 1600  800 1500 1157  800 1200  200  570  400 1250 1580 1000 1350
+[3655]  600  950 1300 1500  400  650 1000  600  675  450 2000 2400 1300  900
+[3669] 1000 1100 2400  600 1000  500 1000  900 1250  500 1300  700  900 1300
+[3683] 1000 1000  950 1000 1000  800 1600 1250  800  800 1200 2250  800  600
+[3697]  600  900  800  270 1600 1600 2000  600  700  540  550  350  650  830
+[3711] 1500  600 1200  480  700  800  450  500 1250  750 1500 1050  875  800
+[3725] 1300 1150 1520  200 1500  700 1650  600 1000  800  950 2000 1100 1100
+[3739]  900  500 1100 1400 1825 2000 1500  500  950 1100 1200 1150 1000 1100
+[3753] 1400 1000 1350 1350  800  900  700 1500 1150 1300 1500  300  590  700
+[3767] 1000  600 1000 1600 1100 1300 3000 1000 1000 1800 1300 1000  700  107
+[3781]  920 1580 1650  850  550 1400  950  500 1400 1300 1200  450 1150  750
+[3795] 1050  800  400 2500 1600  500 1600 1400 1000 1200 1450 1700 1100 1500
+[3809]  450  800 1700 1500 1300  635 1390 1400 1300 1250 1100  850  500 1050
+[3823] 1000 1500  900  430 1250 1000  350 1035 1850 1100  525  300 1300 1300
+[3837] 1750  850  900 1450  800 1250 1400  900 1300 1500  300  200 1350 1000
+[3851]  375  800 1000 1500 1950 2000  400 1100 1300  400 1100 1300 1000  360
+[3865] 1320  800 1060 1500  850  700  940 1100  450 1000  650 1500 1300 1250
+[3879] 1100  594  400 1000  700 1000  800  900  900  400 1345 1500 1300 1000
+[3893] 1000  450  930  900 1300 2200 1250  750 1900 1500 1690 1500 1250  600
+[3907] 1200 1500 1050 1200 1600 1200  300  875 1500 1000  550 1160  430 1000
+[3921] 1000 1200 2275  500  400 1650  650 4000  700  700  760  575 1000  375
+[3935]  830 2000  725 2500 1950  800 1500  650 1500  750 1500 1800  450  900
+[3949] 2000 1050 2500 1400 2000 1100 1300 1150  950 1000  800 1100  700 1550
+[3963]  850 1000  800 1000  900  500 1050 1100 1400 1600 1100 1250 1800 1300
+[3977] 1200  125  850  500 1800  900  200 1000  400 1300 1750  875 1800 1150
+[3991] 1100 1350 1300 1250 1300 1375  150 1350 1340 1550  800 1100 2000  900
+[4005] 1380 1370  700 1750 1450 1100 1500 1000 1200 1700 1200 1650 1250  700
+[4019] 1250 1200 1475 1500 2200  500 2000 1100 2000  600 1150  900  450 1100
+[4033] 1000 1300 1300 1000 1308 1150  900 1450 1400  800 1980 1000  600 1150
+[4047] 1900  930  600 1600  500 1250 1600 1000 1400 1400 1800  800 1000 1000
+[4061] 1500 1450  450 1000 1500 1700 1400 3000 1800  900 1500  660  600 1895
+[4075]  700  950 1200  400  800 1287  300  375 1200  900 1250  450 1400  750
+[4089] 1200  800 1150  400  900 1900 1080  500 1350 1450 1100  650 1000  900
+[4103]  900 1200  600  800  500 1500 1900  700  350  500 1400  625  700 1400
+[4117]  800 1000 1200 1143 1000 1500 1000  400 1000 1100 1000 1150 1550  900
+[4131]  535 1360  500  500 1800 1000 1000  800 1300  800 1400  900  675 1100
+[4145] 1200 1000  900  750 1200  650 1000 1000 1000 1000 1650  400 1850  250
+[4159]  800 1500  800  400 1000  700 1250  800 1100  700 1000  900  850  700
+[4173]  375 1300 1200 1400 1100 1000  800  550 1000  900 1000  600 1175 1250
+[4187] 1300 1000  500 1000  600  700  800 1100 1250  850 1200 1800  500  400
+[4201] 1000 1000 1250 1300  600 1000 1000 1450 1000  500  700  900  800  350
+[4215]  850 1100 1200  250  800  760 1150 1300  250 1000  700  675 1450 1000
+[4229] 1600 1350 1400  650 1000 1300 1220 1300  850  275 1400  900 1200 1200
+[4243]  475 1150  600 1300 1000  850 1500  800  900 1600 1000  550  900 1550
+[4257] 1300  800 1600 1000  900 1200 1100 1000 1500 1090 1750 1600 1400 1200
+[4271] 1500  900  350 1300 2800 1100 1900  700 1300 1100 1150 1070  325 1200
+[4285]  600 1200  535  500 1150 1400  250 1000 1250  250 1500 1000 1000 1400
+[4299] 1350 1400  900  500  650  600  900  500  800 1300 1100 1260 1050 1150
+[4313]  900 1600 1500 1100  550  800  700  800 1065 1000  950 1400 1400  550
+[4327] 1550  900  950 1000 1150 1200  800 1500 2000 1340 1175  275  700  800
+[4341] 1400 1350 1100 1000  400  700  700  500 2000 1500  500  500  700  380
+[4355]  850  400  275 3000 1300 1200 1543 1450  600 2700  800 1000 1000 1300
+[4369] 3000  900 1150  700 1600  600 1100  600  750 1000 1500  900  400 1350
+[4383] 1000 1100 1900 2500 1000  600 1350 1150 1350 2100  300  400  425 1400
+[4397] 1720  700 1600 1150  950 1400  300 1442  700  750 1200  900  650 1000
+[4411] 1500 1350  500 2500  700  600  600  900 1160 2000 1150 1200 1500  900
+[4425] 2200 1400 1300  875 1300  650  400 1500 1200  875 1200 1400 1280  400
+[4439] 1400 1000 1460  950 1000 1500 1200 1450 1500  900 1200  900  950  500
+[4453]  550 1350</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(credit, <span class="fu">aes</span>(Income)) <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"#000000"</span>, <span class="at">fill =</span> <span class="st">"#0099F8"</span>) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Variable distribution"</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(credit, <span class="fu">aes</span>(Amount, <span class="at">fill =</span> credit, <span class="at">color =</span> credit)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"#000000"</span>, <span class="at">fill =</span> <span class="st">"#0099F8"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Variable distribution"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # TRANSFORM TO LONG DATA FOR PLOTS</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># credit.Long&lt;- credit %&gt;% pivot_longer(!y, names_to="credit", values_to="score", values_transform=list(score=as.numeric))</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # HISTOGRAMS</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(credit, aes(Amount, fill=credit, color=credit)) +</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_histogram(alpha=0.2, breaks=seq(0,5,1)) +</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   lemon::facet_rep_wrap(.~credit, nrow=2, labeller="label_both", repeat.tick.labels=T) +</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title="Distributions of Raw Score") +</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_bw() +</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(legend.position = "none",</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         panel.border = element_rect(color = "#8B814C"),</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#         strip.background = element_rect(fill = "#EAEAD6", color = "#8B814C"),</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         strip.text = element_text(color = "#8B814C", size=14),</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         plot.background = element_rect(fill = "#FAFAF5"),</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#         axis.text = element_text(color = "#8B814C"),</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         axis.title = element_text(color = "#8B814C", size=14),</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#         plot.title = element_text(color = "#8B814C", size=14),</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#         axis.ticks = element_line(color = "#8B814C"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>It’s a good idea to check distribution before and after imputation to make sure the distribution doesn’t change significantly.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> credit[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>    Status            Seniority           Time            Age       
- Length:4454        Min.   : 0.000   Min.   : 6.00   Min.   :18.00  
- Class :character   1st Qu.: 2.000   1st Qu.:36.00   1st Qu.:28.00  
- Mode  :character   Median : 5.000   Median :48.00   Median :36.00  
-                    Mean   : 7.987   Mean   :46.44   Mean   :37.08  
-                    3rd Qu.:12.000   3rd Qu.:60.00   3rd Qu.:45.00  
-                    Max.   :48.000   Max.   :72.00   Max.   :68.00  
-                                                                    
-    Expenses          Income          Assets            Debt      
- Min.   : 35.00   Min.   :  6.0   Min.   :     0   Min.   :    0  
- 1st Qu.: 35.00   1st Qu.: 90.0   1st Qu.:     0   1st Qu.:    0  
- Median : 51.00   Median :125.0   Median :  3000   Median :    0  
- Mean   : 55.57   Mean   :141.7   Mean   :  5404   Mean   :  343  
- 3rd Qu.: 72.00   3rd Qu.:170.0   3rd Qu.:  6000   3rd Qu.:    0  
- Max.   :180.00   Max.   :959.0   Max.   :300000   Max.   :30000  
-                  NA's   :381     NA's   :47       NA's   :18     
-     Amount         Price      
- Min.   : 100   Min.   :  105  
- 1st Qu.: 700   1st Qu.: 1117  
- Median :1000   Median : 1400  
- Mean   :1039   Mean   : 1463  
- 3rd Qu.:1300   3rd Qu.: 1692  
- Max.   :5000   Max.   :11140  
-                               </code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> credit[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(data)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Status Seniority Time Age Expenses Amount Price Debt Assets Income    
@@ -786,8 +836,8 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pMiss <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))<span class="sc">/</span><span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">100</span>}</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(data,<span class="dv">2</span>,pMiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Status Seniority      Time       Age  Expenses    Income    Assets      Debt 
@@ -797,7 +847,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apply(data,1,pMiss)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apply(data,1,pMiss)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The following variables are missing data:</p>
@@ -809,36 +859,13 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: colorspace</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: grid</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>VIM is ready to use.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'VIM'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:datasets':
-
-    sleep</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(credit), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram of missing data"</span>,<span class="st">"Pattern"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>aggr_plot <span class="ot">&lt;-</span> <span class="fu">aggr</span>(data, <span class="at">col=</span><span class="fu">c</span>(<span class="st">'navyblue'</span>,<span class="st">'red'</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(credit), <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Histogram of missing data"</span>,<span class="st">"Pattern"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -857,14 +884,14 @@ Attaching package: 'VIM'</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] mice.impute.2l.bin              mice.impute.2l.lmer            
@@ -894,7 +921,7 @@ see '?methods' for accessing help and source code</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   4454 obs. of  15 variables:
@@ -916,7 +943,7 @@ see '?methods' for accessing help and source code</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>       X           Status            Seniority          Home          
@@ -959,24 +986,24 @@ see '?methods' for accessing help and source code</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>credit <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Status,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">missing_text =</span> <span class="st">"NA"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_p</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_n</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  add_overall <span class="sc">%&gt;%</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(label <span class="sc">~</span> <span class="st">"**Variable**"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Summary of Data**"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>credit <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Status,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">missing_text =</span> <span class="st">"NA"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_p</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_n</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  add_overall <span class="sc">%&gt;%</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(label <span class="sc">~</span> <span class="st">"**Variable**"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Summary of Credit Data**"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
-<div id="yrzpwkvehz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fxmwoaywmr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#yrzpwkvehz) .gt_table {
+:where(#fxmwoaywmr) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1001,7 +1028,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-left-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_heading {
+:where(#fxmwoaywmr) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1013,12 +1040,12 @@ see '?methods' for accessing help and source code</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_caption {
+:where(#fxmwoaywmr) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#yrzpwkvehz) .gt_title {
+:where(#fxmwoaywmr) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1030,7 +1057,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-bottom-width: 0;
 }
 
-:where(#yrzpwkvehz) .gt_subtitle {
+:where(#fxmwoaywmr) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1042,13 +1069,13 @@ see '?methods' for accessing help and source code</code></pre>
   border-top-width: 0;
 }
 
-:where(#yrzpwkvehz) .gt_bottom_border {
+:where(#fxmwoaywmr) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_col_headings {
+:where(#fxmwoaywmr) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1063,7 +1090,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_col_heading {
+:where(#fxmwoaywmr) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1083,7 +1110,7 @@ see '?methods' for accessing help and source code</code></pre>
   overflow-x: hidden;
 }
 
-:where(#yrzpwkvehz) .gt_column_spanner_outer {
+:where(#fxmwoaywmr) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1095,15 +1122,15 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 4px;
 }
 
-:where(#yrzpwkvehz) .gt_column_spanner_outer:first-child {
+:where(#fxmwoaywmr) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#yrzpwkvehz) .gt_column_spanner_outer:last-child {
+:where(#fxmwoaywmr) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#yrzpwkvehz) .gt_column_spanner {
+:where(#fxmwoaywmr) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1115,7 +1142,7 @@ see '?methods' for accessing help and source code</code></pre>
   width: 100%;
 }
 
-:where(#yrzpwkvehz) .gt_group_heading {
+:where(#fxmwoaywmr) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1141,7 +1168,7 @@ see '?methods' for accessing help and source code</code></pre>
   text-align: left;
 }
 
-:where(#yrzpwkvehz) .gt_empty_group_heading {
+:where(#fxmwoaywmr) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1156,15 +1183,15 @@ see '?methods' for accessing help and source code</code></pre>
   vertical-align: middle;
 }
 
-:where(#yrzpwkvehz) .gt_from_md > :first-child {
+:where(#fxmwoaywmr) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#yrzpwkvehz) .gt_from_md > :last-child {
+:where(#fxmwoaywmr) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#yrzpwkvehz) .gt_row {
+:where(#fxmwoaywmr) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1183,7 +1210,7 @@ see '?methods' for accessing help and source code</code></pre>
   overflow-x: hidden;
 }
 
-:where(#yrzpwkvehz) .gt_stub {
+:where(#fxmwoaywmr) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1196,7 +1223,7 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_stub_row_group {
+:where(#fxmwoaywmr) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1210,11 +1237,11 @@ see '?methods' for accessing help and source code</code></pre>
   vertical-align: top;
 }
 
-:where(#yrzpwkvehz) .gt_row_group_first td {
+:where(#fxmwoaywmr) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#yrzpwkvehz) .gt_summary_row {
+:where(#fxmwoaywmr) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1224,16 +1251,16 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_first_summary_row {
+:where(#fxmwoaywmr) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_first_summary_row.thick {
+:where(#fxmwoaywmr) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#yrzpwkvehz) .gt_last_summary_row {
+:where(#fxmwoaywmr) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1243,7 +1270,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_grand_summary_row {
+:where(#fxmwoaywmr) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1253,7 +1280,7 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_first_grand_summary_row {
+:where(#fxmwoaywmr) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1263,11 +1290,11 @@ see '?methods' for accessing help and source code</code></pre>
   border-top-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_striped {
+:where(#fxmwoaywmr) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#yrzpwkvehz) .gt_table_body {
+:where(#fxmwoaywmr) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1276,7 +1303,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_footnotes {
+:where(#fxmwoaywmr) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1290,7 +1317,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_footnote {
+:where(#fxmwoaywmr) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1299,7 +1326,7 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_sourcenotes {
+:where(#fxmwoaywmr) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1313,7 +1340,7 @@ see '?methods' for accessing help and source code</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#yrzpwkvehz) .gt_sourcenote {
+:where(#fxmwoaywmr) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1321,69 +1348,69 @@ see '?methods' for accessing help and source code</code></pre>
   padding-right: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_left {
+:where(#fxmwoaywmr) .gt_left {
   text-align: left;
 }
 
-:where(#yrzpwkvehz) .gt_center {
+:where(#fxmwoaywmr) .gt_center {
   text-align: center;
 }
 
-:where(#yrzpwkvehz) .gt_right {
+:where(#fxmwoaywmr) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#yrzpwkvehz) .gt_font_normal {
+:where(#fxmwoaywmr) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#yrzpwkvehz) .gt_font_bold {
+:where(#fxmwoaywmr) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#yrzpwkvehz) .gt_font_italic {
+:where(#fxmwoaywmr) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#yrzpwkvehz) .gt_super {
+:where(#fxmwoaywmr) .gt_super {
   font-size: 65%;
 }
 
-:where(#yrzpwkvehz) .gt_footnote_marks {
+:where(#fxmwoaywmr) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#yrzpwkvehz) .gt_asterisk {
+:where(#fxmwoaywmr) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#yrzpwkvehz) .gt_indent_1 {
+:where(#fxmwoaywmr) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#yrzpwkvehz) .gt_indent_2 {
+:where(#fxmwoaywmr) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#yrzpwkvehz) .gt_indent_3 {
+:where(#fxmwoaywmr) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#yrzpwkvehz) .gt_indent_4 {
+:where(#fxmwoaywmr) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#yrzpwkvehz) .gt_indent_5 {
+:where(#fxmwoaywmr) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table">
-  <caption><strong>Summary of Data</strong></caption>
+  <caption><strong>Summary of Credit Data</strong></caption>
   
   <thead class="gt_col_headings">
     <tr>
@@ -1626,35 +1653,40 @@ see '?methods' for accessing help and source code</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggthemes)</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggrepel)</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dslabs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggthemes)</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggrepel)</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dslabs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># autoplot(model1)</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">=</span><span class="fu">lm</span>(Amount<span class="sc">~</span>Status<span class="sc">+</span>Seniority<span class="sc">+</span>Home<span class="sc">+</span>Time<span class="sc">+</span>Age<span class="sc">+</span>Marital<span class="sc">+</span>Records<span class="sc">+</span>Job<span class="sc">+</span>Expenses<span class="sc">+</span>Income<span class="sc">+</span>Assets<span class="sc">+</span>Debt<span class="sc">+</span>Price, <span class="at">data=</span>credit)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = credit %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = "y~x", method=lm,se = F)+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab("Populations in millions (log10 scale)") + </span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab("Total number of murders (log10 scale)") +</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("US Gun Murders in 2010") +</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = "Region")+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_wsj()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1665,10 +1697,695 @@ see '?methods' for accessing help and source code</code></pre>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>In conclusion, missing data can occur in research for a variety of reasons. It is never a good idea to ignore it. Doing this will lead to biased estimates of parameters, loss of information, decreased statistical power, and weak reliability of findings <span class="citation" data-cites="don2013">(<a href="#ref-don2013" role="doc-biblioref">Dong and Peng 2013</a>)</span>. The best course of action is to impute the missing data by using multiple imputation. When missing data is discovered, it is important to first identify it and look for missing data patterns. Next, define the variables in the dataset that are related to the missing values that will be used for imputation. Create the necessary number of complete data sets. Run the models and combine them using the imputed values, and finally, analyze the complete dataset. Performing these steps will minimize the adverse effects caused by missing data on the anaylsis <span class="citation" data-cites="pam2016">(<a href="#ref-pam2016" role="doc-biblioref">Pampka, Hutcheson, and Williams 2016</a>)</span>.</p>
+<p>#Load packages:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X           Status            Seniority          Home          
+ Min.   :   1   Length:4454        Min.   : 0.000   Length:4454       
+ 1st Qu.:1114   Class :character   1st Qu.: 2.000   Class :character  
+ Median :2228   Mode  :character   Median : 5.000   Mode  :character  
+ Mean   :2228                      Mean   : 7.987                     
+ 3rd Qu.:3341                      3rd Qu.:12.000                     
+ Max.   :4454                      Max.   :48.000                     
+                                                                      
+      Time            Age          Marital            Records         
+ Min.   : 6.00   Min.   :18.00   Length:4454        Length:4454       
+ 1st Qu.:36.00   1st Qu.:28.00   Class :character   Class :character  
+ Median :48.00   Median :36.00   Mode  :character   Mode  :character  
+ Mean   :46.44   Mean   :37.08                                        
+ 3rd Qu.:60.00   3rd Qu.:45.00                                        
+ Max.   :72.00   Max.   :68.00                                        
+                                                                      
+     Job               Expenses          Income          Assets      
+ Length:4454        Min.   : 35.00   Min.   :  6.0   Min.   :     0  
+ Class :character   1st Qu.: 35.00   1st Qu.: 90.0   1st Qu.:     0  
+ Mode  :character   Median : 51.00   Median :125.0   Median :  3000  
+                    Mean   : 55.57   Mean   :141.7   Mean   :  5404  
+                    3rd Qu.: 72.00   3rd Qu.:170.0   3rd Qu.:  6000  
+                    Max.   :180.00   Max.   :959.0   Max.   :300000  
+                                     NA's   :381     NA's   :47      
+      Debt           Amount         Price      
+ Min.   :    0   Min.   : 100   Min.   :  105  
+ 1st Qu.:    0   1st Qu.: 700   1st Qu.: 1117  
+ Median :    0   Median :1000   Median : 1400  
+ Mean   :  343   Mean   :1039   Mean   : 1463  
+ 3rd Qu.:    0   3rd Qu.:1300   3rd Qu.: 1692  
+ Max.   :30000   Max.   :5000   Max.   :11140  
+ NA's   :18                                    </code></pre>
+</div>
+</div>
+<p>#This contains a subset of the credit data where the rows having missing value.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>rows_na <span class="ot">=</span> credit[<span class="sc">!</span><span class="fu">complete.cases</span>(credit),]  </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rows_na, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      X Status Seniority  Home Time Age   Marital Records       Job Expenses
+30   30    bad         0  &lt;NA&gt;   48  37    single      no      &lt;NA&gt;       35
+114 114    bad         0 owner   36  39    single      no freelance       35
+144 144   good        40 owner   36  58   married      no freelance       75
+153 153   good        27 owner   60  59   married      no freelance       45
+158 158   good         3 owner   48  25    single      no freelance       35
+177 177    bad         0  rent   60  48 separated     yes freelance       35
+195 195    bad         0 other   36  48   married     yes freelance       45
+206 206   good        10 owner   36  45   married     yes freelance       60
+240 240   good         3  &lt;NA&gt;   24  42    single      no     fixed       35
+241 241    bad        13  rent   24  49   married      no freelance       90
+    Income Assets  Debt Amount Price
+30      NA     NA    NA   1500  1850
+114     NA   4000     0   1000  1210
+144     NA  50000     0   1000  1160
+153     NA  11000     0   1100  1300
+158     NA   4000     0   1200  1449
+177     NA  25300 15500   1200  1257
+195     NA      0     0   1600  2053
+206     NA   9500   250    750  1138
+240    337     NA    NA   1300  1624
+241     NA      0     0    700   800</code></pre>
+</div>
+</div>
+<p>#This shows a matrix where each row corresponds to a missing data pattern in the credit data set.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(credit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     X Status Seniority Time Age Records Expenses Amount Price Marital Job Home
+4039 1      1         1    1   1       1        1      1     1       1   1    1
+366  1      1         1    1   1       1        1      1     1       1   1    1
+22   1      1         1    1   1       1        1      1     1       1   1    1
+7    1      1         1    1   1       1        1      1     1       1   1    1
+8    1      1         1    1   1       1        1      1     1       1   1    1
+4    1      1         1    1   1       1        1      1     1       1   1    1
+3    1      1         1    1   1       1        1      1     1       1   1    0
+2    1      1         1    1   1       1        1      1     1       1   1    0
+1    1      1         1    1   1       1        1      1     1       1   0    1
+1    1      1         1    1   1       1        1      1     1       1   0    0
+1    1      1         1    1   1       1        1      1     1       0   1    1
+     0      0         0    0   0       0        0      0     0       1   2    6
+     Debt Assets Income    
+4039    1      1      1   0
+366     1      1      0   1
+22      1      0      1   1
+7       1      0      0   2
+8       0      0      1   2
+4       0      0      0   3
+3       0      0      1   3
+2       0      0      0   4
+1       1      1      0   2
+1       0      0      0   5
+1       1      1      1   1
+       18     47    381 455</code></pre>
+</div>
+</div>
+<p>#In order to perform multiple imputation on categorical data, all string variables must be converted to # factors using as.factor()</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Status <span class="ot">=</span> <span class="fu">as.factor</span>(credit<span class="sc">$</span>Status)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Home <span class="ot">=</span> <span class="fu">as.factor</span>(credit<span class="sc">$</span>Home)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Marital <span class="ot">=</span> <span class="fu">as.factor</span>(credit<span class="sc">$</span>Marital)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Records <span class="ot">=</span> <span class="fu">as.factor</span>(credit<span class="sc">$</span>Records)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Job <span class="ot">=</span> <span class="fu">as.factor</span>(credit<span class="sc">$</span>Job)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>#Using the mice() function, 5 (default) multiple imputations for the null values for the credit data # will be generated.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Multiple_Imputation <span class="ot">=</span> <span class="fu">mice</span>(<span class="at">data =</span> credit,  <span class="at">defaultMethod =</span> <span class="fu">c</span>(<span class="st">"pmm"</span>, <span class="st">"logreg"</span>, <span class="st">"polyreg"</span>, <span class="st">"polr"</span>), <span class="at">set.seed =</span> <span class="dv">1337</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  Income  Assets  Debt
+  1   2  Income  Assets  Debt
+  1   3  Income  Assets  Debt
+  1   4  Income  Assets  Debt
+  1   5  Income  Assets  Debt
+  2   1  Income  Assets  Debt
+  2   2  Income  Assets  Debt
+  2   3  Income  Assets  Debt
+  2   4  Income  Assets  Debt
+  2   5  Income  Assets  Debt
+  3   1  Income  Assets  Debt
+  3   2  Income  Assets  Debt
+  3   3  Income  Assets  Debt
+  3   4  Income  Assets  Debt
+  3   5  Income  Assets  Debt
+  4   1  Income  Assets  Debt
+  4   2  Income  Assets  Debt
+  4   3  Income  Assets  Debt
+  4   4  Income  Assets  Debt
+  4   5  Income  Assets  Debt
+  5   1  Income  Assets  Debt
+  5   2  Income  Assets  Debt
+  5   3  Income  Assets  Debt
+  5   4  Income  Assets  Debt
+  5   5  Income  Assets  Debt</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Number of logged events: 5</code></pre>
+</div>
+</div>
+</section>
+<section id="show-the-imputed-values.-columns-are-imputations-rows-are-observations" class="level1">
+<h1>Show the imputed values. Columns are imputations, rows are observations</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Multiple_Imputation<span class="sc">$</span>imp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$X
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Status
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Seniority
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Home
+      1  2  3  4  5
+30   NA NA NA NA NA
+240  NA NA NA NA NA
+1060 NA NA NA NA NA
+1677 NA NA NA NA NA
+2389 NA NA NA NA NA
+2996 NA NA NA NA NA
+
+$Time
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Age
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Marital
+      1  2  3  4  5
+3319 NA NA NA NA NA
+
+$Records
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Job
+     1  2  3  4  5
+30  NA NA NA NA NA
+912 NA NA NA NA NA
+
+$Expenses
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Income
+       1   2   3   4   5
+30   113  81 352 187 189
+114  140  55 158 180 130
+144  250 100 191 300 459
+153  100 147  65 175 139
+158  123  90 227 116 136
+177  230 416 254 120 254
+195  100 136 198 138 233
+206  110 110 198  69 260
+241  382 144  85 164 240
+242  125 126 170 413 195
+278  175 121 131 125 125
+318  240 120 100 100 110
+330  168 144 100 300 114
+333   93 130 100 250 380
+335   96 217  50 107 150
+356  127  88  95 130  71
+360   81 120 189 135 170
+394  150 350 491 150 500
+404  184  87 105 164 131
+422  166 100 245 126 390
+439   38 138 191  69 180
+444  160  40 147 155 137
+462  115 190  90  95  90
+469  150 181 160 215 118
+479  181 195  69 155 186
+481  100  70 178 154 245
+483  146 130 190 125 200
+485  154 208 107  60  67
+496  120 180 345  95 120
+498  190 100 187 124 150
+505   77 117  85  80  60
+567  100 166 170 140 187
+572  126 156  86 136 200
+582   92 160 125 146 100
+648  200 140 230 140 200
+653  190  60 154 139 178
+667  300 140 416 210 300
+675   55 100 231  68 200
+678  114 150 138 266 150
+699  147 152 130 110 105
+708   90  85 230 110 100
+714  115 125 125 178  95
+716  142 129 122  27 185
+733  157 245 270 117  60
+734  125 132 100 160 125
+746   92 100  74 280 117
+777  134 114 128  81 131
+781  150 103  98 104 164
+785  240 101 245 275 185
+804  162 115 108 159 104
+824   66  95  98 182  60
+865  154  33 122 136  60
+866  120 163  86 155 140
+880  130 120 235 174 125
+889  428 128 230 500 157
+906  120 100 157  84 183
+912   93 101 101  78 150
+942  183 111 100  96  87
+952   93 150 111 170 175
+989   92 131 133 140  92
+1001 128  93  91  91  57
+1017  54 210 143 350 124
+1039  98 118 220 100  83
+1044 143  90  81  90 100
+1069 538 214 123 155 163
+1100 125  89 193 225 122
+1111 185 105 120 140 104
+1125 146 318  80 170 152
+1168 160 335 125 145  68
+1208 300 245 240 230 240
+1226 266 183 100  71 115
+1250 267 104 186 115 117
+1257 162 101 210 190 154
+1276 270 250  76 150 174
+1281  42  71 233  90  86
+1289  70 110  80 160 250
+1297 183 240 133 180 120
+1307 133 100 318 114 251
+1314 240 116 109 185 251
+1335 150 150 112 140 150
+1364 191 175 266 180 380
+1365 300 390 325 314 210
+1366 210 125 350 244 152
+1392 491 350 500 500 500
+1421 100 110 121 135 203
+1427 140 164 100 140  62
+1433 220 112  56 110 293
+1436 140 130 105 200 135
+1437 115 147 147 200  41
+1441 318 163  47 100 120
+1456  80  53  53  51 195
+1473 115  19 382 100 115
+1509 350 125 246 125 220
+1513  73 127 121 142  93
+1530  53  76 124 125  72
+1535  75 120 136 222 240
+1536 157 442 156 251 240
+1544 159  83 107 157 150
+1549 150 138 189 122 205
+1564 100 400 133 251  86
+1580 110  60 136 126 450
+1583  89  81 154  87 131
+1598 123  85 130 255 108
+1599  92  60 160  60 150
+1619 130 185  63  61  60
+1629 100  79 110  51  50
+1648 113 110 245  80 125
+1662 158  82  56 112  80
+1677 144 130  60 119  80
+1685 180 127 214 156  95
+1722 120  80  90 200 142
+1724 280 110 117 126 147
+1733 230  88 176 110 193
+1741 115  50 163 105 102
+1745 159 120 130  61 154
+1753 111 140  85 149 160
+1762  55  79 125  46 175
+1766 280  73 200 207  92
+1771 110 130 111 235 391
+1798 160 122  92 105 161
+1802 491 150 150 500 150
+1803 150 257 184 172 110
+1807 293 150 235 130 200
+1811 180 125  80 178 164
+1844  66 210 126  87 105
+1851 250 275 100  90 137
+1852  75  94  84  75  73
+1870 125 157 115 125 220
+1872  88 100  97 251  82
+1882  62  57  70 102  90
+1883 204 233 390  60 125
+1893 500 500 500 491 500
+1898 198 110 180 140 107
+1903 116 100  72  71 150
+1907 288  45  73  71 125
+1920  79 195  70 110  39
+1936  84 150  93  85 209
+1946 165 128  85  42 200
+1948 181 170  99  58  93
+1962 160 120 117 193 123
+1963 145 233 300 150 300
+1965 102 161 285 160 175
+1970 150 191 400 151 250
+1972 150 491 905 150 150
+1977 170  45 200 113 112
+1979 325 236 200 159 413
+1980 186  87  90 140  85
+1984 165 168  87 155 170
+2006 115 200 170 165 107
+2016  59 250 100 142  75
+2022 120  95  81 101 113
+2025 230 143  85 100 123
+2042 145 155 115 120 111
+2043  83  87  71  47  75
+2076 140 138 100 125 150
+2077 156 185 230 120  86
+2083 176 230  61 137 193
+2156 166  70 157 218 170
+2157 142 102 145  90 114
+2186  90  90 120  80  88
+2197 166 169 170 242 227
+2205 250 109 150  55 157
+2218 120 101 224 315 185
+2227 145 170  53  80  61
+2233 225 174 150 283 137
+2240 155 300 100 120 107
+2257 120  68 158  80 118
+2280  45 100 300 450  90
+2291 233 195  65  60 250
+2297  72  42 200  40 113
+2304  60  82 114 146  51
+2310 959 400 111  40 500
+2323  80  68 110 135  38
+2331 183 183 241 183 905
+2337  39  80 163 130 140
+2349 219 100 199 110 223
+2365 157 260 125 220 280
+2369 100 250 100 229 123
+2387  85  27  27  70 127
+2396  80  80  95  80 163
+2399 143 237 117 150 246
+2402 197 250 180 188  71
+2404 100 150 158 185 208
+2437 400 200 100  60 459
+2445 169 270 155 291 170
+2446 183 122 100 400 110
+2453  78 102 150 115  51
+2460  70  72 100  92 102
+2467  81 107  65 165  66
+2473  58 117  62  75  70
+2490  82 103  75  90  71
+2495  88  70 103  90 182
+2505 167 185 139 139 126
+2566  88 108  78 107  95
+2572 147 131 172 250  77
+2578  88 123 350  16 240
+2584  72 100 115  86  90
+2596 104 209 163 100 234
+2605  60  81 150 100 108
+2614 100 101  80  95 150
+2624 100 195  73 107 163
+2625 113 120 113 150 130
+2631 101 114  56 220  60
+2632  59 178 137 139  95
+2651  50  71 110 205  88
+2652 178 160 160 116 109
+2653 230 466 196 140 121
+2668 118 105 250 120 163
+2676 192 100 830 185  72
+2681 140  83 180 148  78
+2683  80 205 143 110  56
+2695 170 260 110 122 150
+2696  64  70 125  97 128
+2707 125 100 160  40 173
+2720 135 199 160 143  84
+2723 205  88 180 108 125
+2725 300 165 121 251 120
+2730 178 240  83 165 200
+2769 145  42 140  80  78
+2780 145  63 117  90  72
+2781 100  85 131 170 156
+2802 105 135  80 198 135
+2805 251 245  60  88 205
+2806 100  92  75 110  70
+2807 120 188  90 251  60
+2810 110 162  78 133 163
+2813 102 181 165 155  87
+2815 181 225  81  72 120
+2825 857  73 198 200  92
+2854 100 442 233 321  83
+2869 123 218  88  36 139
+2882 100 142  87 105 251
+2884  90  50 111  70  80
+2893 125 200 105 130  88
+2915 123  68  92 139 159
+2927 208  70  30 167 190
+2935  58  91  80 136 110
+2936 130 144 150 110 118
+2939 244 113 230 115 190
+2951 200 241 100 500 183
+2954  90  90 700 151 373
+2969 123 120  87  72 136
+2971 260  65  95 220 245
+2979 250 245  50 250 220
+2983 160  48 190 107  69
+2991  64 110 160 250  80
+2996 240 188 104 100  90
+2999 143  60  71 274 251
+3008 125 260 191 260 260
+3014  25 100 125  86 265
+3021 156 192  95  88 173
+3026 140  89 176 105 122
+3031 147 115  49 110  40
+3038  85  80 100  60  53
+3040 319 320 428 320 271
+3069 115 260  52 205 177
+3080 350 148 100 119 149
+3096  90 400 315 100 100
+3104 150  98 148  65 114
+3106  45 101 165  60 208
+3110 606 220  73 266 183
+3121 350 350 126 135 245
+3123  70 122 139 190 121
+3139 250 959 350 144 189
+3167  90 180 150 142  37
+3170  53 131  67  87 110
+3183  65 121  65  95 102
+3185  85 318 147  80  71
+3187 181 190 140  85 154
+3203 118 116 122 108 150
+3218  98 177 100 182 155
+3222 124 216  90  93 100
+3229 120 340 194 125 167
+3233 190  45 168 123 143
+3237 200 222 202 333 150
+3245 195  97 144 121  88
+3252  69  81 250 250 103
+3266 200 208 150 141 107
+3286 134  45 110 130 139
+3288 475 315 426 293  80
+3304 100 241 100 905 905
+3310 193 207 100 202 194
+3316 185 160 143  60  80
+3325 120  93  90  75 160
+3336 177 290  55 165 168
+3338 300 241 241 416 100
+3345 150 217 112 210 137
+3352  88  80 535 217 245
+3365 100 101  57 125 312
+3382 125 155 110 200 107
+3433  90  70  80 138  90
+3439 142  77 128  82 107
+3451  82 121 123 270 120
+3452 128  72  79 251  86
+3454  78 120  89 115  80
+3456 165  75  64 145  90
+3461  80 140  77  85 114
+3462  78 140  75 240 100
+3473 117 150 145 101  95
+3477 144 100 162 225 120
+3478 131  71 200 125 190
+3494 440 150  82  73 130
+3513 147  82 197 185 160
+3523 180 100  80 135 178
+3525 140 120 150 108  75
+3534 128 154 100 116 217
+3556 200 138 113  71  35
+3641 100 113 112 182 179
+3645 136  85 135  90 134
+3657 107 132 142  59  87
+3674 100 141  88 233  85
+3679 100  60  70 222  77
+3691  80 111 161 107  95
+3704 140 150 165 150 125
+3709 187 130 190 123 341
+3714 103 100 110  59 122
+3717  82 171 116 165  76
+3730 134 130  57 132 140
+3740 148 131  91 100 167
+3763 130 142 120 128 140
+3768  92  90 160  90 167
+3773  80  40 176 319 111
+3794 100 214 150 210 150
+3800 274 130 174  50 170
+3823 155 109  92 150  92
+3825 120  41 114 165  92
+3850  73 175 120 145  71
+3855 130 142  93  74  60
+3857  56  62 134  45  33
+3858  80 163  83  59  53
+3882 110 140 178 124  60
+3887 127 100 170 190 140
+3892 135 125 100 230 400
+3902 236 100 112 200 220
+3914 115  70 140 100  47
+3928 390 314  97 115 200
+3932 130  85 211 148  95
+3945  38  72 102 250  45
+3946 162 234  92 300 192
+3947  96 175  60 128   8
+3951 217 130 230 198 200
+3955 180 120 100  33 147
+3966  67 160 132 109  87
+3992  63 130 125 375 124
+4003 100 100 130 283 160
+4023 166  52 105  79 220
+4036  90 263 110 165  91
+4049  56  70 102  85  72
+4064 179  38  92 135 350
+4069 400 162 157  92 116
+4076 110  75 125  75  47
+4082 160 168 199 136  81
+4085 150 200  90 350 145
+4096 240  87 146  97 150
+4119 142 105 195 176 128
+4159 128 120 120 137 132
+4168 100  88  70 160  53
+4173  85 110  88  72  90
+4181  92 110 168  75 130
+4191 135 145 230 123  78
+4198 200 250 191 200 200
+4199 140 125 149 130 100
+4222  70 135  90 110  53
+4223  98  90  53 104  52
+4237  70  82 175 105  70
+4246  80 110 130  95 101
+4247 105 178 219  84 170
+4256 384 247 150 180  74
+4281  35 102  42 131  50
+4295  78 159 160  64  92
+4333  47  70  71 150  70
+4349 150 143 120 260 160
+4368 219 145 113 130 120
+4373 160  60 142 185 181
+4398 141  60 153 147 176
+4411 126 200 129 214 122
+4420 150 500 905 241 500
+4433 180  92 173  60 150
+4436  95  90 270  68  92
+4440 164  74  47 187 130
+4441  90  85 236 120  43
+
+$Assets
+         1     2     3      4      5
+30       0     0 16000   7000  20000
+240  30000  6500 10000      0  30000
+735   8000  3500 17000   4000  24000
+1060     0  3500  5000      0   3000
+1129     0 10000  3000   4500      0
+1670     0     0  8000   3500   2000
+1677     0  6000  2000   5000      0
+1812  5000 13000 14000  12000   5000
+1845  3500 30000     0      0      0
+1878  2000 18500  2000   5000      0
+1893 20000 25300 20000 110000 100000
+2074 11000     0     0      0   6500
+2237  3000  7000  7000      0      0
+2291  5000     0  5000  11600   8000
+2368     0 25000     0      0      0
+2389  6000  3000  3000      0   4000
+2439  3500 14000  3000   6000      0
+2449 20000     0  5000   3100   4000
+2473     0     0 10000   8000  12000
+2530  6000  3000  4500      0   8000
+2653     0 10000  6000   7000  15000
+2720  6000  3000     0   3500   6100
+2772  2500     0     0   6000   5500
+2857     0  6000 18000   4000  20000
+2951  6000 70000  9000  25300  35000
+2996 12000  4000  5000   3200  12000
+3053  5000     0 60000      0  15000
+3183  2500     0     0      0   4500
+3196     0 55000  5500  10000      0
+3218     0  6000  2500   5000   3000
+3229  5000  5000 15000  12000  19400
+3330     0     0  3500      0      0
+3440  6500 14000 16000   5000      0
+3549 20000  1500  6000   5000      0
+3647  5000 50000  4000   9000  25000
+3652     0  3000  4000      0      0
+3661     0     0     0      0      0
+3821  7500 15000  3000   7000      0
+4035 25000 18000     0   6000   5000
+4074  5000  9500  3500   4000      0
+4111 14000  3000  5000  12000   4000
+4119  8000     0  6000   4000   4000
+4168     0 10500  5000   4000   8000
+4187     0  2000  4500   5000   4000
+4192  5000     0  4500      0  12000
+4288     0     0  8000   4500  15000
+4446 25000  5000  4000      0      0
+
+$Debt
+        1    2 3 4    5
+30      0    0 0 0    0
+240     0    0 0 0    0
+1060    0    0 0 0    0
+1677    0  400 0 0    0
+1812    0    0 0 0    0
+1845    0 1500 0 0    0
+1878    0    0 0 0    0
+1893    0    0 0 0    0
+2074    0  360 0 0 1800
+2237    0    0 0 0    0
+2389    0    0 0 0    0
+2449    0    0 0 0    0
+2653  400    0 0 0    0
+2951    0    0 0 0    0
+2996 3500    0 0 0    0
+3218    0    0 0 0    0
+4074    0    0 0 0    0
+4288    0    0 0 0 2600
+
+$Amount
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)
+
+$Price
+[1] 1 2 3 4 5
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+</div>
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-arn2017" class="csl-entry" role="doc-biblioentry">
+Arnab, R. 2017. <em>Survey Sampling Theory and Applications</em>. Academic Press. <a href="https://www.sciencedirect.com/topics/mathematics/imputation-method">https://www.sciencedirect.com/topics/mathematics/imputation-method</a>.
+</div>
 <div id="ref-cao2021" class="csl-entry" role="doc-biblioentry">
 Cao, Y., H. Allore, B. V. Wyk, and Gutman R. 2021. <span>“Review and Evaluation of Imputation Methods for Multivariate Longitudinal Data with Mixed-Type Incomplete Variables.”</span> <em>Statistics in Medicine</em> 41 (30): 5844–76. <a href="https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592">https://doi-org.ezproxy.lib.uwf.edu/10.1002/sim.9592</a>.
 </div>
