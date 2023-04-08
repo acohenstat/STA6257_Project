@@ -345,8 +345,7 @@ credit = read.csv("credit_data.csv")
 # load packages
 library(gtsummary)
 ```
-
-##### Description of Data
+##### Description
 
 The data are from the website of Dr. Lluís A. Belanche Muñoz by way of a github repository of Dr. Gaston Sanchez. One data point is a missing outcome was removed from the original data.
 
@@ -387,6 +386,9 @@ Amount: Count variable indicating the amount of income remaining in a subject's 
 
 Price: Count variable indicating how much money a subject earns by the end of the month.
 
+##### Description of Data
+
+Credit score data
 
 ##### Details of Data
 
@@ -396,23 +398,23 @@ variables. Of the 15 variables, the "Status" variable contains binomial
 categorical values of "good" and "bad" to describe the kind of credit
 score each subject has.
 
-| Variable  | Type      | Description                                              |
-|------------------|------------------|-------------------------------------|
-| X         | Integer   | Observation number of subject                            |
-| Status    | Character | Describes credit score of subject: "good" or "bad"       |
-| Seniority | Integer   | ?                                                        |
-| Home      | Character | Home owner status of subject: "rent" "owner" "parents"   |
-| Time      | Integer   | ?                                                        |
-| Age       | Integer   | Age of subject in years                                  |
-| Marital   | Character | Marital status of subject: "married" "single" "widow"    |
-| Records   | Character | ?                                                        |
-| Job       | Character | Job type of subject: "fixed" "freelance" "partime"       |
-| Expenses  | Integer   | ? Monthly/Annually ?                                     |
-| Income    | Integer   | ? Annual income of subject (dollar amount in thousands?) |
-| Assets    | Integer   | Dollar amount of assets of subject (in thousands?)       |
-| Debt      | Integer   | Dollar amount of debt of subject (in thousands?)         |
-| Amount    | Integer   | ?                                                        |
-| Price     | Integer   | ?                                                        |
+| Variable  | Type      | Description                                                                |
+|------------------|------------------|------------------------------------|
+| X         | Integer   | Observation number of subject                                              |
+| Status    | Character | Describes credit score of subject: good or bad                             |
+| Seniority | Integer   | ?                                                                          |
+| Home      | Character | Home owner status of subject: rent, owner, parents, priv, other, or ignore |
+| Time      | Integer   | ?                                                                          |
+| Age       | Integer   | Age of subject in years                                                    |
+| Marital   | Character | Marital status of subject: single, married, separated, divorced, or widow  |
+| Records   | Character | Yes or No                                                                  |
+| Job       | Character | Job type of subject: fixed, freelance, partime, or others                  |
+| Expenses  | Integer   | ? Monthly/Annually ?                                                       |
+| Income    | Integer   | ? Annual income of subject (dollar amount in thousands?)                   |
+| Assets    | Integer   | Dollar amount of assets of subject (in thousands?)                         |
+| Debt      | Integer   | Dollar amount of debt of subject (in thousands?)                           |
+| Amount    | Integer   | ?                                                                          |
+| Price     | Integer   | ?                                                                          |
 
 ```{r, warning=FALSE, echo=TRUE}
 # load library
@@ -559,49 +561,3 @@ data sets. Run the models and combine them using the imputed values, and
 finally, analyze the complete dataset. Performing these steps will
 minimize the adverse effects caused by missing data on the anaylsis
 [@pam2016].
-
-
-#Load packages:
-```{r}
-library(mice)
-library(tidyverse)
-summary(credit)
-```
-
-
-#This contains a subset of the credit data where the rows having missing value.
-```{r}
-rows_na = credit[!complete.cases(credit),]  
-head(rows_na, 10)
-```
-
-#This shows a matrix where each row corresponds to a missing data pattern in the credit data set.
-```{r}
-md.pattern(credit)
-```
-
-
-#In order to perform multiple imputation on categorical data, all string variables must be converted to
-# factors using as.factor()
-```{r}
-data$Status = as.factor(credit$Status)
-data$Home = as.factor(credit$Home)
-data$Marital = as.factor(credit$Marital)
-data$Records = as.factor(credit$Records)
-data$Job = as.factor(credit$Job)
-```
-
-
-
-#Using the mice() function, 5 (default) multiple imputations for the null values for the credit data
-# will be generated.
-```{r}
-Multiple_Imputation = mice(data = credit,  defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
-```
-
-
-
-# Show the imputed values. Columns are imputations, rows are observations
-```{r}
-Multiple_Imputation$imp
-```
