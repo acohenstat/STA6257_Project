@@ -348,7 +348,45 @@ library(gtsummary)
 
 ##### Description of Data
 
-Credit score data
+The data are from the website of Dr. Lluís A. Belanche Muñoz by way of a github repository of Dr. Gaston Sanchez. One data point is a missing outcome was removed from the original data.
+
+The dataset contains 14 variables:
+
+```{r}
+str(credit_data)
+```
+
+Status: 2-level categorical variable indicating whether the subject has "good" or "bad" credit
+
+Seniority: count variable indicating the seniority a subject has accumulated over the course of their life
+
+Home: 6-level categorical variable indicating the subject's relationship to their residential address:
+c(ignore, other, owner, parents, priv, rent)
+
+Time: Count variable showing how many months has elapsed after the payment deadline without paying their debt full. 
+
+Age: Count variable indicating subject's age.
+
+Marital: 5-level categorical variable indicating the subject's marital status:
+c(married, widow, single, seperated, divorced)
+
+Records: 2-level categorical variable indicating whether the subject has a credit history record ("yes" or "no")
+
+Job: 4-level categorical variable indicating the type of job the subject has:
+c(fixed, freelance, others, partime)
+
+Expenses: Count variable indicating how many expenses a subject has.
+
+Income: Count variable indicating the amount of income a subject has in thousands of USD
+
+Assets: Count variable indicating how many assets a person has.
+
+Debt: Count variable indicating the amount of debt (in USD) a subject has.
+
+Amount: Count variable indicating the amount of income remaining in a subject's bank account.
+
+Price: Count variable indicating how much money a subject earns by the end of the month.
+
 
 ##### Details of Data
 

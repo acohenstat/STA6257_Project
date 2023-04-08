@@ -1,0 +1,50 @@
+
+#Load packages:
+```{r}
+install.packages('mice')
+library('mice')
+library('tidyverse')
+
+summary(credit_data)
+```
+
+
+#This contains a subset of the credit data where the rows having missing value.
+```{r}
+rows_na = credit_data[!complete.cases(credit_data),]  
+
+head(rows_na, 10)
+```
+
+#This shows a matrix where each row corresponds to a missing data pattern in the credit data set.
+```{r}
+md.pattern(credit_data)
+
+```
+
+
+#In order to perform multiple imputation on categorical data, all string variables must be converted to
+# factors using as.factor()
+```{r}
+credit_data$Status = as.factor(credit_data$Status)
+credit_data$Home = as.factor(credit_data$Home)
+credit_data$Marital = as.factor(credit_data$Marital)
+credit_data$Records = as.factor(credit_data$Records)
+credit_data$Job = as.factor(credit_data$Job)
+```
+
+
+
+#Using the mice() function, 5 (default) multiple imputations for the null values for the credit data
+# will be generated.
+```{r}
+Multiple_Imputation = mice(data = credit_data,  defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
+```
+
+
+
+# Show the imputed values. Columns are imputations, rows are observations
+```{r}
+Multiple_Imputation$imp
+```
+
