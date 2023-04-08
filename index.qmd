@@ -303,13 +303,7 @@ The data are from the website of Dr. Lluís A. Belanche Muñoz by way of a githu
 
 The dataset contains 14 variables:
 
-#Load packages:
 ```{r}
-install.packages('mice')
-library('mice')
-library('tidyverse')
-
-summary(credit_data)
 str(credit_data)
 ```
 
