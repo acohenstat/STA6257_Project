@@ -10,21 +10,26 @@ format:
 editor: visual
 ---
 
-## Quarto
+## What is Missing Data?
 
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+## Methods to Handle Missing Data
 
-## Bullets
+## What is Imputation?
 
-When you click the **Render** button a document will be generated that includes:
+## Single Imputation
 
--   Content authored with markdown
--   Output from executable code
+## Multiple Imputation
 
-## Code
+## Other Methods of Imputation
 
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Methodology
 
-```{r}
-1 + 1
-```
+## Dataset
+
+## Visualizations
+
+## Results
+
+## Statistical Models
+
+## Conclusion

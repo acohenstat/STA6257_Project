@@ -332,26 +332,41 @@
   <p class="author">Elizabeth Subject-Scott</p>
 </section>
 
-<section id="quarto" class="slide level2">
-<h2>Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <a href="https://quarto.org/docs/presentations/" class="uri">https://quarto.org/docs/presentations/</a>.</p>
+<section id="what-is-missing-data" class="slide level2">
+<h2>What is Missing Data?</h2>
 </section>
-<section id="bullets" class="slide level2">
-<h2>Bullets</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes:</p>
-<ul>
-<li>Content authored with markdown</li>
-<li>Output from executable code</li>
-</ul>
+<section id="methods-to-handle-missing-data" class="slide level2">
+<h2>Methods to Handle Missing Data</h2>
 </section>
-<section id="code" class="slide level2">
-<h2>Code</h2>
-<p>When you click the <strong>Render</strong> button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="what-is-imputation" class="slide level2">
+<h2>What is Imputation?</h2>
+</section>
+<section id="single-imputation" class="slide level2">
+<h2>Single Imputation</h2>
+</section>
+<section id="multiple-imputation" class="slide level2">
+<h2>Multiple Imputation</h2>
+</section>
+<section id="other-methods-of-imputation" class="slide level2">
+<h2>Other Methods of Imputation</h2>
+</section>
+<section id="methodology" class="slide level2">
+<h2>Methodology</h2>
+</section>
+<section id="dataset" class="slide level2">
+<h2>Dataset</h2>
+</section>
+<section id="visualizations" class="slide level2">
+<h2>Visualizations</h2>
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+</section>
+<section id="statistical-models" class="slide level2">
+<h2>Statistical Models</h2>
+</section>
+<section id="conclusion" class="slide level2">
+<h2>Conclusion</h2>
 <div class="footer footer-default">
 
 </div>
@@ -567,48 +582,6 @@
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        function fireSlideChanged(previousSlide, currentSlide) {
-
-          // dispatch for htmlwidgets
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for reveal
-        if (window.Reveal) {
-          window.Reveal.addEventListener("slidechanged", function(event) {
-            fireSlideChanged(event.previousSlide, event.currentSlide);
-          });
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -8,6 +8,7 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
+    code-tools: true
     css: styles.css
     theme: morph
     toc: true
@@ -163,10 +164,9 @@ analyses software already have built-in features to deal with missing
 data.
 
 Multiple imputation by chained methods, otherwise known as MICE, is the
-most common and preferred method of multiple imputation. It provides a
-more reliable way to analyze data with missing values. For this reason,
-this paper will focus on the methodology and application of the MICE
-process.
+most common and preferred, method of multiple imputation [@wul2017]. It provides a more reliable way to analyze data with missing
+values. For this reason, this paper will focus on the methodology and
+application of the MICE process.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
@@ -214,6 +214,8 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 
 #### Other Methods of Imputation
 
+There are other methods of imputation worth noting and are briefly descrbied below.
+
 *Regression Imputation* is based on a linear regression model. Missing
 data is randomly drawn from a conditional distribution when variables
 are continuous and from a logistic regression model when they are
@@ -242,7 +244,7 @@ and a prediction set [@tho2022]. The missing values are then replaced
 with predictions from these sets. This type of imputation can be used on
 continuous or categorical variables with complex interactions.
 
-## Methods
+## Methodology
 
 **Multiple Imputation by Chained Equations (MICE)**
 
@@ -260,31 +262,12 @@ ${\hat{\Phi}}_{M}$ =
 ${\overline{\phi}}_{M}$+(1+$\displaystyle \frac{1}{M}$)*B*$_{M}$
 
 where ${\overline{\phi}}_{M}$ =
-$\displaystyle \frac{1}{M}$$\sum_{m = 1}^{M}$${\hat{\phi}}_m$ and
-B$_{M}$ =
+$\displaystyle \frac{1}{M}$$\sum_{m = 1}^{M}$${\hat{\phi}}_m$
+
+and B$_{M}$ =
 $\displaystyle \frac{1}{M-1}$$\sum_{m = 1}^{M}$(${\hat{\theta}}_{m}$-${\overline{\theta}}_{M}$)$^{2}$
 
 [@arn2017]
-
-For the purpose of this project, we uitilized Multiple Imputation (MI)
-for the credit dataset (dataset consists of 14 variables: status, home,
-time, age, marital, records, job, expenses, income, assets, debt,
-amount, price).
-
-In R which is a statistical programming software, we created 5 datasets
-with imputed values using the MICE package (Multivariate Imputation by
-Chained Equations) which can seamlessly impute missing values in a
-dataset by looking at the data from other columns and estimate the best
-prediction for each missing value.
-
-Before imputing the missing data, it is important to check whether the
-data has a linear relationship. Nonlinear data should be accounted for
-in the analysis as well as the imputation process. Otherwise, an
-incorrect statistical model will result. It is also important to check
-for anomalies that may occur during imputation. Imputation models may
-need to be adjusted if the imputed values fall outside the minimum and
-maximum range of the observed values. More or fewer variables in the
-imputation model may be needed for these types of anomalies.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # credit[is.na(credit) | credit=="Inf"] = NA
@@ -292,44 +275,38 @@ imputation model may be needed for these types of anomalies.
 # credit_model = lm(formula = Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Seniority + Price, data = credit)
 ```
 
-The chained equation process can be broken down into four general steps:
+The chained equation process has the following steps [@azu2011]:
 
-Step 1: A simple imputation, such as imputing the mean, is performed for
-every missing value in the dataset. These mean imputations can be
-thought of as "place holders." Step 2: The "place holder" mean
-imputations for one variable ("var") are set back to missing. Step 3:
-The observed values from the variable "var" in Step 2 are regressed on
-the other variables in the imputation model, which may or may not
-consist of all of the variables in the dataset. In other words, "var" is
-the dependent variable in a regression model and all the other variables
-are independent variables in the regression model. These regression
-models operate under the same assumptions that one would make when
-performing linear, logistic, or Poison regression models outside of the
-context of imputing missing data. Step 4: The missing values for "var"
-are then replaced with predictions (imputations) from the regression
-model. When "var" is subsequently used as an independent variable in the
-regression models for other variables, both the observed and these
-imputed values will be used. Step 5: Steps 2--4 are then repeated for
-each variable that has missing data. The cycling through each of the
-variables constitutes one iteration or "cycle." At the end of one cycle
-all of the missing values have been replaced with predictions from
-regressions that reflect the relationships observed in the data. Step 6:
-Steps 2--4 are repeated for a number of cycles, with the imputations
-being updated at each cycle.
+##### Step 1:
 
-##### Step 1
+Using simple imputation, replace the missing data with this value,
+referred to as the "place holder".
 
-Evaluate data and select independent variables
+##### Step 2:
 
-##### Step 2
+The "place holder" values for one variable are set back to missing.
 
-Create m sets of data from original dataset with missing values
+##### Step 3:
 
-##### Step 3
+The observed values from this variable (dependent variable) are
+regressed on the other variables (independent variables) in the model,
+using the same assumptions when performing linear, logistic, or Poison
+regression.
 
-Perform analysis on each of the m sets
+##### Step 4:
 
-##### Step 4
+The missing values are replaced with predictions "m" from this newly
+created model.
+
+##### Step 5:
+
+Repeat Steps 2-4 for each variable that have missing values until all
+missing values have been replaced.
+
+##### Step 6:
+
+Repeat Steps 2-4, updating imputations each cycle for as many "m"
+cycles/imputations that are required.
 
 Average the estimates across m estimates. Calculate the standard errors
 and variance of m estimates. Combine using an adjustment term (1+1/m).
@@ -345,46 +322,6 @@ credit = read.csv("credit_data.csv")
 # load packages
 library(gtsummary)
 ```
-##### Description
-
-The data are from the website of Dr. Lluís A. Belanche Muñoz by way of a github repository of Dr. Gaston Sanchez. One data point is a missing outcome was removed from the original data.
-
-The dataset contains 14 variables:
-
-```{r}
-str(credit_data)
-```
-
-Status: 2-level categorical variable indicating whether the subject has "good" or "bad" credit
-
-Seniority: count variable indicating the seniority a subject has accumulated over the course of their life
-
-Home: 6-level categorical variable indicating the subject's relationship to their residential address:
-c(ignore, other, owner, parents, priv, rent)
-
-Time: Count variable showing how many months has elapsed after the payment deadline without paying their debt full. 
-
-Age: Count variable indicating subject's age.
-
-Marital: 5-level categorical variable indicating the subject's marital status:
-c(married, widow, single, seperated, divorced)
-
-Records: 2-level categorical variable indicating whether the subject has a credit history record ("yes" or "no")
-
-Job: 4-level categorical variable indicating the type of job the subject has:
-c(fixed, freelance, others, partime)
-
-Expenses: Count variable indicating how many expenses a subject has.
-
-Income: Count variable indicating the amount of income a subject has in thousands of USD
-
-Assets: Count variable indicating how many assets a person has.
-
-Debt: Count variable indicating the amount of debt (in USD) a subject has.
-
-Amount: Count variable indicating the amount of income remaining in a subject's bank account.
-
-Price: Count variable indicating how much money a subject earns by the end of the month.
 
 ##### Description of Data
 
@@ -392,45 +329,81 @@ Credit score data
 
 ##### Details of Data
 
-The credit_data.csv file contains data of 4,454 subjects and stores a
-combination of continuous, categorical and count values for 15
-variables. Of the 15 variables, the "Status" variable contains binomial
-categorical values of "good" and "bad" to describe the kind of credit
-score each subject has.
+The credit.csv file is from the website of Dr. Lluís A. Belanche Muñoz,
+by way of a github repository of Dr. Gaston Sanchez. It contains data of
+4,454 subjects and stores a combination of continuous, categorical and
+count values for 15 variables. Of the 15 variables, the "Status"
+variable contains binomial categorical values of "good" and "bad" to
+describe the kind of credit score each subject has. One data point is
+missing an outcome and was removed from the original data.
 
-| Variable  | Type      | Description                                                                |
-|------------------|------------------|------------------------------------|
-| X         | Integer   | Observation number of subject                                              |
-| Status    | Character | Describes credit score of subject: good or bad                             |
-| Seniority | Integer   | ?                                                                          |
-| Home      | Character | Home owner status of subject: rent, owner, parents, priv, other, or ignore |
-| Time      | Integer   | ?                                                                          |
-| Age       | Integer   | Age of subject in years                                                    |
-| Marital   | Character | Marital status of subject: single, married, separated, divorced, or widow  |
-| Records   | Character | Yes or No                                                                  |
-| Job       | Character | Job type of subject: fixed, freelance, partime, or others                  |
-| Expenses  | Integer   | ? Monthly/Annually ?                                                       |
-| Income    | Integer   | ? Annual income of subject (dollar amount in thousands?)                   |
-| Assets    | Integer   | Dollar amount of assets of subject (in thousands?)                         |
-| Debt      | Integer   | Dollar amount of debt of subject (in thousands?)                           |
-| Amount    | Integer   | ?                                                                          |
-| Price     | Integer   | ?                                                                          |
+| Variable  | Type      | Description                                                                                                                                    |
+|----------------|----------------|----------------------------------------|
+| X         | Integer   | Count variable indicating the number of subjects.                                                                                              |
+| Status    | Character | 2-level categorical variable indicating the status of the subject's credit: good or bad.                                                       |
+| Seniority | Integer   | Count variable indicating the seniority a subject has accumulated over the course of their life.                                               |
+| Home      | Character | 6-level categorical variable indicating the subject's relationship to their residential address: rent, owner, parents, priv, other, or ignore. |
+| Time      | Integer   | Count variable showing how many months has elapsed since the subject's payment deadline without paying their debt full.                        |
+| Age       | Integer   | Count variable indicating subject's age (in years).                                                                                            |
+| Marital   | Character | 5-level categorical variable indicating the subject's marital status: single, married, separated, divorced, or widow.                          |
+| Records   | Character | 2-level categorical variable indicating whether the subject has a credit history record: yes or no.                                            |
+| Job       | Character | 4-level categorical variable indicating the type of job the subject has: fixed, freelance, partime, or others.                                 |
+| Expenses  | Integer   | Count variable indicating the amount of expenses (in USD) a subject has.                                                                       |
+| Income    | Integer   | Count variable indicating the amount of income (in thousands of USD) a subject earns annually.                                                 |
+| Assets    | Integer   | Count variable indicating the amount of assets (in USD) a subject has.                                                                         |
+| Debt      | Integer   | Count variable indicating the amount of debt (in USD) a subject has.                                                                           |
+| Amount    | Integer   | Count variable indicating the amount of money (in USD) remaining in a subject's bank account.                                                  |
+| Price     | Integer   | Count variable indicating the amount of money a subject earns by the end of the month.                                                         |
 
-```{r, warning=FALSE, echo=TRUE}
+##### Summary of Data:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+credit %>%
+  tbl_summary(by = Status,
+              missing_text = "NA") %>%
+  add_p() %>%
+  add_n() %>%
+  add_overall %>%
+  modify_header(label ~ "**Variable**") %>%
+  modify_caption("**Summary of Credit Data**") %>%
+  bold_labels()
+```
+
+As indicated in the table, the data contains NA/missing values. In order to conduct analysis, we need to delete the missing data. We will create a new dataset with the deleted values. 
+
+```{r}
+library(dplyr)
+library(mice)
+
+new_credit = na.omit(credit) 
+summary(new_credit)
+
+credit_lm = lm(Amount ~ Status + Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Price, data=new_credit)
+```
+
+415 rows were deleted due to missing values. In order to conduct regression, we must throw away 9.3% of our data because of missingness. We can use the mice package in R to impute the missing values so that we don't have to discard such valuable information.
+
+It's a good idea to check distribution before and after imputation to
+make sure the distribution doesn't change significantly. When
+categorical data is missing, the mode can be used for the missing
+points. If there is a large amount of missing categorical data, then it
+should be removed and a new category should be used.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
 # load library
 library(mice, warn.conflicts=FALSE)
 library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
 library(cowplot)
 
-credit$Amount
-
-ggplot(credit, aes(Amount, fill = credit, color = credit)) +
-  geom_histogram(color = "#000000", fill = "#0099F8") +
-  ggtitle("Variable distribution") +
-  theme_classic() +
-  theme(plot.title = element_text(size = 18))
-
+# credit$Amount
+# 
+# ggplot(credit, aes(Amount, fill = credit, color = credit)) +
+#   geom_histogram(color = "#000000", fill = "#0099F8") +
+#   ggtitle("Variable distribution") +
+#   theme_classic() +
+#   theme(plot.title = element_text(size = 18))
+# 
 # # TRANSFORM TO LONG DATA FOR PLOTS
 # credit.Long<- credit %>% pivot_longer(!y, names_to="credit", values_to="score", values_transform=list(score=as.numeric))
 # 
@@ -451,8 +424,27 @@ ggplot(credit, aes(Amount, fill = credit, color = credit)) +
 #         axis.ticks = element_line(color = "#8B814C"))
 ```
 
-It's a good idea to check distribution before and after imputation to
-make sure the distribution doesn't change significantly.
+Before imputing the missing data, it is important to check whether the
+data has a linear relationship. Nonlinear data should be accounted for
+in the analysis as well as the imputation process. Otherwise, an
+incorrect statistical model will result. Also, it is a good idea to
+check the distribution before and after imputing to make sure there are
+no drastic changes. Also, need to verify the missingess mechanism.
+Before imputing, you need to determine how many imputations are needed.
+3-5 imputations are sufficient, and 10 are more than enough [@wul2017].
+It is also important to check for anomalies that may occur during
+imputation. Imputation models may need to be adjusted if the imputed
+values fall outside the minimum and maximum range of the observed
+values. More or fewer variables in the imputation model may be needed
+for these types of anomalies. After imputation compute wald test
+statistic to test interactions. Always need to disclose method used to
+replace missing values when analyzing data.
+
+We created 5 datasets with imputed values using the MICE package
+(Multivariate Imputation by Chained Equations) in R, a statistical
+programming software. It seamlessly imputes missing values in a dataset
+by looking at the data from other columns and estimate the best
+prediction for each missing value.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 data <- credit[-c(1,4,7,8,9)]
@@ -491,28 +483,54 @@ methods(mice)
 
 ```
 
-##### Structure:
-
 ```{r, warning=FALSE, echo=T, message=FALSE}
-str(credit)
-summary(credit)
+# load libraries
+library('mice')
+library('tidyverse')
+
+#summary(credit)
 ```
 
-##### Summary of Data:
+This contains a subset of the credit data where the rows having missing
+value.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-credit %>%
-  tbl_summary(by = Status,
-              missing_text = "NA") %>%
-  add_p() %>%
-  add_n() %>%
-  add_overall %>%
-  modify_header(label ~ "**Variable**") %>%
-  modify_caption("**Summary of Credit Data**") %>%
-  bold_labels()
+rows_na = credit[!complete.cases(credit),]  
+
+head(rows_na, 10)
 ```
 
-##### Diagnostics
+This shows a matrix where each row corresponds to a missing data pattern
+in the credit data set.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+md.pattern(credit)
+
+```
+
+In order to perform multiple imputation on categorical data, all string
+variables must be converted to \# factors using as.factor()
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+credit$Status = as.factor(credit$Status)
+credit$Home = as.factor(credit$Home)
+credit$Marital = as.factor(credit$Marital)
+credit$Records = as.factor(credit$Records)
+credit$Job = as.factor(credit$Job)
+```
+
+Using the mice() function, 5 (default) multiple imputations for the null
+values for the credit data \# will be generated.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+Multiple_Imputation = mice(data = credit,  defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
+```
+
+Show the imputed values. Columns are imputations, rows are observations
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+Multiple_Imputation$imp
+```
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
@@ -527,9 +545,9 @@ library(ggfortify)
 ```
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
-autoplot(model1)
-
+# model1=lm(Amount~Status+Seniority+Home+Time+Age+Marital+Records+Job+Expenses+Income+Assets+Debt+Price, data=credit)
+# autoplot(model1)
+# 
 # ggplot1 = credit %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
 # 
 #   ggplot1 + geom_point(aes(col=region), size = 4) +
