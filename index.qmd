@@ -413,7 +413,7 @@ md.pattern(credit, rotate.names = TRUE)
 
 Blue is observed values and red is missing values. There are 11 patterns. (Need to add better explanation.)
 
-In order to perform multiple imputation on categorical data, all string variables must be converted to factors using the as.factor() function:
+In order to perform multiple imputation on categorical data, all string variables must be converted to factors using the as.factor() function [@ste2011]:
 
 ```{r}
 credit$Status = as.factor(credit$Status)
