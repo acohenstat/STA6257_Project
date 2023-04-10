@@ -308,49 +308,13 @@ and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 ## Analysis and Results
 
-<<<<<<< HEAD
 ### Data and Visualizations
 
 ##### Load Data and Packages
-=======
-Using the MICE (Multivariate Imputation by Chained Equations) method found in the MICE package for R which creates multiple datasets with imputted values for the missing values, 5 datasets where plausible values are installed into the intersecctions of rows and columns with missing data were generated. 
-
-An array of statistical analysis steps using R coding was used to imputate missing values of the credit data.
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# first we load data
-credit = read.csv("credit_data.csv")
-
-# load packages
-library(gtsummary)
-```
-In order to perform multiple imputation on categorical data, all stringvariables must be converted to \# factors using as.factor()
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-credit$Status = as.factor(credit$Status)
-credit$Home = as.factor(credit$Home)
-credit$Marital = as.factor(credit$Marital)
-credit$Records = as.factor(credit$Records)
-credit$Job = as.factor(credit$Job)
-```
-
-Using the mice() function, 5 (default) multiple imputations for the null (missing) values for the credit data \# will be generated. Since the data type of the variables in the dataset are of both numerical and categorical nature (with 2 and more levels), the defaultMethod argument will contain pmm, predictive mean matching (numeric data) logreg, logistic regression imputation (binary data, factor with 2 levels) polyreg, polytomous regression imputation for unordered categorical data (factor > 2 levels) polr, proportional odds model for (ordered, > 2 levels). The set.seed will be given the value 1337 to retrieve the same results each time the multiple imputation is performed.
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-Multiple_Imputation = mice(data = credit,  defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
-```
-
-The following R code will show the imputed values. Columns are imputations, rows are observations.
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-Multiple_Imputation$imp
-```
-## Data and Visualization
->>>>>>> 0b8583752f1607500520bf84da92fa1e9336034a
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # load data
-credit
+credit = read.csv("credit_data.csv")
 
 # load libraries
 library(gtsummary)
@@ -449,7 +413,6 @@ md.pattern(credit, rotate.names = TRUE)
 
 Blue is observed values and red is missing values. There are 11 patterns. (Need to add better explanation.)
 
-<<<<<<< HEAD
 In order to perform multiple imputation on categorical data, all string variables must be converted to factors using the as.factor() function:
 
 ```{r}
@@ -471,9 +434,6 @@ The following R code will show the imputed values. Columns are imputations, rows
 ```{r, warning=FALSE, echo=T, message=FALSE}
 Multiple_Imputation$imp
 ```
-=======
->>>>>>> 0b8583752f1607500520bf84da92fa1e9336034a
-
 
 ### Statistical Modeling
 
@@ -522,5 +482,3 @@ data sets. Run the models and combine them using the imputed values, and
 finally, analyze the complete dataset. Performing these steps will
 minimize the adverse effects caused by missing data on the anaylsis
 [@pam2016].
-
-
