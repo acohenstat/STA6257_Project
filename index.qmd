@@ -469,8 +469,6 @@ imputations, rows are observations.
 head(Multiple_Imputation$imp, 10)
 ```
 
-### Statistical Modeling
-
 We can check the quality of the imputations by running a strip plot,
 which is a single axis scatter plot. It will show the distribution of
 each variable per imputed data set. We want the imputations to be values
@@ -507,6 +505,8 @@ fit <- with(Multiple_Imputation, glm(Status ~ Seniority + Home + Time + Age + Ma
 # pool and summarize the results
 summary(pool(fit))
 ```
+
+We now have a full, complete dataset that we can analyze!
 
 ## Conclusion
 
