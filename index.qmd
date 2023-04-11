@@ -435,7 +435,7 @@ Blue is observed values and red is missing values. There are 11
 patterns.
 
 In order to perform multiple imputation on categorical data, all string
-variables must be converted to factors using the as.factor() function:
+variables must be converted to factors using the as.factor() function [@van2011]:
 
 ```{r}
 credit$Status = as.factor(credit$Status)
@@ -466,7 +466,7 @@ The following R code will show the imputed values. Columns are
 imputations, rows are observations.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-Multiple_Imputation$imp
+head(Multiple_Imputation$imp, 10)
 ```
 
 ### Statistical Modeling
