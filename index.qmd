@@ -432,7 +432,7 @@ Multiple_Imputation = mice(data = credit,  maxit = 10, m = 10, defaultMethod = c
 The following R code will show the imputed values. Columns are imputations, rows are observations.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-Multiple_Imputation$imp
+head(Multiple_Imputation$imp, 10)
 ```
 
 ### Statistical Modeling
