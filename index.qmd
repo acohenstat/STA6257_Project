@@ -19,6 +19,7 @@ bibliography: references.bib # file contains bibtex for references
 editor: 
   markdown: 
     wrap: 72
+self-contained: true 
 ---
 
 [Website](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/)
@@ -27,7 +28,7 @@ editor:
 
 ## Introduction
 
-#### What is missing data?
+#### Missing Data
 
 Missing data occurs when there are missing values in a dataset. There
 are many reasons why this occurs. It can be intentional or unintentional
@@ -51,8 +52,7 @@ Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
 variables. Z is the component of the cause of missingness unrelated to X
 and Y. R is the missingness.)
 
-Looking for patterns in the missing data can help us to determine to
-which category they belong. These mechanisms are important in
+Looking for patterns in the missing data can help us to determine which category they belong. These mechanisms are important in
 determining how to handle the missing data. MCAR would be the best case
 scenario but seldom occur. MAR and MNAR are more common.
 
@@ -64,17 +64,29 @@ explicitly acknowledge missing data problems and the conditions under
 which they occur and employ principled methods to handle the missing
 data [@don2013].
 
+#### Methods to Deal with Missing Data
+
 There are three types of methods to deal with missing data, the
 likelihood and Bayesian method, weighting methods, or imputation methods
 [@cao2021]. Missing data can also be handled by simply deleting.
 
-#### Likelihood Bayesian Method
+-   Likelihood Bayesian method is when information from a previous
+    predictive distribution is combined with evidence obtained in a
+    sample to predict a value. It requires technical coding and advanced
+    statistical knowledge.
 
-#### Weighting Method
+-   The weighting method is a traditional approach when weights from
+    available data are used to adjust for non-response in a survey.
+    Inefficiency occurs when there are extreme weights or a need for
+    many weights.
+
+-   The imputation method is when an estimate from the original dataset
+    is used to estimate the missing value. There are two types of imputation: single and
+multiple.
 
 #### Deleting missing data
 
-Listwise deletion is when the entire observation is removed from the
+*Listwise deletion* is when the entire observation is removed from the
 dataset. Deleting missing data can lead to the loss of important
 information regarding your dataset and is therefore not recommended. In
 certain cases, when the amount of missing data is small and the type is
@@ -89,31 +101,31 @@ scattered throughout the data. This implies that the missing data is MAR
 or MNAR. Conversely, if nonsignificant, this implies that the data
 cannot be MAR. This does not eliminate the possibility that it is not
 MNAR--other information about the population is needed to determine
-this. Whenever missing data is categorized as MAR or MNAR, listwise
+this. 
+
+Whenever missing data is categorized as MAR or MNAR, listwise
 deletion would be wasteful, and the analysis biased. Alternate methods
 of dealing with the missing data is recommended: either pairwise
 deletion or imputation.
 
-Pairwise deletion is when only the missing variable of an observation is
+*Pairwise deletion* is when only the missing variable of an observation is
 removed. It allows more data to be analyzed than listwise deletion but
 limits the ability to make inferences of the total sample. For this
 reason, it is recommended to use imputation to properly deal with
 missing data.
 
-#### What is imputation?
+#### Preferred Method to Handle Missing Data
 
-Imputation is the method of replacing missing data with an estimate
-obtained from the original, available data so there is a full data set
-to analyze. To improve statistical power, the number of imputations
-created should be at least equal to the percent of missing data (5%
-equals 5 imputations, 10% equals 10 imputations, 20% equals 20
-imputations, etc.) [@ped2017]. According to [@wul2017], 3-5 imputations are sufficient, and 10 are more than enough.
-There are two types of imputation: single
-and multiple.
+Imputation is the preferred method to handle missing data. It consists
+of replacing missing data with an estimate obtained from the original,
+available data. After imputation, there will be a full dataset to
+analyze. To improve statistical power, the number of imputations created
+should be at least equal to the percent of missing data (5% equals 5
+imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
+[@ped2017]. According to [@wul2017], 3-5 imputations are sufficient, and
+10 are more than enough. 
 
-#### Single Imputation
-
-Single, or univariate, imputation is when only one estimate is used to
+*Single, or univariate, imputation* is when only one estimate is used to
 replace the missing data. Methods of single imputation include using the
 mean, the last observation carried forward, and random imputation. The
 following is a brief explanation of each:
@@ -143,9 +155,7 @@ which can cause bias in the analysis. Therefore, multiple imputation is
 the better method because it handles missing data better and provides
 less biased results.
 
-#### Multiple Imputation
-
-Multiple, or multivariate, imputation is when various estimates are used
+*Multiple, or multivariate, imputation* is when various estimates are used
 to replace the missing data by creating multiple datasets from versions
 of the original dataset. It can be done by using a regression model, or
 a sequence of regression models, such as linear, logistic and Poison. A
@@ -165,9 +175,10 @@ analyses software already have built-in features to deal with missing
 data.
 
 Multiple imputation by chained methods, otherwise known as MICE, is the
-most common and preferred, method of multiple imputation [@wul2017]. It provides a more reliable way to analyze data with missing
-values. For this reason, this paper will focus on the methodology and
-application of the MICE process.
+most common and preferred, method of multiple imputation [@wul2017]. It
+provides a more reliable way to analyze data with missing values. For
+this reason, this paper will focus on the methodology and application of
+the MICE process.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #loading packages
@@ -212,10 +223,13 @@ estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
 rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 }")
 ```
+*Rubin's Rules: Average the estimates across m estimates. Calculate the standard errors
+and variance of m estimates. Combine using an adjustment term (1+1/m).
 
 #### Other Methods of Imputation
 
-There are other methods of imputation worth noting and are briefly descrbied below.
+There are other methods of imputation worth noting and are briefly
+descrbied below.
 
 *Regression Imputation* is based on a linear regression model. Missing
 data is randomly drawn from a conditional distribution when variables
@@ -228,7 +242,7 @@ categorical missing values but different for continuous variables.
 Instead of random draws from a conditional distribution, missing values
 are based on predicted values of the outcome variable [@van2020].
 
-*Hot Deck (HD)* imputation is when a missing value is replaced by an
+*Hot Deck (HD) imputation* is when a missing value is replaced by an
 observed response of a similar unit, also known as the donor. It can be
 either random or deterministic (based on a metric or value) [@tho2022].
 It does not rely on model fitting.
@@ -303,9 +317,6 @@ missing values have been replaced.
 Repeat Steps 2-4, updating imputations each cycle for as many "m"
 cycles/imputations that are required.
 
-Average the estimates across m estimates. Calculate the standard errors
-and variance of m estimates. Combine using an adjustment term (1+1/m).
-
 ## Analysis and Results
 
 ### Data and Visualizations
@@ -339,7 +350,7 @@ missing an outcome and was removed from the original data.
 ##### Definition of Data in Dataset
 
 | Variable  | Type      | Description                                                                                                                                    |
-|----------------|----------------|----------------------------------------|
+|-----------------|-----------------|--------------------------------------|
 | X         | Integer   | Count variable indicating the number of subjects.                                                                                              |
 | Status    | Character | 2-level categorical variable indicating the status of the subject's credit: good or bad.                                                       |
 | Seniority | Integer   | Count variable indicating the seniority a subject has accumulated over the course of their life.                                               |
@@ -372,14 +383,21 @@ credit %>%
 
 ##### Evaluate Dataset
 
-First, we evaluate the dataset for missing values. As indicated in the table, the data does contain NA/missing values. We can create a table that shows each variable and how many missing values they have:
+First, we evaluate the dataset for missing values. As indicated in the
+table, the data does contain NA/missing values. We can create a table
+that shows each variable and how many missing values they have:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # Shows which variables have missing values and how many
 colSums(is.na(credit))
 ```
 
-We now must analyze the data to see how we intend to handle the missing values. In order to do this, we need to create a new dataset, called new_credit, that deletes the missing data. We want to perserve the original dataset so we can implement the method we intend to use to address the missing values. We also want to remove any categorical variables that have missing values, as we cannot impute those using multiple imputation. We can then generate a count of rows to determine how many values were deleted.
+We now must analyze the data to see how we intend to handle the missing
+values. In order to do this, we need to create a new dataset, called
+new_credit, that deletes the missing data. We want to perserve the
+original dataset so we can implement the method we intend to use to
+address the missing values. We can then generate a count of rows to determine
+how many values were deleted in total.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # Creates a new dataset excluding missing values 
@@ -389,31 +407,35 @@ new_credit = na.omit(credit)
 nrow(new_credit)
 ```
 
-We started out with 4,454 rows and our new dataset has 4,039. 415 rows were deleted due to the missing data. To run regression, we would be throwing away 9.3% of our data, because of missingness. Instead, we can use multiple imputation to impute the missing values so that we don't have to discard such valuable information.
-
-Before imputing the missing data, it is important to check whether the
-data has a linear relationship. Nonlinear data should be accounted for
-in the analysis as well as the imputation process. Otherwise, an
-incorrect statistical model will result.
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# Need to add linear regression check
-```
+We started out with 4,454 rows and our new dataset has 4,039. 415 rows
+were deleted due to the missing data. To run regression, we would be
+throwing away 9.3% of our data, because of missingness. Instead, we can
+use multiple imputation to impute the missing values so that we don't
+have to discard such valuable information.
 
 ##### MICE in R
 
-Using the MICE (Multivariate Imputation by Chained Equations) package in R, a statistical programming software, we will create multiple datasets with imputed values for the missing values. Because our dataset contains just under 10% of missing data, we will generate 10 imputations, or 10 new datasets. The MICE package seamlessly does this by creating plausable values from other columns and places them into the intersections of rows and columns with missing data.
+Using the MICE (Multivariate Imputation by Chained Equations) package in
+R, a statistical programming software, we will create multiple datasets
+with imputed values for the missing values. Because our dataset contains
+just under 10% of missing data, we will generate 10 imputations, or 10
+new datasets. The MICE package seamlessly does this by creating
+plausable values from other columns and places them into the
+intersections of rows and columns with missing data.
 
-First step is to check the missingness by looking for patterns in the original dataset using the md.pattern() function:
+First step is to check the missingness by looking for patterns in the
+original dataset using the md.pattern() function:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 credit <- credit[-c(1)]
 md.pattern(credit, rotate.names = TRUE)
 ```
 
-Blue is observed values and red is missing values. There are 11 patterns. (Need to add better explanation.)
+Blue is observed values and red is missing values. There are 11
+patterns.
 
-In order to perform multiple imputation on categorical data, all string variables must be converted to factors using the as.factor() function:
+In order to perform multiple imputation on categorical data, all string
+variables must be converted to factors using the as.factor() function:
 
 ```{r}
 credit$Status = as.factor(credit$Status)
@@ -423,13 +445,25 @@ credit$Records = as.factor(credit$Records)
 credit$Job = as.factor(credit$Job)
 ```
 
-Using the mice() function, 10 multiple imputations for the missing values will be generated. The default is 5, so you must set m = to the number of imputations that you desire. Since the data type of the variables in the dataset are of both numerical and categorical nature (with 2 and more levels), the defaultMethod argument will contain pmm: predictive mean matching (numeric data); logreg: logistic regression imputation (binary data, factor with 2 levels); polyreg: polytomous regression imputation for unordered categorical data (factor > 2 levels); polr: proportional odds model for (ordered, > 2 levels). The set.seed will be given the value 1337 (any number can be used here) to retrieve the same results each time the multiple imputation is performed.
+Using the mice() function, 10 multiple imputations for the missing
+values will be generated. The default is 5, so you must set m = to the
+number of imputations that you desire. Since the data type of the
+variables in the dataset are of both numerical and categorical nature
+(with 2 and more levels), the defaultMethod argument will contain pmm:
+predictive mean matching (numeric data); logreg: logistic regression
+imputation (binary data, factor with 2 levels); polyreg: polytomous
+regression imputation for unordered categorical data (factor \> 2
+levels); polr: proportional odds model for (ordered, \> 2 levels). The
+set.seed will be given the value 1337 (any number can be used here) to
+retrieve the same results each time the multiple imputation is
+performed.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 Multiple_Imputation = mice(data = credit,  maxit = 10, m = 10, defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
 ```
 
-The following R code will show the imputed values. Columns are imputations, rows are observations.
+The following R code will show the imputed values. Columns are
+imputations, rows are observations.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 Multiple_Imputation$imp
@@ -437,7 +471,10 @@ Multiple_Imputation$imp
 
 ### Statistical Modeling
 
-We can check the quality of the imputations by running a strip plot, which is a single axis scatter plot. It will show the distribution of each variable per imputed data set. We want the imputations to be values that could have been observed had the data not been missing.
+We can check the quality of the imputations by running a strip plot,
+which is a single axis scatter plot. It will show the distribution of
+each variable per imputed data set. We want the imputations to be values
+that could have been observed had the data not been missing.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 par(mfrow=c(7,2))
@@ -457,11 +494,15 @@ stripplot(Multiple_Imputation, Amount, pch = 19, xlab = "Imputation number")
 stripplot(Multiple_Imputation, Price, pch = 19, xlab = "Imputation number")
 ```
 
-Next, we will pool the results of the complete dataset with the imputed dataset to arrive at estimates that will properly account for the missing data. We fit the complete model with the with() function and display the summary of the pooled results. It will give us the estimate , standard error, test statistic, degrees of freedom, and the p-value for each variable.
+Next, we will pool the results of the complete dataset with the imputed
+dataset to arrive at estimates that will properly account for the
+missing data. We fit the complete model with the with() function and
+display the summary of the pooled results. It will give us the estimate, standard error, test statistic, degrees of freedom, and the p-value
+for each variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # fit complete-data model
-fit <- with(Multiple_Imputation, lm(Amount ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Status + Price))
+fit <- with(Multiple_Imputation, glm(Status ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Amount + Price, family = binomial))
 
 # pool and summarize the results
 summary(pool(fit))
