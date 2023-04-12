@@ -24,7 +24,7 @@ self-contained: true
 
 [Website](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/)
 
-[Slides](https://rstudio.hmcse.uwf.edu/s/4c3307ed3545b19414f79/files/STA6257_Missing_Data_and_Imputation/Slides.html#/title-slide)
+[Slides](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/Slides.html)
 
 ## Introduction
 
@@ -52,9 +52,10 @@ Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
 variables. Z is the component of the cause of missingness unrelated to X
 and Y. R is the missingness.)
 
-Looking for patterns in the missing data can help us to determine which category they belong. These mechanisms are important in
-determining how to handle the missing data. MCAR would be the best case
-scenario but seldom occur. MAR and MNAR are more common.
+Looking for patterns in the missing data can help us to determine which
+category they belong. These mechanisms are important in determining how
+to handle the missing data. MCAR would be the best case scenario but
+seldom occur. MAR and MNAR are more common.
 
 The problem with ignoring any missing values is that it does not give a
 true representation of the dataset and can lead to bias when analyzing.
@@ -81,8 +82,8 @@ likelihood and Bayesian method, weighting methods, or imputation methods
     many weights.
 
 -   The imputation method is when an estimate from the original dataset
-    is used to estimate the missing value. There are two types of imputation: single and
-multiple.
+    is used to estimate the missing value. There are two types of
+    imputation: single and multiple.
 
 #### Deleting missing data
 
@@ -101,16 +102,16 @@ scattered throughout the data. This implies that the missing data is MAR
 or MNAR. Conversely, if nonsignificant, this implies that the data
 cannot be MAR. This does not eliminate the possibility that it is not
 MNAR--other information about the population is needed to determine
-this. 
+this.
 
-Whenever missing data is categorized as MAR or MNAR, listwise
-deletion would be wasteful, and the analysis biased. Alternate methods
-of dealing with the missing data is recommended: either pairwise
-deletion or imputation.
+Whenever missing data is categorized as MAR or MNAR, listwise deletion
+would be wasteful, and the analysis biased. Alternate methods of dealing
+with the missing data is recommended: either pairwise deletion or
+imputation.
 
-*Pairwise deletion* is when only the missing variable of an observation is
-removed. It allows more data to be analyzed than listwise deletion but
-limits the ability to make inferences of the total sample. For this
+*Pairwise deletion* is when only the missing variable of an observation
+is removed. It allows more data to be analyzed than listwise deletion
+but limits the ability to make inferences of the total sample. For this
 reason, it is recommended to use imputation to properly deal with
 missing data.
 
@@ -123,7 +124,7 @@ analyze. To improve statistical power, the number of imputations created
 should be at least equal to the percent of missing data (5% equals 5
 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
 [@ped2017]. According to [@wul2017], 3-5 imputations are sufficient, and
-10 are more than enough. 
+10 are more than enough.
 
 *Single, or univariate, imputation* is when only one estimate is used to
 replace the missing data. Methods of single imputation include using the
@@ -155,14 +156,14 @@ which can cause bias in the analysis. Therefore, multiple imputation is
 the better method because it handles missing data better and provides
 less biased results.
 
-*Multiple, or multivariate, imputation* is when various estimates are used
-to replace the missing data by creating multiple datasets from versions
-of the original dataset. It can be done by using a regression model, or
-a sequence of regression models, such as linear, logistic and Poison. A
-set of *m* plausible values are generated for each unobserved data
-point, resulting in *M* complete data sets [@don2013]. The new values
-are randomly drawn from predictive distributions either through joint
-modeling (JM, which is not used much anymore) or fully conditional
+*Multiple, or multivariate, imputation* is when various estimates are
+used to replace the missing data by creating multiple datasets from
+versions of the original dataset. It can be done by using a regression
+model, or a sequence of regression models, such as linear, logistic and
+Poison. A set of *m* plausible values are generated for each unobserved
+data point, resulting in *M* complete data sets [@don2013]. The new
+values are randomly drawn from predictive distributions either through
+joint modeling (JM, which is not used much anymore) or fully conditional
 specification (FCS) [@won2023]. It is then analyzed and the results are
 combined to obtain a single value for the missing data.
 
@@ -223,8 +224,10 @@ estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
 rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 }")
 ```
-*Rubin's Rules: Average the estimates across m estimates. Calculate the standard errors
-and variance of m estimates. Combine using an adjustment term (1+1/m).
+
+\*Rubin's Rules: Average the estimates across m estimates. Calculate the
+standard errors and variance of m estimates. Combine using an adjustment
+term (1+1/m).
 
 #### Other Methods of Imputation
 
@@ -284,37 +287,31 @@ $\displaystyle \frac{1}{M-1}$$\sum_{m = 1}^{M}$(${\hat{\theta}}_{m}$-${\overline
 
 [@arn2017]
 
+#### Assumptions
+
+Need to add assumptions here.
+
+#### Steps in Multiple Imputation Method
+
 The chained equation process has the following steps [@azu2011]:
 
-##### Step 1:
-
-Using simple imputation, replace the missing data with this value,
+*Step 1:* Using simple imputation, replace the missing data with this value,
 referred to as the "place holder".
 
-##### Step 2:
+*Step 2:* The "place holder" values for one variable are set back to missing.
 
-The "place holder" values for one variable are set back to missing.
-
-##### Step 3:
-
-The observed values from this variable (dependent variable) are
+*Step 3:* The observed values from this variable (dependent variable) are
 regressed on the other variables (independent variables) in the model,
 using the same assumptions when performing linear, logistic, or Poison
 regression.
 
-##### Step 4:
-
-The missing values are replaced with predictions "m" from this newly
+*Step 4:* The missing values are replaced with predictions "m" from this newly
 created model.
 
-##### Step 5:
-
-Repeat Steps 2-4 for each variable that have missing values until all
+*Step 5:* Repeat Steps 2-4 for each variable that have missing values until all
 missing values have been replaced.
 
-##### Step 6:
-
-Repeat Steps 2-4, updating imputations each cycle for as many "m"
+*Step 6:* Repeat Steps 2-4, updating imputations each cycle for as many "m"
 cycles/imputations that are required.
 
 ## Analysis and Results
@@ -325,188 +322,139 @@ cycles/imputations that are required.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # load data
-credit = read.csv("credit_data.csv")
+gpa = read.csv("gpa_study_hours.csv")
+gpa_missing = read.csv("gpa_study_hours_missing.csv")
 
 # load libraries
 library(gtsummary)
+library(gt)
 library(dplyr, warn.conflicts=FALSE)
 library(mice, warn.conflicts=FALSE)
 ```
 
 ##### Description of Dataset
 
-Credit score data
+GPA study hours data
 
 ##### Details of Dataset
 
-The credit.csv file is from the website of Dr. Lluís A. Belanche Muñoz,
-by way of a github repository of Dr. Gaston Sanchez. It contains data of
-4,454 subjects and stores a combination of continuous, categorical and
-count values for 15 variables. Of the 15 variables, the "Status"
-variable contains binomial categorical values of "good" and "bad" to
-describe the kind of credit score each subject has. One data point is
-missing an outcome and was removed from the original data.
+The gpa_study_hours.csv file is a dataset with 193 observations and 2
+variables: gpa and study hours. 193 undergraduate students of an
+introductory statistics course were anonymously surveyed in 2012 at a
+private US university. GPA ranges from 0 to 4 points; however, one
+student reported a GPA greater than 4. This is a data error and was left
+in the dataset to illustrate issues with real survey data. Both
+variables are self-reported, therefore, may not be accurate.
 
 ##### Definition of Data in Dataset
 
-| Variable  | Type      | Description                                                                                                                                    |
-|-----------------|-----------------|--------------------------------------|
-| X         | Integer   | Count variable indicating the number of subjects.                                                                                              |
-| Status    | Character | 2-level categorical variable indicating the status of the subject's credit: good or bad.                                                       |
-| Seniority | Integer   | Count variable indicating the seniority a subject has accumulated over the course of their life.                                               |
-| Home      | Character | 6-level categorical variable indicating the subject's relationship to their residential address: rent, owner, parents, priv, other, or ignore. |
-| Time      | Integer   | Count variable showing how many months has elapsed since the subject's payment deadline without paying their debt full.                        |
-| Age       | Integer   | Count variable indicating subject's age (in years).                                                                                            |
-| Marital   | Character | 5-level categorical variable indicating the subject's marital status: single, married, separated, divorced, or widow.                          |
-| Records   | Character | 2-level categorical variable indicating whether the subject has a credit history record: yes or no.                                            |
-| Job       | Character | 4-level categorical variable indicating the type of job the subject has: fixed, freelance, partime, or others.                                 |
-| Expenses  | Integer   | Count variable indicating the amount of expenses (in USD) a subject has.                                                                       |
-| Income    | Integer   | Count variable indicating the amount of income (in thousands of USD) a subject earns annually.                                                 |
-| Assets    | Integer   | Count variable indicating the amount of assets (in USD) a subject has.                                                                         |
-| Debt      | Integer   | Count variable indicating the amount of debt (in USD) a subject has.                                                                           |
-| Amount    | Integer   | Count variable indicating the amount of money (in USD) remaining in a subject's bank account.                                                  |
-| Price     | Integer   | Count variable indicating the amount of money a subject earns by the end of the month.                                                         |
+| Variable    | Type | Description                             |
+|-------------|------|-----------------------------------------|
+| gpa         | num  | Grade point average of student          |
+| study_hours | num  | Number of hours students study per week |
 
 ##### Summary of Dataset:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-credit %>%
-  tbl_summary(by = Status,
-              missing_text = "NA") %>%
-  add_p() %>%
-  add_n() %>%
-  add_overall %>%
+whole_gpa <- gpa_missing %>% 
+  select(gpa, study_hours)
+tbl_summary(whole_gpa, missing_text = "NA") %>%
   modify_header(label ~ "**Variable**") %>%
-  modify_caption("**Summary of Credit Data**") %>%
-  bold_labels()
+  modify_caption("**Summary of GPA Data**") %>%
+  bold_labels() %>%
+  as_gt() %>% 
+  tab_options(column_labels.background.color = "#FFFFFF00",
+    table.background.color = "#FFFFFF00")
+
 ```
-
-##### Evaluate Dataset
-
-First, we evaluate the dataset for missing values. As indicated in the
-table, the data does contain NA/missing values. We can create a table
-that shows each variable and how many missing values they have:
+##### Plotting of Data
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# Shows which variables have missing values and how many
-colSums(is.na(credit))
+library(ggplot2)
+
+ggplot(gpa, aes(x=study_hours, y=gpa)) +
+  geom_point(alpha=0.5, color='darkblue') +
+  labs(x="Study Hours/Week", y="GPA")
 ```
-
-We now must analyze the data to see how we intend to handle the missing
-values. In order to do this, we need to create a new dataset, called
-new_credit, that deletes the missing data. We want to perserve the
-original dataset so we can implement the method we intend to use to
-address the missing values. We can then generate a count of rows to determine
-how many values were deleted in total.
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# Creates a new dataset excluding missing values 
-new_credit = na.omit(credit)
-
-# Number of rows of new dataset
-nrow(new_credit)
-```
-
-We started out with 4,454 rows and our new dataset has 4,039. 415 rows
-were deleted due to the missing data. To run regression, we would be
-throwing away 9.3% of our data, because of missingness. Instead, we can
-use multiple imputation to impute the missing values so that we don't
-have to discard such valuable information.
 
 ##### MICE in R
 
 Using the MICE (Multivariate Imputation by Chained Equations) package in
 R, a statistical programming software, we will create multiple datasets
-with imputed values for the missing values. Because our dataset contains
-just under 10% of missing data, we will generate 10 imputations, or 10
-new datasets. The MICE package seamlessly does this by creating
-plausable values from other columns and places them into the
-intersections of rows and columns with missing data.
+with imputed values for the missing data. We will be deleting some data
+points from our dataset to create missing values. We will run through
+the MICE process and provide results of the imputations. To check for
+accuracy of the imputations, we will then compare these results to the original, complete data set.
+
+##### Evaluate Dataset
+
+First, we evaluate the dataset for missing values. As indicated in the
+summary, the data does contain 6 NA/missing values. This equates to about 3% of the data (6/193). If we were to just delete these data points, we would be discarding valuable information when we run regression.
+
+Because our dataset contains 3% of missing data, we will
+generate 5 imputations, or 5 new datasets. The MICE package seamlessly
+does this by creating plausable values from other columns and places
+them into the intersections of rows and columns with missing data.
 
 First step is to check the missingness by looking for patterns in the
 original dataset using the md.pattern() function:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-credit <- credit[-c(1)]
-md.pattern(credit, rotate.names = TRUE)
+md.pattern(gpa_missing, rotate.names = TRUE)
 ```
 
-Blue is observed values and red is missing values. There are 11
-patterns.
+Blue is observed values and red is missing values.
 
-In order to perform multiple imputation on categorical data, all string
-variables must be converted to factors using the as.factor() function [@van2011]:
-
-```{r}
-credit$Status = as.factor(credit$Status)
-credit$Home = as.factor(credit$Home)
-credit$Marital = as.factor(credit$Marital)
-credit$Records = as.factor(credit$Records)
-credit$Job = as.factor(credit$Job)
-```
-
-Using the mice() function, 10 multiple imputations for the missing
-values will be generated. The default is 5, so you must set m = to the
-number of imputations that you desire. Since the data type of the
-variables in the dataset are of both numerical and categorical nature
-(with 2 and more levels), the defaultMethod argument will contain pmm:
-predictive mean matching (numeric data); logreg: logistic regression
-imputation (binary data, factor with 2 levels); polyreg: polytomous
-regression imputation for unordered categorical data (factor \> 2
-levels); polr: proportional odds model for (ordered, \> 2 levels). The
+Using the mice() function, 5 multiple imputations for the missing
+values will be generated. This is the default; if you want something different, you must set m = to the
+number of imputations that you desire. The
 set.seed will be given the value 1337 (any number can be used here) to
 retrieve the same results each time the multiple imputation is
 performed.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-Multiple_Imputation = mice(data = credit,  maxit = 10, m = 10, defaultMethod = c("pmm", "logreg", "polyreg", "polr"), set.seed = 1337)
+imp = mice(data = gpa_missing, set.seed = 1337)
 ```
 
 The following R code will show the imputed values. Columns are
 imputations, rows are observations.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-head(Multiple_Imputation$imp, 10)
+head(imp, 10)
 ```
 
 We can check the quality of the imputations by running a strip plot,
 which is a single axis scatter plot. It will show the distribution of
-each variable per imputed data set. We want the imputations to be values
+the variable per imputed data set. We want the imputations to be values
 that could have been observed had the data not been missing.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 par(mfrow=c(7,2))
-stripplot(Multiple_Imputation, Status, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Seniority, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Home, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Time, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Age, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Marital, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Records, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Job, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Expenses, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Income, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Assets, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Debt, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Amount, pch = 19, xlab = "Imputation number")
-stripplot(Multiple_Imputation, Price, pch = 19, xlab = "Imputation number")
+stripplot(imp, study_hours, pch = 19, cex=1, xlab = "Imputation number")
 ```
 
 Next, we will pool the results of the complete dataset with the imputed
 dataset to arrive at estimates that will properly account for the
 missing data. We fit the complete model with the with() function and
-display the summary of the pooled results. It will give us the estimate, standard error, test statistic, degrees of freedom, and the p-value
-for each variable.
+display the summary of the pooled results. It will give us the estimate,
+standard error, test statistic, degrees of freedom, and the p-value for
+each variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # fit complete-data model
-fit <- with(Multiple_Imputation, glm(Status ~ Seniority + Home + Time + Age + Marital + Records + Job + Expenses + Income + Assets + Debt + Amount + Price, family = binomial))
+fit <- with(imp, lm(gpa~study_hours))
 
 # pool and summarize the results
 summary(pool(fit))
 ```
 
-We now have a full, complete dataset that we can analyze!
+We now have a full, complete dataset that we can analyze! Now we will compare it to the original full dataset to see how accurate our imputation method was.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+gpa_lm = lm(gpa ~ study_hours, data = gpa)
+summary(gpa_lm)
+```
+The results are very similar. The differences are very minimal. We can conclude that multiple imputation by chained equation is a reliable source to impute missing data.
 
 ## Conclusion
 
