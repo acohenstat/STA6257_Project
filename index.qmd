@@ -96,13 +96,12 @@ potentially important information may be lost.
 
 T-tests and chi-square tests can be used to assess pairs of predictor
 variables to determine whether the groups' means differ significantly.
-According to [@van2020], if significant, the null hypothesis is
-rejected, therefore, indicating that the missing values are not randomly
-scattered throughout the data. This implies that the missing data is MAR
-or MNAR. Conversely, if nonsignificant, this implies that the data
-cannot be MAR. This does not eliminate the possibility that it is not
-MNAR--other information about the population is needed to determine
-this.
+According to @van2020, if significant, the null hypothesis is rejected,
+therefore, indicating that the missing values are not randomly scattered
+throughout the data. This implies that the missing data is MAR or MNAR.
+Conversely, if nonsignificant, this implies that the data cannot be MAR.
+This does not eliminate the possibility that it is not MNAR--other
+information about the population is needed to determine this.
 
 Whenever missing data is categorized as MAR or MNAR, listwise deletion
 would be wasteful, and the analysis biased. Alternate methods of dealing
@@ -120,11 +119,12 @@ missing data.
 Imputation is the preferred method to handle missing data. It consists
 of replacing missing data with an estimate obtained from the original,
 available data. After imputation, there will be a full dataset to
-analyze. To improve statistical power, the number of imputations created
+analyze. According to @wul2017, 3-5 imputations are sufficient, and 10
+imputations are more than enough. More recent research has indicated
+that to improve statistical power, the number of imputations created
 should be at least equal to the percent of missing data (5% equals 5
 imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
-[@ped2017]. According to [@wul2017], 3-5 imputations are sufficient, and
-10 are more than enough.
+[@ped2017].
 
 *Single, or univariate, imputation* is when only one estimate is used to
 replace the missing data. Methods of single imputation include using the
@@ -141,7 +141,7 @@ following is a brief explanation of each:
 
 -   Last Observation Carried Forward (LOCF) is a technique of replacing
     a missing value in longitudinal studies with a previously observed
-    value (the most recent value is carried forward) [@str2008]. The
+    value, the most recent value is carried forward [@str2008]. The
     problem with this method is that it assumes that the previous
     observed value is perpetual when in reality that most likely is not
     the case.
@@ -247,8 +247,8 @@ are based on predicted values of the outcome variable [@van2020].
 
 *Hot Deck (HD) imputation* is when a missing value is replaced by an
 observed response of a similar unit, also known as the donor. It can be
-either random or deterministic (based on a metric or value) [@tho2022].
-It does not rely on model fitting.
+either random or deterministic, which is based on a metric or value
+[@tho2022]. It does not rely on model fitting.
 
 *Stochastic Regression (SR) Imputation* is an extension of regression
 imputation. The process is the same but a residual term from the normal
@@ -266,13 +266,16 @@ continuous or categorical variables with complex interactions.
 
 **Multiple Imputation by Chained Equations (MICE)**
 
-In multiple imputation, *m* imputed values are created for each of the
-missing data and result in *M* complete datasets. For each of the *M*
-datasets, an estimate of $\theta$ is acquired.
+According to Rubin's Rule, in multiple imputation *m* imputed values are
+created for each of the missing data and result in *M* complete
+datasets. For each of the *M* datasets, an estimate of $\theta$ is
+acquired.
 
-Combined estimator of $\theta$ is given by:
+The combined estimator of $\theta$ is given by:
 
 ${\hat{\theta}}_{M}$=$\displaystyle \frac{1}{M}$$\sum_{m = 1}^{M} {\hat{\theta}}_{m}$
+
+\${\hat{\theta}}
 
 The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
 
@@ -289,30 +292,40 @@ $\displaystyle \frac{1}{M-1}$$\sum_{m = 1}^{M}$(${\hat{\theta}}_{m}$-${\overline
 
 #### Assumptions
 
-Need to add assumptions here.
+All multiple imputation methods have the following assumptions:
 
-#### Steps in Multiple Imputation Method
+-   Observed data follow a normal distribution.
+
+-   Missing data are classified as MAR, which is the probability that a
+    missing value depends only on observed values and not unobserved
+    values.
+
+These assumptions are essential otherwise we wouldn't be able to predict
+a plausible replacement value for the missing data.
+
+**Steps:**
 
 The chained equation process has the following steps [@azu2011]:
 
-*Step 1:* Using simple imputation, replace the missing data with this value,
-referred to as the "place holder".
+*Step 1:* Using simple imputation, replace the missing data with this
+value, referred to as the "place holder".
 
-*Step 2:* The "place holder" values for one variable are set back to missing.
+*Step 2:* The "place holder" values for one variable are set back to
+missing.
 
-*Step 3:* The observed values from this variable (dependent variable) are
-regressed on the other variables (independent variables) in the model,
-using the same assumptions when performing linear, logistic, or Poison
-regression.
+*Step 3:* The observed values from this variable (dependent variable)
+are regressed on the other variables (independent variables) in the
+model, using the same assumptions when performing linear, logistic, or
+Poison regression.
 
-*Step 4:* The missing values are replaced with predictions "m" from this newly
-created model.
+*Step 4:* The missing values are replaced with predictions "m" from this
+newly created model.
 
-*Step 5:* Repeat Steps 2-4 for each variable that have missing values until all
-missing values have been replaced.
+*Step 5:* Repeat Steps 2-4 for each variable that have missing values
+until all missing values have been replaced.
 
-*Step 6:* Repeat Steps 2-4, updating imputations each cycle for as many "m"
-cycles/imputations that are required.
+*Step 6:* Repeat Steps 2-4, updating imputations each cycle for as many
+"m" cycles/imputations that are required.
 
 ## Analysis and Results
 
@@ -320,129 +333,195 @@ cycles/imputations that are required.
 
 ##### Load Data and Packages
 
-```{r, warning=FALSE, echo=T, message=FALSE}
-# load data
-gpa = read.csv("gpa_study_hours.csv")
-gpa_missing = read.csv("gpa_study_hours_missing.csv")
 
+```{r}
 # load libraries
 library(gtsummary)
 library(gt)
+library(ggplot2)
 library(dplyr, warn.conflicts=FALSE)
 library(mice, warn.conflicts=FALSE)
+
+# load data
+original = read.csv("kc_house_data.csv")
 ```
 
 ##### Description of Dataset
 
-GPA study hours data
+kc_house_data.csv
 
 ##### Details of Dataset
 
-The gpa_study_hours.csv file is a dataset with 193 observations and 2
-variables: gpa and study hours. 193 undergraduate students of an
-introductory statistics course were anonymously surveyed in 2012 at a
-private US university. GPA ranges from 0 to 4 points; however, one
-student reported a GPA greater than 4. This is a data error and was left
-in the dataset to illustrate issues with real survey data. Both
-variables are self-reported, therefore, may not be accurate.
+This dataset contains the sales price of 21,613 houses for King County, in Seattle between May 2014 to May 2015. The original dataset contained 21 columns with various selling attributes. For the purposes of this project, we have condensed the variables to 4, including sale price, number of bedrooms, number of bathrooms, and square feet of living space.
 
 ##### Definition of Data in Dataset
 
-| Variable    | Type | Description                             |
-|-------------|------|-----------------------------------------|
-| gpa         | num  | Grade point average of student          |
-| study_hours | num  | Number of hours students study per week |
+| Variable    | Type    | Description                                                                                                |
+|--------------|--------------|--------------------------------------------|
+| price       | numeric | Sales price of homes sold between May 2014 and May 2015 in King County, Seattle.                           |
+| bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle.                    |
+| bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle.                   |
+| sqft_living | integer | Number of square feet of living space in homes sold between May 2014 and May 2015 in King County, Seattle. |
 
 ##### Summary of Dataset:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-whole_gpa <- gpa_missing %>% 
-  select(gpa, study_hours)
-tbl_summary(whole_gpa, missing_text = "NA") %>%
+original %>% 
+  tbl_summary(missing_text = "NA") %>%
+  add_n() %>%
   modify_header(label ~ "**Variable**") %>%
-  modify_caption("**Summary of GPA Data**") %>%
+  modify_caption("**Summary of Data**") %>%
   bold_labels() %>%
   as_gt() %>% 
   tab_options(column_labels.background.color = "#FFFFFF00",
     table.background.color = "#FFFFFF00")
-
 ```
+
 ##### Plotting of Data
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-library(ggplot2)
-
-ggplot(gpa, aes(x=study_hours, y=gpa)) +
+ggplot(original, aes(x=sqft_living, y=price)) +
   geom_point(alpha=0.5, color='darkblue') +
-  labs(x="Study Hours/Week", y="GPA")
+  labs(x="sqft_living", y="price")
 ```
 
 ##### MICE in R
 
-Using the MICE (Multivariate Imputation by Chained Equations) package in
-R, a statistical programming software, we will create multiple datasets
-with imputed values for the missing data. We will be deleting some data
-points from our dataset to create missing values. We will run through
-the MICE process and provide results of the imputations. To check for
-accuracy of the imputations, we will then compare these results to the original, complete data set.
+Using the MICE (Multivariate Imputation by Chained Equations) package in R, a statistical programming software, we will create multiple datasets with imputed values for the missing data. We will be deleting some data points from our dataset to create missing values. We will run through the MICE process and provide results of the imputations. To check for accuracy of the imputations, we will then compare these results to the original, complete data set.
 
 ##### Evaluate Dataset
 
-First, we evaluate the dataset for missing values. As indicated in the
-summary, the data does contain 6 NA/missing values. This equates to about 3% of the data (6/193). If we were to just delete these data points, we would be discarding valuable information when we run regression.
-
-Because our dataset contains 3% of missing data, we will
-generate 5 imputations, or 5 new datasets. The MICE package seamlessly
-does this by creating plausable values from other columns and places
-them into the intersections of rows and columns with missing data.
-
-First step is to check the missingness by looking for patterns in the
-original dataset using the md.pattern() function:
+First, we evaluate the dataset for missing values by using the is.na() function:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-md.pattern(gpa_missing, rotate.names = TRUE)
+# check for missing data
+sapply(original, function(x) sum(is.na(x)))
 ```
 
-Blue is observed values and red is missing values.
+**Create Missing Data**
 
-Using the mice() function, 5 multiple imputations for the missing
-values will be generated. This is the default; if you want something different, you must set m = to the
-number of imputations that you desire. The
-set.seed will be given the value 1337 (any number can be used here) to
-retrieve the same results each time the multiple imputation is
-performed.
+There is no missing data, so we will artificially create some by duplicating the dataset and randomly removing some variables.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-imp = mice(data = gpa_missing, set.seed = 1337)
+# duplicate dataset
+house <- original
+
+# remove some values
+set.seed(10)
+house[sample(1:nrow(house), 200), "sqft_living"] <- NA
+house[sample(1:nrow(house), 200), "bedrooms"] <- NA
+house[sample(1:nrow(house), 200), "bathrooms"] <- NA
+house[sample(1:nrow(house), 100), "price"] <- NA
 ```
 
-The following R code will show the imputed values. Columns are
-imputations, rows are observations.
+We need to confirm the presence of missing data:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-head(imp, 10)
+sapply(house, function(x) sum(is.na(x)))
 ```
 
-We can check the quality of the imputations by running a strip plot,
-which is a single axis scatter plot. It will show the distribution of
-the variable per imputed data set. We want the imputations to be values
-that could have been observed had the data not been missing.
+Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613). If we were to just delete these data points, we would be discarding valuable information.
+
+**Checking for Patterns**
+
+Next, we need to check the missingness by looking for patterns in the datasetb by using the md.pattern() function:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-par(mfrow=c(7,2))
-stripplot(imp, study_hours, pch = 19, cex=1, xlab = "Imputation number")
+library(VIM)
+md.pattern(house, rotate.names = TRUE)
 ```
 
-Next, we will pool the results of the complete dataset with the imputed
-dataset to arrive at estimates that will properly account for the
-missing data. We fit the complete model with the with() function and
-display the summary of the pooled results. It will give us the estimate,
-standard error, test statistic, degrees of freedom, and the p-value for
-each variable.
+Blue are the observed values, and red are the missing values. There are 20,920 observations that are not missing data. The bottom values are difficult to see because they are squished together. We know from the previous table that they are the total number of missing data for each variable: price = 100, bedrooms = 200, bathrooms = 200, sqft_living = 200, which equal the 700 total missing values.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+```
+
+This is just another way to look for patterns in the missing data.
+
+```{r}
+marginplot(house[c(1,4)])
+```
+
+The red box plot on the left shows the distribution of sqft_living with price missing. The blue box plot shows the distribution of the remaining datapoints. The same is true for the price box plots on the bottom. We expect the red and blue boxplots to be very similar if our assumptions of MCAR data are true. In this case, they are.
+
+**Imputation Process**
+
+Since we are missing about 3% of our data, we need to perform 5 imputations. This can be done by using the mice() function. 5 multiple imputations is the default; if you want something different, you must set m = to the number of imputations that you desire. The set.seed will be given the value 1337 (any number can be used here) to retrieve the same results each time the multiple imputation is performed.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+imp = mice(data = house, set.seed = 1337)
+# init = mice(house, maxit=0) 
+# meth = init$method
+# predM = init$predictorMatrix
+```
+
+```{r}
+# set.seed(103)
+# imputed = mice(house, method=meth, predictorMatrix=predM, m=5)
+```
+
+We need to create the imputed dataset:
+
+```{r}
+imputed <- complete(imp)
+```
+
+We need to check and make sure there is no missing data:
+
+```{r}
+sapply(imputed, function(x) sum(is.na(x)))
+```
+
+We can check the quality of the imputations by running a strip plot, which is a single axis scatter plot. It will show the distribution of the variable per imputed data set. We want the imputations to be values that could have been observed had the data not been missing.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+par(mfrow=c(2,2))
+stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
+```
+
+**Checking for Accuracy**
+
+We will now compare this dataset to our original dataset to check for accuracy of the imputation method by chanied equations:
+
+```{r}
+# price
+actual <- original$price[is.na(house$price)]
+predicted <- imputed$price[is.na(house$price)]
+mean(actual)
+mean(predicted)
+
+# bedrooms
+actual <- original$bedrooms[is.na(house$bedrooms)] 
+predicted <- imputed$bedrooms[is.na(house$bedrooms)] 
+table(actual)
+table(predicted)
+
+# bathrooms
+actual <- original$bathrooms[is.na(house$bathrooms)] 
+predicted <- imputed$bathrooms[is.na(house$bathrooms)] 
+table(actual)
+table(predicted)
+
+# sqft_living
+actual <- original$sqft_living[is.na(house$sqft_living)] 
+predicted <- imputed$sqft_living[is.na(house$sqft_living)] 
+table(actual)
+table(predicted)
+```
+
+The mean of the actual sales price to the predicted sales price is very close (about \$2,000), and the other variables are very close as well, which indicates a high accuracy of imputation.
+
+**Pooling and Fitting Imputed Dataset**
+
+Next, we will pool the results of the complete dataset with the imputed dataset to arrive at estimates that will properly account for the missing data. We fit the complete model with the with() function and display the summary of the pooled results. It will give us the estimate, standard error, test statistic, degrees of freedom, and the p-value for each variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # fit complete-data model
-fit <- with(imp, lm(gpa~study_hours))
+fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 
 # pool and summarize the results
 summary(pool(fit))
@@ -451,23 +530,8 @@ summary(pool(fit))
 We now have a full, complete dataset that we can analyze! Now we will compare it to the original full dataset to see how accurate our imputation method was.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-gpa_lm = lm(gpa ~ study_hours, data = gpa)
-summary(gpa_lm)
+og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
+summary(og_lm)
 ```
+
 The results are very similar. The differences are very minimal. We can conclude that multiple imputation by chained equation is a reliable source to impute missing data.
-
-## Conclusion
-
-In conclusion, missing data can occur in research for a variety of
-reasons. It is never a good idea to ignore it. Doing this will lead to
-biased estimates of parameters, loss of information, decreased
-statistical power, and weak reliability of findings [@don2013]. The best
-course of action is to impute the missing data by using multiple
-imputation. When missing data is discovered, it is important to first
-identify it and look for missing data patterns. Next, define the
-variables in the dataset that are related to the missing values that
-will be used for imputation. Create the necessary number of complete
-data sets. Run the models and combine them using the imputed values, and
-finally, analyze the complete dataset. Performing these steps will
-minimize the adverse effects caused by missing data on the anaylsis
-[@pam2016].
