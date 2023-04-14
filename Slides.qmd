@@ -12,6 +12,14 @@ editor: visual
 
 ## What is Missing Data?
 
+- Missing data occurs when there are missing values in a dataset
+    - Can be intentional or unintentional
+    
+- Missing data is classified into 3 different categories:
+    - Missing Completely At Random (MCAR)
+    - Missig At Random (MAR)
+    - Missing Not At Random (MNAR)
+
 ## Methods to Handle Missing Data
 
 ## What is Imputation?
