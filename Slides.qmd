@@ -28,11 +28,30 @@ editor: visual
  
   - The weightinig method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
 
-  
+  - The imputation method is when an estimate from the original dataset
+    is used to estimate the missing value. There are two types of
+    imputation: single and multiple.
+    
+   - For the topic of this topic, we will focus on multiple imputation. 
 
 ## What is Imputation?
 
+- In statistics and data science, imputation is the process of replacing missing data with substituted values. 
+
+  - The substituted values can take the form of the mean of the dataset as found in single imputation or values produced via a sequence of regression models as found in multiple imputation.
+
 ## Single Imputation
+
+- In single (or univariate) imputation, only one estimate is used to replace the missing data, such as:
+
+  - Using the mean to replace a missing value. The problem with this method is that it reduces
+    the variance which leads to a smaller confidence interval.
+    
+  - Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed
+    value, the most recent value is carried forward. 
+    
+    Problem with this method is that it assumes that the previous observed value is perpetual, when in reality, it may not be the case.
+   
 
 ## Multiple Imputation
 
