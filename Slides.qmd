@@ -23,11 +23,11 @@ editor: visual
 
 -   There are an array of methods to handle missing data, some methods include:
 
-    -   The Likelihood Bayesian method - predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on prevvious observed data. This method involves immense immense knowledge and skill of both statistics and technical coding.
+    -   The Likelihood Bayesian method - predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on prevvious observed data.
 
-    -   The weightinig method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
+    -   The weighting method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
 
-    -   The imputation method is when an estimate from the original dataset is used to estimate the missing value. There are two types of imputation: single and multiple.
+    -   The imputation method is when an estimate from the original dataset is used to estimate the missing value.
 
     -   For the topic of this topic, we will focus on multiple imputation.
 
