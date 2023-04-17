@@ -83,7 +83,7 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 **Data Definition**
 
 | Column Name | Type    | Description                                         |
-|-------------------|-------------------|-----------------------------------|
+|-------------------|-------------------|----------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
@@ -99,6 +99,16 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 ## 3.2 Data Preparation
 
 The following python code will load the required libraries
+
+•	***nbclient***: Executes Jupyter notebooks programmatically.
+
+•	***requests***: Sends HTTP requests and interacts with RESTful APIs in Python.
+
+•	***Pandas***: Manipulates and analyzes tabular data using DataFrame and Series.
+
+•	***nbformat***: Reads, writes, and manipulates Jupyter Notebook files.
+
+•	***plotly.express***: Creates interactive data visualizations with a simple interface.
 
 ```{python}
 !pip install -q nbclient
