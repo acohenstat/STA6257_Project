@@ -335,46 +335,46 @@
 <section id="what-is-missing-data" class="slide level2">
 <h2>What is Missing Data?</h2>
 <ul>
-<li>Missing data occurs when there are missing values in a dataset
+<li class="fragment">Missing data occurs when there are missing values in a dataset
 <ul>
-<li>Can be intentional or unintentional</li>
+<li class="fragment">Can be intentional or unintentional</li>
 </ul></li>
-<li>Missing data is classified into 3 different categories:
+<li class="fragment">Missing data is classified into 3 different categories:
 <ul>
-<li>Missing Completely At Random (MCAR)</li>
-<li>Missig At Random (MAR)</li>
-<li>Missing Not At Random (MNAR)</li>
+<li class="fragment">Missing Completely At Random (MCAR)</li>
+<li class="fragment">Missig At Random (MAR)</li>
+<li class="fragment">Missing Not At Random (MNAR)</li>
 </ul></li>
 </ul>
 </section>
 <section id="methods-to-handle-missing-data" class="slide level2">
 <h2>Methods to Handle Missing Data</h2>
 <ul>
-<li><p>There are an array of methods to handle missing data, some methods include:</p>
+<li class="fragment"><p>There are an array of methods to handle missing data, some methods include:</p>
 <ul>
-<li><p>The Likelihood Bayesian method - predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on prevvious observed data. This method involves immense immense knowledge and skill of both statistics and technical coding.</p></li>
-<li><p>The weightinig method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.</p></li>
-<li><p>The imputation method is when an estimate from the original dataset is used to estimate the missing value. There are two types of imputation: single and multiple.</p></li>
-<li><p>For the topic of this topic, we will focus on multiple imputation.</p></li>
+<li class="fragment"><p>The Likelihood Bayesian method - predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on prevvious observed data. This method involves immense immense knowledge and skill of both statistics and technical coding.</p></li>
+<li class="fragment"><p>The weightinig method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.</p></li>
+<li class="fragment"><p>The imputation method is when an estimate from the original dataset is used to estimate the missing value. There are two types of imputation: single and multiple.</p></li>
+<li class="fragment"><p>For the topic of this topic, we will focus on multiple imputation.</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="what-is-imputation" class="slide level2">
 <h2>What is Imputation?</h2>
 <ul>
-<li><p>In statistics and data science, imputation is the process of replacing missing data with substituted values.</p>
+<li class="fragment"><p>In statistics and data science, imputation is the process of replacing missing data with substituted values.</p>
 <ul>
-<li>The substituted values can take the form of the mean of the dataset as found in single imputation or values produced via a sequence of regression models as found in multiple imputation.</li>
+<li class="fragment">The substituted values can take the form of the mean of the dataset as found in single imputation or values produced via a sequence of regression models as found in multiple imputation.</li>
 </ul></li>
 </ul>
 </section>
 <section id="single-imputation" class="slide level2">
 <h2>Single Imputation</h2>
 <ul>
-<li><p>In single (or univariate) imputation, only one estimate is used to replace the missing data, such as:</p>
+<li class="fragment"><p>In single (or univariate) imputation, only one estimate is used to replace the missing data, such as:</p>
 <ul>
-<li><p>Using the mean to replace a missing value. The problem with this method is that it reduces the variance which leads to a smaller confidence interval.</p></li>
-<li><p>Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed value, the most recent value is carried forward.</p>
+<li class="fragment"><p>Using the mean to replace a missing value. The problem with this method is that it reduces the variance which leads to a smaller confidence interval.</p></li>
+<li class="fragment"><p>Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed value, the most recent value is carried forward.</p>
 <p>Problem with this method is that it assumes that the previous observed value is perpetual, when in reality, it may not be the case.</p></li>
 </ul></li>
 </ul>
@@ -563,14 +563,14 @@
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'slide',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
 
         // Transition style for full page slide backgrounds
         // (none/fade/slide/convex/concave/zoom)
-        backgroundTransition: 'none',
+        backgroundTransition: 'fade',
 
         // Number of slides away from the current that are visible
         viewDistance: 3,

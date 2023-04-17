@@ -7,6 +7,9 @@ author:
 format: 
   revealjs:
     theme: sky
+    transition: slide
+    background-transition: fade
+    incremental: true
 editor: visual
 ---
 
@@ -46,7 +49,7 @@ editor: visual
     -   Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed value, the most recent value is carried forward.
 
         Problem with this method is that it assumes that the previous observed value is perpetual, when in reality, it may not be the case.
-
+        
 ## Multiple Imputation
 
 ## Other Methods of Imputation
