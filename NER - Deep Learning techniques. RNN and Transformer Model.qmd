@@ -82,7 +82,7 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 **Data Definition**
 
 | Column Name | Type    | Description                                         |
-|-------------|---------|-----------------------------------------------------|
+|------------------|------------------|-----------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |

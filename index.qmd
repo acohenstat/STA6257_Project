@@ -82,7 +82,7 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 **Data Definition**
 
 | Column Name | Type    | Description                                         |
-|-------------|---------|-----------------------------------------------------|
+|-------------------|-------------------|-----------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
@@ -254,51 +254,3 @@ fig.show()
 # 7 References
 
 \[In Progress\]
-
-\@misc{phuong2022formal,
-
-title={Formal Algorithms for Transformers},
-
-author={Mary Phuong and Marcus Hutter},
-
-year={2022},
-
-eprint={2207.09238},
-
-archivePrefix={arXiv},
-
-primaryClass={cs.LG}
-
-}
-
-\@misc{keles2022computational,
-
-title={On The Computational Complexity of Self-Attention},
-
-author={Feyza Duman Keles and Pruthuvi Mahesakya Wijewardena and Chinmay Hegde},
-
-year={2022},
-
-eprint={2209.04881},
-
-archivePrefix={arXiv},
-
-primaryClass={cs.LG}
-
-}
-
-\@misc{vaswani2017attention,
-
-title={Attention Is All You Need},
-
-author={Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
-
-year={2017},
-
-eprint={1706.03762},
-
-archivePrefix={arXiv},
-
-primaryClass={cs.CL}
-
-}
