@@ -252,7 +252,94 @@ fig.show()
 
 # **4 Transformer Model Results**
 
-***\[Pending\]***
+***\[In Progress\]***
+
+Loading Required Libraries for training
+
+```{python}
+#!pip install transformers
+#!pip install torch
+```
+
+The following code will retrieve the hosted Json dataset from my Github repositoy
+
+```{python}
+import requests
+
+# Extracting the raw Json data from GitHub URL. I am hosting the dataset in my own repository
+url = 'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'
+# HTTP GET request to the raw URL
+response = requests.get(url)
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the JSON data from the response
+    data = response.json()
+    print('We retrieved the Json data successfully')
+else:
+    print('Failed to fetch JSON data:', response.status_code)
+```
+
+The following code block formats the raw data into a structure suitable for training a NER model. The raw data contains multiple examples, each with text content and annotations. The annotations include the start and end positions of entities and their corresponding labels. The output is a list of dictionaries, each representing an example containing the text and a list of entities with their positions and labels.
+
+```{python}
+training_data = []
+for example in data['examples']:
+  temp_dict = {}
+  temp_dict['text'] = example['content']
+  temp_dict['entities'] = []
+  for annotation in example['annotations']:
+    start = annotation['start']
+    end = annotation['end']
+    label = annotation['tag_name'].upper()
+    temp_dict['entities'].append((start, end, label))
+  training_data.append(temp_dict)
+print('Our dataset contains the following number of samples: ', len(training_data))
+```
+
+This code formats entity annotations for our NER task. It selects the first training example, retrieves the text and annotated entities, and presents them in a table with start and end positions and labels. The output includes the text and a table of entities.
+
+```{python}
+import pandas as pd
+example = training_data[0]
+
+# Extract text and entities from the selected example
+text = example['text']
+entities = example['entities']
+
+# Create a dataframe to store the entities with column names: Start, End, Label
+entities_df = pd.DataFrame(entities, columns=['Start', 'End', 'Label'])
+
+# Display the text and entities table
+print("Text:", text)
+print("Entities:")
+print(entities_df)
+```
+
+The following code constructs a DataFrame that consolidates entity annotations from the training data for our NER task. The code extracts the text, start position, end position, and label for each annotated entity in the training examples. The resulting DataFrame organizes this information in columns, providing a comprehensive view of all entity annotations across the training dataset.
+
+```{python}
+import pandas as pd
+# Initialize empty lists to store the data for the DataFrame
+texts = []
+starts = []
+ends = []
+labels = []
+
+# Iterate through the training_data to extract individual entity annotations
+for example in training_data:
+    text = example['text']
+    for entity in example['entities']:
+        start, end, label = entity
+        # Append data to the lists
+        texts.append(text)
+        starts.append(start)
+        ends.append(end)
+        labels.append(label)
+
+# Create a DataFrame from the lists
+df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
+df
+```
 
 # **5 Recurrent Neural Networks Results**
 
