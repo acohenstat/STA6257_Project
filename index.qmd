@@ -251,7 +251,3 @@ fig.show()
 # 6 **Conclusion**
 
 Named Entity Recognition (NER) is a key NLP task that involves identifying named entities in text. Deep learning techniques, such as Recurrent Neural Networks (RNNs) and the Transformer model, are effective in NER tasks. RNNs, including LSTMs, excel at processing sequences and capturing context, while the Transformer model is known for its self-attention mechanism and efficient parallel processing. Both architectures contribute to advancing NER, and the choice between them depends on the specific NLP problem. As deep learning research progresses, we anticipate further advancements in NER performance using these techniques.
-
-# 7 References
-
-\[In Progress\]
