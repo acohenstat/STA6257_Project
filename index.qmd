@@ -99,8 +99,8 @@ variables to determine whether the groups' means differ significantly.
 According to @van2020, if significant, the null hypothesis is rejected,
 therefore, indicating that the missing values are not randomly scattered
 throughout the data. This implies that the missing data is MAR or MNAR.
-Conversely, if nonsignificant, this implies that the data cannot be MAR.
-This does not eliminate the possibility that it is not MNAR--other
+Conversely, if non-significant, this implies that the data cannot be
+MAR. This does not eliminate the possibility that it is not MNAR--other
 information about the population is needed to determine this.
 
 Whenever missing data is categorized as MAR or MNAR, listwise deletion
@@ -232,7 +232,7 @@ term (1+1/m).
 #### Other Methods of Imputation
 
 There are other methods of imputation worth noting and are briefly
-descrbied below.
+described below.
 
 *Regression Imputation* is based on a linear regression model. Missing
 data is randomly drawn from a conditional distribution when variables
@@ -277,16 +277,16 @@ The combined estimator of $\theta$ is given by:
 
 $${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
 
-The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by
-(with correction factor $(1+\displaystyle \frac{1}{M})$):
+The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
 
 $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
+(with a correction factor of $(1+\displaystyle \frac{1}{M})$),
 
-where the average within imputation variance is
+where the average within imputation variance is:
 
 $${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{\hat{\phi}}_m$$
 
-and the between imputation variance is
+and the between imputation variance is:
 
 $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$.
 
@@ -352,7 +352,7 @@ kc_house_data.csv
 
 ##### Details of Dataset
 
-This dataset contains the sales price of 21,613 houses in King County,
+This dataset contains the sale prices of 21,613 houses in King County,
 Seattle between May 2014 to May 2015. The original dataset contained 21
 columns with various selling attributes. For the purpose of this
 project, we have condensed the variables to the following 4: sales
@@ -361,12 +361,12 @@ living space.
 
 ##### Definition of Data in Dataset
 
-| Variable    | Type    | Description                                                                                                |
-|-----------------|-----------------|--------------------------------------|
-| price       | numeric | Sales price of homes sold between May 2014 and May 2015 in King County, Seattle.                           |
-| bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle.                    |
-| bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle.                   |
-| sqft_living | integer | Number of square feet of living space in homes sold between May 2014 and May 2015 in King County, Seattle. |
+| Variable    | Type    | Description                                                                                                                                |
+|------------------|------------------|-------------------------------------|
+| price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000                         |
+| bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 33.                                |
+| bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 8.                                |
+| sqft_living | integer | Number of square feet of living space in homes sold between May 2014 and May 2015 in King County, Seattle; range from 290 sf to 13,540 sf. |
 
 ##### Summary of Dataset:
 
@@ -416,13 +416,13 @@ function:
 sapply(original, function(x) sum(is.na(x)))
 ```
 
-**Create Missing Data**
-
-There is no missing data; this is the orignial, complete dataset. We
+There is no missing data; this is the original, complete dataset. We
 will artificially create some missing values. We do this by first
-duplicating the dataset. We want to perserve the original so that we can
+duplicating the dataset. We want to preserve the original so that we can
 later check the accuracy of the imputation process. Next, we randomly
-replace the desired amount of values with NA to mimic missing data.
+replace the desired amount of values with NA to mimic missing data. We
+will assign 200 NA values to the following variables: bedrooms,
+bathrooms, and sqft_living and 100 NA values to the price variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # duplicate dataset
@@ -446,10 +446,10 @@ sapply(house, function(x) sum(is.na(x)))
 Our dataset now has 700 NA/missing values. This equates to about 3% of
 the data (700/21,613).
 
-**Checking for Patterns**
+##### Checking for Patterns
 
 Next, we need to check the missingness by looking for patterns in the
-dataset by using the md.pattern() function. Of ccourse our missing data
+dataset by using the md.pattern() function. Of course our missing data
 was randomly created, so we know we have MCAR.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
@@ -458,9 +458,11 @@ md.pattern(house, rotate.names = TRUE)
 ```
 
 Blue are the observed values, and red are the missing values. There are
-20,920 complete observations (not missing data). The total number of missing data for each variable
-is as follows: price = 100, bedrooms = 200, bathrooms = 200, sqft_living
-= 200, which equal the 700 total missing values. This visual gives a breakdown of where the missing data occurs.
+20,920 complete observations (not missing data). The total number of
+missing data for each variable is as follows: price = 100, bedrooms =
+200, bathrooms = 200, sqft_living = 200, which equal the 700 total
+missing values. This visual gives a breakdown of where the missing data
+occurs.
 
 Another way to look for patterns in the missing data is to use the
 aggr() function:
@@ -490,16 +492,16 @@ marginplot(house[c(1,4)])
 
 The red box plot on the left shows the distribution of sqft_living with
 price missing. The blue box plot shows the distribution of the remaining
-datapoints. The same is true for the price box plots on the bottom. We
+data points. The same is true for the price box plots on the bottom. We
 expect the red and blue boxplots to be very similar if our assumptions
 of MCAR data are true. In this case, they are.
 
-**Imputation Process**
+##### Imputation Process
 
 Since we are missing about 3% of our data, we need to perform at least 3
 imputations. This can be done by using the mice() function. Since 5 is
 the default, we will use that; if you need to use something different,
-you must set m = to the number of imputations that you desire. The
+you must set m equal to the number of imputations that you desire. The
 set.seed will be given the value 1337 (any number can be used here) to
 retrieve the same results each time the multiple imputation is
 performed.
@@ -526,19 +528,21 @@ sapply(imputed, function(x) sum(is.na(x)))
 
 We can check the quality of the imputations by running a strip plot,
 which is a single axis scatter plot. It will show the distribution of
-the variable per imputed data set. We want the imputations to be values
-that could have been observed had the data not been missing.
+the imputed values over the observed values. The blue values are the
+observed values and the red values are the imputed values. We want the
+imputations to be values that could have been observed had the data not
+been missing.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # stip plots to check the quality of the imputations
-par(mfrow=c(1,4))
+par(mfrow=c(2,2))
 stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
 ```
 
-**Pooling and Fitting Imputed Dataset**
+##### Pooling and Fitting Imputed Dataset
 
 Next, we will pool the results of the complete dataset with the imputed
 dataset to arrive at estimates that will properly account for the
@@ -555,9 +559,9 @@ fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 summary(pool(fit))
 ```
 
-We now have a full, complete dataset that we can analyze! 
+We now have a full, complete dataset that we can analyze!
 
-**Checking for Accuracy**
+##### Checking for Accuracy
 
 We will now compare the new, imputed dataset to our original, complete
 dataset to check for accuracy of the imputation method by chained
@@ -568,10 +572,14 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 summary(og_lm)
 ```
 
-The estimates for the imputed dataset are very close to the estimates for the original dataset. They are almost exact, with the exception of bathrooms which is off just slightly. The p-values are all very similar; the differences are very minimal. They are all significant in the imputed dataset, as well as the original dataset. These results indicate a high
-accuracy of the imputation process. We can
-conclude that multiple imputation by chained equation is a reliable
-source to impute missing data.
+The estimates for the imputed dataset are very close to the estimates
+for the original dataset. They are almost exact, with the exception of
+bathrooms which is off just slightly. The p-values are all very similar;
+the differences are very minimal. They are all significant in the
+imputed dataset, as well as the original dataset. These results indicate
+a high accuracy of the imputation process. We can conclude that multiple
+imputation by chained equation is a reliable source to impute missing
+data.
 
 ## Conclusion
 
@@ -586,5 +594,5 @@ variables in the dataset that are related to the missing values that
 will be used for imputation. Create the necessary number of complete
 data sets. Run the models and combine them using the imputed values, and
 finally, analyze the complete dataset. Performing these steps will
-minimize the adverse effects caused by missing data on the anaylsis
+minimize the adverse effects caused by missing data on the analysis
 [@pam2016].
