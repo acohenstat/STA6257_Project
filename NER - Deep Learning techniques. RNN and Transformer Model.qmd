@@ -25,8 +25,7 @@ The Transformer model is a groundbreaking neural network architecture introduced
 
 ***\[In progress - Pending RNN Method\]***
 
-Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high
-computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers' ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers.(keles2022computational)
+Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers' ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers.(keles2022computational)
 
 # **2 Methods**
 
@@ -36,8 +35,7 @@ computational complexity, necessitating specialized hardware and substantial res
 
 ## 2.2 Transformer Model
 
-The Transformers model has a unique feature called the 'attention mechanism.' It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next
-word in 'I have a pet \_\_\_,' the attention mechanism considers the context (the word 'pet') to make a better guess, like 'dog' or 'cat.' It's like the model knows which words deserve extra attention! ! Let's look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula (phuong2022formal).
+The Transformers model has a unique feature called the 'attention mechanism.' It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next word in 'I have a pet \_\_\_,' the attention mechanism considers the context (the word 'pet') to make a better guess, like 'dog' or 'cat.' It's like the model knows which words deserve extra attention! ! Let's look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula (phuong2022formal).
 
 1.  Scaled Dot-Product Attention formula\
     \
@@ -57,8 +55,7 @@ word in 'I have a pet \_\_\_,' the attention mechanism considers the context (th
 
     In this formula, the attention mechanism allows a model to "pay attention" to specific parts of input data. The attention scores are calculated using queries (Q) and keys (K). The scores are normalized using Softmax , producing attention weights. The output is a weighted sum of value vectors (V), where the weights represent the importance of each value for each query. This mechanism is popular in tasks like machine translation to focus on relevant words.
 
-2.  The Single (Masked) Self- or Cross-Attention Head Formula
-    $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+2.  The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
 
 **Key Components:**
 
@@ -85,7 +82,7 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 **Data Definition**
 
 | Column Name | Type    | Description                                         |
-|------------------|------------------|------------------------------------|
+|-------------|---------|-----------------------------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
@@ -246,7 +243,7 @@ fig.show()
 
 ***\[Pending\]***
 
-# **5 Recurrent Neural Networks Results** 
+# **5 Recurrent Neural Networks Results**
 
 ***\[Pending\]***
 
