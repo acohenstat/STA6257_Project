@@ -280,7 +280,7 @@ $${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_
 The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
 
 $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
-(with a correction factor of $(1+\displaystyle \frac{1}{M})$),
+with a correction factor of $(1+\displaystyle \frac{1}{M})$,
 
 where the average within imputation variance is:
 
@@ -341,6 +341,10 @@ library(ggplot2)
 library(VIM, warn.conflicts=FALSE)
 library(dplyr, warn.conflicts=FALSE)
 library(mice, warn.conflicts=FALSE)
+library(jtools)
+library(tidyverse)
+library(modelsummary)
+
 
 # load data
 original = read.csv("kc_house_data.csv")
@@ -568,8 +572,11 @@ dataset to check for accuracy of the imputation method by chained
 equations:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
+# fit original, complete dataset
 og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
-summary(og_lm)
+
+# compare imputed dataset to the original dataset
+msummary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
 
 The estimates for the imputed dataset are very close to the estimates
