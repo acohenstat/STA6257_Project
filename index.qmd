@@ -176,7 +176,7 @@ analyses software already have built-in features to deal with missing
 data.
 
 Multiple imputation by chained methods, otherwise known as MICE, is the
-most common and preferred, method of multiple imputation [@wul2017]. It
+most common and preferred method of multiple imputation [@wul2017]. It
 provides a more reliable way to analyze data with missing values. For
 this reason, this paper will focus on the methodology and application of
 the MICE process.
