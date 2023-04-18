@@ -294,7 +294,7 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
 
 All multiple imputation methods have the following assumptions:
 
--   Observed data follow a normal distribution.
+-   Observed data follow a multivariate normal distribution.
 
 -   Missing data are classified as MAR, which is the probability that a
     missing value depends only on observed values and not unobserved
