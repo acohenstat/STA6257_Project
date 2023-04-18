@@ -13,34 +13,45 @@ format:
 editor: visual
 ---
 
-## What is Missing Data?
+## What is Missing Data? {.scrollable}
 
 -   Missing data occurs when there are missing values in a dataset
     -   Can be intentional or unintentional
+    
 -   Missing data is classified into 3 different categories:
     -   Missing Completely At Random (MCAR)
-    -   Missig At Random (MAR)
+    -   Missing At Random (MAR)
     -   Missing Not At Random (MNAR)
+    
+![](GraphicalRepresentation.png)
 
-## Methods to Handle Missing Data
+Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
 
--   There are an array of methods to handle missing data, some methods include:
+(X are the completely observed variables. Y are the partly missing
+variables. Z is the component of the cause of missingness unrelated to X
+and Y. R is the missingness.)
 
-    -   The Likelihood Bayesian method - predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on prevvious observed data.
+## Methods to Handle Missing Data {.scrollable}
 
-    -   The weighting method - inolves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
+-   The Likelihood Bayesian method
 
-    -   The imputation method is when an estimate from the original dataset is used to estimate the missing value.
+    -   predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on previous observed data.
 
-    -   For the topic of this topic, we will focus on multiple imputation.
+-   The weighting method
 
-## What is Imputation?
+    -   involves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
+
+-   The imputation method
+
+    -   when an estimate from the original dataset is used to estimate the missing value.
+
+## What is Imputation? {.scrollable}
 
 -   In statistics and data science, imputation is the process of replacing missing data with substituted values.
 
     -   The substituted values can take the form of the mean of the dataset as found in single imputation or values produced via a sequence of regression models as found in multiple imputation.
 
-## Single Imputation
+## Single Imputation {.scrollable}
 
 -   In single (or univariate) imputation, only one estimate is used to replace the missing data, such as:
 
@@ -49,7 +60,7 @@ editor: visual
     -   Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed value, the most recent value is carried forward.
 
         Problem with this method is that it assumes that the previous observed value is perpetual, when in reality, it may not be the case.
-        
+
 ## Multiple Imputation
 
 ## Other Methods of Imputation

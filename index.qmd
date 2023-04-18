@@ -375,11 +375,6 @@ living space.
 ##### Summary of Dataset:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# lm_model = lm(price~bedrooms+bathrooms+sqft_living, data=original)
-#summary(lm_model)
-# original %>% 
-#   tbl_regression(lm_model, exponentiate = FALSE)
-
 # table summary of data
 original %>% 
   tbl_summary(missing_text = "NA") %>%
@@ -444,6 +439,7 @@ Using the is.na() function, we can check to confirm we have created
 missing data:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
+# check for missing data
 sapply(house, function(x) sum(is.na(x)))
 ```
 
