@@ -11,61 +11,200 @@ format:
     background-transition: fade
     incremental: true
 editor: visual
+self-contained: true
 ---
 
 ## What is Missing Data? {.scrollable}
 
 -   Missing data occurs when there are missing values in a dataset
     -   Can be intentional or unintentional
-    
 -   Missing data is classified into 3 different categories:
     -   Missing Completely At Random (MCAR)
     -   Missing At Random (MAR)
     -   Missing Not At Random (MNAR)
-    
-![](GraphicalRepresentation.png)
 
-Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
+## 
 
-(X are the completely observed variables. Y are the partly missing
-variables. Z is the component of the cause of missingness unrelated to X
-and Y. R is the missingness.)
+![](GraphicalRepresentation.png){fig-align="center"}
+
+~X are the completely observed variables.~
+
+~Y are the partly missing variables.~
+
+~Z is the component of the cause of missingness unrelated to X and Y.~
+
+~R is the missingness.~
 
 ## Methods to Handle Missing Data {.scrollable}
 
--   The Likelihood Bayesian method
+-   Likelihood Bayesian Method
+    -   Predicts missing values based on a previous predictive distribution.
+-   Weighting Method
+    -   Uses weights from available data to adjust for missing values.
+-   Imputation Method
+    -   Uses estimates from original data to determine missing values
 
-    -   predicts what the values of the missing data can by treating missing values as unobserved random variables that have a distribution based on previous observed data.
+## Deleting Missing Data
 
--   The weighting method
+-   When type is MCAR and the amount of missing data is small, deletion can be used.
 
-    -   involves weight subjects who are included in the analysis to compensate for those who were excluded because of missing values.
+-   2 Types
 
--   The imputation method
+    -   Listwise deletion occurs when the entire observation is removed.
 
-    -   when an estimate from the original dataset is used to estimate the missing value.
+    -   Pairwise deletion occurs when the variable of an observation is removed.
 
-## What is Imputation? {.scrollable}
+-   Deleting missing data can lead to the loss of important information regarding your dataset and is not recommended.
 
--   In statistics and data science, imputation is the process of replacing missing data with substituted values.
+## Preferred Method: {.scrollable}
 
-    -   The substituted values can take the form of the mean of the dataset as found in single imputation or values produced via a sequence of regression models as found in multiple imputation.
+-   Imputation
 
-## Single Imputation {.scrollable}
+    -   2 Types
 
--   In single (or univariate) imputation, only one estimate is used to replace the missing data, such as:
+        -   Single Imputation
 
-    -   Using the mean to replace a missing value. The problem with this method is that it reduces the variance which leads to a smaller confidence interval.
+            -   Only one estimate is used to replace the missing data.
 
-    -   Last Observation Carried Forward (LOCF) - technique of replacing a missing value in longitudinal studies with a previously observed value, the most recent value is carried forward.
+        -   Multiple Imputation
 
-        Problem with this method is that it assumes that the previous observed value is perpetual, when in reality, it may not be the case.
+            -   Various estimates are used to replace the missing data by creating mulitple versions of the original dataset.
 
-## Multiple Imputation
+## Single or Univariate Imputation {.scrollable}
 
-## Other Methods of Imputation
+-   Methods include:
 
-## Methodology
+    -   Using the mean to replace a missing value.
+        -   The problem with this method is that it reduces the variance which leads to a smaller confidence interval.
+    -   Last Observation Carried Forward (LOCF) replaces a missing value with a previously observed value (the most recent value is carried forward).
+        -   The problem with this method is that it assumes that the previous observed value is perpetual, when in reality that may not be the case.
+
+## Multiple Imputation {.scrollable}
+
+-   A set of *m* plausible values are generated for each unobserved data point, resulting in *M* complete data sets.
+-   The new values are randomly drawn from predictive distributions either through joint modeling (JM) or fully conditionalspecification (FCS).
+-   It is then analyzed and the results are combined, or pooled together, to obtain a single value for the missing data.
+-   Multiple imputation by chained methods (MICE) is the most common and preferred method of multiple imputation.
+
+## {.scrollable}
+
+```{r, warning=FALSE, echo=F, message=FALSE}
+DiagrammeR::grViz("digraph {
+
+# initiate graph
+graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]
+
+# global node settings
+node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]
+bgcolor = none
+
+# label nodes
+incomplete [label =  'Incomplete data set']
+imputed1 [label = 'Imputed \n data set 1']
+estimates1 [label = 'Estimates from \n analysis 1']
+rubin [label = 'Rubin rules', shape = diamond]
+combined [label = 'Combined results']
+imputed2 [label = 'Imputed \n data set 2']
+estimates2 [label = 'Estimates from \n analysis 2']
+imputedm [label = 'Imputed \n data set m']
+estimatesm [label = 'Estimates from \n anaalysis m']
+
+
+# edge definitions with the node IDs
+incomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]
+imputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]
+estimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]
+imputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]
+estimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]
+imputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]
+estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
+rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
+}")
+```
+
+~Rubin's Rules: Average the estimates across m estimates.~
+
+~Calculate the standard errors and variance of m estimates.~
+
+~Combine using an adjustment term (1+1/m).~
+
+## Other Methods of Imputation {.scrollable}
+
+-   Regression Imputation is based on a linear regression model. Missing
+data is randomly drawn from a conditional distribution when variables
+are continuous and from a logistic regression model when they are
+categorical.
+
+-   Predictive Mean Matching is also based on a linear regression model.
+The approach is the same as regression imputation except instead of random draws from a conditional distribution, missing values
+are based on predicted values of the outcome variable.
+
+## {.scrollable}
+
+-   Hot Deck (HD) imputation is when a missing value is replaced by an
+observed response of a similar unit, also known as the donor. It can be
+either random or deterministic, which is based on a metric or value. It does not rely on model fitting.
+
+-   Stochastic Regression (SR) Imputation is an extension of regression
+imputation. The process is the same but a residual term from the normal
+distribution of the regression of the predictor outcome is added to the
+imputed value. This maintains the variability of the data.
+
+## {.scrollable}
+
+-   Random Forest (RF) Imputation is based on machine learning algorithms.
+Missing values are first replaced with the mean or mode of that
+particular variable and then the dataset is split into a training set
+and a prediction set. The missing values are then replaced
+with predictions from these sets. This type of imputation can be used on
+continuous or categorical variables with complex interactions.
+
+## Methodology 
+
+According to Rubin's Rule, in multiple imputation *m* imputed values are
+created for each of the missing data and result in *M* complete
+datasets. For each of the *M* datasets, an estimate of $\theta$ is
+acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
+estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
+complete dataset.
+
+The combined estimator of $\theta$ is given by:
+
+$${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
+
+## 
+
+The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
+
+$${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
+
+with a correction factor of $(1+\displaystyle \frac{1}{M})$,
+
+where the average within imputation variance is:
+
+$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{\hat{\phi}}_m$$
+
+## 
+
+and the between imputation variance is:
+
+$$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$
+
+## Assumptions of Multiple Imputation {.scrollable}
+
+-   Observed data follow a multivariate normal distribution.
+
+-   Missing data are classified as MAR, which is the probability that a
+    missing value depends only on observed values and not unobserved
+    values.
+    
+-   The parameters ${\theta}$ of the data model and the 
+    parameters ${\phi}$ of the model for the missing values are distinct.
+    That is, knowing the values of ${\theta}$ does not provide any information about ${\phi}$.
+    
+## MICE in R
 
 ## Dataset
 
@@ -73,6 +212,13 @@ and Y. R is the missingness.)
 
 ## Results
 
-## Statistical Models
-
 ## Conclusion
+
+-   Missing data can occur in research for a variety of
+reasons. 
+-   It is never a good idea to ignore it. Doing this will lead to
+biased estimates of parameters, loss of information, decreased
+statistical power, and weak reliability of findings. 
+-   The best course of action is to impute the missing data by using multiple
+imputation.
+-   Performing multiple imputaiton will minimize the adverse effects caused by missing data on the analysis.
