@@ -299,6 +299,10 @@ All multiple imputation methods have the following assumptions:
 -   Missing data are classified as MAR, which is the probability that a
     missing value depends only on observed values and not unobserved
     values.
+-   The parameters $${\theta}$$ of the data model and the 
+    parameters $${\phi}$$ of the model for the missing values are distinct.
+    That is, knowing the values of $${\theta}$$ does not provide any information
+    about $${\phi}$$.
 
 These assumptions are essential otherwise we wouldn't be able to predict
 a plausible replacement value for the missing data.
