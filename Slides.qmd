@@ -215,6 +215,15 @@ The MICE algorithm can impute mixes of continuous, binary, unordered categorical
 
 ## Dataset
 
+```{r, warning=FALSE, echo=T, message=FALSE}
+# load data
+original = read.csv("kc_house_data.csv")
+
+#first 5 rows
+head(original, 5)
+```
+
+
 ## Visualizations
 
 ## Results
