@@ -204,7 +204,7 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
     parameters ${\phi}$ of the model for the missing values are distinct.
     That is, knowing the values of ${\theta}$ does not provide any information about ${\phi}$.
     
-## MICE in R
+## MICE in R {.scrollable}
 
 MICE = Multivariate Imputation by Chained Equations. 
  - mice() method in R.
@@ -212,7 +212,12 @@ MICE = Multivariate Imputation by Chained Equations.
 The method creates multiple imputations (replacement values) for multivariate missing data.
 
 The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
-
+ - This can be doing using the imputation regressions of the mice() method such as:
+   - predictive mean matching (numeric data)
+   - logistic regression imputation (binary data with two factorial levels)
+   - polytomous regression imputation for unordered categorical data (factor > 2 levels)
+   - proportional odds model for (ordered, > 2 levels).
+ 
 ## Dataset
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
