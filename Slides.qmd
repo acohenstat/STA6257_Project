@@ -206,6 +206,13 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
     
 ## MICE in R
 
+MICE = Multivariate Imputation by Chained Equations. 
+ - mice() method in R.
+
+The method creates multiple imputations (replacement values) for multivariate missing data.
+
+The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
+
 ## Dataset
 
 ## Visualizations
