@@ -182,13 +182,13 @@ $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$
 
 with a correction factor of $(1+\displaystyle \frac{1}{M})$,
 
-where the average within imputation variance is:
+where the average within imputation variance is (normal standard error):
 
 $${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{\hat{\phi}}_m$$
 
 ## 
 
-and the between imputation variance is:
+and the between imputation variance is (how much error because of imputation process):
 
 $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$
 
@@ -204,9 +204,51 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
     parameters ${\phi}$ of the model for the missing values are distinct.
     That is, knowing the values of ${\theta}$ does not provide any information about ${\phi}$.
     
+## Steps in Multiple Imputation:
+
+-   Step 1: Impute missing data
+
+-   Step 2: Run regression models on all imputation sets
+
+-   Step 3: Pooling regression results into one regression result
+    
 ## MICE in R
+-   MICE = Multivariate Imputation by Chained Equations
+  -   mice() method in R.
+
+-   The method creates multiple imputations (replacement values) for multivariate missing data.
+
+-   The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
+  -   This can be doing using the imputation regressions of the mice() method such as:
+    -   predictive mean matching (numeric data)
+    -   logistic regression imputation (binary data with two factorial levels)
+    -   polytomous regression imputation for unordered categorical data (factor > 2 levels)
+    -   proportional odds model for (ordered, > 2 levels).
+    
+-   We will walk you through the process.
 
 ## Dataset
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# load data
+original = read.csv("kc_house_data.csv")
+#first 5 rows
+head(original, 5)
+```
+
+-   King County, Seattle Home Sale Prices between 2014 and 2015
+
+    -   Contains the sale prices of 21,613 houses
+    
+    -   The original dataset contained 21
+columns with various selling attributes. 
+
+        -   For the purpose of this project, we have condensed the variables to the following 4: 
+        
+            -   sales price of home
+            -   number of bedrooms
+            -   number of bathrooms
+            -   square footage of living space.
 
 ## Visualizations
 
