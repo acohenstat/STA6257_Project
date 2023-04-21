@@ -212,29 +212,20 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
 
 -   Step 3: Pooling regression results into one regression result
     
-## MICE in R
--   MICE = Multivariate Imputation by Chained Equations
-  -   mice() method in R.
+## MICE in R {.scrollable}
+MICE = Multivariate Imputation by Chained Equations. 
+ - mice() method in R.
 
--   The method creates multiple imputations (replacement values) for multivariate missing data.
+The method creates multiple imputations (replacement values) for multivariate missing data.
 
--   The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
-  -   This can be doing using the imputation regressions of the mice() method such as:
-    -   predictive mean matching (numeric data)
-    -   logistic regression imputation (binary data with two factorial levels)
-    -   polytomous regression imputation for unordered categorical data (factor > 2 levels)
-    -   proportional odds model for (ordered, > 2 levels).
-    
--   We will walk you through the process.
+The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
+ - This can be doing using the imputation regressions of the mice() method such as:
+   - predictive mean matching (numeric data)
+   - logistic regression imputation (binary data with two factorial levels)
+   - polytomous regression imputation for unordered categorical data (factor > 2 levels)
+   - proportional odds model for (ordered, > 2 levels).
 
-## Dataset
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# load data
-original = read.csv("kc_house_data.csv")
-#first 5 rows
-head(original, 5)
-```
+## Dataset {.scrollable}
 
 -   King County, Seattle Home Sale Prices between 2014 and 2015
 
@@ -250,7 +241,40 @@ columns with various selling attributes.
             -   number of bathrooms
             -   square footage of living space.
 
-## Visualizations
+```{r, warning=FALSE, echo=T, message=FALSE}
+# laod library
+library(mice, warn.conflicts=FALSE)
+
+# load data
+original = read.csv("kc_house_data.csv")
+
+#first 5 rows
+head(original, 1)
+
+# duplicate dataset
+house <- original
+
+# replace some values with NA to create missing data
+set.seed(10)
+house[sample(1:nrow(house), 200), "sqft_living"] <- NA
+house[sample(1:nrow(house), 200), "bedrooms"] <- NA
+house[sample(1:nrow(house), 200), "bathrooms"] <- NA
+house[sample(1:nrow(house), 100), "price"] <- NA
+
+# check for missing data
+sapply(house, function(x) sum(is.na(x)))
+```
+Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613).
+
+
+## Visualizations {.scrollable}
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+
+# check the missingness patterns
+md.pattern(house, rotate.names = TRUE)
+
+```
 
 ## Results
 
