@@ -213,12 +213,14 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
 -   Step 3: Pooling regression results into one regression result
     
 ## MICE in R {.scrollable}
-MICE = Multivariate Imputation by Chained Equations. 
- - mice() method in R.
+- MICE = Multivariate Imputation by Chained Equations. 
 
-The method creates multiple imputations (replacement values) for multivariate missing data.
+-   mice() method in R. 
 
-The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
+- The method creates multiple imputations (replacement values) for multivariate missing data.
+
+
+- The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
  - This can be doing using the imputation regressions of the mice() method such as:
  -  predictive mean matching (numeric data)
  -  logistic regression imputation (binary data with two factorial levels)
