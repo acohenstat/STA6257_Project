@@ -250,7 +250,7 @@ sapply(house, function(x) sum(is.na(x)))
 Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613).
 
 ## Visualizations {.scrollable}
-
+::: {.panel-tabset}
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #| echo: true
 #| output-location: column
@@ -259,6 +259,14 @@ Our dataset now has 700 NA/missing values. This equates to about 3% of the data 
 md.pattern(house, rotate.names = TRUE)
 
 ```
+
+### Tab A
+```{r}
+library(VIM)
+aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+
+```
+:::
 
 ## Results
 
