@@ -252,6 +252,8 @@ Our dataset now has 700 NA/missing values. This equates to about 3% of the data 
 ## Visualizations {.scrollable}
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
+#| echo: true
+#| output-location: slide
 
 # check the missingness patterns
 md.pattern(house, rotate.names = TRUE)
