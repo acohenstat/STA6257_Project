@@ -251,6 +251,8 @@ Our dataset now has 700 NA/missing values. This equates to about 3% of the data 
 
 ## Visualizations {.scrollable}
 ::: {.panel-tabset}
+
+### Pattern
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #| echo: true
 #| output-location: column
