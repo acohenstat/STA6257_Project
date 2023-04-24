@@ -9,7 +9,6 @@ format:
     theme: sky
     transition: slide
     background-transition: fade
-    incremental: true
 editor: visual
 self-contained: true
 ---
@@ -253,7 +252,7 @@ Our dataset now has 700 NA/missing values. This equates to about 3% of the data 
 
 ::: {.panel-tabset}
 
-### Pattern
+### Pattern {.scrollable}
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #| echo: true
 #| output-location: column
@@ -263,7 +262,7 @@ md.pattern(house, rotate.names = TRUE)
 
 ```
 
-### Histogram of Missing Data
+### Histogram of Missing Data {.scrollable}
 
 ```{r}
 library(VIM)
@@ -271,7 +270,7 @@ aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, l
 
 ```
 
-### Margin Plot
+### Margin Plot {.scrollable}
 
 The red box plot on the left shows the distribution of sqft_living with
 price missing. The blue box plot shows the distribution of the remaining
@@ -285,7 +284,7 @@ marginplot(house[c(1,4)])
 
 :::
 
-## Imputation Process
+## Imputation Process {.scrollable}
 - Since we are missing about 3% of our data, we need to perform at least 3
 imputations. This will be done using the mice() function:
 
@@ -302,7 +301,7 @@ imp = mice(data = house, set.seed = 1337, defaultMethod = c("pmm", "logreg", "po
 imputed <- complete(imp) # We need to create the imputed dataset using the complete() function
 ```
 
-## Imputation Process - Verifying Missing Data
+## Imputation Process - Verifying Missing Data {.scrollable}
 
 We now need to check the imputed dataset to make sure there is no
 missing data. Again, we use the is.na() function:
@@ -311,7 +310,7 @@ missing data. Again, we use the is.na() function:
 sapply(imputed, function(x) sum(is.na(x)))
 ```
 
-## Post-Imputation Visualizations:
+## Post-Imputation Visualizations: {.scrollable}
 
 - We can check the quality of the imputations by running a strip plot,
 which is a single axis scatter plot.
@@ -330,7 +329,7 @@ stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
 ```
-## Pooling and Fitting Imputed Dataset
+## Pooling and Fitting Imputed Dataset {.scrollable}
 
 - Next, we will pool the results of the complete dataset with the imputed
 dataset to arrive at estimates that will properly account for the
@@ -351,7 +350,7 @@ fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 summary(pool(fit))
 ```
 
-## Checking for Accuracy
+## Checking for Accuracy {.scrollable}
 
 We will now compare the new, imputed dataset to our original, complete
 dataset to check for accuracy of the imputation method by chained
@@ -364,7 +363,7 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 # compare imputed dataset to the original dataset
 summary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
-## Results
+## Results {.scrollable}
 
 - The estimates for the imputed dataset are very close to the estimates
 for the original dataset. The p-value are similar and the differences are minimal with exception of bathrooms which is off just slightly.
