@@ -595,7 +595,7 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 msummary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
 
-The estimates from the imputation are very close to the estimates
+The estimates from the multiple imputation are very close to the estimates
 for the original dataset. They are almost exact, with the exception of
 bathrooms which is off just slightly. The p-values are all very similar;
 the differences are very minimal. They are all significant in the

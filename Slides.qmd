@@ -82,9 +82,59 @@ self-contained: true
 ## Multiple Imputation {.scrollable}
 
 -   A set of *m* plausible values are generated for each unobserved data point, resulting in *M* complete data sets.
--   The new values are randomly drawn from predictive distributions either through joint modeling (JM) or fully conditionalspecification (FCS).
+-   The new values are randomly drawn from predictive distributions either through joint modeling (JM) or fully conditional specification (FCS).
 -   It is then analyzed and the results are combined, or pooled together, to obtain a single value for the missing data.
 -   Multiple imputation by chained methods (MICE) is the most common and preferred method of multiple imputation.
+
+## Other Methods of Imputation {.scrollable}
+
+-   Regression Imputation is based on a linear regression model. Missing
+data is randomly drawn from a conditional distribution when variables
+are continuous and from a logistic regression model when they are
+categorical.
+
+-   Predictive Mean Matching is also based on a linear regression model.
+The approach is the same as regression imputation except instead of random draws from a conditional distribution, missing values
+are based on predicted values of the outcome variable.
+
+## {.scrollable}
+
+-   Hot Deck (HD) imputation is when a missing value is replaced by an
+observed response of a similar unit, also known as the donor. It can be
+either random or deterministic, which is based on a metric or value. It does not rely on model fitting.
+
+-   Stochastic Regression (SR) Imputation is an extension of regression
+imputation. The process is the same but a residual term from the normal
+distribution of the regression of the predictor outcome is added to the
+imputed value. This maintains the variability of the data.
+
+## {.scrollable}
+
+-   Random Forest (RF) Imputation is based on machine learning algorithms.
+Missing values are first replaced with the mean or mode of that
+particular variable and then the dataset is split into a training set
+and a prediction set. The missing values are then replaced
+with predictions from these sets. This type of imputation can be used on
+continuous or categorical variables with complex interactions.
+
+## Methodology of Multiple Imputation {.scrollable}
+
+-   Point of multiple imputation
+    - Not to create artificial values for the missing data
+    - Intended to be a tool in analyzing data with missing values 
+- Developed by Donald Rubin, Harvard Professor in the 70s
+    - Previous method was not correct
+      - Impossible to calculate missing data with certainty
+      - It did not take into account the estimates in error in the predictions. 
+      - He recommended creating multiple datasets, based on the Bayesian method
+      - It gives more precise estimates than using just one imputed dataset
+
+## {.scrollable}
+
+-   According to Rubin's Rule, in multiple imputation missing values are replaced by *m* imputed values which result in *M* complete
+datasets. 
+-   For each of the *M* datasets, an estimate of $\theta$ is
+acquired. 
 
 ## {.scrollable}
 
@@ -130,76 +180,44 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 
 ~Combine using an adjustment term (1+1/m).~
 
-## Other Methods of Imputation {.scrollable}
-
--   Regression Imputation is based on a linear regression model. Missing
-data is randomly drawn from a conditional distribution when variables
-are continuous and from a logistic regression model when they are
-categorical.
-
--   Predictive Mean Matching is also based on a linear regression model.
-The approach is the same as regression imputation except instead of random draws from a conditional distribution, missing values
-are based on predicted values of the outcome variable.
-
 ## {.scrollable}
 
--   Hot Deck (HD) imputation is when a missing value is replaced by an
-observed response of a similar unit, also known as the donor. It can be
-either random or deterministic, which is based on a metric or value. It does not rely on model fitting.
-
--   Stochastic Regression (SR) Imputation is an extension of regression
-imputation. The process is the same but a residual term from the normal
-distribution of the regression of the predictor outcome is added to the
-imputed value. This maintains the variability of the data.
-
-## {.scrollable}
-
--   Random Forest (RF) Imputation is based on machine learning algorithms.
-Missing values are first replaced with the mean or mode of that
-particular variable and then the dataset is split into a training set
-and a prediction set. The missing values are then replaced
-with predictions from these sets. This type of imputation can be used on
-continuous or categorical variables with complex interactions.
-
-## Methodology {.scrollable}
-
--   Point of multiple imputation
-    - Not in creating artificial values for the missing data
-    - Intended to be a tool in analyzing data with missing values 
-    - Developed by Donald Rubin, Harvard Professor in the 70s
-      - Previous method was not correct
-      - Impossible to calculate missing data with certainty
-      - It did not take into account the estimates in error in the predictions. He recommended creating multiple datasets, based on the Bayesian method, and focused on the variances of these datasets to help
-
-According to Rubin's Rule, in multiple imputation missing values are replaced by *m* imputed values which result in *M* complete
-datasets. For each of the *M* datasets, an estimate of $\theta$ is
-acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
+-   Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
 estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
 complete dataset.
 
-The combined estimator of $\theta$ is given by:
+-   To calculate the pooled mean differences of $\theta$:
 
-$${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
-That is 1 / number of imputed datasets times the sum of the difference in each imputed dataset
+$${\overline{\theta}} = \displaystyle \frac{1}{m}(\sum_{i = 1}^{m} {{\theta}}_{i})$$
 
+  -   $\overline\theta$ = pooled parameter estimate 
+  -   m = number of imputed datasets
+  -   $\theta_m$ = sum of the parameter estimate in each imputed dataset i
+      
+
+## {.scrollable}
+-   To calculate the proposed variance estimator of ${\hat{\theta}}_{m}$:
+
+$${\hat{\Phi}}_{i} = {\overline{\phi}}_{i} + (1+\displaystyle \frac{1}{m})B_{m}$$
+where the average within imputation variance (normal standard error) is:
+
+$${\overline{\phi}}_{m} = \displaystyle \frac{1}{m}\sum_{}^{}{SE}^2$$
+
+-   It will be large in small samples and small in large samples.
+  -   m = number of imputed datasets
+  -   $SE^2$ = sum of the standard error squared in each imputed dataset i
+  
 ## 
-
-The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
-
-$${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
 
 with a correction factor of $(1+\displaystyle \frac{1}{M})$,
 
-where the average within imputation variance is (normal standard error):
+and the between imputation variance (how much variation because of the imputation process) is:
 
-$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{\hat{\phi}}_m$$
-
-## 
-
-and the between imputation variance is (how much error because of imputation process):
-
-$$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$
-
+$$B_{m} = \displaystyle \frac{1}{m-1}\sum_{i = 1}^{m}({\hat{\theta}}_{i}-{\overline{\theta}}_{})^{2}$$
+  -   $\overline\theta$ = pooled parameter estimate 
+  -   m = number of imputed datasets
+  -   $\theta_i$ = parameter estimate in each imputed dataset i
+  
 ## Assumptions for Multiple Imputation {.scrollable}
 
 -   Observed data follow a normal distribution. If not normal, a transformation is first needed.
@@ -221,13 +239,14 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
 -   Step 3: Pooling regression results into one regression result
     
 ## MICE in R {.scrollable}
-MICE = Multivariate Imputation by Chained Equations. 
+
+-   MICE = Multivariate Imputation by Chained Equations. 
  - mice() method in R.
 
-The method creates multiple imputations (replacement values) for multivariate missing data.
+-   The method creates multiple imputations (replacement values) for multivariate missing data.
 
-The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
- - This can be doing using the imputation regressions of the mice() method such as:
+-   The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
+-   This can be doing using the imputation regressions of the mice() method such as:
    - predictive mean matching (numeric data)
    - logistic regression imputation (binary data with two factorial levels)
    - polytomous regression imputation for unordered categorical data (factor > 2 levels)
@@ -258,45 +277,74 @@ original = read.csv("kc_house_data.csv")
 
 #first 5 rows
 head(original, 1)
+```
 
+## {.scrollable}
+
+First, we evaluate the dataset for missing values by using the is.na()
+function:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# check for missing data
+sapply(original, function(x) sum(is.na(x)))
+```
+
+-   There is no missing data; this is the original, complete dataset. 
+-   We will artificially create some missing values. 
+-   We do this by first duplicating the dataset. We want to preserve the original so that we can
+later check the accuracy of the imputation process.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
 # duplicate dataset
 house <- original
+```
 
+## {.scrollable}
+
+Next, we randomly
+replace the desired amount of values with NA to mimic missing data. 
+  -   We will assign 200 NA values to the following variables: 
+      - bedrooms,
+      - bathrooms,
+      - sqft_living 
+  -   And 100 NA values to the price variable.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
 # replace some values with NA to create missing data
 set.seed(10)
 house[sample(1:nrow(house), 200), "sqft_living"] <- NA
 house[sample(1:nrow(house), 200), "bedrooms"] <- NA
 house[sample(1:nrow(house), 200), "bathrooms"] <- NA
 house[sample(1:nrow(house), 100), "price"] <- NA
+```
 
+Using the is.na() function, we can check to confirm we have created
+missing data:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
 # check for missing data
 sapply(house, function(x) sum(is.na(x)))
 ```
-Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613).
 
-<<<<<<< HEAD
-=======
-## Visualizations
->>>>>>> 442003b39fed5e97ce962f9d842f3ca2fc56861c
+Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613).
 
 ## Visualizations {.scrollable}
 
-```{r, warning=FALSE, echo=T, message=FALSE}
+::: {.panel-tabset}
 
+### Pattern
+```{r, warning=FALSE, echo=T, message=FALSE}
+#| echo: true
+#| output-location: column
 # check the missingness patterns
 md.pattern(house, rotate.names = TRUE)
-
 ```
 
-<<<<<<< HEAD
-## Results
-=======
 ### Histogram of Missing Data
 
 ```{r}
 library(VIM)
 aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
-
 ```
 
 ### Margin Plot 
@@ -313,6 +361,7 @@ marginplot(house[c(1,4)])
 :::
 
 ## Imputation Process {.scrollable}
+
 - Since we are missing about 3% of our data, we need to perform at least 3
 imputations. This will be done using the mice() function:
 
@@ -357,6 +406,7 @@ stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
 ```
+
 ## Fitting and Pooling Imputed Datasets {.scrollable}
 
 - Next, we will run regression on our imputed datasets, so we will have 5
