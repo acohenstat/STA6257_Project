@@ -441,6 +441,7 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 # compare imputed dataset to the original dataset
 summary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
+![](Summary Table.png){fig-align="center"}
 
 ## Results {.scrollable}
 
