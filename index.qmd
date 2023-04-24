@@ -5,7 +5,7 @@ author:
   - Michael Underwood
   - Elizabeth Subject-Scott
 date: '`r Sys.Date()`'
-format:
+format: 
   html:
     code-fold: true
     code-tools: true
@@ -208,7 +208,7 @@ combined [label = 'Combined results']
 imputed2 [label = 'Imputed \n data set 2']
 estimates2 [label = 'Estimates from \n analysis 2']
 imputedm [label = 'Imputed \n data set m']
-estimatesm [label = 'Estimates from \n anaalysis m']
+estimatesm [label = 'Estimates from \n analysis m']
 
 
 # edge definitions with the node IDs
@@ -345,10 +345,8 @@ library(ggplot2)
 library(VIM, warn.conflicts=FALSE)
 library(dplyr, warn.conflicts=FALSE)
 library(mice, warn.conflicts=FALSE)
-library(jtools)
 library(tidyverse)
 library(modelsummary)
-
 
 # load data
 original = read.csv("kc_house_data.csv")
