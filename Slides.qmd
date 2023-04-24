@@ -285,7 +285,7 @@ marginplot(house[c(1,4)])
 
 :::
 
-### Imputation Process
+## Imputation Process
 - Since we are missing about 3% of our data, we need to perform at least 3
 imputations. This will be done using the mice() function:
 
@@ -296,16 +296,13 @@ retrieve the same results each time the multiple imputation is
 performed.
 
 ```{r}
-#| echo: true
-#| output-location: slide
-
 # impute the data 5 times (default)
 imp = mice(data = house, set.seed = 1337, defaultMethod = c("pmm", "logreg", "polyreg",  "norm", "polr"))
 
 imputed <- complete(imp) # We need to create the imputed dataset using the complete() function
 ```
 
-### Imputation Process - Verifying Missing Data
+## Imputation Process - Verifying Missing Data
 
 We now need to check the imputed dataset to make sure there is no
 missing data. Again, we use the is.na() function:
@@ -314,7 +311,7 @@ missing data. Again, we use the is.na() function:
 sapply(imputed, function(x) sum(is.na(x)))
 ```
 
-### Post-Imputation Visualizations:
+## Post-Imputation Visualizations:
 
 - We can check the quality of the imputations by running a strip plot,
 which is a single axis scatter plot.
@@ -333,12 +330,50 @@ stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
 ```
+## Pooling and Fitting Imputed Dataset
 
+- Next, we will pool the results of the complete dataset with the imputed
+dataset to arrive at estimates that will properly account for the
+missing data. 
 
+- We fit the complete model with the with() function and
+display the summary of the pooled results. 
 
+- It will give us the estimate,
+standard error, test statistic, degrees of freedom, and the p-value for
+each variable.
 
+```{r}
+# fit complete-data model
+fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 
+# pool and summarize the results
+summary(pool(fit))
+```
+
+## Checking for Accuracy
+
+We will now compare the new, imputed dataset to our original, complete
+dataset to check for accuracy of the imputation method by chained
+equations:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# fit original, complete dataset
+og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
+
+# compare imputed dataset to the original dataset
+summary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
+```
 ## Results
+
+- The estimates for the imputed dataset are very close to the estimates
+for the original dataset. The p-value are similar and the differences are minimal with exception of bathrooms which is off just slightly.
+
+- These results indicate
+a high accuracy of the imputation process. We can conclude that multiple
+imputation by chained equation is a reliable source to impute missing
+data.
+
 
 ## Conclusion
 
