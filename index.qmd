@@ -286,22 +286,25 @@ acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
 estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
 complete dataset [@arn2017].
 
-The combined estimator of $\theta$ is given by:
+The combined estimator of $\theta$ is given by the following equation:
 
 $${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
+This is the sum of the estimators from each of the imputed datasets which are pooled together and averaged.
 
-The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by:
+The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by the following equation:
 
 $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
-with a correction factor of $(1+\displaystyle \frac{1}{M})$,
+This equation is made up of two parts: the variance within the imputation is added to the variance between the imputation (with a correction factor of $(1+\displaystyle \frac{1}{M})$).
 
-where the average within imputation variance is:
+The imputation variance within, which is the normal standard error, is calcuted as follows:
 
-$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{\hat{\phi}}_m$$
+$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{}{SE}^2_m$$
+This is the average of the sum of the standard errors squared of the imputed datasets. It will be large in small datasets and small in large datasets [@hey2017].
 
-and the between imputation variance is:
+The between imputation variance, which is how much extra variation there is due to the imputation process, is calculated as follows:
 
 $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$.
+This is the sum of the sample variance for each imputed data set multiplied by 1 over the imputed datasets. It will be large when there is a high number of missing data and small when there is a small number of missing data [@hey2017].
 
 #### Assumptions
 

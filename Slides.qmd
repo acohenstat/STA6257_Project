@@ -453,7 +453,6 @@ a high accuracy of the imputation process. We can conclude that multiple
 imputation by chained equation is a reliable source to impute missing
 data.
 
-
 ## Conclusion
 
 -   Missing data can occur in research for a variety of reasons.
