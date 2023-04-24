@@ -282,6 +282,9 @@ of MCAR data are true. In this case, they are.
 ```{r}
 marginplot(house[c(1,4)])
 ```
+
+:::
+
 ### Imputation Process
 - Since we are missing about 3% of our data, we need to perform at least 3
 imputations. This will be done using the mice() function:
@@ -297,11 +300,40 @@ performed.
 #| output-location: slide
 
 # impute the data 5 times (default)
-imp = mice(data = house, set.seed = 1337)
+imp = mice(data = house, set.seed = 1337, defaultMethod = c("pmm", "logreg", "polyreg",  "norm", "polr"))
+
+imputed <- complete(imp) # We need to create the imputed dataset using the complete() function
 ```
 
+### Imputation Process - Verifying Missing Data
 
-:::
+We now need to check the imputed dataset to make sure there is no
+missing data. Again, we use the is.na() function:
+
+```{r}
+sapply(imputed, function(x) sum(is.na(x)))
+```
+
+### Post-Imputation Visualizations:
+
+- We can check the quality of the imputations by running a strip plot,
+which is a single axis scatter plot.
+
+- It will show the distribution of the imputed values over the observed values.
+
+- Blue values are observed value and red values are imputed values. Ideally, we want the
+imputations to be values that could have been observed had the data not
+been missing.
+
+```{r}
+# stip plots to check the quality of the imputations
+par(mfrow=c(2,2))
+stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
+```
+
 
 
 
