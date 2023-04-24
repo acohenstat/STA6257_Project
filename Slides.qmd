@@ -248,11 +248,11 @@ sapply(house, function(x) sum(is.na(x)))
 
 Our dataset now has 700 NA/missing values. This equates to about 3% of the data (700/21,613).
 
-## Visualizations {.scrollable}
+## Visualizations
 
 ::: {.panel-tabset}
 
-### Pattern {.scrollable}
+### Pattern
 ```{r, warning=FALSE, echo=T, message=FALSE}
 #| echo: true
 #| output-location: column
@@ -262,7 +262,7 @@ md.pattern(house, rotate.names = TRUE)
 
 ```
 
-### Histogram of Missing Data {.scrollable}
+### Histogram of Missing Data
 
 ```{r}
 library(VIM)
@@ -270,7 +270,7 @@ aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, l
 
 ```
 
-### Margin Plot {.scrollable}
+### Margin Plot 
 
 The red box plot on the left shows the distribution of sqft_living with
 price missing. The blue box plot shows the distribution of the remaining
@@ -281,7 +281,6 @@ of MCAR data are true. In this case, they are.
 ```{r}
 marginplot(house[c(1,4)])
 ```
-
 :::
 
 ## Imputation Process {.scrollable}
