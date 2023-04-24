@@ -430,9 +430,13 @@ summary(pool(fit))
 ```
 
 ## Checking for Accuracy {.scrollable}
-
 We will now compare the results from our pooled, imputed dataset to our original, complete dataset (before we removed values to create missing data) to check for accuracy of the imputation method by chained
 equations:
+
+:::::: {.cols data-latex=""}
+
+::: {.col data-latex="{0.55\textwidth}"}
+
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # fit original, complete dataset
@@ -441,7 +445,25 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 # compare imputed dataset to the original dataset
 summary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
+:::
+
+::: {.col data-latex="{0.05\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.4\textwidth}"}
+
 ![](Summary Table.png){fig-align="center"}
+
+:::
+::::::
+
+
+## {.scrollable}
+
+
 
 ## Results {.scrollable}
 
