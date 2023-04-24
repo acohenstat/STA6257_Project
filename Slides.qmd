@@ -236,7 +236,7 @@ $$B_{m} = \displaystyle \frac{1}{m-1}\sum_{i = 1}^{m}({\hat{\theta}}_{i}-{\overl
 
 -   Step 2: Run regression models on all imputation sets
 
--   Step 3: Pooling regression results into one regression result
+-   Step 3: Pool regression results into one regression result
     
 ## MICE in R {.scrollable}
 
@@ -342,7 +342,7 @@ md.pattern(house, rotate.names = TRUE)
 
 ### Histogram of Missing Data
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 library(VIM)
 aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
 ```
@@ -355,7 +355,7 @@ data points. The same is true for the price box plots on the bottom. We
 expect the red and blue boxplots to be very similar if our assumptions
 of MCAR data are true. In this case, they are.
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 marginplot(house[c(1,4)])
 ```
 :::
@@ -371,7 +371,7 @@ imputations. This will be done using the mice() function:
 retrieve the same results each time the multiple imputation is
 performed.
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # impute the data 5 times (default)
 imp = mice(data = house, set.seed = 1337, defaultMethod = c("pmm", "logreg", "polyreg",  "norm", "polr"))
 
@@ -383,7 +383,7 @@ imputed <- complete(imp) # We need to create the imputed dataset using the compl
 We now need to check the imputed dataset to make sure there is no
 missing data. Again, we use the is.na() function:
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 sapply(imputed, function(x) sum(is.na(x)))
 ```
 
@@ -398,7 +398,7 @@ which is a single axis scatter plot.
 imputations to be values that could have been observed had the data not
 been missing.
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # stip plots to check the quality of the imputations
 par(mfrow=c(2,2))
 stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
@@ -413,7 +413,7 @@ stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
 regression results. We do this with the with() function. For each
 regression, we get different results.
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # fit complete-data model
 fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 ```
@@ -424,14 +424,14 @@ fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 standard error, test statistic, degrees of freedom, and the p-value for
 each variable.
 
-```{r}
+```{r, warning=FALSE, echo=T, message=FALSE}
 # pool and summarize the results
 summary(pool(fit))
 ```
 
 ## Checking for Accuracy {.scrollable}
 
-We will now compare the results from our pooled, imputed datasets to our original, complete dataset (before we removed values to create missing data) to check for accuracy of the imputation method by chained
+We will now compare the results from our pooled, imputed dataset to our original, complete dataset (before we removed values to create missing data) to check for accuracy of the imputation method by chained
 equations:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
