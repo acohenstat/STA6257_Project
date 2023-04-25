@@ -125,19 +125,19 @@ $${\overline{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\the
 
 ##  Pooling Standard Errors {.scrollable}
 
--   To calculate the *proposed variance estimator* of ${\hat{\theta}}_{m}$:
+-   To calculate **the proposed variance estimator** of ${\hat{\theta}}_{m}$:
 
 $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
 
--   This equation is made up of two parts: the average within imputation variance and the between imputation variance (with a correction factor).
+-   This is the total variance and is made up of two parts: the average within imputation variance and the between imputation variance (with a correction factor).
 
--   The *average within imputation variance* (normal standard error) is:
+-   **The average within imputation variance** (normal standard error) is:
 
 $${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m=1}^{M}{SE}^2$$
 
 (It will be large in small samples and small in large samples.)
 
--   The *between imputation variance* (how much extra variation there is due to the imputation process) is:
+-   **The between imputation variance** (how much extra variation there is due to the imputation process) is:
 
 $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{m})^{2}$$
 
@@ -145,17 +145,13 @@ $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overl
 
 -   When the within variance is greater than the between variance, then little is gained by increasing *M*.
 
--   To calculate the *total variance*:
-
-$$V_{total} = {\overline{\phi}}_{M} + B_{M} + \frac{B_{M}}M$$
-
 -   To calculate the *total standard error*:
 
-$$SE_{pooled} = {\sqrt{V_{total}}}$$
+$$SE_{pooled} = {\sqrt{\hat{\Phi}}_{M}}$$
 
 ## Significance Testing {.scrollable}
 
-$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{V_{total}}$$
+$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{{\hat{\Phi}}_{M}}$$
 
 -   The Wald test follows a t-distribution with the degrees of freedom as follows:
 
@@ -164,6 +160,10 @@ $$df = (M-1)(1+\frac{1}{M+1} * \frac{\overline{\theta}_{M}}{B_{M}})^2$$
 -   The 2 sided t-value is as follows:
 
 $$t_{df, 1-\alpha/2}$$
+
+-   To test for significance using F-distribution:
+
+$$ F_{1,df} = t^{2}_{df, 1-\alpha/2}$$
 
 ## Assumptions for Multiple Imputation {.scrollable}
 
