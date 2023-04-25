@@ -247,10 +247,10 @@ $$B_{m} = \displaystyle \frac{1}{m-1}\sum_{i = 1}^{m}({\hat{\theta}}_{i}-{\overl
 
 -   The MICE algorithm can impute mixes of continuous, binary, unordered categorical and ordered categorical data.
 -   This can be doing using the imputation regressions of the mice() method such as:
-   - predictive mean matching (numeric data)
-   - logistic regression imputation (binary data with two factorial levels)
-   - polytomous regression imputation for unordered categorical data (factor > 2 levels)
-   - proportional odds model for (ordered, > 2 levels).
+   -  predictive mean matching (numeric data)
+   -  logistic regression imputation (binary data with two factorial levels)
+   -  polytomous regression imputation for unordered categorical data (factor > 2 levels)
+   -  proportional odds model for (ordered, > 2 levels).
 
 ## Dataset {.scrollable}
 
@@ -301,13 +301,15 @@ house <- original
 
 ## {.scrollable}
 
-Next, we randomly
+- Next, we randomly
 replace the desired amount of values with NA to mimic missing data. 
-  -   We will assign 200 NA values to the following variables: 
+
+- We will assign 200 NA values to the following variables: 
       - bedrooms,
       - bathrooms,
       - sqft_living 
-  -   And 100 NA values to the price variable.
+      
+-   And 100 NA values to the price variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # replace some values with NA to create missing data
