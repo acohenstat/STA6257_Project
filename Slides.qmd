@@ -9,7 +9,6 @@ format:
     theme: sky
     transition: slide
     background-transition: fade
-    #incremental: true
 editor: visual
 self-contained: true
 ---
