@@ -1,7 +1,6 @@
 ---
 title: "NER using RNNs and Transformer Models"
 author: "Sara Ericson, Andrew Campbell, Jorge Sanchez"
-date: '`r Sys.Date()`'
 format: revealjs
 editor: visual
 ---
