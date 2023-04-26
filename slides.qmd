@@ -16,11 +16,11 @@ editor: visual
 ## Transformer Architecture
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](images/transformer%20Architecture.png)
 :::
 
-::: {.column width="50%"}
+::: {.column width="40%"}
 -   Encoder
 
 -   Decoder
@@ -38,6 +38,22 @@ editor: visual
     $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$\
 
 -   The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+
+## Transformer How to do it?
+
+1.  Training Data
+
+2.  Pre-process the data
+
+3.  Fine-tune a pre-trained Tranformer Model
+
+    1.  Huggingface
+
+4.  Train
+
+5.  Evaluate
+
+    1.  Precision,recall and F1 score.
 
 ## Transformer Limitations
 
@@ -58,8 +74,16 @@ We will use the dataset called corona2 from Kaggle to identify Natural Entity Re
 ## Data Definition
 
 | Column Name | Type    | Description                                         |
-|----------------|----------------|-----------------------------------------|
+|------------------|------------------|------------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
 | Labels      | string  | The label( Medical Condition, Medicine or Pathogen) |
+
+## Data Visualization - Labels
+
+![](images/frequency_labels-01.png){fig-align="center"}
+
+## Data Visualization - Position
+
+![](images/start_end_Positions-01.png){fig-align="center"}

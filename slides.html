@@ -347,9 +347,9 @@ Sara Ericson, Andrew Campbell, Jorge Sanchez
 <section id="transformer-architecture" class="slide level2">
 <h2>Transformer Architecture</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:60%;">
 <p><img data-src="images/transformer%20Architecture.png"></p>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:40%;">
 <ul>
 <li><p>Encoder</p></li>
 <li><p>Decoder</p></li>
@@ -368,6 +368,22 @@ Sara Ericson, Andrew Campbell, Jorge Sanchez
 </p></li>
 <li><p>The Single (Masked) Self- or Cross-Attention Head Formula <span class="math inline">\(\begin{align*}\text{Attention}(Q, K, V) &amp;= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}\)</span></p></li>
 </ul>
+</section>
+<section id="transformer-how-to-do-it" class="slide level2">
+<h2>Transformer How to do it?</h2>
+<ol type="1">
+<li><p>Training Data</p></li>
+<li><p>Pre-process the data</p></li>
+<li><p>Fine-tune a pre-trained Tranformer Model</p>
+<ol type="1">
+<li>Huggingface</li>
+</ol></li>
+<li><p>Train</p></li>
+<li><p>Evaluate</p>
+<ol type="1">
+<li>Precision,recall and F1 score.</li>
+</ol></li>
+</ol>
 </section>
 <section id="transformer-limitations" class="slide level2">
 <h2>Transformer Limitations</h2>
@@ -392,9 +408,9 @@ Sara Ericson, Andrew Campbell, Jorge Sanchez
 <h2>Data Definition</h2>
 <table>
 <colgroup>
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 56%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -426,7 +442,15 @@ Sara Ericson, Andrew Campbell, Jorge Sanchez
 </tr>
 </tbody>
 </table>
-<div class="footer footer-default">
+</section>
+<section id="data-visualization---labels" class="slide level2">
+<h2>Data Visualization - Labels</h2>
+
+<img data-src="images/frequency_labels-01.png" class="r-stretch quarto-figure-center"></section>
+<section id="data-visualization---position" class="slide level2">
+<h2>Data Visualization - Position</h2>
+
+<img data-src="images/start_end_Positions-01.png" class="r-stretch quarto-figure-center"><div class="footer footer-default">
 
 </div>
 </section>
