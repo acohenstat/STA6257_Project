@@ -67,7 +67,7 @@ editor: visual
 
 ## Dataset
 
-We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. Similarly to the dataset used in the dataset was manually tagged for training.
+We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. This dataset is already annotated.
 
 -   Labels:
 
