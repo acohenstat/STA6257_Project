@@ -1,0 +1,269 @@
+---
+title: "NER using RNNs and Transformer Models"
+author: "Sara Ericson, Andrew Campbell, Jorge Sanchez"
+date: '`r Sys.Date()`'
+format: revealjs
+editor: visual
+---
+
+## What is Transformer Model?
+
+-   The Transformer model is a neural network architecture designed for sequence-to-sequence tasks such as machine translation.
+
+-   The model's key innovation is the self-attention mechanism, which allows it to weigh the importance of different words in the input sequence.
+
+-   Self-attention enables the model to capture long-range dependencies and handle complex language structures effectively.
+
+## Transformer Architecture
+
+::: columns
+::: {.column width="50%"}
+![](images/transformer%20Architecture.png)
+:::
+
+::: {.column width="50%"}
+-   Encoder
+
+-   Decoder
+
+-   Positional Encoding
+
+-   Multi-Head Attention
+:::
+:::
+
+## Transformer Model Methods
+
+-   Scaled Dot-Product Attention formula\
+    \
+    $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$\
+
+-   The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+
+## Transformer Limitations
+
+-   Standard language models are unidirectional, restricting pre-training architecture options and limiting context awareness.
+
+-   Transformers have high computational complexity due to numerous parameters, requiring significant resources and specialized hardware for deep models and long sequences.
+
+## Dataset
+
+We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. Similarly to the dataset used in the dataset was manually tagged for training.
+
+-   Labels:
+
+    -   Medical condition names (example: influenza, headache, malaria)
+    -   Medicine names (example : aspirin, penicillin, ribavirin, methotrexate)
+    -   Pathogens ( example: Corona Virus, Zika Virus, cynobacteria, E. Coli)
+
+## Data Definition
+
+| Column Name | Type    | Description                                         |
+|--------------|--------------|---------------------------------------------|
+| Text        | string  | Sentence including the labels                       |
+| Starts      | integer | Position on where the label starts                  |
+| Ends        | integer | Position on where the label ends                    |
+| Labels      | string  | The label( Medical Condition, Medicine or Pathogen) |
+
+## Code for analysis
+
+``` r
+library(reticulate)
+# do the following ONCE AND COMMENT
+py_install("nbclient")
+py_install("requests")
+py_install("pandas")
+py_install("nbformat")
+py_install("plotly")
+```
+
+```{r}
+library(reticulate)
+# do the following ONCE AND COMMENT
+py_install("nbclient")
+py_install("requests")
+py_install("pandas")
+py_install("nbformat")
+py_install("plotly")
+```
+
+``` python
+#| echo: false
+import pandas
+import nbclient
+import requests
+import nbformat
+import plotly.express
+```
+
+```{python}
+#| echo: false
+import pandas
+import nbclient
+import requests
+import nbformat
+import plotly.express
+```
+
+## Import the data from Github to local.
+
+```{python}
+url = 'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'
+# HTTP GET request to the raw URL
+response = requests.get(url)
+# I am checking if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the JSON data from the response
+    data = response.json()
+    print('Success, the Json data was stored into the data variable')
+else:
+    print('Failed to fetch JSON data:', response.status_code)
+```
+
+## Parse json data into dictionary to manipulate data.
+
+```{python}
+training_data = []
+for example in data['examples']:
+  temp_dict = {}
+  temp_dict['text'] = example['content']
+  temp_dict['entities'] = []
+  for annotation in example['annotations']:
+    start = annotation['start']
+    end = annotation['end']
+    label = annotation['tag_name'].upper()
+    temp_dict['entities'].append((start, end, label))
+  training_data.append(temp_dict)
+```
+
+## Convert data from Dictionary to Dataframe
+
+```{python}
+import pandas as pd
+# I am initialing empty lists to store the data for the DataFrame
+texts = []
+starts = []
+ends = []
+labels = []
+
+# Iterate through the training_data to extract individual entity annotations
+for example in training_data:
+    text = example['text']
+    for entity in example['entities']:
+        start, end, label = entity
+        # Append data to the lists
+        texts.append(text)
+        starts.append(start)
+        ends.append(end)
+        labels.append(label)
+
+# Create a DataFrame from the lists
+df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
+df.head(5)
+```
+
+## Data as dataframe
+
+```{python}
+import pandas as pd
+# I am initialing empty lists to store the data for the DataFrame
+texts = []
+starts = []
+ends = []
+labels = []
+
+# Iterate through the training_data to extract individual entity annotations
+for example in training_data:
+    text = example['text']
+    for entity in example['entities']:
+        start, end, label = entity
+        # Append data to the lists
+        texts.append(text)
+        starts.append(start)
+        ends.append(end)
+        labels.append(label)
+
+# Create a DataFrame from the lists
+df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
+df.head(5)
+```
+
+## 3.3 Data statistics
+
+1.  The dataset contains 134 instances of 'Medical Condition', 94 instances of 'Medicine', and 67 instances of 'Pathogen'.
+
+```{python}
+import plotly.express as px
+
+# Count the occurrences of each label
+label_counts = df['label'].value_counts()
+
+# Create a DataFrame with labels and their respective counts
+df_counts = pd.DataFrame({'label': label_counts.index, 'count': label_counts.values})
+
+# Plot the frequency of each entity label using a bar plot in Plotly
+fig = px.bar(df_counts, x='label', y='count', text='count', color='label',
+             color_discrete_sequence=px.colors.qualitative.Plotly, title='Frequency of Entity Labels')
+
+fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+# Display the counter label inside the bars
+#fig.update_traces(textposition='inside')
+# Update axis titles
+#fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+#fig.show()
+```
+
+## This data provides an overview of label distribution.
+
+```{python}
+import plotly.express as px
+
+# Count the occurrences of each label
+label_counts = df['label'].value_counts()
+
+# Create a DataFrame with labels and their respective counts
+df_counts = pd.DataFrame({'label': label_counts.index, 'count': label_counts.values})
+
+# Plot the frequency of each entity label using a bar plot in Plotly
+fig = px.bar(df_counts, x='label', y='count', text='count', color='label',
+             color_discrete_sequence=px.colors.qualitative.Plotly, title='Frequency of Entity Labels')
+
+fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+# Display the counter label inside the bars
+#fig.update_traces(textposition='inside')
+# Update axis titles
+#fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+#fig.show()
+```
+
+## Data Statistics Continued
+
+2.  The chart below displays the distribution of biomedical Entity labels in the dataset. 'Medical Condition' is the most prevalent at 45.4%, followed by 'Medicine' at 31.9%, and 'Pathogen' at 22.7%. The chart provides insights into the dataset composition and label prevalence..
+
+```{python}
+import plotly.express as px
+
+# Get the counts of each unique label
+label_counts = df['label'].value_counts()
+# Plot a pie chart using Plotly
+fig = px.pie(label_counts, values=label_counts.values, names=label_counts.index, title='Proportion of Entity Labels', hole=0.3)
+fig.update_traces(textinfo='percent+label', textfont_size=12)
+#fig.show()
+```
+
+## Boxplot of Data
+
+```{python}
+
+import plotly.express as px
+
+# Create box plots for 'start' and 'end' columns using Plotly
+fig = px.box(df, y=['start', 'end'], points='all', title='Box Plots of Start and End Entity Positions')
+fig.update_layout(yaxis_title='Value', xaxis_title='Column')
+#fig.show()
+
+```

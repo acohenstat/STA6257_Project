@@ -1,14 +1,21 @@
 ---
-title: "NER - Deep Learning techniques. RNN and Transformer Model"
-bibliography: references.bib
+title: "NER using RNNs and Transformer Models"
+author: "Sara Ericson, Andrew Campbell, Jorge Sanchez"
+date: '`r Sys.Date()`'
 format:
   html:
-    embed-resources: true
+    code-fold: true
+course: STA 6257 - Advance Statistical Modeling
+bibliography: references.bib # file contains bibtex for references
+#always_allow_html: true # this allows to get PDF with HTML features
 ---
+
+## Slides
+[Presentation](slides.html "See presentation"){target="_blank"}
 
 # 1. Introduction
 
-Named Entity Recognition (NER) is a crucial task in Natural Language Processing (NLP) that involves identifying and extracting named entities from unstructured text. NER presents challenges due to the inherent complexity and ambiguity of natural language. Still, it is essential for various NLP applications, including information retrieval, question answering, and machine translation. Deep learning techniques have demonstrated exceptional performance in NER tasks in recent years. Deep learning, a subfield of machine learning, uses artificial neural networks to learn from data and make predictions.
+Named Entity Recognition (NER) is a crucial task in Natural Language Processing (NLP) that involves identifying and extracting named entities from unstructured text. NER presents challenges due to the inherent complexity and ambiguity of natural language. Still, it is essential for various NLP applications, including information retrieval, question answering, and machine translation. Biomedical NER is the task of text mining to specifically biomedical texts to determine entity types [@xiong2021Improving]. Similarly, medical NER tasks usually find the boundaries of mentions from medical texts [@Zhao_Liu_Zhao_Wang_2019]. Deep learning techniques have demonstrated exceptional performance in NER tasks in recent years. Deep learning, a subfield of machine learning, uses artificial neural networks to learn from data and make predictions. 
 
 The Transformer model, introduced in 2017, has become a fundamental architecture in modern NLP and is widely used for NER tasks. It is known for its self-attention mechanism, which allows the model to weigh the importance of each word in the input sequence. Additionally, other deep learning architectures such as Recurrent Neural Networks (RNNs), Convolutional Neural Networks (CNNs), and Bidirectional Encoder Representations from Transformers (BERT) have been successfully applied to NER.
 
@@ -16,27 +23,90 @@ In this literature review, we will explore and compare the effectiveness of RNNs
 
 ## 1.1 Recurrent Neural Networks (RNN)
 
-A Recurrent Neural Network (RNN) is a method of deep learning that uses sequential data or time-series data. They are often used in ordinal problems, where the output is not continues but it is discrete and ordered, and temporal problems, where data is collected over time and the order of the observations is important. These problems include speech recognition, language translation, and natural language processing (nlp). RNNs make use of training data by taking prior inputs and using them to influence current inputs and outputs. Utilizing prior inputs in this way is what creates the RNN's memory. This is something that distinguishes RNNs from other deep learning methods. RNNs are also distinguished by the sharing of parameters across each layer in the network. A popular type of RNN architecture known as Long Short-Term Memory (LSTM) has been used in named entity recognition. LSTMs have individual units in the hidden layers of a neural network, each of which has three gates. These include an input gate that controls the input information that goes into a memory cell. A forget gate that controls the amount of historical information that passes through from the previous state, and an output gate that controls the amount of information that is passed on to the next step. RNNs allow information to persist across multiple steps which enable the network to capture dependencies and context. The architecture and abilities of RNNs allow it to be a useful tool in NER that has been proven to perform better than previous NER systems.
+A Recurrent Neural Network (RNN) is a method of deep learning that is useful for sequential data and time-series data. RNNs are often used in ordinal problems, where the output is discrete and ordered, as well as temporal problems, in which the time that data is collected is important. These problems include speech recognition, language translation, and natural language processing (NLP). RNNs are similar to other neural networks, but they have some distinct differences. Other neural network models can be used for medical text mining, however, RNNs have been shown to be one of the most effective models. This model has some drawbacks, but they can be mitigated with the use of Long Short-Term Memory (LSTM) cells in the hidden layers of the neural network [@Wu_Jiang_Xu_Zhi_Xu2018ClinicalNER]. RNNs have the ability to allow information to persist across multiple steps which enables the network to capture dependencies and context. This is a feature that makes it ideal for NER in which the context is very important. The specifics of a recurrent neural network will be discussed later
 
 ## 1.2 Transformer Model
 
-The Transformer model is a groundbreaking neural network architecture introduced in the paper "Attention Is All You Need" [@vaswani2017attention] . ​The model is designed for sequence-to-sequence tasks, such as machine translation, and is known for its ability to process input sequences in parallel rather than sequentially. This parallel processing makes the Transformer model highly efficient and scalable. One of the key innovations of the Transformer model is the self-attention mechanism. Self-attention allows the model to weigh the importance of different words in the input sequence relative to each other when making predictions. The model uses multi-head attention, which means it can simultaneously attend to various input aspects. This ability to capture complex dependencies and relationships between words contributes to the model's strong performance. The Transformer architecture consists of an encoder and decoder, each composed of multiple layers of self-attention and feed forward neural networks. The encoder processes the input sequence while the decoder generates the output sequence. The connections between the encoder and decoder are facilitated by attention mechanisms that allow the decoder to focus on different parts of the input sequence as it generates the output. Given its effectiveness and efficiency in handling sequence data, the Transformer model has become the foundation for many subsequent natural language processing (NLP) models and architectures.
+The Transformer model is a groundbreaking neural network architecture introduced in the paper "Attention Is All You Need" [@vaswani2017attention]. ​The model is designed for sequence-to-sequence tasks, such as machine translation, and is known for its ability to process input sequences in parallel rather than sequentially. This parallel processing makes the Transformer model highly efficient and scalable. One of the key innovations of the Transformer model is the self-attention mechanism. Self-attention allows the model to weigh the importance of different words in the input sequence relative to each other when making predictions. The model uses multi-head attention, which means it can simultaneously attend to various input aspects. This ability to capture complex dependencies and relationships between words contributes to the model's strong performance. The Transformer architecture consists of an encoder and decoder, each composed of multiple layers of self-attention and feed forward neural networks. The encoder processes the input sequence while the decoder generates the output sequence. The connections between the encoder and decoder are facilitated by attention mechanisms that allow the decoder to focus on different parts of the input sequence as it generates the output. Given its effectiveness and efficiency in handling sequence data, the Transformer model has become the foundation for many subsequent natural language processing (NLP) models and architectures.
 
 ## 1.3 Limitations
 
-***\[In progress - Pending RNN Method\]***
+A major limitation of current techniques is that the standard language models are unidirectional, and thus limit the choice of architecture that can be used for pre-training [@devlin2019bert].
 
-Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers' ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers [@keles2022computational] .
+
+Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high
+computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers' ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers.[@keles2022computational]
 
 # **2 Methods**
 
-***\[In progress - Pending RNN Method\]***
-
 ## 2.1 RNN
+
+A neural network has three layers. An input layer, a hidden layer, and an output layer. A recurrent neural network (RNN) also has three layers, but with the addition of a recurrent component that takes the output from a previous iteration and includes it in the current iteration. This is what makes RNNs useful for sequential and temporal data. Basic neural networks are optimized using back propagation which involves finding the gradient of a parameter and then using a gradient descent algorithm to find values that minimize a loss function (such as error). 
+
+Example of Loss function (Mean Squared Error)\
+\
+ $\text{L(𝜽)} = (1/N) * ∑(y_i - y_i^*)^2$\
+ 
+Gradient Descent Algorithm\
+\
+ $\text{𝜽}_j =𝜽_j - 𝛼 (∂J(𝜽) / ∂𝜽_j)$\
+
+N : number of vector entires with yi in output vector
+
+yi : predicted value
+
+yi* : actual value
+
+𝛼 : learning rate
+
+𝜽j : input
+
+This will cause the weight parameters to be updated. When a large amount of data is used this can cause the weights to increase or decrease dramatically creating a problem known as vanishing or exploding gradients. When this occurs the weights will either be extremely close to zero or extremely large, which may be represented by a NaN value. An example when large amounts of data may be used is NER in which the context of previous words and characters is relevant. To mitigate an exploding or vanishing gradient long short-term memory (LSTM) cells may be used within the hidden layer. LSTM cells make use of three gates. An input gate, a forget gate, and an output gate. These gates use a sigmoid function which outputs a value between zero and one. Zero blocks all information and one allows all information through. The input gate determines which information is stored in the cell. The forget gate determines which information will be discarded. The output gate provides the activation for the final output. The sigmoid function is given below along with a general equation for the gates. When using LSTMs the weights and biases are the same among every iteration. This is so the RNN model can be applied to data of varying lengths.[@Cho2019BiomedNER]
+
+Sigmoid\
+\
+ $\text{f(x)} = {1/(1+e^{-x})}$\
+
+General gate equation\
+\
+ $\text{g}_i = 𝝈(w[h_{i-1}, x_i] + b)$\
+ 
+x : input
+
+𝝈 : sigmoid function
+
+w : weight
+
+h : information of i-th iteration 
+
+b : bias
+
+LSTMs have a cell state that is the result of the gates and a few other calculations. This state is what provides the cell with its “memory” which is very useful in NER when the memory of what was written or previously said can determine what should come next in a sentence. The other equations used besides sigmoid are shown below.
+
+Possible cell state at i-th iteration\
+\
+ $\text{c}_i^*=tanh(w[h_{i-1}, x_i] + b)$\
+ 
+Cell state\
+\
+ $\text{c}_i = (forget gate * c_{i-1}) + (input gate * c_i^* )$\
+ 
+Output\
+\
+ $\text{h}_i = (output gate * tanh(c_i))$\
+
+tanh\
+\
+ $\text{f(x)} = (e^x - e^{-x})/(e^x + e^{-x})$\
+ 
+tanh : activation function
+
+These equations determine which information is passed through the cell and the ultimate state of the cell at the present iteration. The type of RNN used in NER is many-to-many RNN. This type of RNN uses each word as an input to build the state (the context) of the model. This is what can be subsequently used in making predictions.
 
 ## 2.2 Transformer Model
 
-The Transformers model has a unique feature called the 'attention mechanism.' It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next word in 'I have a pet \_\_\_,' the attention mechanism considers the context (the word 'pet') to make a better guess, like 'dog' or 'cat.' It's like the model knows which words deserve extra attention! ! Let's look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula [@phuong2022formal].
+The Transformers model has a unique feature called the 'attention mechanism.' It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next
+word in 'I have a pet \_\_\_,' the attention mechanism considers the context (the word 'pet') to make a better guess, like 'dog' or 'cat.' It's like the model knows which words deserve extra attention! ! Let's look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula [@phuong2022formal].
 
 1.  Scaled Dot-Product Attention formula\
     \
@@ -56,7 +126,8 @@ The Transformers model has a unique feature called the 'attention mechanism.' It
 
     In this formula, the attention mechanism allows a model to "pay attention" to specific parts of input data. The attention scores are calculated using queries (Q) and keys (K). The scores are normalized using Softmax , producing attention weights. The output is a weighted sum of value vectors (V), where the weights represent the importance of each value for each query. This mechanism is popular in tasks like machine translation to focus on relevant words.
 
-2.  The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+2.  The Single (Masked) Self- or Cross-Attention Head Formula
+    $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
 
 **Key Components:**
 
@@ -78,12 +149,12 @@ In this formula, the attention uses queries (Q) and keys (K) to calculate attent
 
 ## 3.1 Dataset Description
 
-I will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. The dataset was manually tagged for training. I will use the Transformer model to apply the NER using python programming language. The dataset contains 31 observations and 4 attributes properly explained in the data definition.
+We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. Similarly to the dataset used in [@xiong2021Improving], the dataset was manually tagged for training. We will use the Transformer model and the RNN model to apply the NER using python programming language. The dataset contains 31 observations and 4 attributes properly explained in the data definition.
 
 **Data Definition**
 
 | Column Name | Type    | Description                                         |
-|-------------------|-------------------|----------------------------------|
+|------------------|------------------|------------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
@@ -96,35 +167,46 @@ I will use the dataset called corona2 from Kaggle to identify Natural Entity Rec
 
 ## 
 
+
 ## 3.2 Data Preparation
 
-The following python code will load the required libraries
+The following python code will load the required libraries:
 
-•	***nbclient***: Executes Jupyter notebooks programmatically.
 
-•	***requests***: Sends HTTP requests and interacts with RESTful APIs in Python.
+-  **nbclient** : Executes Jupyter notebooks programmatically
+    
+-  **requests** : Sends HTTP requests and interacts with RESTful APIs in Python
+   
+-  **pandas** : Manipulates and analyzes tabular data using DataFrame and Series
+    
+-  **nbformat** : Reads, writes, and manipulates Jupyter Notebook files
+    
+-   **plotly.express** : Creates interactive data visualizations with a simple interface
+    
+    
+```{r}
+library(reticulate)
+# do the following ONCE AND COMMENT
+py_install("nbclient")
+py_install("requests")
+py_install("pandas")
+py_install("nbformat")
+py_install("plotly")
+```
 
-•	***Pandas***: Manipulates and analyzes tabular data using DataFrame and Series.
-
-•	***nbformat***: Reads, writes, and manipulates Jupyter Notebook files.
-
-•	***plotly.express***: Creates interactive data visualizations with a simple interface.
 
 ```{python}
-!pip install -q nbclient
-!pip install -q requests
-!pip install -q pandas
-!pip install -q nbformat
-!pip install -q plotly.express
+#| echo: false
+import pandas
+import nbclient
+import requests
+import nbformat
+import plotly.express
 ```
 
 Import the data from Github to local.
 
 ```{python}
-
-import requests
-
-# Accessing the JSON file from GitHub
 url = 'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'
 # HTTP GET request to the raw URL
 response = requests.get(url)
@@ -135,8 +217,8 @@ if response.status_code == 200:
     print('Success, the Json data was stored into the data variable')
 else:
     print('Failed to fetch JSON data:', response.status_code)
-
 ```
+
 
 Parse json data into dictionary to manipulate data.
 
@@ -200,13 +282,14 @@ df_counts = pd.DataFrame({'label': label_counts.index, 'count': label_counts.val
 fig = px.bar(df_counts, x='label', y='count', text='count', color='label',
              color_discrete_sequence=px.colors.qualitative.Plotly, title='Frequency of Entity Labels')
 
-# Display the counter label inside the bars
-fig.update_traces(textposition='inside')
-
-# Update axis titles
 fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
 
-fig.show()
+# Display the counter label inside the bars
+#fig.update_traces(textposition='inside')
+# Update axis titles
+#fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+#fig.show()
 
 ```
 
@@ -221,7 +304,7 @@ label_counts = df['label'].value_counts()
 # Plot a pie chart using Plotly
 fig = px.pie(label_counts, values=label_counts.values, names=label_counts.index, title='Proportion of Entity Labels', hole=0.3)
 fig.update_traces(textinfo='percent+label', textfont_size=12)
-fig.show()
+#fig.show()
 
 ```
 
@@ -234,7 +317,7 @@ import plotly.express as px
 # Plot a histogram of entity start positions using Plotly
 fig = px.histogram(df, x='start', nbins=30, title='Histogram of Entity Start Positions')
 fig.update_layout(xaxis_title='Entity Start Position', yaxis_title='Frequency')
-fig.show()
+#fig.show()
 ```
 
 4.  The box plot below shows the start and end positions of entity labels, with the majority located below the five hundredth position.
@@ -246,13 +329,15 @@ import plotly.express as px
 # Create box plots for 'start' and 'end' columns using Plotly
 fig = px.box(df, y=['start', 'end'], points='all', title='Box Plots of Start and End Entity Positions')
 fig.update_layout(yaxis_title='Value', xaxis_title='Column')
-fig.show()
+#fig.show()
 
 ```
 
+
 # **4 Transformer Model Results**
 
-***\[In Progress\]***
+***\[Pending\]***
+
 
 Loading Required Libraries for training
 
@@ -340,11 +425,70 @@ for example in training_data:
 df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
 df
 ```
+The Transformer model needed to be deployed in a Google Colab Repo because our computers did not have the power to train the transformer model when running out of a CPU. We get the following results which are good besides the eval_loss with over 31%. The hyperparameters were modified by increasing the epochs from 3 to 5 and 5 to 10, but the loss decreased to 25%. Precision and accuracy did not improve. The best approach to reduce the loss is to get more data. We could not find the more annotated dataset for NER in health. In Google Colab, a Hardware accelerator (GPU) was used to increase the training speed, and it worked. The link for further review is provided [Google Colab Code](https://colab.research.google.com/drive/1qKpXd2sP-Iesi76W-232hVUPkl9zvl5s?usp=sharing)
 
-# **5 Recurrent Neural Networks Results**
+{'eval_loss': 0.3150147497653961, 'eval_precision': 0.9375, 'eval_recall': 1.0, 'eval_f1': 0.967741935483871, 'eval_accuracy': 0.9375, 'eval_runtime': 9.0895, 'eval_samples_per_second': 0.77, 'eval_steps_per_second': 0.11, 'epoch': 3.0}
 
-***\[Pending\]***
+# **5 Recurrent Neural Networks Results **
 
-# 6 **Conclusion**
 
-Named Entity Recognition (NER) is a key NLP task that involves identifying named entities in text. Deep learning techniques, such as Recurrent Neural Networks (RNNs) and the Transformer model, are effective in NER tasks. RNNs, including LSTMs, excel at processing sequences and capturing context, while the Transformer model is known for its self-attention mechanism and efficient parallel processing. Both architectures contribute to advancing NER, and the choice between them depends on the specific NLP problem. As deep learning research progresses, we anticipate further advancements in NER performance using these techniques.
+
+Load required libraries for the RNN.
+
+```{python}
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.layers import LSTM, Dense, Dropout, TimeDistributed, Bidirectional
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.utils import to_categorical
+```
+
+Using the dataframe created from the transformer model a vocabulary of words and labels was created and then converted into indices. The sequences are then padded to a maximum length and then converted to one-hot encoded vectors. A one-hot encoded vector is a binary vector in which the label is encoded as 1 and everything else that is not the label is encoded as 0. This is necessary to train the model with tensorflow and recurrent neural networks.  
+```{python}
+words = set(df['text'].values)
+word2idx = {w: i + 2 for i, w in enumerate(words)}
+word2idx['PAD'] = 0
+word2idx['UNK'] = 1
+
+tags = set(df['label'].values)
+tag2idx = {t: i + 1 for i, t in enumerate(tags)}
+tag2idx['PAD'] = 0
+
+X = [[word2idx.get(w, 1) for w in sentence.split()] for sentence in df['text'].values]
+y = [[tag2idx[t] for t in sentence.split()] for sentence in df['label'].values]
+
+maxlen = max(len(x) for x in X)
+X = pad_sequences(X, padding='post', maxlen=maxlen)
+y = pad_sequences(y, padding='post', maxlen=maxlen)
+y = to_categorical(y, num_classes=len(tag2idx))
+```
+
+After the data is manipulated the RNN model is created and compiled with the use of tensorflow.
+```{python}
+model = tf.keras.Sequential([
+    tf.keras.layers.Embedding(len(word2idx), 128),
+    tf.keras.layers.LSTM(128, return_sequences=True),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(len(tag2idx), activation='softmax'))
+])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+Lastly the model is fitted and the accuracy is calculated. 
+```{python}
+model.fit(X, y, batch_size=32, epochs=10, verbose=2)
+```
+
+Here the RNN model is shown to be very effective with an accuracy of 0.9967.
+
+# **6 Conclusion**
+
+***\[This is a working conclusion\]***
+
+Named Entity Recognition (NER) is a key NLP task that involves identifying named entities in text. With advances in deep learning and large availability of computational resources, methods based on deep learning have demonstrated obvious advantages over traditional methods and have become mainstream in the NER field [@liu2021Hybrid]. Deep learning techniques, such as Recurrent Neural Networks (RNNs) and the Transformer Model, are clearly effective in NER Tasks. RNNs, including LSTMs, excel at processing sequences and capturing context, while the Transformer model is known for its self-attention mechanism and efficient parallel processing. Both architectures contribute to advancing NER, and the choice between them depends on the specific NLP problem. In the NLP problem in this paper it can be seen that the RNN model has a higher accuracy than the transformer model, so the RNN model would be the preferred method to use in NER practices. This conclusion coicides with [@yadav2019survey], who agreed that neural network models generally outperform feature-engineered models. As deep learning research progresses, we anticipate further advancements in NER performance using these techniques. 
+
+
+## References
+[@raffel2020exploring]
+[@souza2020portuguese]
