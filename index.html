@@ -2,21 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.577">
+<meta name="generator" content="quarto-1.3.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Student name">
-<meta name="dcterms.date" content="2022-10-25">
+<meta name="author" content="Sara Ericson, Andrew Campbell, Jorge Sanchez">
+<meta name="dcterms.date" content="2023-04-25">
 
-<title>Report Sample</title>
+<title>NER using RNNs and Transformer Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -43,48 +49,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -98,8 +75,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
@@ -111,8 +87,9 @@ div.csl-indent {
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -125,7 +102,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Report Sample</h1>
+<h1 class="title">NER using RNNs and Transformer Models</h1>
 </div>
 
 
@@ -135,159 +112,694 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Student name </p>
+             <p>Sara Ericson, Andrew Campbell, Jorge Sanchez </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 25, 2022</p>
+      <p class="date">April 25, 2023</p>
     </div>
   </div>
+  
     
   </div>
   
 
 </header>
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Kernel regression is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric statistics. In kernel estimator, weight function is known as kernel function <span class="citation" data-cites="efr2008">(<a href="#ref-efr2008" role="doc-biblioref">Efromovich 2008</a>)</span>. Cite this paper <span class="citation" data-cites="bro2014principal">(<a href="#ref-bro2014principal" role="doc-biblioref">Bro and Smilde 2014</a>)</span>.</p>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p><a href="slides.html" target="_blank" title="See presentation">Presentation</a></p>
 </section>
-<section id="methods" class="level2">
-<h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>The common non-parametric regression model is <span class="math inline">\(Y_i = m(X_i) + \varepsilon_i\)</span>, where <span class="math inline">\(Y_i\)</span> can be defined as the sum of the regression function value <span class="math inline">\(m(x)\)</span> for <span class="math inline">\(X_i\)</span>. Here <span class="math inline">\(m(x)\)</span> is unknown and <span class="math inline">\(\varepsilon_i\)</span> some errors. With the help of this definition, we can create the estimation for local averaging i.e.&nbsp;<span class="math inline">\(m(x)\)</span> can be estimated with the product of <span class="math inline">\(Y_i\)</span> average and <span class="math inline">\(X_i\)</span> is near to <span class="math inline">\(x\)</span>. In other words, this means that we are discovering the line through the data points with the help of surrounding data points. The estimation formula is printed below <span class="citation" data-cites="R-base">(<a href="#ref-R-base" role="doc-biblioref">R Core Team 2019</a>)</span>:</p>
-<p><span class="math display">\[
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-\]</span></p>
-<p><span class="math inline">\(W_n(x)\)</span> is the sum of weights that belongs to all real numbers. Weights are positive numbers and small if <span class="math inline">\(X_i\)</span> is far from <span class="math inline">\(x\)</span>.</p>
+<section id="introduction" class="level1">
+<h1>1. Introduction</h1>
+<p>Named Entity Recognition (NER) is a crucial task in Natural Language Processing (NLP) that involves identifying and extracting named entities from unstructured text. NER presents challenges due to the inherent complexity and ambiguity of natural language. Still, it is essential for various NLP applications, including information retrieval, question answering, and machine translation. Biomedical NER is the task of text mining to specifically biomedical texts to determine entity types <span class="citation" data-cites="xiong2021Improving">(<a href="#ref-xiong2021Improving" role="doc-biblioref"><strong>xiong2021Improving?</strong></a>)</span>. Similarly, medical NER tasks usually find the boundaries of mentions from medical texts <span class="citation" data-cites="Zhao_Liu_Zhao_Wang_2019">(<a href="#ref-Zhao_Liu_Zhao_Wang_2019" role="doc-biblioref"><strong>Zhao_Liu_Zhao_Wang_2019?</strong></a>)</span>. Deep learning techniques have demonstrated exceptional performance in NER tasks in recent years. Deep learning, a subfield of machine learning, uses artificial neural networks to learn from data and make predictions.</p>
+<p>The Transformer model, introduced in 2017, has become a fundamental architecture in modern NLP and is widely used for NER tasks. It is known for its self-attention mechanism, which allows the model to weigh the importance of each word in the input sequence. Additionally, other deep learning architectures such as Recurrent Neural Networks (RNNs), Convolutional Neural Networks (CNNs), and Bidirectional Encoder Representations from Transformers (BERT) have been successfully applied to NER.</p>
+<p>In this literature review, we will explore and compare the effectiveness of RNNs and the Transformer model for Named Entity Recognition (NER) tasks.</p>
+<section id="recurrent-neural-networks-rnn" class="level2">
+<h2 class="anchored" data-anchor-id="recurrent-neural-networks-rnn">1.1 Recurrent Neural Networks (RNN)</h2>
+<p>A Recurrent Neural Network (RNN) is a method of deep learning that is useful for sequential data and time-series data. RNNs are often used in ordinal problems, where the output is discrete and ordered, as well as temporal problems, in which the time that data is collected is important. These problems include speech recognition, language translation, and natural language processing (NLP). RNNs are similar to other neural networks, but they have some distinct differences. Other neural network models can be used for medical text mining, however, RNNs have been shown to be one of the most effective models. This model has some drawbacks, but they can be mitigated with the use of Long Short-Term Memory (LSTM) cells in the hidden layers of the neural network <span class="citation" data-cites="Wu_Jiang_Xu_Zhi_Xu2018ClinicalNER">(<a href="#ref-Wu_Jiang_Xu_Zhi_Xu2018ClinicalNER" role="doc-biblioref"><strong>Wu_Jiang_Xu_Zhi_Xu2018ClinicalNER?</strong></a>)</span>. RNNs have the ability to allow information to persist across multiple steps which enables the network to capture dependencies and context. This is a feature that makes it ideal for NER in which the context is very important. The specifics of a recurrent neural network will be discussed later</p>
 </section>
-<section id="analysis-and-results" class="level2">
-<h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<section id="data-and-vizualisation" class="level3">
-<h3 class="anchored" data-anchor-id="data-and-vizualisation">Data and Vizualisation</h3>
-<p>A study was conducted to determine how…</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(murders))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
+<section id="transformer-model" class="level2">
+<h2 class="anchored" data-anchor-id="transformer-model">1.2 Transformer Model</h2>
+<p>The Transformer model is a groundbreaking neural network architecture introduced in the paper “Attention Is All You Need” <span class="citation" data-cites="vaswani2017attention">(<a href="#ref-vaswani2017attention" role="doc-biblioref">Vaswani et al. 2017</a>)</span>. ​The model is designed for sequence-to-sequence tasks, such as machine translation, and is known for its ability to process input sequences in parallel rather than sequentially. This parallel processing makes the Transformer model highly efficient and scalable. One of the key innovations of the Transformer model is the self-attention mechanism. Self-attention allows the model to weigh the importance of different words in the input sequence relative to each other when making predictions. The model uses multi-head attention, which means it can simultaneously attend to various input aspects. This ability to capture complex dependencies and relationships between words contributes to the model’s strong performance. The Transformer architecture consists of an encoder and decoder, each composed of multiple layers of self-attention and feed forward neural networks. The encoder processes the input sequence while the decoder generates the output sequence. The connections between the encoder and decoder are facilitated by attention mechanisms that allow the decoder to focus on different parts of the input sequence as it generates the output. Given its effectiveness and efficiency in handling sequence data, the Transformer model has become the foundation for many subsequent natural language processing (NLP) models and architectures.</p>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">1.3 Limitations</h2>
+<p>A major limitation of current techniques is that the standard language models are unidirectional, and thus limit the choice of architecture that can be used for pre-training <span class="citation" data-cites="devlin2019bert">(<a href="#ref-devlin2019bert" role="doc-biblioref"><strong>devlin2019bert?</strong></a>)</span>.</p>
+<p>Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers’ ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers.<span class="citation" data-cites="keles2022computational">(<a href="#ref-keles2022computational" role="doc-biblioref">Keles, Wijewardena, and Hegde 2022</a>)</span></p>
+</section>
+</section>
+<section id="methods" class="level1">
+<h1><strong>2 Methods</strong></h1>
+<section id="rnn" class="level2">
+<h2 class="anchored" data-anchor-id="rnn">2.1 RNN</h2>
+<p>A neural network has three layers. An input layer, a hidden layer, and an output layer. A recurrent neural network (RNN) also has three layers, but with the addition of a recurrent component that takes the output from a previous iteration and includes it in the current iteration. This is what makes RNNs useful for sequential and temporal data. Basic neural networks are optimized using back propagation which involves finding the gradient of a parameter and then using a gradient descent algorithm to find values that minimize a loss function (such as error).</p>
+<p>Example of Loss function (Mean Squared Error)<br>
+<br>
+<span class="math inline">\(\text{L(𝜽)} = (1/N) * ∑(y_i - y_i^*)^2\)</span><br>
+</p>
+<p>Gradient Descent Algorithm<br>
+<br>
+<span class="math inline">\(\text{𝜽}_j =𝜽_j - 𝛼 (∂J(𝜽) / ∂𝜽_j)\)</span><br>
+</p>
+<p>N : number of vector entires with yi in output vector</p>
+<p>yi : predicted value</p>
+<p>yi* : actual value</p>
+<p>𝛼 : learning rate</p>
+<p>𝜽j : input</p>
+<p>This will cause the weight parameters to be updated. When a large amount of data is used this can cause the weights to increase or decrease dramatically creating a problem known as vanishing or exploding gradients. When this occurs the weights will either be extremely close to zero or extremely large, which may be represented by a NaN value. An example when large amounts of data may be used is NER in which the context of previous words and characters is relevant. To mitigate an exploding or vanishing gradient long short-term memory (LSTM) cells may be used within the hidden layer. LSTM cells make use of three gates. An input gate, a forget gate, and an output gate. These gates use a sigmoid function which outputs a value between zero and one. Zero blocks all information and one allows all information through. The input gate determines which information is stored in the cell. The forget gate determines which information will be discarded. The output gate provides the activation for the final output. The sigmoid function is given below along with a general equation for the gates. When using LSTMs the weights and biases are the same among every iteration. This is so the RNN model can be applied to data of varying lengths.<span class="citation" data-cites="Cho2019BiomedNER">(<a href="#ref-Cho2019BiomedNER" role="doc-biblioref"><strong>Cho2019BiomedNER?</strong></a>)</span></p>
+<p>Sigmoid<br>
+<br>
+<span class="math inline">\(\text{f(x)} = {1/(1+e^{-x})}\)</span><br>
+</p>
+<p>General gate equation<br>
+<br>
+<span class="math inline">\(\text{g}_i = 𝝈(w[h_{i-1}, x_i] + b)\)</span><br>
+</p>
+<p>x : input</p>
+<p>𝝈 : sigmoid function</p>
+<p>w : weight</p>
+<p>h : information of i-th iteration</p>
+<p>b : bias</p>
+<p>LSTMs have a cell state that is the result of the gates and a few other calculations. This state is what provides the cell with its “memory” which is very useful in NER when the memory of what was written or previously said can determine what should come next in a sentence. The other equations used besides sigmoid are shown below.</p>
+<p>Possible cell state at i-th iteration<br>
+<br>
+<span class="math inline">\(\text{c}_i^*=tanh(w[h_{i-1}, x_i] + b)\)</span><br>
+</p>
+<p>Cell state<br>
+<br>
+<span class="math inline">\(\text{c}_i = (forget gate * c_{i-1}) + (input gate * c_i^* )\)</span><br>
+</p>
+<p>Output<br>
+<br>
+<span class="math inline">\(\text{h}_i = (output gate * tanh(c_i))\)</span><br>
+</p>
+<p>tanh<br>
+<br>
+<span class="math inline">\(\text{f(x)} = (e^x - e^{-x})/(e^x + e^{-x})\)</span><br>
+</p>
+<p>tanh : activation function</p>
+<p>These equations determine which information is passed through the cell and the ultimate state of the cell at the present iteration. The type of RNN used in NER is many-to-many RNN. This type of RNN uses each word as an input to build the state (the context) of the model. This is what can be subsequently used in making predictions.</p>
+</section>
+<section id="transformer-model-1" class="level2">
+<h2 class="anchored" data-anchor-id="transformer-model-1">2.2 Transformer Model</h2>
+<p>The Transformers model has a unique feature called the ‘attention mechanism.’ It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next word in ‘I have a pet ___,’ the attention mechanism considers the context (the word ‘pet’) to make a better guess, like ‘dog’ or ‘cat.’ It’s like the model knows which words deserve extra attention! ! Let’s look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula <span class="citation" data-cites="phuong2022formal">(<a href="#ref-phuong2022formal" role="doc-biblioref">Phuong and Hutter 2022</a>)</span>.</p>
+<ol type="1">
+<li><p>Scaled Dot-Product Attention formula<br>
+<br>
+<span class="math inline">\(\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V\)</span><br>
+</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li><p>Q: Query matrix (requests for information).</p></li>
+<li><p>K: Key matrix (used to calculate relevance).</p></li>
+<li><p>V: Value matrix (actual content to retrieve).</p></li>
+<li><p>d_k: Dimension of the query/key vectors.</p></li>
+<li><p>Softmax (...): Function to normalize attention scores.</p></li>
+</ul>
+<p>In this formula, the attention mechanism allows a model to “pay attention” to specific parts of input data. The attention scores are calculated using queries (Q) and keys (K). The scores are normalized using Softmax , producing attention weights. The output is a weighted sum of value vectors (V), where the weights represent the importance of each value for each query. This mechanism is popular in tasks like machine translation to focus on relevant words.</p></li>
+<li><p>The Single (Masked) Self- or Cross-Attention Head Formula <span class="math inline">\(\begin{align*}\text{Attention}(Q, K, V) &amp;= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}\)</span></p></li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li><p>Q: Query matrix (requests for information).</p></li>
+<li><p>K: Key matrix (used to calculate relevance).</p></li>
+<li><p>V: Value matrix (actual content to retrieve).</p></li>
+<li><p>d_k: Dimension of the query/key vectors.</p></li>
+<li><p>Mask: Matrix to prevent attention to specific tokens (e.g., future tokens).</p></li>
+<li><p>Softmax (...): Function to normalize attention scores.</p></li>
+</ul>
+<p>In this formula, the attention uses queries (Q) and keys (K) to calculate attention scores. An optional mask (Mask) is added to scores to prevent attending to specific tokens (e.g., in language modeling, future tokens are masked). Scores are normalized using Softmax, producing attention weights. The output is a weighted sum of value vectors (V), representing the importance of each value for each query. Masking is useful for sequence-to-sequence tasks and autoregressive models.</p>
+</section>
+</section>
+<section id="data-analysis-and-results" class="level1">
+<h1><strong>3 Data Analysis and Results</strong></h1>
+<section id="dataset-description" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-description">3.1 Dataset Description</h2>
+<p>We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. Similarly to the dataset used in <span class="citation" data-cites="xiong2021Improving">(<a href="#ref-xiong2021Improving" role="doc-biblioref"><strong>xiong2021Improving?</strong></a>)</span>, the dataset was manually tagged for training. We will use the Transformer model and the RNN model to apply the NER using python programming language. The dataset contains 31 observations and 4 attributes properly explained in the data definition.</p>
+<p><strong>Data Definition</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">state</th>
-<th style="text-align: left;">abb</th>
-<th style="text-align: left;">region</th>
-<th style="text-align: right;">population</th>
-<th style="text-align: right;">total</th>
+<th>Column Name</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Alabama</td>
-<td style="text-align: left;">AL</td>
-<td style="text-align: left;">South</td>
-<td style="text-align: right;">4779736</td>
-<td style="text-align: right;">135</td>
+<td>Text</td>
+<td>string</td>
+<td>Sentence including the labels</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Alaska</td>
-<td style="text-align: left;">AK</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">710231</td>
-<td style="text-align: right;">19</td>
+<td>Starts</td>
+<td>integer</td>
+<td>Position on where the label starts</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Arizona</td>
-<td style="text-align: left;">AZ</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">6392017</td>
-<td style="text-align: right;">232</td>
+<td>Ends</td>
+<td>integer</td>
+<td>Position on where the label ends</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Arkansas</td>
-<td style="text-align: left;">AR</td>
-<td style="text-align: left;">South</td>
-<td style="text-align: right;">2915918</td>
-<td style="text-align: right;">93</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">California</td>
-<td style="text-align: left;">CA</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">37253956</td>
-<td style="text-align: right;">1257</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Colorado</td>
-<td style="text-align: left;">CO</td>
-<td style="text-align: left;">West</td>
-<td style="text-align: right;">5029196</td>
-<td style="text-align: right;">65</td>
+<td>Labels</td>
+<td>string</td>
+<td>The label( Medical Condition, Medicine or Pathogen)</td>
 </tr>
 </tbody>
 </table>
+<ul>
+<li>Labels:
+<ul>
+<li>Medical condition names (example: influenza, headache, malaria)</li>
+<li>Medicine names (example : aspirin, penicillin, ribavirin, methotrexate)</li>
+<li>Pathogens ( example: Corona Virus, Zika Virus, cynobacteria, E. Coli)</li>
+</ul></li>
+</ul>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">3.2 Data Preparation</h2>
+<p>The following python code will load the required libraries:</p>
+<ul>
+<li><p><strong>nbclient</strong> : Executes Jupyter notebooks programmatically</p></li>
+<li><p><strong>requests</strong> : Sends HTTP requests and interacts with RESTful APIs in Python</p></li>
+<li><p><strong>pandas</strong> : Manipulates and analyzes tabular data using DataFrame and Series</p></li>
+<li><p><strong>nbformat</strong> : Reads, writes, and manipulates Jupyter Notebook files</p></li>
+<li><p><strong>plotly.express</strong> : Creates interactive data visualizations with a simple interface</p></li>
+</ul>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'reticulate' was built under R version 4.2.3</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ggplot1 <span class="ot">=</span> murders <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">y=</span>total)) </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ggplot1 <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>region), <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>abb)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> <span class="st">"y~x"</span>, <span class="at">method=</span>lm,<span class="at">se =</span> F)<span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Populations in millions (log10 scale)"</span>) <span class="sc">+</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Total number of murders (log10 scale)"</span>) <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"US Gun Murders in 2010"</span>) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"Region"</span>)<span class="sc">+</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_wsj</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do the following ONCE AND COMMENT</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">py_install</span>(<span class="st">"nbclient"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ "C:/Users/Jorge/AppData/Local/r-miniconda/condabin/conda.bat" "install" "--yes" "--name" "r-reticulate" "-c" "conda-forge" "nbclient"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_install</span>(<span class="st">"requests"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ "C:/Users/Jorge/AppData/Local/r-miniconda/condabin/conda.bat" "install" "--yes" "--name" "r-reticulate" "-c" "conda-forge" "requests"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_install</span>(<span class="st">"pandas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ "C:/Users/Jorge/AppData/Local/r-miniconda/condabin/conda.bat" "install" "--yes" "--name" "r-reticulate" "-c" "conda-forge" "pandas"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_install</span>(<span class="st">"nbformat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ "C:/Users/Jorge/AppData/Local/r-miniconda/condabin/conda.bat" "install" "--yes" "--name" "r-reticulate" "-c" "conda-forge" "nbformat"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_install</span>(<span class="st">"plotly"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>+ "C:/Users/Jorge/AppData/Local/r-miniconda/condabin/conda.bat" "install" "--yes" "--name" "r-reticulate" "-c" "conda-forge" "plotly"</code></pre>
+</div>
+</div>
+<p>Import the data from Github to local.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># HTTP GET request to the raw URL</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># I am checking if the request was successful (status code 200)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the JSON data from the response</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> response.json()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Success, the Json data was stored into the data variable'</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Failed to fetch JSON data:'</span>, response.status_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Success, the Json data was stored into the data variable</code></pre>
+</div>
+</div>
+<p>Parse json data into dictionary to manipulate data.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>training_data <span class="op">=</span> []</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> data[<span class="st">'examples'</span>]:</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  temp_dict <span class="op">=</span> {}</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  temp_dict[<span class="st">'text'</span>] <span class="op">=</span> example[<span class="st">'content'</span>]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  temp_dict[<span class="st">'entities'</span>] <span class="op">=</span> []</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> annotation <span class="kw">in</span> example[<span class="st">'annotations'</span>]:</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> annotation[<span class="st">'start'</span>]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> annotation[<span class="st">'end'</span>]</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> annotation[<span class="st">'tag_name'</span>].upper()</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    temp_dict[<span class="st">'entities'</span>].append((start, end, label))</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  training_data.append(temp_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Convert data from Dictionary to Dataframe. I am only showing the Text and Labels for each sentence</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># I am initialing empty lists to store the data for the DataFrame</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> []</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>starts <span class="op">=</span> []</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>ends <span class="op">=</span> []</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> []</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through the training_data to extract individual entity annotations</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> training_data:</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> example[<span class="st">'text'</span>]</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> entity <span class="kw">in</span> example[<span class="st">'entities'</span>]:</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        start, end, label <span class="op">=</span> entity</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append data to the lists</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        texts.append(text)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        starts.append(start)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        ends.append(end)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        labels.append(label)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from the lists</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'text'</span>: texts, <span class="st">'start'</span>: starts, <span class="st">'end'</span>: ends, <span class="st">'label'</span>: labels})</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                text  ...             label
+0  While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+1  While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+2  While bismuth compounds (Pepto-Bismol) decreas...  ...  MEDICALCONDITION
+3  While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+4  While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+
+[5 rows x 4 columns]</code></pre>
+</div>
+</div>
+</section>
+<section id="data-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="data-statistics">3.3 Data statistics</h2>
+<ol type="1">
+<li>Our analysis begins with examining the frequency of each label in the dataset. The dataset contains 134 instances of ‘Medical Condition’, 94 instances of ‘Medicine’, and 67 instances of ‘Pathogen’. This data provides an overview of label distribution.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the occurrences of each label</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>label_counts <span class="op">=</span> df[<span class="st">'label'</span>].value_counts()</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame with labels and their respective counts</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>df_counts <span class="op">=</span> pd.DataFrame({<span class="st">'label'</span>: label_counts.index, <span class="st">'count'</span>: label_counts.values})</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the frequency of each entity label using a bar plot in Plotly</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(df_counts, x<span class="op">=</span><span class="st">'label'</span>, y<span class="op">=</span><span class="st">'count'</span>, text<span class="op">=</span><span class="st">'count'</span>, color<span class="op">=</span><span class="st">'label'</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>             color_discrete_sequence<span class="op">=</span>px.colors.qualitative.Plotly, title<span class="op">=</span><span class="st">'Frequency of Entity Labels'</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>fig.update_layout(xaxis_title<span class="op">=</span><span class="st">'Entity Label'</span>, yaxis_title<span class="op">=</span><span class="st">'Frequency'</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the counter label inside the bars</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.update_traces(textposition='inside')</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Update axis titles</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="statistical-modeling" class="level3">
-<h3 class="anchored" data-anchor-id="statistical-modeling">Statistical Modeling</h3>
-</section>
-<section id="conlusion" class="level3">
-<h3 class="anchored" data-anchor-id="conlusion">Conlusion</h3>
-</section>
-</section>
-<section id="references" class="level2 unnumbered">
 
+<div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>                <div id="5267fe9e-b5a1-46ef-8f95-8ef8db9e403d" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("5267fe9e-b5a1-46ef-8f95-8ef8db9e403d")) {                    Plotly.newPlot(                        "5267fe9e-b5a1-46ef-8f95-8ef8db9e403d",                        [{"alignmentgroup":"True","hovertemplate":"label=%{x}<br>count=%{text}<extra></extra>","legendgroup":"MEDICALCONDITION","marker":{"color":"#636EFA","pattern":{"shape":""}},"name":"MEDICALCONDITION","offsetgroup":"MEDICALCONDITION","orientation":"v","showlegend":true,"text":[134.0],"textposition":"auto","x":["MEDICALCONDITION"],"xaxis":"x","y":[134],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"label=%{x}<br>count=%{text}<extra></extra>","legendgroup":"MEDICINE","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"MEDICINE","offsetgroup":"MEDICINE","orientation":"v","showlegend":true,"text":[94.0],"textposition":"auto","x":["MEDICINE"],"xaxis":"x","y":[94],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"label=%{x}<br>count=%{text}<extra></extra>","legendgroup":"PATHOGEN","marker":{"color":"#00CC96","pattern":{"shape":""}},"name":"PATHOGEN","offsetgroup":"PATHOGEN","orientation":"v","showlegend":true,"text":[67.0],"textposition":"auto","x":["PATHOGEN"],"xaxis":"x","y":[67],"yaxis":"y","type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Entity Label"},"categoryorder":"array","categoryarray":["MEDICALCONDITION","MEDICINE","PATHOGEN"]},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Frequency"}},"legend":{"title":{"text":"label"},"tracegroupgap":0},"title":{"text":"Frequency of Entity Labels"},"barmode":"relative"},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>The chart below displays the distribution of biomedical Entity labels in the dataset. ‘Medical Condition’ is the most prevalent at 45.4%, followed by ‘Medicine’ at 31.9%, and ‘Pathogen’ at 22.7%. The chart provides insights into the dataset composition and label prevalence..</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the counts of each unique label</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>label_counts <span class="op">=</span> df[<span class="st">'label'</span>].value_counts()</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a pie chart using Plotly</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.pie(label_counts, values<span class="op">=</span>label_counts.values, names<span class="op">=</span>label_counts.index, title<span class="op">=</span><span class="st">'Proportion of Entity Labels'</span>, hole<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>fig.update_traces(textinfo<span class="op">=</span><span class="st">'percent+label'</span>, textfont_size<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>                <div id="3d10e534-a3aa-4681-93b8-791edc27da22" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("3d10e534-a3aa-4681-93b8-791edc27da22")) {                    Plotly.newPlot(                        "3d10e534-a3aa-4681-93b8-791edc27da22",                        [{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"hole":0.3,"hovertemplate":"label=%{label}<br>value=%{value}<extra></extra>","labels":["MEDICALCONDITION","MEDICINE","PATHOGEN"],"legendgroup":"","name":"","showlegend":true,"values":[134,94,67],"type":"pie","textfont":{"size":12},"textinfo":"percent+label"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"legend":{"tracegroupgap":0},"title":{"text":"Proportion of Entity Labels"}},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>The histogram below visualizes the start positions of entity labels in the text. It reveals that most entities occur within the first five hundred words.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a histogram of entity start positions using Plotly</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.histogram(df, x<span class="op">=</span><span class="st">'start'</span>, nbins<span class="op">=</span><span class="dv">30</span>, title<span class="op">=</span><span class="st">'Histogram of Entity Start Positions'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>fig.update_layout(xaxis_title<span class="op">=</span><span class="st">'Entity Start Position'</span>, yaxis_title<span class="op">=</span><span class="st">'Frequency'</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>                <div id="33eb574b-2931-4f1c-9830-b738d949553b" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("33eb574b-2931-4f1c-9830-b738d949553b")) {                    Plotly.newPlot(                        "33eb574b-2931-4f1c-9830-b738d949553b",                        [{"alignmentgroup":"True","bingroup":"x","hovertemplate":"start=%{x}<br>count=%{y}<extra></extra>","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","nbinsx":30,"offsetgroup":"","orientation":"v","showlegend":false,"x":[360,383,104,679,6,25,461,577,853,188,754,870,823,852,461,535,692,563,364,0,94,178,221,23,409,386,0,24,120,211,52,234,148,1211,38,356,939,1638,1212,262,60,718,227,678,197,1372,856,159,130,262,561,108,1670,80,1610,453,797,595,46,823,1124,1630,579,1358,1618,504,144,1390,81,211,280,401,378,473,255,0,394,227,95,35,162,165,384,1269,1343,977,1027,35,240,70,453,240,360,319,378,271,0,1305,33,897,1799,1549,658,226,1422,1367,921,1864,1394,286,357,467,254,1623,910,1809,1881,1573,1843,33,1921,1683,1623,132,331,1215,285,736,116,155,126,70,139,106,91,81,58,327,514,513,433,452,276,523,564,433,538,345,65,550,524,89,423,659,436,673,30,454,647,87,542,532,30,561,623,471,632,542,648,379,152,411,392,176,158,95,187,147,140,384,1098,1687,49,1173,1702,781,1563,48,603,1675,1613,369,1291,1546,1394,835,1106,1391,455,1391,584,88,335,52,118,33,46,82,33,104,523,138,155,299,446,279,279,134,753,337,445,456,471,419,365,707,181,456,518,154,708,463,77,88,187,610,239,55,531,416,379,352,139,0,88,0,203,258,181,51,0,38,274,11,302,301,380,170,0,267,248,0,43,145,0,176,64,191,639,35,712,20,128,48,101,112,112,48,88,191,0,845,756,468,227,845,237,777,855,215,652,455,251,455,78],"xaxis":"x","yaxis":"y","type":"histogram"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Entity Start Position"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Frequency"}},"legend":{"tracegroupgap":0},"title":{"text":"Histogram of Entity Start Positions"},"barmode":"relative"},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+</div>
+<ol start="4" type="1">
+<li>The box plot below shows the start and end positions of entity labels, with the majority located below the five hundredth position.</li>
+</ol>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create box plots for 'start' and 'end' columns using Plotly</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(df, y<span class="op">=</span>[<span class="st">'start'</span>, <span class="st">'end'</span>], points<span class="op">=</span><span class="st">'all'</span>, title<span class="op">=</span><span class="st">'Box Plots of Start and End Entity Positions'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>fig.update_layout(yaxis_title<span class="op">=</span><span class="st">'Value'</span>, xaxis_title<span class="op">=</span><span class="st">'Column'</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>                <div id="53d47fe7-29c8-43ae-b179-6349a664226c" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("53d47fe7-29c8-43ae-b179-6349a664226c")) {                    Plotly.newPlot(                        "53d47fe7-29c8-43ae-b179-6349a664226c",                        [{"alignmentgroup":"True","boxpoints":"all","hovertemplate":"variable=%{x}<br>value=%{y}<extra></extra>","legendgroup":"","marker":{"color":"#636efa"},"name":"","notched":false,"offsetgroup":"","orientation":"v","showlegend":false,"x":["start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","start","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end","end"],"x0":" ","xaxis":"x","y":[360,383,104,679,6,25,461,577,853,188,754,870,823,852,461,535,692,563,364,0,94,178,221,23,409,386,0,24,120,211,52,234,148,1211,38,356,939,1638,1212,262,60,718,227,678,197,1372,856,159,130,262,561,108,1670,80,1610,453,797,595,46,823,1124,1630,579,1358,1618,504,144,1390,81,211,280,401,378,473,255,0,394,227,95,35,162,165,384,1269,1343,977,1027,35,240,70,453,240,360,319,378,271,0,1305,33,897,1799,1549,658,226,1422,1367,921,1864,1394,286,357,467,254,1623,910,1809,1881,1573,1843,33,1921,1683,1623,132,331,1215,285,736,116,155,126,70,139,106,91,81,58,327,514,513,433,452,276,523,564,433,538,345,65,550,524,89,423,659,436,673,30,454,647,87,542,532,30,561,623,471,632,542,648,379,152,411,392,176,158,95,187,147,140,384,1098,1687,49,1173,1702,781,1563,48,603,1675,1613,369,1291,1546,1394,835,1106,1391,455,1391,584,88,335,52,118,33,46,82,33,104,523,138,155,299,446,279,279,134,753,337,445,456,471,419,365,707,181,456,518,154,708,463,77,88,187,610,239,55,531,416,379,352,139,0,88,0,203,258,181,51,0,38,274,11,302,301,380,170,0,267,248,0,43,145,0,176,64,191,639,35,712,20,128,48,101,112,112,48,88,191,0,845,756,468,227,845,237,777,855,215,652,455,251,455,78,371,408,112,689,23,37,470,589,865,198,762,880,833,853,469,543,704,571,382,8,116,189,232,32,435,401,22,27,123,214,55,237,151,1589,44,374,950,1639,1588,269,78,731,248,690,206,1385,867,169,142,268,574,128,1680,106,1616,465,817,606,58,844,1136,1644,590,1370,1626,516,154,1408,106,222,291,413,396,490,263,12,406,239,110,41,168,167,396,1281,1347,983,1032,68,252,74,457,251,376,323,386,282,19,1319,42,905,1807,1559,679,244,1432,1388,946,1879,1416,300,379,486,269,1635,919,1827,1907,1585,1855,41,1951,1693,1636,144,351,1226,306,752,124,170,137,79,149,114,104,89,68,340,521,522,447,462,285,536,571,446,548,356,77,558,536,115,431,667,449,689,38,465,657,106,554,540,39,571,630,490,645,555,667,390,167,422,405,196,167,119,193,156,145,395,1112,1697,72,1178,1713,792,1573,72,613,1685,1629,379,1301,1558,1402,848,1112,1392,467,1402,597,98,346,63,129,42,54,91,43,114,541,148,170,313,462,283,282,161,773,361,467,466,479,441,383,722,201,467,536,165,729,476,86,98,202,620,258,65,534,427,390,364,149,13,109,14,229,279,201,73,10,46,279,21,312,312,390,175,9,288,261,13,59,167,14,189,82,212,648,46,725,30,137,58,110,123,124,57,99,202,9,852,775,476,235,851,245,793,868,225,663,464,264,463,93],"y0":" ","yaxis":"y","type":"box"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Column"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Value"}},"legend":{"tracegroupgap":0},"title":{"text":"Box Plots of Start and End Entity Positions"},"boxmode":"group"},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+</div>
+</section>
+</section>
+<section id="transformer-model-results" class="level1">
+<h1><strong>4 Transformer Model Results</strong></h1>
+<p><strong><em>[Pending]</em></strong></p>
+<p>Loading Required Libraries for training</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install transformers</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install torch</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The following code will retrieve the hosted Json dataset from my Github repositoy</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting the raw Json data from GitHub URL. I am hosting the dataset in my own repository</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># HTTP GET request to the raw URL</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the request was successful (status code 200)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the JSON data from the response</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> response.json()</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'We retrieved the Json data successfully'</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Failed to fetch JSON data:'</span>, response.status_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>We retrieved the Json data successfully</code></pre>
+</div>
+</div>
+<p>The following code block formats the raw data into a structure suitable for training a NER model. The raw data contains multiple examples, each with text content and annotations. The annotations include the start and end positions of entities and their corresponding labels. The output is a list of dictionaries, each representing an example containing the text and a list of entities with their positions and labels.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>training_data <span class="op">=</span> []</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> data[<span class="st">'examples'</span>]:</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  temp_dict <span class="op">=</span> {}</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  temp_dict[<span class="st">'text'</span>] <span class="op">=</span> example[<span class="st">'content'</span>]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  temp_dict[<span class="st">'entities'</span>] <span class="op">=</span> []</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> annotation <span class="kw">in</span> example[<span class="st">'annotations'</span>]:</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> annotation[<span class="st">'start'</span>]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> annotation[<span class="st">'end'</span>]</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> annotation[<span class="st">'tag_name'</span>].upper()</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    temp_dict[<span class="st">'entities'</span>].append((start, end, label))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  training_data.append(temp_dict)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Our dataset contains the following number of samples: '</span>, <span class="bu">len</span>(training_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Our dataset contains the following number of samples:  31</code></pre>
+</div>
+</div>
+<p>This code formats entity annotations for our NER task. It selects the first training example, retrieves the text and annotated entities, and presents them in a table with start and end positions and labels. The output includes the text and a table of entities.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>example <span class="op">=</span> training_data[<span class="dv">0</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract text and entities from the selected example</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> example[<span class="st">'text'</span>]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>entities <span class="op">=</span> example[<span class="st">'entities'</span>]</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe to store the entities with column names: Start, End, Label</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>entities_df <span class="op">=</span> pd.DataFrame(entities, columns<span class="op">=</span>[<span class="st">'Start'</span>, <span class="st">'End'</span>, <span class="st">'Label'</span>])</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the text and entities table</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Text:"</span>, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Text: While bismuth compounds (Pepto-Bismol) decreased the number of bowel movements in those with travelers' diarrhea, they do not decrease the length of illness.[91] Anti-motility agents like loperamide are also effective at reducing the number of stools but not the duration of disease.[8] These agents should be used only if bloody diarrhea is not present.[92]
+
+Diosmectite, a natural aluminomagnesium silicate clay, is effective in alleviating symptoms of acute diarrhea in children,[93] and also has some effects in chronic functional diarrhea, radiation-induced diarrhea, and chemotherapy-induced diarrhea.[45] Another absorbent agent used for the treatment of mild diarrhea is kaopectate.
+
+Racecadotril an antisecretory medication may be used to treat diarrhea in children and adults.[86] It has better tolerability than loperamide, as it causes less constipation and flatulence.[94]</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Entities:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Entities:</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(entities_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Start  End             Label
+0     360  371          MEDICINE
+1     383  408          MEDICINE
+2     104  112  MEDICALCONDITION
+3     679  689          MEDICINE
+4       6   23          MEDICINE
+5      25   37          MEDICINE
+6     461  470  MEDICALCONDITION
+7     577  589          MEDICINE
+8     853  865  MEDICALCONDITION
+9     188  198          MEDICINE
+10    754  762  MEDICALCONDITION
+11    870  880  MEDICALCONDITION
+12    823  833          MEDICINE
+13    852  853  MEDICALCONDITION
+14    461  469  MEDICALCONDITION
+15    535  543  MEDICALCONDITION
+16    692  704          MEDICINE
+17    563  571  MEDICALCONDITION</code></pre>
+</div>
+</div>
+<p>The following code constructs a DataFrame that consolidates entity annotations from the training data for our NER task. The code extracts the text, start position, end position, and label for each annotated entity in the training examples. The resulting DataFrame organizes this information in columns, providing a comprehensive view of all entity annotations across the training dataset.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize empty lists to store the data for the DataFrame</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> []</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>starts <span class="op">=</span> []</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>ends <span class="op">=</span> []</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> []</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through the training_data to extract individual entity annotations</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> training_data:</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> example[<span class="st">'text'</span>]</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> entity <span class="kw">in</span> example[<span class="st">'entities'</span>]:</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>        start, end, label <span class="op">=</span> entity</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append data to the lists</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>        texts.append(text)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>        starts.append(start)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>        ends.append(end)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        labels.append(label)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from the lists</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'text'</span>: texts, <span class="st">'start'</span>: starts, <span class="st">'end'</span>: ends, <span class="st">'label'</span>: labels})</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                  text  ...             label
+0    While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+1    While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+2    While bismuth compounds (Pepto-Bismol) decreas...  ...  MEDICALCONDITION
+3    While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+4    While bismuth compounds (Pepto-Bismol) decreas...  ...          MEDICINE
+..                                                 ...  ...               ...
+290  Influenza, commonly known as "the flu", is an ...  ...  MEDICALCONDITION
+291  Influenza, commonly known as "the flu", is an ...  ...  MEDICALCONDITION
+292  Influenza, commonly known as "the flu", is an ...  ...  MEDICALCONDITION
+293  Influenza, commonly known as "the flu", is an ...  ...  MEDICALCONDITION
+294  Influenza, commonly known as "the flu", is an ...  ...          PATHOGEN
+
+[295 rows x 4 columns]</code></pre>
+</div>
+</div>
+<p>The Transformer model needed to be deployed in a Google Colab Repo because our computers did not have the power to train the transformer model when running out of a CPU. We get the following results which are good besides the eval_loss with over 31%. The hyperparameters were modified by increasing the epochs from 3 to 5 and 5 to 10, but the loss decreased to 25%. Precision and accuracy did not improve. The best approach to reduce the loss is to get more data. We could not find the more annotated dataset for NER in health. In Google Colab, a Hardware accelerator (GPU) was used to increase the training speed, and it worked. The link for further review is provided <a href="https://colab.research.google.com/drive/1qKpXd2sP-Iesi76W-232hVUPkl9zvl5s?usp=sharing">Google Colab Code</a></p>
+<p>{‘eval_loss’: 0.3150147497653961, ‘eval_precision’: 0.9375, ‘eval_recall’: 1.0, ‘eval_f1’: 0.967741935483871, ‘eval_accuracy’: 0.9375, ‘eval_runtime’: 9.0895, ‘eval_samples_per_second’: 0.77, ‘eval_steps_per_second’: 0.11, ‘epoch’: 3.0}</p>
+</section>
+<section id="recurrent-neural-networks-results" class="level1">
+<h1><strong>5 Recurrent Neural Networks Results </strong></h1>
+<p>Load required libraries for the RNN.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> LSTM, Dense, Dropout, TimeDistributed, Bidirectional</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.preprocessing.sequence <span class="im">import</span> pad_sequences</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.utils <span class="im">import</span> to_categorical</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Using the dataframe created from the transformer model a vocabulary of words and labels was created and then converted into indices. The sequences are then padded to a maximum length and then converted to one-hot encoded vectors. A one-hot encoded vector is a binary vector in which the label is encoded as 1 and everything else that is not the label is encoded as 0. This is necessary to train the model with tensorflow and recurrent neural networks.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> <span class="bu">set</span>(df[<span class="st">'text'</span>].values)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>word2idx <span class="op">=</span> {w: i <span class="op">+</span> <span class="dv">2</span> <span class="cf">for</span> i, w <span class="kw">in</span> <span class="bu">enumerate</span>(words)}</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>word2idx[<span class="st">'PAD'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>word2idx[<span class="st">'UNK'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>tags <span class="op">=</span> <span class="bu">set</span>(df[<span class="st">'label'</span>].values)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>tag2idx <span class="op">=</span> {t: i <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(tags)}</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>tag2idx[<span class="st">'PAD'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [[word2idx.get(w, <span class="dv">1</span>) <span class="cf">for</span> w <span class="kw">in</span> sentence.split()] <span class="cf">for</span> sentence <span class="kw">in</span> df[<span class="st">'text'</span>].values]</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [[tag2idx[t] <span class="cf">for</span> t <span class="kw">in</span> sentence.split()] <span class="cf">for</span> sentence <span class="kw">in</span> df[<span class="st">'label'</span>].values]</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>maxlen <span class="op">=</span> <span class="bu">max</span>(<span class="bu">len</span>(x) <span class="cf">for</span> x <span class="kw">in</span> X)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pad_sequences(X, padding<span class="op">=</span><span class="st">'post'</span>, maxlen<span class="op">=</span>maxlen)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pad_sequences(y, padding<span class="op">=</span><span class="st">'post'</span>, maxlen<span class="op">=</span>maxlen)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> to_categorical(y, num_classes<span class="op">=</span><span class="bu">len</span>(tag2idx))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>After the data is manipulated the RNN model is created and compiled with the use of tensorflow.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> tf.keras.Sequential([</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Embedding(<span class="bu">len</span>(word2idx), <span class="dv">128</span>),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.LSTM(<span class="dv">128</span>, return_sequences<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Dropout(<span class="fl">0.2</span>),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(<span class="bu">len</span>(tag2idx), activation<span class="op">=</span><span class="st">'softmax'</span>))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Lastly the model is fitted and the accuracy is calculated.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>model.fit(X, y, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span><span class="dv">10</span>, verbose<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/10
+10/10 - 3s - loss: 0.9314 - accuracy: 0.8895 - 3s/epoch - 341ms/step
+Epoch 2/10
+10/10 - 2s - loss: 0.0240 - accuracy: 0.9967 - 2s/epoch - 210ms/step
+Epoch 3/10
+10/10 - 2s - loss: 0.0124 - accuracy: 0.9967 - 2s/epoch - 210ms/step
+Epoch 4/10
+10/10 - 2s - loss: 0.0104 - accuracy: 0.9967 - 2s/epoch - 208ms/step
+Epoch 5/10
+10/10 - 2s - loss: 0.0096 - accuracy: 0.9967 - 2s/epoch - 216ms/step
+Epoch 6/10
+10/10 - 2s - loss: 0.0092 - accuracy: 0.9967 - 2s/epoch - 209ms/step
+Epoch 7/10
+10/10 - 2s - loss: 0.0089 - accuracy: 0.9967 - 2s/epoch - 210ms/step
+Epoch 8/10
+10/10 - 2s - loss: 0.0087 - accuracy: 0.9967 - 2s/epoch - 213ms/step
+Epoch 9/10
+10/10 - 2s - loss: 0.0085 - accuracy: 0.9967 - 2s/epoch - 224ms/step
+Epoch 10/10
+10/10 - 2s - loss: 0.0083 - accuracy: 0.9967 - 2s/epoch - 223ms/step
+&lt;keras.callbacks.History object at 0x000001B17104BEB0&gt;</code></pre>
+</div>
+</div>
+<p>Here the RNN model is shown to be very effective with an accuracy of 0.9967.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1><strong>6 Conclusion</strong></h1>
+<p><strong><em>[This is a working conclusion]</em></strong></p>
+<p>Named Entity Recognition (NER) is a key NLP task that involves identifying named entities in text. With advances in deep learning and large availability of computational resources, methods based on deep learning have demonstrated obvious advantages over traditional methods and have become mainstream in the NER field <span class="citation" data-cites="liu2021Hybrid">(<a href="#ref-liu2021Hybrid" role="doc-biblioref"><strong>liu2021Hybrid?</strong></a>)</span>. Deep learning techniques, such as Recurrent Neural Networks (RNNs) and the Transformer Model, are clearly effective in NER Tasks. RNNs, including LSTMs, excel at processing sequences and capturing context, while the Transformer model is known for its self-attention mechanism and efficient parallel processing. Both architectures contribute to advancing NER, and the choice between them depends on the specific NLP problem. In the NLP problem in this paper it can be seen that the RNN model has a higher accuracy than the transformer model, so the RNN model would be the preferred method to use in NER practices. This conclusion coicides with <span class="citation" data-cites="yadav2019survey">(<a href="#ref-yadav2019survey" role="doc-biblioref"><strong>yadav2019survey?</strong></a>)</span>, who agreed that neural network models generally outperform feature-engineered models. As deep learning research progresses, we anticipate further advancements in NER performance using these techniques.</p>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p><span class="citation" data-cites="raffel2020exploring">(<a href="#ref-raffel2020exploring" role="doc-biblioref"><strong>raffel2020exploring?</strong></a>)</span> <span class="citation" data-cites="souza2020portuguese">(<a href="#ref-souza2020portuguese" role="doc-biblioref"><strong>souza2020portuguese?</strong></a>)</span></p>
 
 </section>
+</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-bro2014principal" class="csl-entry" role="doc-biblioentry">
-Bro, Rasmus, and Age K Smilde. 2014. <span>“Principal Component Analysis.”</span> <em>Analytical Methods</em> 6 (9): 2812–31.
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-keles2022computational" class="csl-entry" role="listitem">
+Keles, Feyza Duman, Pruthuvi Mahesakya Wijewardena, and Chinmay Hegde. 2022. <span>“On the Computational Complexity of Self-Attention.”</span> <a href="https://arxiv.org/abs/2209.04881">https://arxiv.org/abs/2209.04881</a>.
 </div>
-<div id="ref-efr2008" class="csl-entry" role="doc-biblioentry">
-Efromovich, S. 2008. <em>Nonparametric Curve Estimation: Methods, Theory, and Applications</em>. Springer Series in Statistics. Springer New York. <a href="https://books.google.com/books?id=mdoLBwAAQBAJ">https://books.google.com/books?id=mdoLBwAAQBAJ</a>.
+<div id="ref-phuong2022formal" class="csl-entry" role="listitem">
+Phuong, Mary, and Marcus Hutter. 2022. <span>“Formal Algorithms for Transformers.”</span> <a href="https://arxiv.org/abs/2207.09238">https://arxiv.org/abs/2207.09238</a>.
 </div>
-<div id="ref-R-base" class="csl-entry" role="doc-biblioentry">
-R Core Team. 2019. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org">https://www.R-project.org</a>.
+<div id="ref-vaswani2017attention" class="csl-entry" role="listitem">
+Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. 2017. <span>“Attention Is All You Need.”</span> <a href="https://arxiv.org/abs/1706.03762">https://arxiv.org/abs/1706.03762</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -295,9 +807,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -309,7 +835,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -337,31 +880,136 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

@@ -1,6 +1,6 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "NER using RNNs and Transformer Models"
+author: "Sara Ericson, Andrew Campbell, Jorge Sanchez"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -10,64 +10,485 @@ bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
 ---
 
-## Introduction
-Kernel regression is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric
-statistics. In kernel estimator, weight function is known as kernel function [@efr2008]. Cite this paper [@bro2014principal].
+## Slides
+[Presentation](slides.html "See presentation"){target="_blank"}
+
+# 1. Introduction
+
+Named Entity Recognition (NER) is a crucial task in Natural Language Processing (NLP) that involves identifying and extracting named entities from unstructured text. NER presents challenges due to the inherent complexity and ambiguity of natural language. Still, it is essential for various NLP applications, including information retrieval, question answering, and machine translation. Biomedical NER is the task of text mining to specifically biomedical texts to determine entity types [@xiong2021Improving]. Similarly, medical NER tasks usually find the boundaries of mentions from medical texts [@Zhao_Liu_Zhao_Wang_2019]. Deep learning techniques have demonstrated exceptional performance in NER tasks in recent years. Deep learning, a subfield of machine learning, uses artificial neural networks to learn from data and make predictions. 
+
+The Transformer model, introduced in 2017, has become a fundamental architecture in modern NLP and is widely used for NER tasks. It is known for its self-attention mechanism, which allows the model to weigh the importance of each word in the input sequence. Additionally, other deep learning architectures such as Recurrent Neural Networks (RNNs), Convolutional Neural Networks (CNNs), and Bidirectional Encoder Representations from Transformers (BERT) have been successfully applied to NER.
+
+In this literature review, we will explore and compare the effectiveness of RNNs and the Transformer model for Named Entity Recognition (NER) tasks.
+
+## 1.1 Recurrent Neural Networks (RNN)
+
+A Recurrent Neural Network (RNN) is a method of deep learning that is useful for sequential data and time-series data. RNNs are often used in ordinal problems, where the output is discrete and ordered, as well as temporal problems, in which the time that data is collected is important. These problems include speech recognition, language translation, and natural language processing (NLP). RNNs are similar to other neural networks, but they have some distinct differences. Other neural network models can be used for medical text mining, however, RNNs have been shown to be one of the most effective models. This model has some drawbacks, but they can be mitigated with the use of Long Short-Term Memory (LSTM) cells in the hidden layers of the neural network [@Wu_Jiang_Xu_Zhi_Xu2018ClinicalNER]. RNNs have the ability to allow information to persist across multiple steps which enables the network to capture dependencies and context. This is a feature that makes it ideal for NER in which the context is very important. The specifics of a recurrent neural network will be discussed later
+
+## 1.2 Transformer Model
+
+The Transformer model is a groundbreaking neural network architecture introduced in the paper "Attention Is All You Need" [@vaswani2017attention]. ​The model is designed for sequence-to-sequence tasks, such as machine translation, and is known for its ability to process input sequences in parallel rather than sequentially. This parallel processing makes the Transformer model highly efficient and scalable. One of the key innovations of the Transformer model is the self-attention mechanism. Self-attention allows the model to weigh the importance of different words in the input sequence relative to each other when making predictions. The model uses multi-head attention, which means it can simultaneously attend to various input aspects. This ability to capture complex dependencies and relationships between words contributes to the model's strong performance. The Transformer architecture consists of an encoder and decoder, each composed of multiple layers of self-attention and feed forward neural networks. The encoder processes the input sequence while the decoder generates the output sequence. The connections between the encoder and decoder are facilitated by attention mechanisms that allow the decoder to focus on different parts of the input sequence as it generates the output. Given its effectiveness and efficiency in handling sequence data, the Transformer model has become the foundation for many subsequent natural language processing (NLP) models and architectures.
+
+## 1.3 Limitations
+
+A major limitation of current techniques is that the standard language models are unidirectional, and thus limit the choice of architecture that can be used for pre-training [@devlin2019bert].
 
 
-## Methods
+Transformers are powerful neural network models commonly used in natural language processing tasks. However, they face two fundamental limitations: First, their large number of parameters results in high
+computational complexity, necessitating specialized hardware and substantial resources, especially for deep models with long input sequences. Second, transformers exhibit quadratic time complexity concerning input length due to the self-attention mechanism, which calculates attention scores between all token pairs. This quadratic complexity limits transformers' ability to handle very long sequences efficiently. Researchers actively explore methods to mitigate these limitations and improve the scalability of transformers.[@keles2022computational]
+
+# **2 Methods**
+
+## 2.1 RNN
+
+A neural network has three layers. An input layer, a hidden layer, and an output layer. A recurrent neural network (RNN) also has three layers, but with the addition of a recurrent component that takes the output from a previous iteration and includes it in the current iteration. This is what makes RNNs useful for sequential and temporal data. Basic neural networks are optimized using back propagation which involves finding the gradient of a parameter and then using a gradient descent algorithm to find values that minimize a loss function (such as error). 
+
+Example of Loss function (Mean Squared Error)\
+\
+ $\text{L(𝜽)} = (1/N) * ∑(y_i - y_i^*)^2$\
+ 
+Gradient Descent Algorithm\
+\
+ $\text{𝜽}_j =𝜽_j - 𝛼 (∂J(𝜽) / ∂𝜽_j)$\
+
+N : number of vector entires with yi in output vector
+
+yi : predicted value
+
+yi* : actual value
+
+𝛼 : learning rate
+
+𝜽j : input
+
+This will cause the weight parameters to be updated. When a large amount of data is used this can cause the weights to increase or decrease dramatically creating a problem known as vanishing or exploding gradients. When this occurs the weights will either be extremely close to zero or extremely large, which may be represented by a NaN value. An example when large amounts of data may be used is NER in which the context of previous words and characters is relevant. To mitigate an exploding or vanishing gradient long short-term memory (LSTM) cells may be used within the hidden layer. LSTM cells make use of three gates. An input gate, a forget gate, and an output gate. These gates use a sigmoid function which outputs a value between zero and one. Zero blocks all information and one allows all information through. The input gate determines which information is stored in the cell. The forget gate determines which information will be discarded. The output gate provides the activation for the final output. The sigmoid function is given below along with a general equation for the gates. When using LSTMs the weights and biases are the same among every iteration. This is so the RNN model can be applied to data of varying lengths.[@Cho2019BiomedNER]
+
+Sigmoid\
+\
+ $\text{f(x)} = {1/(1+e^{-x})}$\
+
+General gate equation\
+\
+ $\text{g}_i = 𝝈(w[h_{i-1}, x_i] + b)$\
+ 
+x : input
+
+𝝈 : sigmoid function
+
+w : weight
+
+h : information of i-th iteration 
+
+b : bias
+
+LSTMs have a cell state that is the result of the gates and a few other calculations. This state is what provides the cell with its “memory” which is very useful in NER when the memory of what was written or previously said can determine what should come next in a sentence. The other equations used besides sigmoid are shown below.
+
+Possible cell state at i-th iteration\
+\
+ $\text{c}_i^*=tanh(w[h_{i-1}, x_i] + b)$\
+ 
+Cell state\
+\
+ $\text{c}_i = (forget gate * c_{i-1}) + (input gate * c_i^* )$\
+ 
+Output\
+\
+ $\text{h}_i = (output gate * tanh(c_i))$\
+
+tanh\
+\
+ $\text{f(x)} = (e^x - e^{-x})/(e^x + e^{-x})$\
+ 
+tanh : activation function
+
+These equations determine which information is passed through the cell and the ultimate state of the cell at the present iteration. The type of RNN used in NER is many-to-many RNN. This type of RNN uses each word as an input to build the state (the context) of the model. This is what can be subsequently used in making predictions.
+
+## 2.2 Transformer Model
+
+The Transformers model has a unique feature called the 'attention mechanism.' It helps the model make intelligent predictions by focusing on essential parts of the input. For example, when predicting the next
+word in 'I have a pet \_\_\_,' the attention mechanism considers the context (the word 'pet') to make a better guess, like 'dog' or 'cat.' It's like the model knows which words deserve extra attention! ! Let's look at the two most important algorithms for the attention mechanism, Scaled Dot-Product Attention formula, and the Single (Masked) Self- or Cross-Attention Head Formula [@phuong2022formal].
+
+1.  Scaled Dot-Product Attention formula\
+    \
+    $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$\
+
+    **Key Components:**
+
+    -   Q: Query matrix (requests for information).
+
+    -   K: Key matrix (used to calculate relevance).
+
+    -   V: Value matrix (actual content to retrieve).
+
+    -   d_k: Dimension of the query/key vectors.
+
+    -   Softmax (\...): Function to normalize attention scores.
+
+    In this formula, the attention mechanism allows a model to "pay attention" to specific parts of input data. The attention scores are calculated using queries (Q) and keys (K). The scores are normalized using Softmax , producing attention weights. The output is a weighted sum of value vectors (V), where the weights represent the importance of each value for each query. This mechanism is popular in tasks like machine translation to focus on relevant words.
+
+2.  The Single (Masked) Self- or Cross-Attention Head Formula
+    $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+
+**Key Components:**
+
+-   Q: Query matrix (requests for information).
+
+-   K: Key matrix (used to calculate relevance).
+
+-   V: Value matrix (actual content to retrieve).
+
+-   d_k: Dimension of the query/key vectors.
+
+-   Mask: Matrix to prevent attention to specific tokens (e.g., future tokens).
+
+-   Softmax (\...): Function to normalize attention scores.
+
+In this formula, the attention uses queries (Q) and keys (K) to calculate attention scores. An optional mask (Mask) is added to scores to prevent attending to specific tokens (e.g., in language modeling, future tokens are masked). Scores are normalized using Softmax, producing attention weights. The output is a weighted sum of value vectors (V), representing the importance of each value for each query. Masking is useful for sequence-to-sequence tasks and autoregressive models.
+
+# **3 Data Analysis and Results**
+
+## 3.1 Dataset Description
+
+We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. Similarly to the dataset used in [@xiong2021Improving], the dataset was manually tagged for training. We will use the Transformer model and the RNN model to apply the NER using python programming language. The dataset contains 31 observations and 4 attributes properly explained in the data definition.
+
+**Data Definition**
+
+| Column Name | Type    | Description                                         |
+|------------------|------------------|------------------------------------|
+| Text        | string  | Sentence including the labels                       |
+| Starts      | integer | Position on where the label starts                  |
+| Ends        | integer | Position on where the label ends                    |
+| Labels      | string  | The label( Medical Condition, Medicine or Pathogen) |
+
+-   Labels:
+    -   Medical condition names (example: influenza, headache, malaria)
+    -   Medicine names (example : aspirin, penicillin, ribavirin, methotrexate)
+    -   Pathogens ( example: Corona Virus, Zika Virus, cynobacteria, E. Coli)
+
+## 
 
 
-The common non-parametric regression model is $Y_i = m(X_i) + \varepsilon_i$, where
-$Y_i$ can be defined as the sum of the regression function value $m(x)$ for $X_i$.
-Here $m(x)$ is unknown and $\varepsilon_i$ some errors. With the help of this definition, we can create the estimation for
-local averaging i.e. $m(x)$ can be estimated with the product of $Y_i$ average
-and $X_i$ is near to $x$. In other words, this means that we are discovering
-the line through the data points with the help of surrounding data points.
-The estimation formula is printed below [@R-base]:
+## 3.2 Data Preparation
 
-$$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$
-$W_n(x)$ is the sum of weights that belongs to all real numbers. Weights
-are positive numbers and small if $X_i$ is far from $x$.
+The following python code will load the required libraries:
 
-## Analysis and Results
-### Data and Vizualisation
-A study was conducted to determine how...
 
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+-  **nbclient** : Executes Jupyter notebooks programmatically
+    
+-  **requests** : Sends HTTP requests and interacts with RESTful APIs in Python
+   
+-  **pandas** : Manipulates and analyzes tabular data using DataFrame and Series
+    
+-  **nbformat** : Reads, writes, and manipulates Jupyter Notebook files
+    
+-   **plotly.express** : Creates interactive data visualizations with a simple interface
+    
+    
+```{r}
+library(reticulate)
+# do the following ONCE AND COMMENT
+py_install("nbclient")
+py_install("requests")
+py_install("pandas")
+py_install("nbformat")
+py_install("plotly")
 ```
 
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
+```{python}
+#| echo: false
+import pandas
+import nbclient
+import requests
+import nbformat
+import plotly.express
+```
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+Import the data from Github to local.
 
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_wsj()
-  
+```{python}
+url = 'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'
+# HTTP GET request to the raw URL
+response = requests.get(url)
+# I am checking if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the JSON data from the response
+    data = response.json()
+    print('Success, the Json data was stored into the data variable')
+else:
+    print('Failed to fetch JSON data:', response.status_code)
+```
+
+
+Parse json data into dictionary to manipulate data.
+
+```{python}
+
+training_data = []
+for example in data['examples']:
+  temp_dict = {}
+  temp_dict['text'] = example['content']
+  temp_dict['entities'] = []
+  for annotation in example['annotations']:
+    start = annotation['start']
+    end = annotation['end']
+    label = annotation['tag_name'].upper()
+    temp_dict['entities'].append((start, end, label))
+  training_data.append(temp_dict)
 
 ```
 
-### Statistical Modeling
+Convert data from Dictionary to Dataframe. I am only showing the Text and Labels for each sentence
 
-### Conlusion
+```{python}
+import pandas as pd
+# I am initialing empty lists to store the data for the DataFrame
+texts = []
+starts = []
+ends = []
+labels = []
+
+# Iterate through the training_data to extract individual entity annotations
+for example in training_data:
+    text = example['text']
+    for entity in example['entities']:
+        start, end, label = entity
+        # Append data to the lists
+        texts.append(text)
+        starts.append(start)
+        ends.append(end)
+        labels.append(label)
+
+# Create a DataFrame from the lists
+df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
+df.head(5)
+```
+
+## 3.3 Data statistics
+
+1.  Our analysis begins with examining the frequency of each label in the dataset. The dataset contains 134 instances of 'Medical Condition', 94 instances of 'Medicine', and 67 instances of 'Pathogen'. This data provides an overview of label distribution.
+
+```{python}
+
+import plotly.express as px
+
+# Count the occurrences of each label
+label_counts = df['label'].value_counts()
+
+# Create a DataFrame with labels and their respective counts
+df_counts = pd.DataFrame({'label': label_counts.index, 'count': label_counts.values})
+
+# Plot the frequency of each entity label using a bar plot in Plotly
+fig = px.bar(df_counts, x='label', y='count', text='count', color='label',
+             color_discrete_sequence=px.colors.qualitative.Plotly, title='Frequency of Entity Labels')
+
+fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+# Display the counter label inside the bars
+#fig.update_traces(textposition='inside')
+# Update axis titles
+#fig.update_layout(xaxis_title='Entity Label', yaxis_title='Frequency')
+
+#fig.show()
+
+```
+
+2.  The chart below displays the distribution of biomedical Entity labels in the dataset. 'Medical Condition' is the most prevalent at 45.4%, followed by 'Medicine' at 31.9%, and 'Pathogen' at 22.7%. The chart provides insights into the dataset composition and label prevalence..
+
+```{python}
+
+import plotly.express as px
+
+# Get the counts of each unique label
+label_counts = df['label'].value_counts()
+# Plot a pie chart using Plotly
+fig = px.pie(label_counts, values=label_counts.values, names=label_counts.index, title='Proportion of Entity Labels', hole=0.3)
+fig.update_traces(textinfo='percent+label', textfont_size=12)
+#fig.show()
+
+```
+
+3.  The histogram below visualizes the start positions of entity labels in the text. It reveals that most entities occur within the first five hundred words.
+
+```{python}
+
+import plotly.express as px
+
+# Plot a histogram of entity start positions using Plotly
+fig = px.histogram(df, x='start', nbins=30, title='Histogram of Entity Start Positions')
+fig.update_layout(xaxis_title='Entity Start Position', yaxis_title='Frequency')
+#fig.show()
+```
+
+4.  The box plot below shows the start and end positions of entity labels, with the majority located below the five hundredth position.
+
+```{python}
+
+import plotly.express as px
+
+# Create box plots for 'start' and 'end' columns using Plotly
+fig = px.box(df, y=['start', 'end'], points='all', title='Box Plots of Start and End Entity Positions')
+fig.update_layout(yaxis_title='Value', xaxis_title='Column')
+#fig.show()
+
+```
+
+
+# **4 Transformer Model Results**
+
+***\[Pending\]***
+
+
+Loading Required Libraries for training
+
+```{python}
+#!pip install transformers
+#!pip install torch
+```
+
+The following code will retrieve the hosted Json dataset from my Github repositoy
+
+```{python}
+import requests
+
+# Extracting the raw Json data from GitHub URL. I am hosting the dataset in my own repository
+url = 'https://raw.githubusercontent.com/jsanc223/datasetCorona2/main/Corona2.json'
+# HTTP GET request to the raw URL
+response = requests.get(url)
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the JSON data from the response
+    data = response.json()
+    print('We retrieved the Json data successfully')
+else:
+    print('Failed to fetch JSON data:', response.status_code)
+```
+
+The following code block formats the raw data into a structure suitable for training a NER model. The raw data contains multiple examples, each with text content and annotations. The annotations include the start and end positions of entities and their corresponding labels. The output is a list of dictionaries, each representing an example containing the text and a list of entities with their positions and labels.
+
+```{python}
+training_data = []
+for example in data['examples']:
+  temp_dict = {}
+  temp_dict['text'] = example['content']
+  temp_dict['entities'] = []
+  for annotation in example['annotations']:
+    start = annotation['start']
+    end = annotation['end']
+    label = annotation['tag_name'].upper()
+    temp_dict['entities'].append((start, end, label))
+  training_data.append(temp_dict)
+print('Our dataset contains the following number of samples: ', len(training_data))
+```
+
+This code formats entity annotations for our NER task. It selects the first training example, retrieves the text and annotated entities, and presents them in a table with start and end positions and labels. The output includes the text and a table of entities.
+
+```{python}
+import pandas as pd
+example = training_data[0]
+
+# Extract text and entities from the selected example
+text = example['text']
+entities = example['entities']
+
+# Create a dataframe to store the entities with column names: Start, End, Label
+entities_df = pd.DataFrame(entities, columns=['Start', 'End', 'Label'])
+
+# Display the text and entities table
+print("Text:", text)
+print("Entities:")
+print(entities_df)
+```
+
+The following code constructs a DataFrame that consolidates entity annotations from the training data for our NER task. The code extracts the text, start position, end position, and label for each annotated entity in the training examples. The resulting DataFrame organizes this information in columns, providing a comprehensive view of all entity annotations across the training dataset.
+
+```{python}
+import pandas as pd
+# Initialize empty lists to store the data for the DataFrame
+texts = []
+starts = []
+ends = []
+labels = []
+
+# Iterate through the training_data to extract individual entity annotations
+for example in training_data:
+    text = example['text']
+    for entity in example['entities']:
+        start, end, label = entity
+        # Append data to the lists
+        texts.append(text)
+        starts.append(start)
+        ends.append(end)
+        labels.append(label)
+
+# Create a DataFrame from the lists
+df = pd.DataFrame({'text': texts, 'start': starts, 'end': ends, 'label': labels})
+df
+```
+The Transformer model needed to be deployed in a Google Colab Repo because our computers did not have the power to train the transformer model when running out of a CPU. We get the following results which are good besides the eval_loss with over 31%. The hyperparameters were modified by increasing the epochs from 3 to 5 and 5 to 10, but the loss decreased to 25%. Precision and accuracy did not improve. The best approach to reduce the loss is to get more data. We could not find the more annotated dataset for NER in health. In Google Colab, a Hardware accelerator (GPU) was used to increase the training speed, and it worked. The link for further review is provided [Google Colab Code](https://colab.research.google.com/drive/1qKpXd2sP-Iesi76W-232hVUPkl9zvl5s?usp=sharing)
+
+{'eval_loss': 0.3150147497653961, 'eval_precision': 0.9375, 'eval_recall': 1.0, 'eval_f1': 0.967741935483871, 'eval_accuracy': 0.9375, 'eval_runtime': 9.0895, 'eval_samples_per_second': 0.77, 'eval_steps_per_second': 0.11, 'epoch': 3.0}
+
+# **5 Recurrent Neural Networks Results **
+
+
+
+Load required libraries for the RNN.
+
+```{python}
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.layers import LSTM, Dense, Dropout, TimeDistributed, Bidirectional
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.utils import to_categorical
+```
+
+Using the dataframe created from the transformer model a vocabulary of words and labels was created and then converted into indices. The sequences are then padded to a maximum length and then converted to one-hot encoded vectors. A one-hot encoded vector is a binary vector in which the label is encoded as 1 and everything else that is not the label is encoded as 0. This is necessary to train the model with tensorflow and recurrent neural networks.  
+```{python}
+words = set(df['text'].values)
+word2idx = {w: i + 2 for i, w in enumerate(words)}
+word2idx['PAD'] = 0
+word2idx['UNK'] = 1
+
+tags = set(df['label'].values)
+tag2idx = {t: i + 1 for i, t in enumerate(tags)}
+tag2idx['PAD'] = 0
+
+X = [[word2idx.get(w, 1) for w in sentence.split()] for sentence in df['text'].values]
+y = [[tag2idx[t] for t in sentence.split()] for sentence in df['label'].values]
+
+maxlen = max(len(x) for x in X)
+X = pad_sequences(X, padding='post', maxlen=maxlen)
+y = pad_sequences(y, padding='post', maxlen=maxlen)
+y = to_categorical(y, num_classes=len(tag2idx))
+```
+
+After the data is manipulated the RNN model is created and compiled with the use of tensorflow.
+```{python}
+model = tf.keras.Sequential([
+    tf.keras.layers.Embedding(len(word2idx), 128),
+    tf.keras.layers.LSTM(128, return_sequences=True),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(len(tag2idx), activation='softmax'))
+])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+Lastly the model is fitted and the accuracy is calculated. 
+```{python}
+model.fit(X, y, batch_size=32, epochs=10, verbose=2)
+```
+
+Here the RNN model is shown to be very effective with an accuracy of 0.9967.
+
+# **6 Conclusion**
+
+***\[This is a working conclusion\]***
+
+Named Entity Recognition (NER) is a key NLP task that involves identifying named entities in text. With advances in deep learning and large availability of computational resources, methods based on deep learning have demonstrated obvious advantages over traditional methods and have become mainstream in the NER field [@liu2021Hybrid]. Deep learning techniques, such as Recurrent Neural Networks (RNNs) and the Transformer Model, are clearly effective in NER Tasks. RNNs, including LSTMs, excel at processing sequences and capturing context, while the Transformer model is known for its self-attention mechanism and efficient parallel processing. Both architectures contribute to advancing NER, and the choice between them depends on the specific NLP problem. In the NLP problem in this paper it can be seen that the RNN model has a higher accuracy than the transformer model, so the RNN model would be the preferred method to use in NER practices. This conclusion coicides with [@yadav2019survey], who agreed that neural network models generally outperform feature-engineered models. As deep learning research progresses, we anticipate further advancements in NER performance using these techniques. 
+
 
 ## References
+[@raffel2020exploring]
+[@souza2020portuguese]

@@ -1,0 +1,107 @@
+---
+title: "NER using RNNs and Transformer Models"
+author: "Sara Ericson, Andrew Campbell, Jorge Sanchez"
+format: revealjs
+editor: visual
+---
+
+## What is Transformer Model?
+
+-   The Transformer model is a neural network architecture designed for sequence-to-sequence tasks such as machine translation.
+
+-   The model's key innovation is the self-attention mechanism, which allows it to weight the importance of different words in the input sequence.
+
+-   Self-attention enables the model to capture long-range dependencies and handle complex language structures effectively.
+
+## Transformer Architecture
+
+::: columns
+::: {.column width="60%"}
+![](images/transformer%20Architecture.png)
+:::
+
+::: {.column width="40%"}
+-   Encoder
+
+-   Decoder
+
+-   Positional Encoding
+
+-   Multi-Head Attention
+:::
+:::
+
+## Transformer Methods
+
+-   Scaled Dot-Product Attention formula\
+    \
+    $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$\
+
+-   The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
+
+## Transformer - How to do it?
+
+1.  Annotated Dataset for Training
+
+    -   Labelstud.io , Prodi.gy
+
+2.  Pre-process the dataset
+
+    -   Tokenization - NLTK
+
+3.  Fine-tune a pre-trained Tranformer Model
+
+    -   Huggingface - BERT
+
+4.  Train
+
+5.  Evaluate
+
+    -   Metrics: Precision,recall and F1 score.
+
+## Transformer Limitations
+
+-   Standard language models are unidirectional, restricting pre-training architecture options and limiting context awareness.
+
+-   Transformers have high computational complexity due to numerous parameters, requiring significant resources and specialized hardware for deep models and long sequences.
+
+## Dataset
+
+We will use the dataset called corona2 from Kaggle to identify Natural Entity Recognition to identify Medical Condition, Medicine names and Pathogens. This dataset is already annotated.
+
+-   Labels:
+
+    -   Medical condition names (example: influenza, headache, malaria)
+    -   Medicine names (example : aspirin, penicillin, ribavirin, methotrexate)
+    -   Pathogens ( example: Corona Virus, Zika Virus, cynobacteria, E. Coli)
+
+## Dataset Definition
+
+| Column Name | Type    | Description                                         |
+|--------------|---------|----------------------------------------|
+| Text        | string  | Sentence including the labels                       |
+| Starts      | integer | Position on where the label starts                  |
+| Ends        | integer | Position on where the label ends                    |
+| Labels      | string  | The label( Medical Condition, Medicine or Pathogen) |
+
+## Dataset Sample
+
+Buprenorphine has been shown experimentally (1982--1995) to be effective against severe, refractory depression.
+
+::: columns
+::: {.column width="50%"}
+![](images/annotated1.png)
+:::
+
+::: {.column width="50%"}
+![](images/annotated2.png)
+:::
+:::
+
+## Dataset Visualization - Labels
+
+![](images/frequency_labels-01.png){fig-align="center"}
+
+## Data Visualization - Position
+
+![](images/start_end_Positions-01.png){fig-align="center"}
