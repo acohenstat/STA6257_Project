@@ -9,7 +9,7 @@ editor: visual
 
 -   The Transformer model is a neural network architecture designed for sequence-to-sequence tasks such as machine translation.
 
--   The model's key innovation is the self-attention mechanism, which allows it to weigh the importance of different words in the input sequence.
+-   The model's key innovation is the self-attention mechanism, which allows it to weight the importance of different words in the input sequence.
 
 -   Self-attention enables the model to capture long-range dependencies and handle complex language structures effectively.
 
@@ -75,7 +75,7 @@ We will use the dataset called corona2 from Kaggle to identify Natural Entity Re
     -   Medicine names (example : aspirin, penicillin, ribavirin, methotrexate)
     -   Pathogens ( example: Corona Virus, Zika Virus, cynobacteria, E. Coli)
 
-## Data Definition
+## Dataset Definition
 
 | Column Name | Type    | Description                                         |
 |------------------|------------------|------------------------------------|
@@ -84,7 +84,21 @@ We will use the dataset called corona2 from Kaggle to identify Natural Entity Re
 | Ends        | integer | Position on where the label ends                    |
 | Labels      | string  | The label( Medical Condition, Medicine or Pathogen) |
 
-## Data Visualization - Labels
+## Dataset Sample
+
+Text: Buprenorphine has been shown experimentally (1982--1995) to be effective against severe, refractory depression.
+
+::: columns
+::: {.column width="50%"}
+![](images/annotated1.png)
+:::
+
+::: {.column width="50%"}
+![](images/annotated2.png)
+:::
+:::
+
+## Dataset Visualization - Labels
 
 ![](images/frequency_labels-01.png){fig-align="center"}
 
