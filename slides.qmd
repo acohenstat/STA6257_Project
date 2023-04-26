@@ -31,7 +31,7 @@ editor: visual
 :::
 :::
 
-## Transformer Model Methods
+## Transformer Methods
 
 -   Scaled Dot-Product Attention formula\
     \
@@ -39,7 +39,7 @@ editor: visual
 
 -   The Single (Masked) Self- or Cross-Attention Head Formula $\begin{align*}\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^\top + \text{Mask}}{\sqrt{d_k}}\right)V \\\end{align*}$
 
-## Transformer How to do it?
+## Transformer - How to do it?
 
 1.  Annotated Dataset for Training
 
