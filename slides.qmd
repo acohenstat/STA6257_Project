@@ -78,7 +78,7 @@ We will use the dataset called corona2 from Kaggle to identify Natural Entity Re
 ## Dataset Definition
 
 | Column Name | Type    | Description                                         |
-|------------------|------------------|------------------------------------|
+|--------------|---------|----------------------------------------|
 | Text        | string  | Sentence including the labels                       |
 | Starts      | integer | Position on where the label starts                  |
 | Ends        | integer | Position on where the label ends                    |
@@ -86,7 +86,7 @@ We will use the dataset called corona2 from Kaggle to identify Natural Entity Re
 
 ## Dataset Sample
 
-Text: Buprenorphine has been shown experimentally (1982--1995) to be effective against severe, refractory depression.
+Buprenorphine has been shown experimentally (1982--1995) to be effective against severe, refractory depression.
 
 ::: columns
 ::: {.column width="50%"}
