@@ -31,16 +31,16 @@ self-contained: true
 #### Missing Data
 
 Missing data occurs when there are missing values in a dataset. There
-are many reasons why this occurs. It can be intentional or unintentional
-and oftentimes there is no way to know for sure what causes the missing
-data. It can be classified into the following three categories,
-otherwise known as missingness mechanisms [@mai2023], which measure the
-severity of this missingness:
+are many reasons why this happens. It can be intentional or
+unintentional, and oftentimes there is no way to know for sure what
+causes the missing data. There are three categories, otherwise known as
+missingness mechanisms [@mai2023], which measure the severity of the
+missingness:
 
 -   Missing completely at random (MCAR) is the probability of missing
     data being completely independent of any other variables. There is
     no relationship between the pattern of missingness and the observed
-    data. This would be best case scenario.
+    data. This would be the best-case scenario.
 
 -   Missing at random (MAR) is the probability of missing data being
     related to the observed values. The pattern of missingness is
@@ -49,7 +49,7 @@ severity of this missingness:
 -   Missing not at random (MNAR) is the probability of missing data
     being dependent on the missing and observed values. The pattern of
     missingness is related to the observed data and the missing data.
-    This would be worst case scenario.
+    This would be the worst-case scenario.
 
 ![](GraphicalRepresentation.png)
 
@@ -61,7 +61,7 @@ and Y. R is the missingness.)
 
 Looking for patterns in the missing data can help us to determine which
 category they belong. These mechanisms are important in determining how
-to handle the missing data. MCAR would be the best case scenario but
+to handle the missing data. MCAR would be the best-case scenario but
 seldom occur. MAR and MNAR are more common. The problem with ignoring
 any missing values is that it does not give a true representation of the
 dataset and can lead to bias when analyzing. This reduces the
@@ -80,8 +80,7 @@ should be followed with regards to missing data:
 
 There are three types of methods to deal with missing data, the
 likelihood and Bayesian method, weighting methods, or imputation methods
-[@cao2021]. Missing data can also be handled by simply deleting, which
-is the least optimum result.
+[@cao2021].
 
 -   Likelihood Bayesian method is when information from a previous
     predictive distribution is combined with evidence obtained in a
@@ -97,14 +96,17 @@ is the least optimum result.
     is used to estimate the missing value. There are two types of
     imputation: single and multiple.
 
-#### Deleting missing data
+#### Deleting Missing Data
+
+Another way to handle missing data is to simply delete it. Deleting
+missing values can lead to the loss of important information regarding
+your dataset, and is therefore not recommended. The two types of
+deletion methods are listwise and pairwise.
 
 *Listwise deletion* is when the entire observation is removed from the
-dataset. Deleting missing data can lead to the loss of important
-information regarding your dataset and is therefore not recommended. In
-certain cases, when the amount of missing data is small and the type is
-MCAR, listwise deletion can be used. There usually won't be bias but
-potentially important information may be lost.
+dataset. In certain cases when the amount of missing data is small and
+the type is MCAR, listwise deletion can be used. There usually won't be
+bias but potentially important information may be lost.
 
 T-tests and chi-square tests can be used to assess pairs of predictor
 variables to determine whether the groups' means differ significantly.
@@ -216,7 +218,7 @@ bgcolor = none
 incomplete [label =  'Incomplete data set']
 imputed1 [label = 'Imputed \n data set 1']
 estimates1 [label = 'Estimates from \n analysis 1']
-rubin [label = 'Rubin rules', shape = diamond]
+rubin [label = 'Rubins Rules', shape = diamond]
 combined [label = 'Combined results']
 imputed2 [label = 'Imputed \n data set 2']
 estimates2 [label = 'Estimates from \n analysis 2']
@@ -238,9 +240,24 @@ rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
 }")
 ```
 
-\*Rubin's Rules: Average the estimates across m estimates. Calculate the
-standard errors and variance of m estimates. Combine using an adjustment
-term (1+1/m).
+*Rubin's Rules*: Donald Rubin was a Harvard professor in the seventies.
+He felt that the then current method of dealing with missing data
+(single imputation) was flawed. It was impossible to calculate missing
+values with absolute certainty because the method did not consider the
+estimates in error in the predictions of the missing data. For this
+reason, he recommended creating multiple datasets based on the Bayesian
+method and doing the following steps:
+
+-   Impute missing data by averaging the estimates across imputed
+    datasets.
+
+-   Run regression on each of the imputed datasets.
+
+-   Find the standard errors and variance of the imputed estimates.
+    Combine them using an adjustment term (1+1/m).
+
+He felt like this would provide more accurate results than using just
+one imputed dataset. His theory is referred to as Rubin's Rules.
 
 #### Other Methods of Imputation
 
@@ -252,13 +269,13 @@ data is randomly drawn from a conditional distribution when variables
 are continuous and from a logistic regression model when they are
 categorical [@van2020].
 
-*Predictive Mean Matching* is also based on a linear regression model.
-The approach is the same as regression imputation when it comes to
-categorical missing values but different for continuous variables.
+*Predictive Mean Matching (PMM)* is also based on a linear regression
+model. The approach is the same as regression imputation when it comes
+to categorical missing values but different for continuous variables.
 Instead of random draws from a conditional distribution, missing values
 are based on predicted values of the outcome variable [@van2020].
 
-*Hot Deck (HD) imputation* is when a missing data is replaced by an
+*Hot Deck (HD) imputation* is when missing data is replaced by an
 observed response of a similar unit, also known as the donor. It can be
 either random or deterministic, which is based on a metric or value
 [@tho2022]. It does not rely on model fitting.
@@ -279,38 +296,80 @@ continuous or categorical variables with complex interactions.
 
 #### Multiple Imputation by Chained Equations (MICE)
 
-According to Rubin's Rule, in multiple imputation *m* imputed values are
-created for each of the missing data and result in *M* complete
+According to Rubin's Rules, in multiple imputation *m* imputed values
+are created for each of the missing data and result in *M* complete
 datasets. For each of the *M* datasets, an estimate of $\theta$ is
 acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
 estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
 complete dataset [@arn2017].
 
-The combined estimator of $\theta$ is given by the following equation:
+The combined estimator of $\theta$, the pooled mean difference, is given
+by the following equation:
 
-$${\hat{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
-This is the sum of the estimators from each of the imputed datasets which are pooled together and averaged.
+$${\overline{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
+This is the sum of the *m* estimators from each of the *M* imputed
+datasets which are pooled together and averaged.
 
-The proposed variance estimator of ${\hat{\theta}}_{M}$ is given by the following equation:
+The proposed variance estimator of ${\hat{\theta}}_{M}$, the total
+variance, is given by the following equation:
 
 $${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
-This equation is made up of two parts: the variance within the imputation is added to the variance between the imputation (with a correction factor of $(1+\displaystyle \frac{1}{M})$).
 
-The imputation variance within, which is the normal standard error, is calcuted as follows:
+This formula is made up of two parts: the average within imputation
+variance and the between imputation variance (with a correction factor
+of $(1+\displaystyle \frac{1}{M})$).
 
-$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{}{SE}^2_m$$
-This is the average of the sum of the standard errors squared of the imputed datasets. It will be large in small datasets and small in large datasets [@hey2017].
+The imputation variance within, which is the normal standard error, is
+calculated as follows:
 
-The between imputation variance, which is how much extra variation there is due to the imputation process, is calculated as follows:
+$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{SE}^2_m$$
+
+This is the average of the sum of the standard errors squared of the
+imputed datasets. It will be large in small datasets and small in large
+datasets [@hey2019].
+
+The between imputation variance, which is how much extra variation there
+is due to the imputation process, is calculated as follows:
 
 $$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$.
-This is the sum of the sample variance for each imputed data set multiplied by 1 over the imputed datasets. It will be large when there is a high number of missing data and small when there is a small number of missing data [@hey2017].
+
+This is the sum of the sample variance for each imputed data set
+multiplied by 1 over the imputed datasets. It will be large when there
+is a high number of missing data and small when there is a small number
+of missing data [@hey2019]. When the between variance is greater than
+the within variance, then greater efficiency occurs, and more accurate
+estimates can be achieved by increasing *M*. Conversely, when the within
+variance is greater than the between variance, then little is gained by
+increasing *M*.
+
+To find the *total standard error*, take the square root of the total
+variance:
+
+$$SE_{pooled} = {\sqrt{\hat{\Phi}}_{M}}$$
+
+For significance testing, we use the Wald Test:
+
+$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{{\hat{\Phi}}_{M}}$$
+
+The Wald test follows a t-distribution with the degrees of freedom as
+follows:
+
+$$df = (M-1)(1+\frac{1}{M+1} * \frac{\overline{\theta}_{M}}{B_{M}})^2$$
+
+It results in a 2-sided t-test with the t-value as follows:
+
+$$t_{df, 1-\alpha/2}$$
+
+To test for significance using F-distribution, we square the t-value:
+
+$$ F_{1,df} = t^{2}_{df, 1-\alpha/2}$$
 
 #### Assumptions
 
 All multiple imputation methods have the following assumptions:
 
--   Observed data follow a multivariate normal distribution.
+-   Observed data follow a normal distribution. If not normal, a
+    transformation is first needed before imputation can be performed.
 
 -   Missing data are classified as MAR, which is the probability that a
     missing value depends only on observed values and not unobserved
@@ -321,8 +380,8 @@ All multiple imputation methods have the following assumptions:
     knowing the values of ${\theta}$ does not provide any information
     about ${\phi}$.
 
-These assumptions are essential otherwise we wouldn't be able to predict
-a plausible replacement value for the missing data.
+These assumptions are essential, otherwise we wouldn't be able to
+predict a plausible replacement value for the missing data.
 
 #### Steps:
 
@@ -349,6 +408,15 @@ until all missing values have been replaced.
 "M" cycles/imputations that are required.
 
 ## Analysis and Results
+
+##### MICE in R
+
+Using the MICE (Multivariate Imputation by Chained Equations) package in
+R, a statistical programming software, we will be demonstrating how to
+impute missing data. We will run through the MICE process and provide
+results of the imputations. We will then check the accuracy of the
+imputations by comparing these results to the results of the original,
+complete data set.
 
 ### Data and Visualizations
 
@@ -378,14 +446,14 @@ kc_house_data.csv
 This dataset contains the sale prices of 21,613 houses in King County,
 Seattle between May 2014 to May 2015. The original dataset contained 21
 columns with various selling attributes. For the purpose of this
-project, we have condensed the variables to the following 4: sales
+project, we have condensed the variables to the following four: sales
 price, number of bedrooms, number of bathrooms, and square footage of
 living space.
 
 ##### Definition of Data in Dataset
 
 | Variable    | Type    | Description                                                                                                                                |
-|----------|----------|----------------------------------------------------|
+|-------------|-------------|---------------------------------------------|
 | price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000                         |
 | bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 33.                                |
 | bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 8.                                |
@@ -415,15 +483,6 @@ ggplot(original, aes(x=sqft_living, y=price)) +
   labs(x="sqft_living", y="price")
 ```
 
-##### MICE in R
-
-Using the MICE (Multivariate Imputation by Chained Equations) package in
-R, a statistical programming software, we will be demonstrating how to
-impute missing data in the house sales dataset. We will run through the
-MICE process and provide results of the imputations. We will then check
-the accuracy of the imputations by comparing these results to the
-results of the original, complete data set.
-
 ##### Evaluate Dataset
 
 First, we evaluate the dataset for missing values by using the is.na()
@@ -434,18 +493,22 @@ function:
 sapply(original, function(x) sum(is.na(x)))
 ```
 
-There is no missing data; this is the original, complete dataset. We
-will artificially create some missing values. We do this by first
-duplicating the dataset. We want to preserve the original so that we can
-later check the accuracy of the imputation process. Next, we randomly
-replace the desired amount of values with NA to mimic missing data. We
-will assign 200 NA values to the following variables: bedrooms,
-bathrooms, and sqft_living and 100 NA values to the price variable.
+There are no missing values; this is the original, complete dataset. We
+will artificially create some missing data. We do this by first
+duplicating the dataset. We want to preserve the original dataset so
+that we can later check the accuracy of the imputation process.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # duplicate dataset
 house <- original
+```
 
+Next, we randomly replace the desired amount of values with NA to mimic
+missing data. We will assign 200 NA values to the following variables:
+bedrooms, bathrooms, and sqft_living and 100 NA values to the price
+variable.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
 # replace some values with NA to create missing data
 set.seed(10)
 house[sample(1:nrow(house), 200), "sqft_living"] <- NA
@@ -491,8 +554,8 @@ aggr() function:
 aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
 ```
 
-It shows each variable and the percent of missing data for each (as a
-decimal):
+It provides a histogram of the missing values and shows each variable
+and the percent of missing data for each (as a decimal):
 
 -   bedrooms: 0.9%
 
@@ -553,7 +616,7 @@ imputations to be values that could have been observed had the data not
 been missing.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# stip plots to check the quality of the imputations
+# strip plots to check the quality of the imputations
 par(mfrow=c(2,2))
 stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
 stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
@@ -572,10 +635,10 @@ regression, we get different results.
 fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
 ```
 
-Next, we will pool the results to arrive at estimates that will properly account for the
-missing data. It will give us the estimate,
-standard error, test statistic, degrees of freedom, and the p-value for
-each variable.
+Next, we will pool the results to arrive at estimates that will properly
+account for the missing data. It will give us the estimate, standard
+error, test statistic, degrees of freedom, and the p-value for each
+variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 
@@ -587,7 +650,9 @@ We can now analyze our dataset as if there were no missing data!
 
 ##### Checking for Accuracy
 
-We will now compare the results from our pooled, imputed datasets to our original, complete dataset (before we removed values to create missing data) to check for accuracy of the imputation method by chained
+We will now compare the results from our pooled, imputed datasets to our
+original, complete dataset (before we removed values to create missing
+data) to check for accuracy of the imputation method by chained
 equations:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
@@ -598,27 +663,27 @@ og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
 msummary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
 ```
 
-The estimates from the multiple imputation are very close to the estimates
-for the original dataset. They are almost exact, with the exception of
-bathrooms which is off just slightly. The p-values are all very similar;
-the differences are very minimal. They are all significant in the
-imputed dataset, as well as the original dataset. These results indicate
-a high accuracy of the imputation process. We can conclude that multiple
-imputation by chained equation is a reliable source to impute missing
-data.
+The estimates from the multiple imputation are very close to the
+estimates for the original dataset. They are almost exact, with the
+exception of bathrooms which is off just slightly. The p-values are all
+very similar; the differences are very minimal. They are all significant
+in the imputed dataset, as well as the original dataset. These results
+indicate a high accuracy of the imputation process. We can conclude that
+multiple imputation by chained equation is a reliable source to impute
+missing data.
 
 ## Conclusion
 
 In conclusion, missing data can occur in research for a variety of
-reasons. It is never a good idea to ignore it. Doing this will lead to
+reasons. It is never a good idea to ignore it. Doing this will lead "to
 biased estimates of parameters, loss of information, decreased
-statistical power, and weak reliability of findings [@don2013]. The best
-course of action is to impute the missing data by using multiple
+statistical power, and weak reliability of findings" [@don2013]. The
+best course of action is to impute the missing data by using multiple
 imputation. When missing data is discovered, it is important to first
 identify it and look for missing data patterns. Next, define the
 variables in the dataset that are related to the missing values that
 will be used for imputation. Create the necessary number of complete
-data sets. Run the models and combine them using the imputed values, and
-finally, analyze the complete dataset. Performing these steps will
-minimize the adverse effects caused by missing data on the analysis
-[@pam2016].
+data sets with imputed values. Run regression on these models and
+combine them using Rubin's Rules. Finally, analyze the dataset.
+Performing these steps will minimize the adverse effects on the analysis
+caused by missing data [@pam2016].
