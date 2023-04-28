@@ -51,9 +51,9 @@ missingness:
     missingness is related to the observed data and the missing data.
     This would be the worst-case scenario.
 
-![](GraphicalRepresentation.png)
-
 Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
+
+![](GraphicalRepresentation.png)
 
 (X are the completely observed variables. Y are the partly missing
 variables. Z is the component of the cause of missingness unrelated to X
@@ -62,7 +62,7 @@ and Y. R is the missingness.)
 Looking for patterns in the missing data can help us to determine which
 category they belong. These mechanisms are important in determining how
 to handle the missing data. MCAR would be the best-case scenario but
-seldom occur. MAR and MNAR are more common. The problem with ignoring
+seldom occurs. MAR and MNAR are more common. The problem with ignoring
 any missing values is that it does not give a true representation of the
 dataset and can lead to bias when analyzing. This reduces the
 statistical power of the analysis [@van2020].
@@ -150,8 +150,9 @@ following is a brief explanation of each:
     missing value. The mean is then multiplied by the number of
     observations in the study. Next, the known values are subtracted
     from the product, and this gives an estimate that can be used for
-    any missing values. The problem with this method is that it reduces
-    the variance which leads to a smaller confidence interval.
+    any missing values. The problem with this method is that it can
+    produce misleading results such as showing the variance and the
+    confidence interval smaller than they actually are.
 
 -   Last Observation Carried Forward (LOCF) is a technique of replacing
     a missing value in longitudinal studies with a previously observed
@@ -164,7 +165,7 @@ following is a brief explanation of each:
     using that observation for any of the missing values. The problem
     with this method is that it introduces additional variability.
 
-These single imputation methods are flawed. They often result in
+These single imputation methods are inaccurate. They often result in
 underestimation of standard errors or too small p-values [@don2013],
 which can cause bias in the analysis. Therefore, multiple imputation is
 the superior method because it handles missing data better and provides
@@ -453,7 +454,7 @@ living space.
 ##### Definition of Data in Dataset
 
 | Variable    | Type    | Description                                                                                                                                |
-|-------------|-------------|---------------------------------------------|
+|----------|----------|----------------------------------------------------|
 | price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000                         |
 | bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 33.                                |
 | bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 8.                                |
@@ -540,10 +541,14 @@ md.pattern(house, rotate.names = TRUE)
 ```
 
 Blue are the observed/complete values, and red are the missing values.
-There are 20,920 complete observations (not missing data). The total
-number of missing data for each variable is as follows: price = 100,
-bedrooms = 200, bathrooms = 200, sqft_living = 200, which equal the 700
-total missing values. This visual gives a breakdown of where the missing
+The numbers on the left indicate how many complete values there are and
+the numbers on the right show how many variables contain missing data.
+So for example, the first line shows there are 20,920 complete
+observations across all four variables. The next line indicates there
+are 195 complete observations in three of the variables with data
+missing in the sqft_living variable, so forth and so on all the way down
+the list. The total number of missing data for each variable is listed
+across the bottom. This visual gives a breakdown of where the missing
 data occurs.
 
 Another way to look for patterns in the missing data is to use the
