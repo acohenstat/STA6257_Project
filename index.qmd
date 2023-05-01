@@ -14,8 +14,7 @@ format:
     toc: true
     toc-location: left
 course: STA 6257 - Advanced Statistical Modeling
-bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+bibliography: references.bib
 editor: 
   markdown: 
     wrap: 72
@@ -34,8 +33,8 @@ Missing data occurs when there are missing values in a dataset. There
 are many reasons why this happens. It can be intentional or
 unintentional, and oftentimes there is no way to know for sure what
 causes the missing data. There are three categories, otherwise known as
-missingness mechanisms [@mai2023], which measure the severity of the
-missingness:
+missingness mechanisms, which measure the severity of the missingness
+[@mai2023]:
 
 -   Missing completely at random (MCAR) is when the distribution of
     missing data is completely independent of any other variables. There
@@ -76,9 +75,7 @@ According to @don2013, to enhance the quality of research, the following
 should be followed with regards to missing data:
 
 -   Determine under what conditions the missing data occur.
-
 -   Use principled methods to handle the missing data.
-
 -   Include and report the treatment of the missing data.
 
 #### Methods to Deal with Missing Data
@@ -203,15 +200,14 @@ provides a more reliable way to analyze data with missing values. For
 this reason, this paper will focus on the methodology and application of
 the MICE process.
 
-```{r, warning=FALSE, echo=T, message=FALSE}
-#loading packages
-library(DiagrammeR)
-```
-
 Figure 2: Flowchart of the MICE-process based on procedures proposed by
 Rubin [@wul2017]
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
+# load package
+library(DiagrammeR)
+
+# flowchart of mice process
 DiagrammeR::grViz("digraph {
 
 # initiate graph
@@ -231,7 +227,6 @@ imputed2 [label = 'Imputed \n data set 2']
 estimates2 [label = 'Estimates from \n analysis 2']
 imputedm [label = 'Imputed \n data set m']
 estimatesm [label = 'Estimates from \n analysis m']
-
 
 # edge definitions with the node IDs
 incomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]
@@ -257,11 +252,9 @@ method and doing the following steps:
 
 -   Impute missing data by averaging the estimates across imputed
     datasets.
-
 -   Run regression on each of the imputed datasets.
-
 -   Find the standard errors and variance of the imputed estimates.
-    Combine them using an adjustment term (1+1/m).
+    Combine them using an adjustment term.
 
 He felt like this would provide more accurate results than using just
 one imputed dataset. His theory is referred to as Rubin's Rules.
@@ -296,7 +289,7 @@ imputed value [@tho2022]. This maintains the variability of the data.
 Missing values are first replaced with the mean or mode of that
 particular variable and then the dataset is split into a training set
 and a prediction set [@tho2022]. The missing values are replaced with
-values from these sets. This type of imputation can be used on
+estimates from these sets. This type of imputation can be used on
 continuous or categorical variables with complex interactions.
 
 ## Methodology
@@ -309,19 +302,19 @@ datasets. For each of the *M* datasets, an estimate of $\theta$ is
 acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
 estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
 complete dataset. The following formulas are used in the multiple
-imputation process [@arn2017 & @hey2019].
+imputation process [@arn2017] and [@hey2019].
 
 The combined estimator of $\theta$, the pooled mean difference, is given
 by the following equation:
 
-$${\overline{\theta}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
+$${\overline{\theta}} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
 This is the sum of the *m* estimators from each of the *M* imputed
 datasets which are pooled together and averaged.
 
 The proposed variance estimator of ${\hat{\theta}}_{M}$, the total
 variance, is given by the following equation:
 
-$${\hat{\Phi}}_{M} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
+$${\hat{\Phi}} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
 
 This formula is made up of two parts: the average within imputation
 variance and the between imputation variance (with a correction factor
@@ -330,7 +323,7 @@ of $(1+\displaystyle \frac{1}{M})$).
 The imputation variance within, which is the normal standard error, is
 calculated as follows:
 
-$${\overline{\phi}}_{M} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{SE}^2_m$$
+$${\overline{\phi}} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{SE}^2_m$$
 
 This is the average of the sum of the standard errors squared of the
 imputed datasets. It will be large in small datasets and small in large
@@ -339,7 +332,7 @@ datasets.
 The between imputation variance, which is how much extra variation there
 is due to the imputation process, is calculated as follows:
 
-$$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}}_{M})^{2}$$
+$$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}})^{2}$$
 
 This is the sum of the sample variance for each imputed data set
 multiplied by 1 over the imputed datasets. It will be large when there
@@ -350,19 +343,19 @@ estimates can be achieved by increasing *M*. Conversely, when the within
 variance is greater than the between variance, then little is gained by
 increasing *M*.
 
-To find the *total standard error*, take the square root of the total
+To find the total standard error, take the square root of the total
 variance:
 
-$$SE_{pooled} = {\sqrt{\hat{\Phi}}_{M}}$$
+$$SE_{pooled} = {\sqrt{\hat{\Phi}}}$$
 
 For significance testing, we use the Wald Test:
 
-$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{{\hat{\Phi}}_{M}}$$
+$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{{\hat{\Phi}}}$$
 
 The Wald test follows a t-distribution with the degrees of freedom as
 follows:
 
-$$df = (M-1)(1+\frac{1}{M+1} * \frac{\overline{\theta}_{M}}{B_{M}})^2$$
+$$df = (M-1)(1+\frac{1}{M+1} * \frac{\overline{\theta}}{B_{M}})^2$$
 
 It results in a 2-sided t-test with the t-value as follows:
 
@@ -387,7 +380,7 @@ All multiple imputation methods have the following assumptions:
     -   "The parameters ${\theta}$ of the data model and the parameters
         ${\phi}$ of the model for the missing values are distinct. That
         is, knowing the values of ${\theta}$ does not provide any
-        information about ${\phi}$" \[\@\]
+        information about ${\phi}$." [@mip2019]
 
 These assumptions are essential, otherwise we wouldn't be able to
 predict a plausible replacement value for the missing data.
@@ -397,7 +390,7 @@ predict a plausible replacement value for the missing data.
 The chained equation process has the following steps [@azu2011]:
 
 *Step 1:* Using simple imputation, replace the missing data with this
-value, referred to as the "place holder".
+value, referred to as the "place holder."
 
 *Step 2:* The "place holder" values for one variable are set back to
 missing.
@@ -433,6 +426,7 @@ complete data set.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # load libraries
+library(vtable)
 library(gtsummary)
 library(gt)
 library(ggplot2)
@@ -462,8 +456,8 @@ living space.
 ##### Definition of Data in Dataset
 
 | Variable    | Type    | Description                                                                                                                                |
-|----------|----------|----------------------------------------------------|
-| price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000                         |
+|------------------|------------------|------------------------------------|
+| price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000.                        |
 | bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 33.                                |
 | bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 8.                                |
 | sqft_living | integer | Number of square feet of living space in homes sold between May 2014 and May 2015 in King County, Seattle; range from 290 sf to 13,540 sf. |
@@ -471,16 +465,8 @@ living space.
 ##### Summary of Dataset:
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# table summary of data
-original %>% 
-  tbl_summary(missing_text = "NA") %>%
-  add_n() %>%
-  modify_header(label ~ "**Variable**") %>%
-  modify_caption("**Summary of Data**") %>%
-  bold_labels() %>%
-  as_gt() %>% 
-  tab_options(column_labels.background.color = "#FFFFFF00",
-    table.background.color = "#FFFFFF00")
+# summary of data
+sumtable(original, col.align = c('left', 'center'))
 ```
 
 ##### Plotting of Data
@@ -502,8 +488,8 @@ function:
 sapply(original, function(x) sum(is.na(x)))
 ```
 
-There are no missing values; this is the original, complete dataset. We
-will artificially create some missing data. We do this by first
+There are no missing values; this is the original, complete dataset. Normally, this is where you would find out how much missing data your dataset contains and you would move on to the next step in imputation. Since our dataset does not contain any missing values, we
+will need to add an additional step to artificially create some missing data. We do this by first
 duplicating the dataset. We want to preserve the original dataset so
 that we can later check the accuracy of the imputation process.
 
@@ -605,7 +591,7 @@ ensure that the same random values are generated each time.
 imp = mice(data = house, set.seed = 1337)
 ```
 
-We need to create the imputed dataset using the complete() function:
+We need to create the imputed dataset using the complete() function. We will not display the results since there are 21,613 rows.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # create imputed dataset
@@ -652,16 +638,17 @@ error, test statistic, degrees of freedom, and the p-value for each
 variable.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-
 # pool and summarize the results
 summary(pool(fit))
+
+
 ```
 
 We can now analyze our dataset as if there were no missing data!
 
 ##### Checking for Accuracy
 
-We will now compare the results from our pooled, imputed datasets to our
+We will now compare the results from our pooled, imputed dataset to our
 original, complete dataset (before we removed values to create missing
 data) to check for accuracy of the imputation method by chained
 equations:
