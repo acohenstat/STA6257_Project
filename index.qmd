@@ -377,10 +377,7 @@ All multiple imputation methods have the following assumptions:
     of missing data is dependent of the observed values and not the
     unobserved values.
 
-    -   "The parameters ${\theta}$ of the data model and the parameters
-        ${\phi}$ of the model for the missing values are distinct. That
-        is, knowing the values of ${\theta}$ does not provide any
-        information about ${\phi}$." [@mip2019]
+-   "The parameters ${\theta}$ of the data model and the parameters ${\phi}$ of the model for the missing values are distinct. That is, knowing the values of ${\theta}$ does not provide any information about ${\phi}$" [@mip2019].
 
 These assumptions are essential, otherwise we wouldn't be able to
 predict a plausible replacement value for the missing data.
