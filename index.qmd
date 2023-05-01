@@ -1,73 +1,684 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "Missing Data and Imputation"
+author:
+  - Javier Estrada
+  - Michael Underwood
+  - Elizabeth Subject-Scott
 date: '`r Sys.Date()`'
-format:
+format: 
   html:
     code-fold: true
-course: STA 6257 - Advance Statistical Modeling
-bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+    code-tools: true
+    css: styles.css
+    theme: morph
+    toc: true
+    toc-location: left
+course: STA 6257 - Advanced Statistical Modeling
+bibliography: references.bib
+editor: 
+  markdown: 
+    wrap: 72
+self-contained: true 
 ---
 
+[Website](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/)
+
+[Slides](https://missingdata-imputation.github.io/STA6257_Missing_Data_and_Imputation/Slides.html)
+
 ## Introduction
-Kernel regression is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric
-statistics. In kernel estimator, weight function is known as kernel function [@efr2008]. Cite this paper [@bro2014principal].
 
+#### Missing Data
 
-## Methods
+Missing data occurs when there are missing values in a dataset. There
+are many reasons why this happens. It can be intentional or
+unintentional, and oftentimes there is no way to know for sure what
+causes the missing data. There are three categories, otherwise known as
+missingness mechanisms, which measure the severity of the missingness
+[@mai2023]:
 
+-   Missing completely at random (MCAR) is when the distribution of
+    missing data is completely independent of any other variables. There
+    is no relationship between the pattern of missingness and the
+    observed data. This would be the best-case scenario.
 
-The common non-parametric regression model is $Y_i = m(X_i) + \varepsilon_i$, where
-$Y_i$ can be defined as the sum of the regression function value $m(x)$ for $X_i$.
-Here $m(x)$ is unknown and $\varepsilon_i$ some errors. With the help of this definition, we can create the estimation for
-local averaging i.e. $m(x)$ can be estimated with the product of $Y_i$ average
-and $X_i$ is near to $x$. In other words, this means that we are discovering
-the line through the data points with the help of surrounding data points.
-The estimation formula is printed below [@R-base]:
+-   Missing at random (MAR) is when the distribution of missing data is
+    dependent of the observed values. The pattern of missingness is
+    related to the observed data and not the missing data.
 
-$$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$
-$W_n(x)$ is the sum of weights that belongs to all real numbers. Weights
-are positive numbers and small if $X_i$ is far from $x$.
+-   Missing not at random (MNAR) is when missing data is neither MCAR or
+    MAR. The distribution of missing data is dependent on other
+    variables. The pattern of missingness is related to the observed
+    data, as well as the missing data. This would be the worst-case
+    scenario and is nonignorable.
 
-## Analysis and Results
-### Data and Vizualisation
-A study was conducted to determine how...
+Figure 1: Graphical Representation of Missingness Mechanisms [@sch2002]
+
+![](GraphicalRepresentation.png)
+
+(X are the completely observed variables. Y are the partly missing
+variables. Z is the component of the cause of missingness unrelated to X
+and Y. R is the missingness.)
+
+Looking for patterns in the missing data can help us to determine which
+category they belong. These mechanisms are important in determining how
+to handle the missing data. MCAR would be the best-case scenario but
+seldom occurs. MAR and MNAR are more common. Most methods of dealing
+with missing data assume a MAR missingness. If data are found to be
+MNAR, worst-case scenario, then specialized expertise and additional
+steps are needed to model the missingness before handling the missing
+data. The problem with ignoring any missing values is that it does not
+give a true representation of the dataset and can lead to bias when
+analyzing. This reduces the statistical power of the analysis
+[@van2020].
+
+According to @don2013, to enhance the quality of research, the following
+should be followed with regards to missing data:
+
+-   Determine under what conditions the missing data occur.
+-   Use principled methods to handle the missing data.
+-   Include and report the treatment of the missing data.
+
+#### Methods to Deal with Missing Data
+
+There are three types of methods to deal with missing data, the
+likelihood and Bayesian method, weighting methods, or imputation methods
+[@cao2021].
+
+-   Likelihood Bayesian method is when information from a previous
+    predictive distribution is combined with evidence obtained in a
+    sample to predict a value. It requires technical coding and advanced
+    statistical knowledge.
+
+-   The weighting method is a traditional approach when weights from
+    available data are used to adjust for non-response in a survey.
+    Inefficiency occurs when there are extreme weights or a need for
+    many weights.
+
+-   The imputation method is when an estimate from the original dataset
+    is used to estimate the missing value. There are two types of
+    imputation: single and multiple.
+
+#### Deleting Missing Data
+
+Another way to handle missing data is to simply delete it. Deleting
+missing values can lead to the loss of important information regarding
+your dataset, and is therefore not recommended. The two types of
+deletion methods are listwise and pairwise.
+
+*Listwise deletion* is when the entire observation is removed from the
+dataset. In certain cases when the amount of missing data is small and
+the type is MCAR, listwise deletion can be used. There usually won't be
+bias but potentially important information may be lost.
+
+T-tests and chi-square tests can be used to assess pairs of predictor
+variables to determine whether the groups' means differ significantly.
+According to @van2020, if significant, the null hypothesis is rejected,
+therefore, indicating that the missing values are not randomly
+distributed throughout the data. This implies that the missing data is
+either MAR or MNAR. Conversely, if non-significant, this implies that
+the data cannot be MAR. This does not eliminate the possibility that it
+is not MNAR--other information about the population is needed to
+determine this.
+
+Whenever missing data is categorized as MAR or MNAR, listwise deletion
+would be wasteful, and the analysis biased. Alternate methods of dealing
+with the missing data is recommended: either pairwise deletion or
+imputation.
+
+*Pairwise deletion* is when only the missing variable of an observation
+is removed. It allows more data to be analyzed than listwise deletion
+but limits the ability to make inferences of the total sample. For this
+reason, it is recommended to use imputation to properly deal with
+missing data.
+
+#### Preferred Method to Handle Missing Data
+
+Imputation is the preferred method to handle missing data. It consists
+of replacing missing data with an estimate obtained from the original,
+available data. After imputation, there will be a full dataset to
+analyze. According to @wul2017, 3-5 imputations are sufficient, and 10
+imputations are more than enough. More recent research has indicated
+that to improve statistical power, the number of imputations created
+should be at least equal to the percent of missing data (5% equals 5
+imputations, 10% equals 10 imputations, 20% equals 20 imputations, etc.)
+[@ped2017].
+
+*Single, or univariate, imputation* is when only one estimate is used to
+replace the missing data. Methods of single imputation include using the
+mean, the last observation carried forward, and random imputation. The
+following is a brief explanation of each:
+
+-   Using the mean to replace a missing value is a straight-forward
+    process. The mean of the dataset is calculated, including the
+    missing value. The mean is then multiplied by the number of
+    observations in the study. Next, the known values are subtracted
+    from the product, and this gives an estimate that can be used for
+    any missing values. The problem with this method is that it can
+    produce misleading results such as showing the variance and the
+    confidence interval smaller than they actually are.
+
+-   Last Observation Carried Forward (LOCF) is a technique of replacing
+    a missing value in longitudinal studies with a previously observed
+    value, the most recent value is carried forward [@str2008]. The
+    problem with this method is that it assumes that the previous
+    observed value is perpetual when in reality that most likely is not
+    the case.
+
+-   Random imputation is a method of randomly drawing an observation and
+    using that observation for any of the missing values. The problem
+    with this method is that it introduces additional variability.
+
+These single imputation methods are inaccurate. They often result in
+underestimation of standard errors or too small p-values [@don2013],
+which can cause bias in the analysis. Therefore, multiple imputation is
+the superior method because it handles missing data better and provides
+less biased results.
+
+*Multiple, or multivariate, imputation* is when various estimates are
+used to replace the missing data by creating multiple datasets from
+versions of the original dataset. According to @don2013, it can be done
+by using a "regression model, or a sequence of regression models, such
+as linear, logistic and Poison," where a set of *m* plausible values are
+generated for each unobserved data point, resulting in *M* complete data
+sets. The new values are randomly drawn from predictive distributions
+either through joint modeling (JM, which is not used much anymore) or
+fully conditional specification (FCS) [@won2023]. It is then analyzed
+and the results are combined to obtain a single value for the missing
+data.
+
+The purpose of multiple imputation is to create a pool of imputed data
+for analysis, but if the pooled results are lacking, then multiple
+imputation should not be done [@mai2023]. Another reason not to use
+multiple imputation is if there are very few missing values; there may
+be no benefit in using it. Also worth noting is some statistical
+analyses software already have built-in features to deal with missing
+data.
+
+Multiple imputation by chained methods, otherwise known as MICE, is the
+most common and preferred method of multiple imputation [@wul2017]. It
+provides a more reliable way to analyze data with missing values. For
+this reason, this paper will focus on the methodology and application of
+the MICE process.
+
+Figure 2: Flowchart of the MICE-process based on procedures proposed by
+Rubin [@wul2017]
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
+# load package
+library(DiagrammeR)
+
+# flowchart of mice process
+DiagrammeR::grViz("digraph {
+
+# initiate graph
+graph [layout = dot, rankdir = LR, label = 'The MICE-Process\n\n',labelloc = t, fontcolor = DarkSlateBlue, fontsize = 45]
+
+# global node settings
+node [shape = rectangle, style = filled, fillcolor = AliceBlue, fontcolor = DarkSlateBlue, fontsize = 35]
+bgcolor = none
+
+# label nodes
+incomplete [label =  'Incomplete data set']
+imputed1 [label = 'Imputed \n data set 1']
+estimates1 [label = 'Estimates from \n analysis 1']
+rubin [label = 'Rubins Rules', shape = diamond]
+combined [label = 'Combined results']
+imputed2 [label = 'Imputed \n data set 2']
+estimates2 [label = 'Estimates from \n analysis 2']
+imputedm [label = 'Imputed \n data set m']
+estimatesm [label = 'Estimates from \n analysis m']
+
+# edge definitions with the node IDs
+incomplete -> imputed1 [arrowhead = vee, color = DarkSlateBlue]
+imputed1 -> estimates1 [arrowhead = vee, color = DarkSlateBlue]
+estimates1 -> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputed2 [arrowhead = vee, color = DarkSlateBlue]
+imputed2 -> estimates2 [arrowhead = vee, color = DarkSlateBlue]
+estimates2-> rubin [arrowhead = vee, color = DarkSlateBlue]
+incomplete -> imputedm [arrowhead = vee, color = DarkSlateBlue]
+imputedm -> estimatesm [arrowhead = vee, color = DarkSlateBlue]
+estimatesm -> rubin [arrowhead = vee, color = DarkSlateBlue]
+rubin -> combined [arrowhead = vee, color = DarkSlateBlue]
+}")
+```
+
+*Rubin's Rules*: Donald Rubin was a Harvard professor in the seventies.
+He felt that the then current method of dealing with missing data
+(single imputation) was flawed. It was impossible to calculate missing
+values with absolute certainty because the method did not consider the
+estimates in error in the predictions of the missing data. For this
+reason, he recommended creating multiple datasets based on the Bayesian
+method and doing the following steps:
+
+-   Impute missing data by averaging the estimates across imputed
+    datasets.
+-   Run regression on each of the imputed datasets.
+-   Find the standard errors and variance of the imputed estimates.
+    Combine them using an adjustment term.
+
+He felt like this would provide more accurate results than using just
+one imputed dataset. His theory is referred to as Rubin's Rules.
+
+#### Other Methods of Imputation
+
+There are other methods of imputation worth noting and are briefly
+described below.
+
+*Regression Imputation* is based on a linear regression model. Missing
+data is randomly drawn from a conditional distribution when variables
+are continuous and from a logistic regression model when they are
+categorical [@van2020].
+
+*Predictive Mean Matching (PMM)* is also based on a linear regression
+model. The approach is the same as regression imputation when it comes
+to categorical missing values but different for continuous variables.
+Instead of random draws from a conditional distribution, missing values
+are based on predicted values of the outcome variable [@van2020].
+
+*Hot Deck (HD) imputation* is when a missing value is replaced by a
+similar observed value, known as "the donor." It can be either random or
+deterministic, which is based on a metric or value [@tho2022]. It does
+not rely on model fitting.
+
+*Stochastic Regression (SR) Imputation* is an extension of regression
+imputation. The process is the same but a residual term from the normal
+distribution of the regression of the predictor outcome is added to the
+imputed value [@tho2022]. This maintains the variability of the data.
+
+*Random Forest (RF) Imputation* is based on machine learning algorithms.
+Missing values are first replaced with the mean or mode of that
+particular variable and then the dataset is split into a training set
+and a prediction set [@tho2022]. The missing values are replaced with
+estimates from these sets. This type of imputation can be used on
+continuous or categorical variables with complex interactions.
+
+## Methodology
+
+#### Multiple Imputation by Chained Equations (MICE)
+
+According to Rubin's Rules, in multiple imputation *m* imputed values
+are created for each of the missing data and result in *M* complete
+datasets. For each of the *M* datasets, an estimate of $\theta$ is
+acquired. Let ${\hat{\theta}}_{m}$ and ${\hat{\phi}}_{m}$ be an
+estimator of the variance of ${\hat{\theta}}_{m}$ based on the *M*th
+complete dataset. The following formulas are used in the multiple
+imputation process [@arn2017] and [@hey2019].
+
+The combined estimator of $\theta$, the pooled mean difference, is given
+by the following equation:
+
+$${\overline{\theta}} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M} {\hat{\theta}}_{m}$$
+This is the sum of the *m* estimators from each of the *M* imputed
+datasets which are pooled together and averaged.
+
+The proposed variance estimator of ${\hat{\theta}}_{M}$, the total
+variance, is given by the following equation:
+
+$${\hat{\Phi}} = {\overline{\phi}}_{M} + (1+\displaystyle \frac{1}{M})B_{M}$$
+
+This formula is made up of two parts: the average within imputation
+variance and the between imputation variance (with a correction factor
+of $(1+\displaystyle \frac{1}{M})$).
+
+The imputation variance within, which is the normal standard error, is
+calculated as follows:
+
+$${\overline{\phi}} = \displaystyle \frac{1}{M}\sum_{m = 1}^{M}{SE}^2_m$$
+
+This is the average of the sum of the standard errors squared of the
+imputed datasets. It will be large in small datasets and small in large
+datasets.
+
+The between imputation variance, which is how much extra variation there
+is due to the imputation process, is calculated as follows:
+
+$$B_{M} = \displaystyle \frac{1}{M-1}\sum_{m = 1}^{M}({\hat{\theta}}_{m}-{\overline{\theta}})^{2}$$
+
+This is the sum of the sample variance for each imputed data set
+multiplied by 1 over the imputed datasets. It will be large when there
+is a high number of missing data and small when there is a small number
+of missing data [@hey2019]. When the between variance is greater than
+the within variance, then greater efficiency occurs, and more accurate
+estimates can be achieved by increasing *M*. Conversely, when the within
+variance is greater than the between variance, then little is gained by
+increasing *M*.
+
+To find the total standard error, take the square root of the total
+variance:
+
+$$SE_{pooled} = {\sqrt{\hat{\Phi}}}$$
+
+For significance testing, we use the Wald Test:
+
+$$Wald_{pooled} = \frac{(\overline{\theta} - {\theta_{0}})^2}{{\hat{\Phi}}}$$
+
+The Wald test follows a t-distribution with the degrees of freedom as
+follows:
+
+$$df = (M-1)(1+\frac{1}{M+1} * \frac{\overline{\theta}}{B_{M}})^2$$
+
+It results in a 2-sided t-test with the t-value as follows:
+
+$$t_{df, 1-\alpha/2}$$
+
+To test for significance using F-distribution, we square the t-value:
+
+$$ F_{1,df} = t^{2}_{df, 1-\alpha/2}$$
+
+#### Assumptions
+
+All multiple imputation methods have the following assumptions:
+
+-   Observed data follow a normal multivariate distribution. If not
+    normal, a transformation is first needed before imputation can be
+    performed.
+
+-   Missing data are classified as MAR, which is when the distribution
+    of missing data is dependent of the observed values and not the
+    unobserved values.
+
+-   "The parameters ${\theta}$ of the data model and the parameters ${\phi}$ of the model for the missing values are distinct. That is, knowing the values of ${\theta}$ does not provide any information about ${\phi}$" [@mip2019].
+
+These assumptions are essential, otherwise we wouldn't be able to
+predict a plausible replacement value for the missing data.
+
+#### Steps:
+
+The chained equation process has the following steps [@azu2011]:
+
+*Step 1:* Using simple imputation, replace the missing data with this
+value, referred to as the "place holder."
+
+*Step 2:* The "place holder" values for one variable are set back to
+missing.
+
+*Step 3:* The observed values from this variable (dependent variable)
+are regressed on the other variables (independent variables) in the
+model, using the same assumptions when performing linear, logistic, or
+Poison regression.
+
+*Step 4:* The missing values are replaced with predictions "m" from this
+newly created model.
+
+*Step 5:* Repeat Steps 2-4 for each variable that have missing values
+until all missing values have been replaced.
+
+*Step 6:* Repeat Steps 2-4, updating imputations each cycle for as many
+"M" cycles/imputations that are required.
+
+## Analysis and Results
+
+##### MICE in R
+
+Using the MICE (Multivariate Imputation by Chained Equations) package in
+R, a statistical programming software, we will be demonstrating how to
+impute missing data. We will run through the MICE process and provide
+results of the imputations. We will then check the accuracy of the
+imputations by comparing these results to the results of the original,
+complete data set.
+
+### Data and Visualizations
+
+##### Load Data and Packages
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# load libraries
+library(vtable)
+library(gtsummary)
+library(gt)
+library(ggplot2)
+library(VIM, warn.conflicts=FALSE)
+library(dplyr, warn.conflicts=FALSE)
+library(mice, warn.conflicts=FALSE)
 library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+library(modelsummary)
+
+# load data
+original = read.csv("kc_house_data.csv")
 ```
 
+##### Description of Dataset
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
+kc_house_data.csv
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+##### Details of Dataset
 
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_wsj()
-  
+This dataset contains the sale prices of 21,613 houses in King County,
+Seattle between May 2014 to May 2015. The original dataset contained 21
+columns with various selling attributes. For the purpose of this
+project, we have condensed the variables to the following four: sales
+price, number of bedrooms, number of bathrooms, and square footage of
+living space.
+
+##### Definition of Data in Dataset
+
+| Variable    | Type    | Description                                                                                                                                |
+|------------------|------------------|------------------------------------|
+| price       | numeric | Sale price of homes sold between May 2014 and May 2015 in King County, Seattle; range from \$75,000 to \$7,700,000.                        |
+| bedrooms    | integer | Number of bedrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 33.                                |
+| bathrooms   | numeric | Number of bathrooms in homes sold between May 2014 and May 2015 in King County, Seattle; range from 0 to 8.                                |
+| sqft_living | integer | Number of square feet of living space in homes sold between May 2014 and May 2015 in King County, Seattle; range from 290 sf to 13,540 sf. |
+
+##### Summary of Dataset:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# summary of data
+sumtable(original, col.align = c('left', 'center'))
+```
+
+##### Plotting of Data
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# plot the data
+ggplot(original, aes(x=sqft_living, y=price)) +
+  geom_point(alpha=0.5, color='darkblue') +
+  labs(x="sqft_living", y="price")
+```
+
+##### Evaluate Dataset
+
+First, we evaluate the dataset for missing values by using the is.na()
+function:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# check for missing data
+sapply(original, function(x) sum(is.na(x)))
+```
+
+There are no missing values; this is the original, complete dataset. Normally, this is where you would find out how much missing data your dataset contains and you would move on to the next step in imputation. Since our dataset does not contain any missing values, we
+will need to add an additional step to artificially create some missing data. We do this by first
+duplicating the dataset. We want to preserve the original dataset so
+that we can later check the accuracy of the imputation process.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# duplicate dataset
+house <- original
+```
+
+Next, we randomly replace the desired amount of values with NA to mimic
+missing data. We will assign 200 NA values to the following variables:
+bedrooms, bathrooms, and sqft_living and 100 NA values to the price
+variable.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# replace some values with NA to create missing data
+set.seed(10)
+house[sample(1:nrow(house), 200), "sqft_living"] <- NA
+house[sample(1:nrow(house), 200), "bedrooms"] <- NA
+house[sample(1:nrow(house), 200), "bathrooms"] <- NA
+house[sample(1:nrow(house), 100), "price"] <- NA
+```
+
+Using the is.na() function, we can check to confirm we have created
+missing data:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# check for missing data
+sapply(house, function(x) sum(is.na(x)))
+```
+
+Our dataset now has 700 NA/missing values. This equates to about 3% of
+the data (700/21,613).
+
+##### Checking for Patterns
+
+Next, we need to check the missingness by looking for patterns in the
+dataset by using the md.pattern() function. Of course our missing data
+was randomly created, so we know we have MCAR.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# check the missingness patterns
+md.pattern(house, rotate.names = TRUE)
+```
+
+Blue are the observed/complete values, and red are the missing values.
+The numbers on the left indicate how many complete values there are and
+the numbers on the right show how many variables contain missing data.
+So for example, the first line shows there are 20,920 complete
+observations across all four variables. The next line indicates there
+are 195 complete observations in three of the variables with data
+missing in the sqft_living variable, so forth and so on all the way down
+the list. The total number of missing data for each variable is listed
+across the bottom. This visual gives a breakdown of where the missing
+data occurs.
+
+Another way to look for patterns in the missing data is to use the
+aggr() function:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# histogram, patterns and count for missing data
+aggr_plot <- aggr(house, col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+```
+
+It provides a histogram of the missing values and shows each variable
+and the percent of missing data for each (as a decimal):
+
+-   bedrooms: 0.9%
+
+-   bathrooms: 0.9%
+
+-   sqft_living: 0.9%
+
+-   price: 0.5%
+
+Another visualization to check for the missingness is a margin plot:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# margin plot for missingness
+marginplot(house[c(1,4)])
+```
+
+The red box plot on the left shows the distribution of sqft_living with
+price missing. The blue box plot shows the distribution of the remaining
+data. The same is true for the price box plots on the bottom. We expect
+the red and blue boxplots to be very similar if our assumptions of MCAR
+data are true. In this case, they are.
+
+##### Imputation Process
+
+Since we are missing about 3% of our data, we need to perform at least 3
+imputations. This can be done by using the mice() function. Since 5 is
+the default, we will use that; if you need to use something different,
+you must set m equal to the number of imputations that you desire. The
+set.seed will be given the value 1337 (any number can be used here) to
+ensure that the same random values are generated each time.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# impute the data 5 times (default)
+imp = mice(data = house, set.seed = 1337)
+```
+
+We need to create the imputed dataset using the complete() function. We will not display the results since there are 21,613 rows.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# create imputed dataset
+imputed <- complete(imp)
+```
+
+We now need to check the imputed dataset to make sure there is no
+missing data. Again, we use the is.na() function:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# check imputed dataset for missing values
+sapply(imputed, function(x) sum(is.na(x)))
+```
+
+We can check the quality of the imputations by running a strip plot,
+which is a single axis scatter plot. It will show the distribution of
+the imputed values (red) over the observed values (blue). We want the
+imputations to be values that could have been observed had the data not
+been missing. These look to be acceptable.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# strip plots to check the quality of the imputations
+par(mfrow=c(2,2))
+stripplot(imp, price, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bedrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, bathrooms, pch = 19, cex=1, xlab = "Imputation number")
+stripplot(imp, sqft_living, pch = 19, cex=1, xlab = "Imputation number")
+```
+
+##### Fitting and Pooling Imputed Datasets
+
+Next, we will run regression on our imputed datasets, so we will have 5
+regression results. We do this with the with() function. For each
+regression, we get different results.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# fit complete-data model
+fit <- with(imp, lm(price~bedrooms+bathrooms+sqft_living))
+```
+
+Next, we will pool the results to arrive at estimates that will properly
+account for the missing data. It will give us the estimate, standard
+error, test statistic, degrees of freedom, and the p-value for each
+variable.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# pool and summarize the results
+summary(pool(fit))
+
 
 ```
 
-### Statistical Modeling
+We can now analyze our dataset as if there were no missing data!
 
-### Conlusion
+##### Checking for Accuracy
 
-## References
+We will now compare the results from our pooled, imputed dataset to our
+original, complete dataset (before we removed values to create missing
+data) to check for accuracy of the imputation method by chained
+equations:
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# fit original, complete dataset
+og_lm = lm(price~bedrooms+bathrooms+sqft_living, data = original)
+
+# compare imputed dataset to the original dataset
+msummary(list("Imputed" = pool(fit), "Original" = og_lm), title = "Comparison of Results", statistic = "p.value", estimate = "estimate", gof_omit = 'IC|Log|Adj|F|RMSE')
+```
+
+The estimates from the multiple imputation are very close to the
+estimates for the original dataset, with the exception of bathrooms
+which is off just slightly. The p-values are all statistically
+significant in the original dataset, as well as the imputed dataset,
+with very minimal differences in their values. These results indicate a
+high accuracy of the imputation process. We can conclude that multiple
+imputation by chained equation is a reliable source to impute missing
+data.
+
+## Conclusion
+
+In conclusion, missing data can occur in research for a variety of
+reasons. It is never a good idea to ignore it. Doing this will lead "to
+biased estimates of parameters, loss of information, decreased
+statistical power, and weak reliability of findings" [@don2013]. When
+missing data is discovered, it is important to first identify it and
+look for missing data patterns. The best course of action is to impute
+the missing data by using multiple imputation. Next, define the
+variables in the dataset that are related to the missing values that
+will be used for imputation. Create the necessary number of complete
+data sets with imputed values. Run regression on these models and
+combine them using Rubin's Rules. Finally, analyze the dataset.
+Performing these steps will minimize the adverse effects on the analysis
+caused by missing data [@pam2016].
