@@ -12,7 +12,7 @@ bibliography: references.bib # file contains bibtex for references
 
 ## Introduction
 Kernel regression is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric
-statistics. In kernel estimator, weight function is known as kernel function [@efr2008]. Cite this paper [@bro2014principal].
+statistics. In kernel estimator, weight function is known as kernel function [@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
 
 
 ## Methods
