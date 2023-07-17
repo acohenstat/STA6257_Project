@@ -5,9 +5,13 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
-course: STA 6257 - Advance Statistical Modeling
+course: STA 6257 - Advanced Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
+self-contained: true
+execute: 
+  warning: false
+  message: false
 ---
 
 ## Introduction
@@ -61,7 +65,7 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
   ylab("Total number of murders (log10 scale)") +
   ggtitle("US Gun Murders in 2010") +
   scale_color_discrete(name = "Region")+
-      theme_wsj()
+      theme_bw()
   
 
 ```
