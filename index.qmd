@@ -1,6 +1,6 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "SVM application in Data Mining in EMR"
+author: "Brad Lipson"
 date: '`r Sys.Date()`'
 format:
   html:
