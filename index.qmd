@@ -1,5 +1,5 @@
 ---
-title: "Report Sample for Data Science Capstone Project"
+title: "Sample Report - Data Science Capstone"
 author: "Student name"
 date: '`r Sys.Date()`'
 format:
@@ -19,6 +19,8 @@ editor:
 
 ## Introduction
 
+### What is "mehtod"?
+
 This is an introduction to Kernel regression, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
 which is random. The goal of a kernel regression is to discover the
@@ -27,6 +29,12 @@ non-linear relationship, kernel estimator or kernel smoothing is the
 main method to estimate the curve for non-parametric statistics. In
 kernel estimator, weight function is known as kernel function
 [@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+
+This is my work and I want to add more work...
+
+### Related work
+
+This section is going to cover the literature review...
 
 ## Methods
 
@@ -45,9 +53,15 @@ M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
 $$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
 Weights are positive numbers and small if $X_i$ is far from $x$.
 
+Another equation:
+
+$$
+y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
+$$
+
 ## Analysis and Results
 
-### Data and Vizualisation
+### Data and Visualization
 
 A study was conducted to determine how...
 
@@ -82,6 +96,10 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 ### Statistical Modeling
 
-### Conlusion
+```{r}
+
+```
+
+### Conclusion
 
 ## References
