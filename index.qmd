@@ -1,6 +1,6 @@
 ---
 title: "Bayesian Linear Regression"
-author: "Kayla Mota"
+author: "Kayla Liana Mota"
 date: '`r Sys.Date()`'
 format:
   html:
