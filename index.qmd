@@ -119,7 +119,7 @@ decisions on the practical importance of parameter estimates. Providing
 transparency about the computational approach guarantees that users are
 informed about potential limitations.
 
-#### The application of Bayesian analysis to issues in developmental research
+#### The Application of Bayesian Analysis to Issues in Developmental Research
 
 The application of Bayesian analysis to issues in developmental research
 The article explores the advantages of Bayesian analysis over
@@ -143,6 +143,40 @@ evaluating the linear relationships in developmental research. The text
 concludes with a nod to Lindley's prediction, suggesting that Bayesian
 methods are poised to dominate the statistical world in the twenty-first
 century.
+
+#### Simple Bayesian Testing of Scientific Expectations in Linear Regression Models
+
+The article introduces a Bayes factor testing method to evaluate
+hypotheses in linear regression models, specifically when dealing with
+equality and order constraints. Linear regression models are commonly
+used in scientific fields like work and organizational psychology,
+sociology, and experimental psychology to study the impact of predictor
+variables on continuous outcomes. The goal of the proposed Bayes factor
+testing is to assist researchers in developing and assessing scientific
+theories, providing a flexible and intuitive approach to hypothesis
+testing.
+
+In exploratory studies, the article explores whether each predictor
+affects the dependent variable and, if so, whether the effect is
+positive or negative. The Bayes factor test allows simultaneous testing
+of multiple hypotheses with equality and order constraints, helping
+researchers quantify evidence for different scenarios. In confirmatory
+studies, the paper highlights the importance of testing specific
+hypotheses with equality and order constraints based on scientific
+expectations. The method enables researchers to compare regression
+effects, offering a more informative approach than fixed benchmarks.
+
+The advantages of the Bayes factor testing procedure include its quick
+and straightforward analytic expression, applicability to various
+hypotheses with equality and ordinal constraints, and reliance on a
+default prior without needing external prior knowledge. The default
+prior is determined using a small fraction of observed data, making the
+method practical and automatic. The 'lmhyp' R-package, introduced in the
+paper, implements the Bayes factor testing procedure and can be used
+alongside the popular 'lm' package for linear regression analysis. The
+paper concludes by illustrating the application of the testing method in
+work and organizational psychology and social psychology, highlighting
+its potential contributions to empirical research in these fields.
 
 ## Methods
 
