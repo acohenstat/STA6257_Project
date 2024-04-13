@@ -21,8 +21,8 @@ editor:
 Packages & Library
 ```{r}
 # Install and load required packages
-install.packages("readxl")  # Install if not already installed
-install.packages("corrplot")  # Install if not already installed
+#install.packages("readxl")  # Install if not already installed
+#install.packages("corrplot")  # Install if not already installed
 library(readxl)
 library(corrplot)
 
