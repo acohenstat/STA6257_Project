@@ -17,6 +17,100 @@ editor:
     wrap: 72
 ---
 
+
+Packages & Library
+```{r}
+# Install and load required packages
+install.packages("readxl")  # Install if not already installed
+install.packages("corrplot")  # Install if not already installed
+library(readxl)
+library(corrplot)
+
+# install.packages("rstanarm") 
+library(rstan)
+library(rstanarm)
+library(ggplot2)
+library(bayesplot)
+
+# this option uses multiple cores if they're available
+options(mc.cores = parallel::detectCores())
+```
+
+Data Input
+```{r}
+library(readxl)
+ledata <- read_excel("C:/Users/kayla/Downloads/Life-Expectancy-Data-Updated.xlsx", col_names = FALSE)
+names(ledata) <- c("Country",	"Region",	"Year",	"Infant_deaths",	"Under_five_deaths",	"Adult_mortality",	"Alcohol_consumption",	"Hepatitis_B",	"Measles",	"BMI",	"Polio",	"Diphtheria",	"Incidents_HIV",	"GDP_per_capita",	"Population_mln",	"Thinness_ten_nineteen_years",	"Thinness_five_nine_years",	"Schooling",	"Economy_status_Developed",	"Economy_status_Developing", "Life_expectancy")
+
+revledata <- na.omit(ledata)
+
+var <- c("Infant_deaths",	"Under_five_deaths",	"Adult_mortality",	"Alcohol_consumption",	"Hepatitis_B",	"Measles",	"BMI",	"Polio",	"Diphtheria",	"Incidents_HIV",	"GDP_per_capita",	"Population_mln",	"Thinness_ten_nineteen_years",	"Thinness_five_nine_years",	"Schooling",	"Economy_status_Developed",	"Economy_status_Developing", "Life_expectancy")
+
+ndata1 <- revledata[, var]
+
+cdata1 <- na.omit(ndata1)
+print(cdata1)
+summary(cdata1)
+```
+
+```{r}
+qplot(Life_expectancy, Schooling, data = cdata1)
+```
+
+```{r}
+glm_post1 <- stan_glm(Life_expectancy~Schooling, data=cdata1, family=gaussian)
+
+stan_trace(glm_post1, pars=c("(Intercept)","Schooling","sigma"))
+
+summary(glm_post1)
+
+pp_check(glm_post1) #The dark blue line shows the observed data while the light blue lines are simulations from the posterior predictive distribution.
+
+```
+
+```{r}
+# another way to look at posterior predictive checks
+ppc_intervals(
+  y = cdata1$Life_expectancy,
+  yrep = posterior_predict(glm_post1),
+  x = cdata1$Schooling)
+```
+
+```{r}
+stan_hist(glm_post1, pars=c("Schooling"), bins=40)
+```
+
+```{r}
+post_samps_Schooling <- as.data.frame(glm_post1, pars=c("Schooling"))[,"Schooling"]
+mn_Schooling <- mean(post_samps_Schooling) # posterior mean 
+ci_Schooling <- quantile(post_samps_Schooling, probs=c(0.05, 0.95)) # posterior 90% interval 
+
+print(mn_Schooling)
+print(ci_Schooling)
+```
+
+```{r}
+glm_fit <- glm(Life_expectancy~Schooling, data=cdata1, family=gaussian)
+summary(glm_fit)
+
+prior_summary(glm_post1)
+
+#It can also be helpful to juxtapose intervals from the prior distribution and the posterior distribution to see how the observed data has changed the parameter estimates.
+posterior_vs_prior(glm_post1, group_by_parameter = TRUE, pars=c("(Intercept)"))
+posterior_vs_prior(glm_post1, group_by_parameter = TRUE, pars=c("Schooling","sigma"))
+```
+
+
+```{r}
+glm_post2 <- stan_glm(Life_expectancy~Schooling, data=cdata1, family=gaussian, prior=normal(2, 0.5, autoscale=FALSE))
+
+posterior_vs_prior(glm_post2, pars=c("Schooling"), group_by_parameter = TRUE)
+```
+
+
+
+
+
 ## Summary of Articles
 
 #### An introduction to using Bayesian linear regression with clinical data
