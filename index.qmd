@@ -1,6 +1,6 @@
 ---
-title: "Bayesian Linear Regression"
-author: "Kayla Liana Mota"
+title: "Analysis on Life Expectancy using Bayesian Linear Regression"
+author: "Kayla Mota, Mary Catherine Morrow, Summer Dahlen, Shijie Geng"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -36,287 +36,640 @@ library(bayesplot)
 options(mc.cores = parallel::detectCores())
 ```
 
-Data Input
-```{r}
-library(readxl)
-ledata <- read_excel("C:/Users/kayla/Downloads/Life-Expectancy-Data-Updated.xlsx", col_names = FALSE)
-names(ledata) <- c("Country",	"Region",	"Year",	"Infant_deaths",	"Under_five_deaths",	"Adult_mortality",	"Alcohol_consumption",	"Hepatitis_B",	"Measles",	"BMI",	"Polio",	"Diphtheria",	"Incidents_HIV",	"GDP_per_capita",	"Population_mln",	"Thinness_ten_nineteen_years",	"Thinness_five_nine_years",	"Schooling",	"Economy_status_Developed",	"Economy_status_Developing", "Life_expectancy")
 
-revledata <- na.omit(ledata)
+## 1. Introduction
 
-var <- c("Infant_deaths",	"Under_five_deaths",	"Adult_mortality",	"Alcohol_consumption",	"Hepatitis_B",	"Measles",	"BMI",	"Polio",	"Diphtheria",	"Incidents_HIV",	"GDP_per_capita",	"Population_mln",	"Thinness_ten_nineteen_years",	"Thinness_five_nine_years",	"Schooling",	"Economy_status_Developed",	"Economy_status_Developing", "Life_expectancy")
+Bayesian Linear Regression (BLR) is a conditional data analytical method
+for understanding the relationship between independent and dependent
+variables based on Bayes Theorem while handling uncertainties with
+accuracy and interpretability[@walker2007application]. In the prevalent
+perspective, the primary method for estimating parameters in a linear
+regression model is the frequentist approach. However, this methodology
+defines the probability of uncertain events as the relative frequency of
+their occurrence[@hajek1996mises], and the resulting model parameters
+are derived exclusively from the observed data [@hajek2009fifteen].
+Additionally, the frequentist approach may distort parameter estimates
+and affect the validity of statistical tests when dealing with a small
+datatset [@zyphur2015bayesian]. Unlike frequentist method, BLR is a more
+flexible statistical model in that it captures all uncertain variables
+random [@klauenberg2015tutorial] and is also known to be used for
+experiments that have small sample sizes [@sugiarto2021determining] and
+various data types [@kruschke2010bayesian]. Moreover, BLR eliminates the
+need for p-values, which offers richer information on parameters, and
+allows for simultaneous single change point detection in a multivariate
+sample [@seidou2007bayesian].
 
-ndata1 <- revledata[, var]
-
-cdata1 <- na.omit(ndata1)
-print(cdata1)
-summary(cdata1)
-```
-
-```{r}
-qplot(Life_expectancy, Schooling, data = cdata1)
-```
-
-```{r}
-glm_post1 <- stan_glm(Life_expectancy~Schooling, data=cdata1, family=gaussian)
-
-stan_trace(glm_post1, pars=c("(Intercept)","Schooling","sigma"))
-
-summary(glm_post1)
-
-pp_check(glm_post1) #The dark blue line shows the observed data while the light blue lines are simulations from the posterior predictive distribution.
-
-```
-
-```{r}
-# another way to look at posterior predictive checks
-ppc_intervals(
-  y = cdata1$Life_expectancy,
-  yrep = posterior_predict(glm_post1),
-  x = cdata1$Schooling)
-```
-
-```{r}
-stan_hist(glm_post1, pars=c("Schooling"), bins=40)
-```
-
-```{r}
-post_samps_Schooling <- as.data.frame(glm_post1, pars=c("Schooling"))[,"Schooling"]
-mn_Schooling <- mean(post_samps_Schooling) # posterior mean 
-ci_Schooling <- quantile(post_samps_Schooling, probs=c(0.05, 0.95)) # posterior 90% interval 
-
-print(mn_Schooling)
-print(ci_Schooling)
-```
-
-```{r}
-glm_fit <- glm(Life_expectancy~Schooling, data=cdata1, family=gaussian)
-summary(glm_fit)
-
-prior_summary(glm_post1)
-
-#It can also be helpful to juxtapose intervals from the prior distribution and the posterior distribution to see how the observed data has changed the parameter estimates.
-posterior_vs_prior(glm_post1, group_by_parameter = TRUE, pars=c("(Intercept)"))
-posterior_vs_prior(glm_post1, group_by_parameter = TRUE, pars=c("Schooling","sigma"))
-```
+The BLR is characterized by viewing parameters as random variables,
+introducing the concept of prior, likelihood, and posterior
+distributions [@permai2018linear; @chen2024positional]. The BLR method
+involves multiple steps: predicting prior values, imputting collected
+data, and obtaining probability in the form of a distribution. This
+distribution, called the posterior, is proportional to the prior
+distribution multiplied by the likelihood function
+[@baldwin2017introduction]. In BLR, even when utilizing representative
+or informed priors, it is crucial to perform a sensitivity analysis to
+assess the impact of different prior specifications on the posterior
+results. This aims to ensure that the findings are not dependent on the
+choice of prior [@kruschke2021bayesian]. Once the experiment is
+conducted and the posterior distribution is obtained, the next step is
+to conduct a check on skewness of the distributions, as well as
+heteroscedasticity. Although scale mixtures of normal are often used in
+regression analysis to capture heteroscedasticity and outliers,
+skew-symmetric scale mixtures of normal (SSSM) can capture asymmetry,
+making it more robust to use in BLR [@rubio2016bayesian]. The posterior
+distribution is where the Markov Chain Monte Carlo (MCMC) method
+involves simulating random draws from the posterior distribution,
+allowing for exploration of the parameter space and estimation of the
+posterior distribution even in complex, high-dimensional models
+[@robert2018accelerating; @rojas2020lose]. Confirming the convergence of
+MCMC chains is important for the reliability of the results. Evidence of
+convergence provides confidence in the validity of the
+samples[@marcotte2018gibbs]. After obtaining the posterior results,
+inferences can be used for the prior distribution of the current/next
+experiment [@rubio2016bayesian].
 
 
-```{r}
-glm_post2 <- stan_glm(Life_expectancy~Schooling, data=cdata1, family=gaussian, prior=normal(2, 0.5, autoscale=FALSE))
+To explain, posterior probabilities are assigned to the spectrum of
+values that parameters can assume. The more prominent the peak, the more
+effective it is as an estimate because a single value has a higher
+probability compared to other values. In such cases, the credibility
+interval, indicating a 95% range of probable parameter estimates, is
+narrower. Conversely, when the peak is less pronounced, other estimates
+are also plausible, resulting in a wider credibility interval for the
+95% range of probable parameter estimates [@shetty2013evidence;
+@gill2002bayesian].
 
-posterior_vs_prior(glm_post2, pars=c("Schooling"), group_by_parameter = TRUE)
-```
+BLR has been used in many disciplines due to its numerous strengths.
+Researchers have the option to incorporate past findings as informative
+priors, a practice observed in fields such as construction and
+biomedicine. This analytical approach produces outcomes that amalgamate
+previous results with the data from a present study, treating it as if
+all existing datasets were collectively analyzed. An example of using
+BLR includes determining correction coefficients to previously
+inaccurate concrete mixture formulas to ensure the correct use and
+amount of chemicals to prevent and then predict the breakdown of the
+concrete [@zgheib2019bayesian]. Another example of BLR is re-determining
+traffic-flow rate values for vehicles to be able to ensure optimal
+traffic flow and minimize to a safe number of vehicles at intersections,
+which allows for the previous rate values from over 20 years ago to be
+updated [@sugiarto2021determining]. BLR can also be used to determine
+the load and strain a bridge can take before it is unsafe to be used
+[@zhang2022long], and it can be helpful to predict genetic values for
+genomic selection for plants and animals to prevent the risk of passing
+on genes that could cause illnesses [@perez2010genomic].
 
+## 2. Methods
 
+### 2.1 Linear Regression
 
+Regression analysis is a statistical method that allows to examine the
+relationship between two or more variables of interest. Suppose the
+response variable $Y$ is a function of several predictor variables,
+$x_{i1}, x_{i2},..., x_{ik}$.
 
+To fit a model:
 
-## Summary of Articles
+$$
+Y = X \beta + \epsilon     \quad(1)
+$$
 
-#### An introduction to using Bayesian linear regression with clinical data
+where,
 
-Within the realm of psychology, the tests utilized in research can be
-deceptive. This article explains how opting for the Bayesian method
-could yield more precise outcomes compared to frequentist methods.
-Throughout the article they are using the data from an
-electroencephalogram (EEG) and anxiety study to illustrate Bayesian
-models.
+$Y = (y_1, y_2,..., y_n)$ is the n×1 vector of response; $X$ is a n×p
+design matrix, $p = k+1$; $\beta = (\beta_0, \beta_1,...., \beta_{k})$
+is the (k+1)×1 vector of parameters and
+$\epsilon = (\epsilon_1, \epsilon_2,...., \epsilon_n)$ the n×1 vector of
+errors, $\epsilon$ \~ $N_n(0, \sigma^2I)$.
 
-Specifically focusing on psychology, the article highlights the
-substantial reliance on p-values. This emphasis weakens the attention to
-precise predictions, failing to emphasize whether the results are true
-or valid. The Bayesian approach requires that researchers make
-predictions prior to data analysis. While concerns have been raised
-about potential subjectivity in these predictions, the article contends
-that research inherently involves subjective decisions throughout the
-process. Whether rooted in scientific research or not, these decisions
-are influenced by existing literature and chosen methods.
+The likelihood function of $y$ given $\beta$ and $\sigma^2$ is defined
+as follows
 
-The Bayesian linear method involves multiple steps—essentially,
-predicting prior values, inputting collected data, and obtaining
-probability in the form of a distribution (posterior distribution). This
-distribution is typically different from commonly known probability
-distributions. This is where the Markov Chain Monte Carlo method becomes
-important, as it simulates random draws from the posterior distribution.
+$$
+f(Y_i = y_i|x, \beta, \sigma^2) = f_y(y|x,\beta,\sigma^2) = (2\pi\sigma^2)^{-\frac{n}{2}} exp^{-\frac{1}{2\sigma^2}(y-x\beta)^T(y-x\beta)}  \quad(2)
+$$
 
-In assessing the adequacy of a model, Bayesian methods typically rely on
-two commonly used metrics: the widely applicable information criterion
-and the Leave-one-out cross-validation. When examining data, various
-assumptions, such as having a non-normal distribution, can be overlooked
-with the application of the Bayesian method. Despite its advantages,
-there are several challenges associated with using Bayesian methods,
-primarily its complexity and the need for a deeper understanding of the
-technology and methodologies involved.
+To make inference, the $\beta$ parameters are determined by maximizing
+the likelihood function.
 
-#### Linear regression model using Bayesian approach for energy performance of residential building
+### 2.2 Bayesian Linear Regression
 
-The article discusses the two commonly used methods for estimating
-regression model parameters: the frequentist method (OLS or MLE) and the
-Bayesian approach. The Bayesian method is characterized by viewing
-parameters as random variables, introducing the concept of prior,
-likelihood, and posterior distributions.
+From the Bayesian perspective, linear regression is approached through
+probability distributions. Instead of estimating the response variable,
+y, as a single value, it's viewed as being drawn from a probability
+distribution. In Bayesian Linear Regression, the model assumes that the
+response follows a normal distribution, expressed as
 
-The research uses an energy efficiency dataset to predict cooling
-equipment needs and utilizes linear regression modeling with Ordinary
-Least Square (OLS) and Bayesian approaches. Correlation tests reveal
-relationships between independent and dependent variables. The OLS
-model, while showing significance, fails typical assumptions, prompting
-consideration of the Bayesian approach. Bayesian modeling is conducted
-using Gibbs Sampler and Markov Chain Monte Carlo (MCMC) methods. The
-comparison of OLS and Bayesian models involves criteria such as RMSE,
-MAD, and MAPE. The study concludes that Bayesian regression is more
-suitable when standard assumptions are not met.
+$$
+y \sim N(\beta^TX, \sigma^2I)  \quad(3)
+$$
 
-#### What to believe: Bayesian methods for data analysis
+where,
 
-The article highlights the flexibility of Bayesian data analysis,
-allowing researchers to adapt models to various data types, such as
-dichotomous, metric, or those involving multiple treatment groups.
-Unlike traditional null-hypothesis significance testing (NHST), Bayesian
-analysis focuses on estimating parameters in a descriptive model without
-committing to specific cognitive mechanisms. Bayesian methods eliminate
-the need for p-values, offering richer information on parameters,
-including correlations and trade-offs. The article encourages a shift to
-Bayesian data analysis in cognitive science. The Bayesian model allows
-flexible customization to data types, estimating parameters like mean
-accuracy and certainty. Credible intervals and parameter correlations
-are inherent, and the discussion covers coherent power and replication
-probability computation in Bayesian analysis, providing a more realistic
-estimate compared to traditional NHST power analysis.
+y, which is assumed as a normal distribution centered by its mean and
+variance. In linear regression, the mean is calculated by the transpose
+of the weight matrix and the predictor matrix. The variance is
+determined by squaring the standard deviation $\sigma$ and then
+multiplying it by the identity matrix.
 
-#### Bayesian Analysis Reporting Guidelines (BARG)
+Additionally, the parameters in the model are generated from a
+probability distribution. The posterior probability of these parameters
+is proportional to the prior and likelihood [@minka2000bayesian].
 
-In Bayesian analysis, even when utilizing representative or informed
-priors, it is crucial to perform a sensitivity analysis to assess the
-impact of different prior specifications on the posterior results. This
-aims to ensure that the findings are not dependent on the choice of
-prior. If results remain consistent across various reasonable priors, it
-improves the robustness of the findings; however, if they are highly
-sensitive to the prior  the outcomes heavily rely on the assumed prior
-conditions.
+$$
+P(\beta|y, X) = \frac{P(y|\beta, X) × P(\beta|X)}{P(y|X)}  \quad(4)
+$$
 
-The widely employed Markov Chain Monte Carlo (MCMC) computational method
-in Bayesian analysis involves generating samples from the posterior
-distribution of parameters. Confirming the convergence of MCMC chains is
-important for result reliability. Evidence of convergence, often
-indicated by statistics like the Potential Scale Reduction Factor
-(PSRF), provides confidence in the validity of the samples. High
-Effective Sample Size (ESS) signifies precise estimates, while low ESS
-may result in imprecise estimates. Reporting ESS for each parameter or
-derived value aids in assessing result reliability.
+In Bayesian statistics, when the prior distribution and the posterior
+distribution belong to the same family of probability distributions,
+they are called conjugate distributions. Using the Bayes' theorem, we
+have
 
-For decision-making based on continuous-parameter posterior
-distribution, defining and justifying the limits of the Region of
-Practical Equivalence (ROPE) is crucial. The ROPE determines the range
-of parameter values considered practically equivalent and guides
-decisions on the practical importance of parameter estimates. Providing
-transparency about the computational approach guarantees that users are
-informed about potential limitations.
+$$
+f(\beta, \sigma^2|y,x) = \frac{f_y(y|x, \beta,\sigma^2)f(\beta|\sigma^2,m,V)f(\sigma^2|a,b)}{f_y(y)}  \quad(5)
+$$
 
-#### The Application of Bayesian Analysis to Issues in Developmental Research
+The equation can be broken down as,
 
-The application of Bayesian analysis to issues in developmental research
-The article explores the advantages of Bayesian analysis over
-traditional frequentist methods in statistical inference. It emphasizes
-Bayesian analysis as a comprehensive and unified framework, capable of
-handling uncertainties with accuracy and interpretability. Moreover, it
-highlights Bayesian analysis's compatibility with hierarchical models
-and its ability to incorporate prior information effectively,
-contrasting it with the less optimal nature of frequentist approaches.
-The discussion extends to the computational ease afforded by Bayesian
-analysis, particularly with the advent of algorithms like MCMC,
-showcasing its versatility and applicability across various analytical
-contexts.
+-   $f(\beta, \sigma^2|y,x)$: This is the joint posterior distribution
+    of the coefficients $\beta$ and the error variance $\sigma^2$ given
+    the data $y$ and the predictors $x$
 
-The article then discusses the practical application of hierarchical
-Bayesian models, particularly in a moral reasoning study with
-hierarchical data structures. Through the introduction of mixed models
-with random effects and the description of hierarchical Bayesian models,
-it illustrates their ability in accommodating heterogeneity and
-evaluating the linear relationships in developmental research. The text
-concludes with a nod to Lindley's prediction, suggesting that Bayesian
-methods are poised to dominate the statistical world in the twenty-first
-century.
+-   $f_y(y|x, \beta,\sigma^2)$: This is the likelihood function which
+    describes the probability of observing the data $y$ given the
+    predictors $x$ and the parameters $\beta$ and $\sigma^2$.
 
-#### Simple Bayesian Testing of Scientific Expectations in Linear Regression Models
+-   $f(\beta|\sigma^2,m,V)$: It represents the prior distribution for
+    coefficients $\beta$ given the error variance $\sigma^2$, with mean
+    vector $m$ and covariance matrix $V$.
 
-The article introduces a Bayes factor testing method to evaluate
-hypotheses in linear regression models, specifically when dealing with
-equality and order constraints. Linear regression models are commonly
-used in scientific fields like work and organizational psychology,
-sociology, and experimental psychology to study the impact of predictor
-variables on continuous outcomes. The goal of the proposed Bayes factor
-testing is to assist researchers in developing and assessing scientific
-theories, providing a flexible and intuitive approach to hypothesis
-testing.
+-   $f(\sigma^2|a,b)$: It represents the prior distribution for the
+    error variance $\sigma^2$, which is assumed to be an inverse gamma
+    distribution with parameter $a$ and $b$.
 
-In exploratory studies, the article explores whether each predictor
-affects the dependent variable and, if so, whether the effect is
-positive or negative. The Bayes factor test allows simultaneous testing
-of multiple hypotheses with equality and order constraints, helping
-researchers quantify evidence for different scenarios. In confirmatory
-studies, the paper highlights the importance of testing specific
-hypotheses with equality and order constraints based on scientific
-expectations. The method enables researchers to compare regression
-effects, offering a more informative approach than fixed benchmarks.
+-   $f_y(y)$: It is the marginal likelihood and often treated as a
+    constant.
 
-The advantages of the Bayes factor testing procedure include its quick
-and straightforward analytic expression, applicability to various
-hypotheses with equality and ordinal constraints, and reliance on a
-default prior without needing external prior knowledge. The default
-prior is determined using a small fraction of observed data, making the
-method practical and automatic. The 'lmhyp' R-package, introduced in the
-paper, implements the Bayes factor testing procedure and can be used
-alongside the popular 'lm' package for linear regression analysis. The
-paper concludes by illustrating the application of the testing method in
-work and organizational psychology and social psychology, highlighting
-its potential contributions to empirical research in these fields.
+A non-conjugate prior refers to a prior distribution that does not
+belong to the same family of distributions as the posterior distribution
+after observing data. In such cases, the posterior distribution can be
+expressed as
 
-## Methods
+$$
+f(\beta|y, X, \sigma^2) ∝ f_y(y|X, \beta)\prod_{i=1}^{n}f(\beta_i|m_i,v_i)  \quad(6)
+$$
 
-\~ Bayesian Linear Regression \~
+-   $f(\beta|y, X, \sigma^2)$: This is the posterior distribution of
+    coefficients $\beta$ given the dependent variable $y$, independent
+    variable $X$ and error variance $\sigma^2$.
 
-## Analysis and Results
+-   $f_y(y|X, \beta)$: This is likelihood function, denoting the
+    probability of the observing data $y$ given independent variable $X$
+    and the coefficient parameters $\beta$.
 
-### Data and Visualization
+-   $f(\beta_i|m_i,v_i)$: This is prior distribution of each coefficient
+    $\beta_i$ with mean $m_i$ and variance $v_i$.
 
-A study was conducted to determine how...
+## 3. Analysis and Results
+
+### 3.1 Data Introduction
+
+The selected life expectancy dataset from the World Health Organization
+(WHO) comprises of 21 health, economic, and social factors taken from
+179 countries between years 2000 and 2015. Below is a description of the
+variables:
+
+-   **Country:** Categorical, one of 179 countries included in the
+    dataset specific to data collection location.
+
+-   **Region:** Categorical, one of 9 regions specific to data
+    collection location.
+
+-   **Year:** Continuous, range from 2000 to 2015.
+
+-   **Infant Deaths (InfDth):** Continuous, per 1000 population.
+
+-   **Under_five_deaths (UnFiveDths):** Continuous, number of deaths of
+    children under 5 years of age per 1000 population.
+
+-   **Adult Mortality (AdultMort):** Continuous, rate of deaths of
+    adults between 15 and 60 years old, per 1000 population.
+
+-   **Alcohol_consumption:** Continuous, recorded per capita (15+ year
+    olds) consumption in litres of pure alcohol.
+
+-   **Hepatitis B (HepB):** Continuous, percentage of Hepatitis B (HepB)
+    immunization coverage among 1-year-old.
+
+-   **Measles:** Continuous, percentage of coverage of Measles
+    containing vaccine first dose (MCV1) immunization among 1-year-old.
+
+-   **BMI:** Continuous, average body mass index (BMI) of entire
+    population; measure of nutritional status in adults.
+
+-   **Polio :** Continuous, percentage of Polio (Pol3) immunization
+    coverage among 1-year-old.
+
+-   **Diphtheria :** Continuous, percentage of diphtheria tetanus toxoid
+    and pertussis (DTP3) immunization coverage among 1-year-old.
+
+-   **Incidents_HIV (HIV):** continuous, incidents of HIV per 1000
+    population, ages 15-49.
+
+-   **GDP_per_capita (GDP):** Continuous, GDP per capita in USD.
+
+-   **Population_mln (Population):** Total population in millions.
+
+-   **Thinness_ten_nineteen_years (ThinAd):** Continuous, prevalence of
+    thinness among children and adolescents for ages 10 to 19, %.
+
+-   **Thinness_five_nine_years (ThinChild):** Continuous, prevalence of
+    thinness among children for ages 5 to 9, %.
+
+-   **Economy_status_Developed:** Categorical, Binomial; Developed
+    Country.
+
+-   **Economy_status_Developing:** Categorical, Binomial; Developing
+    Country.
+
+-   **Schooling:** Continuous, average years that people aged 25+ spent
+    in formal education.
+
+-   **Life_expectancy (LifeExp):** Continuous, average of the population
+    of both genders in years.
+
+#### 3.1.1 Load the dataset and inspect the first five records.
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
+# loading the packages required for data cleaning and BLR analysis.
 library(tidyverse)
-library(knitr)
-library(ggthemes)
+library(gtsummary)
+library(skimr)
+library(randomForest)
+library(GGally)
+library(corrplot)
+library(car)
 library(ggrepel)
-library(dslabs)
-```
+library(rstan)
+library(rstanarm)
+library(bayesplot)
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+library(readxl)
+ledata <- read_excel("C:/Users/kayla/Downloads/Life-Expectancy-Data-Updated.xlsx", col_names = FALSE)
 
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
+names(ledata) <- c("Country", 'Region',"Year", "InfDth","UnFiveDths","AdultMort", "Alcohol","HepB","Measles","BMI","Polio", "Diphtheria", "HIV", "GDP", "population","ThinAd","ThinChild","Schooling",'Developing','Developed', "LifeExp")
+str(ledata)
 
 ```
 
-### Statistical Modeling
+### 3.2 Exploration Data Analysis
+
+#### 3.2.1 Summarize the Dataset
+
+Table 1 below describes each continuous variable from the life
+expectancy dataset by region.
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+ledata %>% select(-c('Country', 'Year')) %>%
+  tbl_summary(
+    by = Region,
+    label = list(InfDth ~ "Infant Deaths, per 1000",
+                 UnFiveDths ~ "Deaths under 5 years of age",
+                 AdultMort ~ "Adult Mortality Probability",
+                 Alcohol ~ "Alcohol Consumption (L)",
+                 HepB ~ "Hepatitis B Immunization (%)",
+                 Measles ~ "Measles Immunization (%)",
+                 BMI ~ "Average Body Mass Index", 
+                 Polio ~ "Polio immunization (%)", 
+                 Diphtheria ~ "Diphtheria Tetanus Toxoid and Pertussis immunization (%)", 
+                 HIV ~ "Incidents of HIV per 1000",
+                 GDP ~ "Gross Domestic Product (USD)",
+                 population ~ "Population, in millions", 
+                 ThinAd ~ "Thinness among 10-19 years (%)",
+                 ThinChild ~ "Thinness among 5-9 years (%)",
+                 Schooling ~ "Average Years of Schooling",
+                 Developed ~ "Developed Country",
+	               Developing ~ "Developing Country",
+                 LifeExp ~ "Life Expectancy (yrs)"),
+    missing_text = "(Missing)",
+    statistic = list(
+      all_continuous()~ "{mean} ({sd})",
+      all_categorical()~ "{n}/{N} ({p}%)"
+    )
+  ) %>%
+  add_n()%>%
+  add_overall()%>%
+  modify_header(label="**Variable**") %>%
+  modify_caption("**Table 1. Dataset Summary**") %>%
+  modify_footnote(all_stat_cols()~ "Mean (SD)") %>%
+  bold_labels()
+```
+
+#### 3.2.2 Verify the correlation among variables.
 
 ```{r}
+# Checking the correlation between those continuous variables and life expectancy.
+# Remove these categorical variables from dataset.
+ledata_continuous <- ledata %>% select(-c('Country', 'Region', 'Year', 'Developing', 'Developed'))
+
+# Remove NA values from ledata_continuous
+ledata_noNA <- na.omit(ledata_continuous)
+#co_ledata <- ledata_noNA %>% select(-c('Country', 'Region', 'Year'))
+
+# Compute correlation of continuous variables and life expectancy
+cor(ledata_noNA)
+
+# Visualize correlation matrix
+
+ggcorrplot::ggcorrplot(round(cor(ledata_noNA),2), type = 'lower', title = 'Correlation within the life Expectancy dataset', show.legend = TRUE, lab = TRUE, lab_size = 2)
+```
+
+After conducting a correlation analysis, we identified that the
+variables adult mortality, deaths under five years old and infant deaths
+each have a strong negative correlation with life expectancy. The
+variable population is not related to life expectancy at all. We
+consider setting threshold of correlation between \[-1.00 \< -0.55\] and
+\[0.55 \< 1.00\]. Any variables' correlation with response between
+\[-1.00 \< -0.55\] and \[0.55 \< 1.00\] can be included for Bayesian
+Linear Regression. Thus, GDP, BMI, Dephtheria, Polio, schooling, and HIV
+also can be used to predict life expectancy.
+
+#### 3.2.3 Multicollinearity Examination
+
+```{r}
+# Build a ordinary linear model for subsequent vif check
+olr <- lm(LifeExp ~., data = ledata_noNA)
+
+# Check Multicollinearity using vif()
+vif(olr)
+
+# Extract selected variables for subsequent BLR analysis
+BLR_data <- ledata_noNA %>% select(c(GDP, BMI, Alcohol, Schooling, HIV,LifeExp))
+```
+
+Through checking the multicollinearity among these variables, the vif
+values of infant deaths, deaths under five years old, adult mortality,
+Polio, Diphtheria, thinness among those between 10 and 19, and thinness
+among children for ages 5 to 9 are greater than 5, indicating
+significant multicollinearity between them. Thus, given the results of
+correlation and multicollinearity checking, we select the independent
+variables of GDP, BMI, alcohol, schooling and HIV and dependent variable
+of life expentency to contribute to our final dataset used for BLR
+analysis.
+
+#### 3.2.4 Data Visualization
+
+Life expectancy follows a distribution skewed to the left, with the peak
+occurring at 70-75 years for the highest life expectancy.
+
+```{r, warning=FALSE}
+hist(ledata_noNA$LifeExp, 
+     main = "Figure 3. Distribution of Life Expectancy (years)",
+     xlab = "Life Expectancy",
+     border = "white", 
+     col = "lightblue",
+     ylim = c(0, 800))
+```
+
+The line graph illustrates the life expectancy trends across various
+regions over the years. There has been a consistent rise in life
+expectancy across all regions since 2000. North America and European
+Union exhibit the highest life expectancy, while Africa shows the lowest
+among these regions.
+
+```{r, warning=FALSE, message=FALSE}
+# Calculate max, mean, and min life expectancy by year and region
+life_expectancy_summary <- ledata %>%
+  group_by(Year, Region) %>%
+  summarise(
+    mean_life_expectancy = mean(LifeExp) )
+
+# Create a line plot for max, mean, and min life expectancy in all regions over the years
+ggplot(life_expectancy_summary, aes(x = Year)) +
+  geom_line(aes(y = mean_life_expectancy, color = Region), linetype = "solid") +
+  labs(title = "Figure 4. Regional Life Expectancy by Year (years)", x = "Year", y = "Life Expectancy", color = "Region") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") 
 
 ```
 
-### Conclusion
+The graphs depict the correlation between schooling and life expectancy
+across different regions. Generally, life expectancy tends to increase
+with higher levels of schooling. Comparatively, more developed regions
+such as North America, the European Union, and the Rest of Europe
+exhibit both higher average schooling years and life expectancy.
+
+```{r}
+ledata_noNA %>% ggplot(aes(x = Schooling, y = LifeExp)) + 
+  geom_point(size = 0.8, color = 'green') +
+  geom_smooth()+
+  theme_bw()+ 
+  xlab('Average Schooling Year') +
+  labs(title = 'Figure 5. Life Expectancy versus Formal Education, 2000-2015 (years)')
+
+ledata %>% select(Region, Schooling, LifeExp) %>%
+ group_by(Region) %>%
+  summarise(Avg_Schooling = mean(Schooling),
+            Avg_LifeExp = mean(LifeExp)) %>%
+  ggplot(aes(x = Avg_Schooling, y = Avg_LifeExp)) +
+  geom_point(size = 2.5, color = 'blue', alpha = 0.5) +
+  theme_bw() +
+  geom_text_repel(aes(label = Region), size = 3) +
+  labs(title = 'Figure 6. Life Expectancy versus Formal Education, by Region
+')
+
+```
+
+The graphs depict the correlation between life expectancy and the
+variables adult mortality, deaths under five years old and infant
+deaths. All three variables exhibit a negative relationship with life
+expectancy. As the instances of adult mortality, deaths under five years
+old and infant deaths per 1000 rise, life expectancy decreases
+accordingly.
+
+```{r}
+ledata %>% select(Region,InfDth, AdultMort, LifeExp) %>%
+  ggplot(aes(x = InfDth, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  labs(title = 'Figure 7. Life Expectancy versus Infant Deaths, per 1000 population')
+
+ledata %>% select(InfDth, AdultMort, LifeExp) %>%
+  ggplot(aes(x = AdultMort, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  labs(title = 'Figure 8. Life Expectancy versus Adult Mortality, per 1000 population')
+
+ledata %>% 
+  ggplot(aes(x = UnFiveDths, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  labs(title = 'Figure 9. Life Expectancy versus Children Deaths under 5 Years of Age, per 1000 population')
+```
+
+There was no data recorded for the developed regions in South Africa,
+Central America and Caribbean, and Africa. There was no data recorded on
+developing in the European Union region.
+
+```{r}
+ggplot(ledata, aes(x = factor(Developing), y = LifeExp, fill = factor(Developing))) +
+  geom_bar(stat = "summary", fun = "mean", position = "dodge", color = "black", width = 0.7) +
+  labs(title = "Figure 10. Life Expectancy by Economy Status and Region", x = "Economy Status", y = "Mean Life Expectancy") +
+  scale_fill_manual(values = c("skyblue", "salmon"), labels = c("Developing", "Developed")) +
+  theme_minimal() +
+  theme(legend.title = element_blank()) +
+  facet_wrap(~ Region)
+
+```
+
+In general, a direct relationship typically exists between life
+expectancy and factors such as BMI and Diphtheria immunization.
+Moreover, as GDP increases, life expectancy tends to rise exponentially.
+Once GDP surpasses \$30,000, the upward trend in life expectancy
+continues steadily.
+
+```{r}
+ledata %>% 
+  ggplot(aes(x = BMI, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  geom_smooth(method = lm) +
+  labs(title = 'Figure 11. Life Expectancy versus Body Mass Index (BMI) of adults
+')
+
+ledata %>% 
+  ggplot(aes(x = GDP, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  geom_smooth() +
+  labs(title = 'Figure 12. Life Expectancy versus GDP (USD)')
+
+ledata_noNA %>% 
+  ggplot(aes(x = Diphtheria, y = LifeExp)) + 
+  geom_point(size = 0.5, color = 'orange') +
+  theme_bw() +
+  geom_smooth() +
+  labs(title = 'Figure 13. Life Expectancy versus DTP3 immunization coverage among 1-year-olds (%)') + xlab('DTP3 immunization rate')
+```
+
+### 3.3 Bayesian Linear Regression Analysis
+
+#### 3.3.1 Create a BLR model
+
+```{r}
+# BLR model
+glm_post1 <- stan_glm(LifeExp~., data=BLR_data, family=gaussian, seed = 1234)
+glm_post1
+
+```
+
+In this analysis, we employ the **stan_glm()** function from the
+**rstan** package to establish a Bayesian Linear Regression model. Our
+dataset comprises 2,864 observations, consisting of six predictors and
+one response variable.
+
+Upon reviewing the summary, we discern parameter estimates for the
+model. Notably, the model's equation can be represented as follows:
+
+$$
+LifeExp = 37.5 + 0.9×BMI + 1.2×Schooling + -1.6×HIV
+$$
+
+#### 3.3.2 Evaluate the performance of BLR model
+
+```{r}
+# Checking R hat.
+summary(glm_post1)
+
+# Assess the convergence of the MCMC chains and the behavior of the parameters during sampling
+stan_trace(glm_post1, pars=c("(Intercept)", "Alcohol","GDP", "BMI",  "Schooling", "HIV","sigma")) + labs(title = 'Figure 14. Trace Plots of Each Variable')
+```
+
+$\hat{R}$ compares the variability in sampled parameter estimates across
+all chains combined with the variability within each individual change.
+$\hat{R} = 1$ shows stability across chains.
+
+The **stan_trace()** function was used to visualize the traces of
+parameters estimated by Markov chain Monte Carlo (MCMC) sampling. Each
+trace plot to each variable appears centered around a single value and
+all chains are well overlapping around a single value.
+
+```{r}
+# look at posterior predictive checks.
+pp_check(glm_post1) 
+```
+
+The dark blue line shows the observed data while the light blue lines
+are simulations from the posterior predictive distribution. Although the
+peaks of both the observed data distribution and the posterior
+distribution align along the x-axis, there's a notable discrepancy in
+the density values along the y-axis.
+
+```{r}
+# View histogram of each parameter
+stan_hist(glm_post1, pars=c("(Intercept)","Alcohol", "GDP", "BMI", "Schooling", "HIV","sigma"), bins=40)
+
+# Extract posterior samples
+post_samps <- as.data.frame(glm_post1, pars=c("(Intercept)","Alcohol", "GDP", "BMI",  "Schooling", "HIV","sigma"))
+
+# calculate the median and mean of each parameter
+round(apply(post_samps, 2, mean),5)
+round(apply(post_samps, 2, median),5)
+```
+
+The histograms exhibit the distribution of posterior samples obtained
+from the model. We also extracted posterior samples from the model and
+converted to a data frame in order to calculate the the mean and median
+values of each parameter.
+
+```{r}
+# Checking default priors
+prior_summary(glm_post1)
+
+# To see how the observed data has changed the parameter estimates
+posterior_vs_prior(glm_post1, group_by_parameter = TRUE, pars=c("(Intercept)","Alcohol", "GDP", "BMI", "Schooling", "HIV","sigma"))
+```
+
+#### 3.3.3 Compare with Frenquentist method
+
+```{r}
+# Establish an Ordinary Linear Model
+glm_fit <- glm(LifeExp~., data=BLR_data, family=gaussian)
+summary(glm_fit)
+round(glm_fit$coefficients, 5)
+```
+
+The maximum likelihood estimates of the intercept and slopes are nearly
+identical to the mean or median values of posterior samples obtained
+from Bayesian Linear Regression. Overall, the model's equation can be
+expressed as follows:
+
+$$
+LifeExp = 37.5 + 0.9×BMI + 1.2×Schooling + -1.6×HIV
+$$
+
+## 4. Conclusion
+
+In this project, we successfully explored the effects of the predictors
+on life expectancy and relationships among them. There were some notable
+observations while conducting our analysis. There was a significant
+negative relationship between adult mortality, infants deaths, deaths
+under five years old, and life expectancy. As the rates of death of
+adults, infants, and children under 5 years old go up, life expectancy
+tends to shorten. Additionally, the rates of thinness of adolescents and
+adults are also critical factors affecting life expectancy, and there is
+a negative relationship existing between them. Life expectancy varies
+depending on the disparity in years of schooling across regions.
+Generally, life expectancy tends to rise with increase of schooling and
+higher level of economy development since 2000. Due to the presence of
+correlation and multicollinearity, we selected only six variables as
+predictors for conducting Bayesian Linear Regression Analysis.
+
+In BRL analysis, our model is a perfect fit to the dataset of life expectancy
+when considering the variables of GDP, BMI, alcohol, schooling and HIV.
+The convergence of four chains is strong, and it's centered around a
+single value, indicating the excellent performance of the model.
+Moreover, through observing the BLR model, the variables of BMI,
+schooling, and HIV have more weight on predicting life expectancy.
 
 ## References
