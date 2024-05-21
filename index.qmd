@@ -1,7 +1,7 @@
 ---
 title: "Analysis on Life Expectancy using Bayesian Linear Regression"
 author: "Kayla Mota, Mary Catherine Morrow, Summer Dahlen, Shijie Geng"
-date: '`r Sys.Date()`'
+date: '`r Sys.Date()`' 
 format:
   html:
     code-fold: true
