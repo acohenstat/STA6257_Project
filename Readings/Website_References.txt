@@ -1,0 +1,22 @@
+Murphy, K. P. (2002). "Dynamic Bayesian Networks: Representation, Inference and Learning." Ph.D. Thesis, UC Berkeley
+https://www.researchgate.net/publication/220343395_Bayesian_Network_Classifiers
+
+
+Pearl, J. (1986).Fusion, propagation, and structuring in belief networks.Artificial Intelligence,
+https://ftp.cs.ucla.edu/pub/stat_ser/r42-reprint.pdf
+
+
+Heckerman, D. (1995). A tutorial on learning with Bayesian networks. In Learning in Graphical Models MIT Press.
+https://www.cis.upenn.edu/~mkearns/papers/barbados/heckerman.pdf
+
+
+Koller, D., & Friedman, N. (2009). "Probabilistic Graphical Models: Principles and Techniques." MIT Press.
+http://mcb111.org/w06/KollerFriedman.pdf
+
+
+Cooper, G. F., & Herskovits, E. (1992). "A Bayesian method for the induction of probabilistic networks from data." Machine Learning
+https://link.springer.com/article/10.1007/BF00994110
+
+
+Lauritzen, S. L., & Spiegelhalter, D. J. (1988). "Local computations with probabilities on graphical structures and their application to expert systems." Journal of the Royal Statistical Society
+https://www.eecis.udel.edu/~shatkay/Course/papers/Lauritzen1988.pdf
