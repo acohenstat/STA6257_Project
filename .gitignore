@@ -15,6 +15,7 @@ env/
 .Programming\Python\myenv\
 .venv/
 .env
+*/myenv/
 
 # IDE Configuration Files
 .idea/
