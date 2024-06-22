@@ -2,3 +2,25 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# Byte-compiled files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual Environment
+\Programming\Python\myenv\
+venv/
+env/
+.Programming\Python\myenv\
+.venv/
+.env
+
+# IDE Configuration Files
+.idea/
+.vscode/
+*.swp
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
