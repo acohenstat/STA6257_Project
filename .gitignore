@@ -9,10 +9,10 @@
 __pycache__/
 
 # Virtual Environment
-\Programming\Python\myenv\
+Programming/Python/myenv/
 venv/
 env/
-.Programming\Python\myenv\
+.Programming/Python/myenv/
 .venv/
 .env
 */myenv/
