@@ -31,22 +31,46 @@ library(dslabs)
 
 ### What is "Bayesian Network"?
 
-A Bayesian network, also known as a belief network or a probabilistic graphical model, is a representation of a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@heckerman1995tutorial] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is:
+A Bayesian network, also known as a belief network or a probabilistic graphical model, is a representation of a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is:
 $$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 $$
 
-A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables.[@heckerman1995tutorial] 
+A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables.[@koller2009probabilistic] 
 
 <figure style="text-align: center;">
-  <img src="img/Simple_Bayesian.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;">
+  <img src="img/Simple_Bayesian_Student.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;">
   <figcaption>Simple Bayesian Network</figcaption>
 </figure>
 
 Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities.
 [@koller2009probabilistic] 
 
+### What are the advantages to using Bayesian Networks 
+
+Data analysis offers a variety of tools like rule-based systems, decision trees, and artificial neural networks, along with techniques such as density estimation, classification, regression, and clustering.[@heckerman1995tutorial] In this landscape, what unique advantages do Bayesian networks and Bayesian methods bring to the table?
+
+Handling Incomplete Data:
+
+Bayesian networks can manage incomplete data sets effectively. They encode dependencies between variables, such as strong anti-correlations, which traditional supervised learning models struggle with when data for some variables is missing. This allows for accurate predictions even with incomplete information.
+
+Learning Causal Relationships:
+
+Bayesian networks facilitate learning causal relationships, which is crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
+
+Combining Domain Knowledge and Data:
+
+Bayesian networks integrate domain knowledge (prior knowledge) with data seamlessly. This is particularly beneficial when data is limited or costly. Bayesian networks have a causal semantics that makes it straightforward to incorporate prior knowledge about causal relationships, enhancing the accuracy and reliability of predictions.
+
+Avoiding Overfitting:
+
+Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
+
 ## Methods
+
+Classification is a fundamental task in data analysis and pattern recognition where the goal is to build a classifier—a function that assigns class labels to instances based on their attributes. Inducing classifiers from datasets of preclassified instances is a key challenge in machine learning. Many methods address this challenge using diverse functional representations like decision trees, decision lists, neural networks, decision graphs, and rules. One of the most effective classifiers, in the sense that its predictive performance is competitive
+with state-of-the-art classifiers, is the so-called naive Bayesian classifier.[@friedman1997bayesian]
+
 Define Variables and Dependencies:
 
 Assign Conditional Probability Tables (CPTs): 
