@@ -71,6 +71,7 @@ Avoiding Overfitting:
 
 Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
+## Dataset
 
 ## Methods
 
