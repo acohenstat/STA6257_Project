@@ -7,6 +7,8 @@ bibliography: references.bib # file contains bibtex for references
 
 # Data Set Description
 
+if we want to keep it simple,  IRIS data
+The Iris dataset can work well for demonstrating Bayesian networks because it contains multiple features with potential dependencies that can be modeled probabilistically. Its a classical dataset that we can use to perform inference to predict the class of a new flower by its measurements.  Not very noval but will get the job done
 
 # Summaries
 
