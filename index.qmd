@@ -17,7 +17,7 @@ editor:
     wrap: 72
 ---
 
-__NEW>>__ [Summaries](Reference_Summaries.html)<br>
+__NEW>>__ [Dataset & Summaries](Reference_Summaries.html)<br>
 [Slides](Slides.html)<br>
 
 
@@ -70,6 +70,7 @@ Bayesian networks integrate domain knowledge (prior knowledge) with data seamles
 Avoiding Overfitting:
 
 Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
+
 
 ## Methods
 

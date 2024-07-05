@@ -1,9 +1,14 @@
 ---
-title: "Summary"
+title: "Dataset & Summary"
 format: html
 bibliography: references.bib # file contains bibtex for references
 ---
 [Project](index.html) <br>
+
+# Data Set Description
+
+
+# Summaries
 
 ## Group Memember: Michael Zeihen<br>
 Summary: A Bayesian method for the induction of probabilistic networks from data<br>
