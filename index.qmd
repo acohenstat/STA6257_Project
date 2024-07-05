@@ -31,110 +31,41 @@ library(dslabs)
 
 ### What is "Bayesian Network"?
 
-A Bayesian network, also known as a belief network or a probabilistic graphical model, is a representation of a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. The primary components of a Bayesian network are:
+A Bayesian network, also known as a belief network or a probabilistic graphical model, is a representation of a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@heckerman1995tutorial] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is:
+$$
+P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
+$$
 
-Nodes: These represent the random variables.
+A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables.[@heckerman1995tutorial] 
 
-Edges: Directed edges between nodes represent conditional dependencies. If there is an edge from node 
-𝐴
-A to node 
-𝐵
-B, 
-𝐴
-A is a parent of 
-𝐵
-B, and 
-𝐵
-B is conditionally dependent on 
-𝐴
-A.
-
-Conditional Probability Distributions (CPDs): For each node, the CPD defines the probability of the node given its parents in the network.
-
-A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables. 
-
-The Bayesian theorem, also known as Bayes' rule, is a fundamental principle in probability theory that describes how to update the probability of a hypothesis based on new evidence. The formula is given by:
-
-𝑃
-(
-𝐴
-∣
-𝐵
-)
-=
-𝑃
-(
-𝐵
-∣
-𝐴
-)
-⋅
-𝑃
-(
-𝐴
-)
-𝑃
-(
-𝐵
-)
-P(A∣B)= 
-P(B)
-P(B∣A)⋅P(A)
-​
- 
-
-Where:
-
-𝑃
-(
-𝐴
-∣
-𝐵
-)
-P(A∣B) is the posterior probability: the probability of event 
-𝐴
-A occurring given that 
-𝐵
-B is true.
-𝑃
-(
-𝐵
-∣
-𝐴
-)
-P(B∣A) is the likelihood: the probability of event 
-𝐵
-B occurring given that 
-𝐴
-A is true.
-𝑃
-(
-𝐴
-)
-P(A) is the prior probability: the initial probability of event 
-𝐴
-A.
-𝑃
-(
-𝐵
-)
-P(B) is the marginal probability: the total probability of event 
-𝐵
-B.
+<figure style="text-align: center;">
+  <img src="img/Simple_Bayesian.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;">
+  <figcaption>Simple Bayesian Network</figcaption>
+</figure>
 
 Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities.
-
+[@koller2009probabilistic] 
 
 ## Methods
+Define Variables and Dependencies:
 
+Assign Conditional Probability Tables (CPTs): 
 
+Inference:
+
+Learning: structure and parameter 
 
 ## Analysis and Results
+Decision Support:
+
+Validation and Sensitivity Analysis:
 
 ### Data and Visualization
+directed acyclic graph (DAG).
 
+Conditional Probability Tables (CPTs)
 
-
+Probability Distributions:
 
 ### Statistical Modeling
 
