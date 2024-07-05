@@ -16,6 +16,11 @@ editor:
   markdown: 
     wrap: 72
 ---
+
+__NEW>>__ [Summaries](Reference_Summaries.html)<br>
+[Slides](Slides.html)<br>
+
+
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(rmarkdown)

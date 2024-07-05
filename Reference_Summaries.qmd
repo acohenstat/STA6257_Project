@@ -1,0 +1,96 @@
+---
+title: "Summary"
+format: html
+bibliography: references.bib # file contains bibtex for references
+---
+[Project](index.html) <br>
+
+## Group Memember: Michael Zeihen<br>
+Summary: A Bayesian method for the induction of probabilistic networks from data<br>
+(add summary here) <br>
+[@cooper1992bayesian]<br>
+
+Summary: Bayesian Network Classifiers<br>
+(add summary here) <br>
+[@friedman1997bayesian]<br>
+
+Summary: A tutorial on learning with Bayesian networks<br>
+(add summary here) <br>
+[@heckerman1995tutorial]<br>
+
+Summary: Probabilistic Graphical Models: Principles and Techniques<br>
+(add summary here) <br>
+[@koller2009probabilistic]<br>
+
+Summary: Fusion, propagation, and structuring in belief networks <br>
+(add summary here) <br>
+[@pearl1986fusion]<br>
+
+Summary: Dynamic Bayesian Networks: Representation, Inference and Learning<br>
+(add summary here) <br>
+[@Murphy2002]<br>
+
+## Group Memember: 2 <br>
+Summary: 1<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 2<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 3<br>
+(add summary here) <br>
+
+Summary: 4<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+## Group Memember: 3 <br>
+Summary: 1<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 2<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 3<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 4<br>
+(add summary here) <br>
+## Group Memember: 4 <br>
+Summary: 1<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 2<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 3<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 4<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+## Group Memember: 5 <br>
+Summary: 1<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 2<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 3<br>
+(add summary here) <br>
+(add Reference here) <br>
+
+Summary: 4<br>
+(add summary here) <br>
+(add Reference here) <br>
