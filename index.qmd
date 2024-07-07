@@ -39,12 +39,12 @@ library(cluster)
 
 ### What is "Bayesian Network"?
 
-A Bayesian network, also known as a belief network or a probabilistic graphical model, is a representation of a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is:
+A Bayesian network, a belief network, or a probabilistic graphical model represents a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is
 $$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 $$
 
-A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables.[@koller2009probabilistic] 
+A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables. [@koller2009probabilistic] 
 
 <figure style="text-align: center;">
   <img src="img/Simple_Bayesian_Student.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;">
@@ -54,13 +54,13 @@ A simple Bayesian network can be visualized as a directed acyclic graph (DAG) wi
 Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities.
 [@koller2009probabilistic] 
 
-### What are the advantages to using Bayesian Networks 
+### What are the advantages of using Bayesian Networks
 
-Data analysis offers a variety of tools like rule-based systems, decision trees, and artificial neural networks, along with techniques such as density estimation, classification, regression, and clustering.[@heckerman1995tutorial] In this landscape, what unique advantages do Bayesian networks and Bayesian methods bring to the table?
+Data analysis offers a variety of tools like rule-based systems, decision trees, and artificial neural networks, along with techniques such as density estimation, classification, regression, and clustering.[@heckerman1995tutorial] What unique advantages do Bayesian networks and Bayesian methods bring to the table in this landscape?
 
 Handling Incomplete Data:
 
-Bayesian networks can manage incomplete data sets effectively. They encode dependencies between variables, such as strong anti-correlations, which traditional supervised learning models struggle with when data for some variables is missing. This allows for accurate predictions even with incomplete information.
+Bayesian networks facilitate learning causal relationships, which are crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
 
 Learning Causal Relationships:
 
@@ -68,14 +68,14 @@ Bayesian networks facilitate learning causal relationships, which is crucial for
 
 Combining Domain Knowledge and Data:
 
-Bayesian networks integrate domain knowledge (prior knowledge) with data seamlessly. This is particularly beneficial when data is limited or costly. Bayesian networks have a causal semantics that makes it straightforward to incorporate prior knowledge about causal relationships, enhancing the accuracy and reliability of predictions.
+Bayesian networks seamlessly integrate domain knowledge (prior knowledge) with data. This is particularly beneficial when data is limited or costly. Their causal semantics make it straightforward to incorporate prior knowledge about causal relationships, enhancing the accuracy and reliability of predictions.
 
 Avoiding Overfitting:
 
-Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
+Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
 ## Dataset
-We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in the field of machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. There are Four features that were measured from each sample: the length and the width of the sepals and petals, in centimeters[@wikipedia_iris]
+We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We measure four features from each sample: the length and width of the sepals and petals in centimeters.[@wikipedia_iris]
 
 Variables:
 
