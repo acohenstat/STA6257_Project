@@ -50,7 +50,7 @@ Summary: Bayesian networks for supply chain risk, resilience and ripple effect a
 
 Summary: Learning Bayesian networks with the bnlearn R package<br>
  (add summary here) <br>
- @scutari2009learning <br>
+ [@scutari2009learning] <br>
 
 Summary: An investigation into the relationship among psychiatric, demographic and socio-economic variables with Bayesian network modeling<br>
  (add summary here) <br>
