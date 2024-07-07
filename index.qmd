@@ -16,12 +16,14 @@ editor:
     wrap: 72
 ---
 
-## Introduction
+## 1. Introduction
 
 Sentiment Analysis (SA) is a branch of Natural Language Processing (NLP) that computationally extracts the “treatment of opinions, sentiments and subjectivity” [@MEDHAT20141093] of digital text. 
 
+### 1.1 Sentiment Analysis
 **[SENTIMENT ANALYSIS LIT REVIEW/INTRO HERE]**
 
+### 1.2 Vector Embeddings In Natural Language Processing
 One technique for encoding or describing the sentiment of a word or group of words is to use vector embeddings (or embeddings). Before discussing the use of embeddings for SA, it’s important to first understand what embeddings are. Embeddings are said to be “one of the most important topics of interest” in NLP in the last decade [@camacho2020embeddings].
 
 An early way to represent a word for NLP systems was to have a vocabulary of words, and each word is represented as an atomic, simple index into the vocabulary [@mikolov2013word2vec]. Embeddings are an alternative method to encode natural language as a vector representation. Embeddings can be used to represent words [@bengio2000neural]; [@collobert2011natural]; [@pennington2014glove], sentences [@kiros2015skip] and documents [@pilehvar2020embeddings], as well as to encode more specific meanings of natural language for tasks such as sentiment analysis, topic categorization and word sense disambiguation [@pilehvar2020embeddings]. 
@@ -32,6 +34,7 @@ Word embedding models can capture fairly detailed semantic and syntactic pattern
 
 Embedding models also exist for more complicated NLP problems than word representations. Sentence embedding models can be built on top of word embeddings models. This is an improvement over using “bag of words” representations for sections of natural language longer than a single word. Bag of word models often use vectors of one-hot encoding, however these representations have very high dimensionality and sparseness. These issues led researchers to look for alternatives and they found embeddings to be a valuable technique [@pilehvar2020embeddings]. Sentence embeddings compose word embeddings for each of the words of a sentence into a single vector that encodes semantic and syntactic properties of the sentence and can be compared for similarity across those properties [@kiros2015skip]. As with using bag of words to encode sentences, bag of word models are similarly poor representations of documents for many NLP tasks. In such cases, encoding the document into a document embedding is a useful alternative representation [@pilehvar2020embeddings]. Since bag of word models ignore word ordering, they are a problematic representation for many NLP tasks, including sentiment analysis [@pilehvar2020embeddings], which will be the focus for the rest of this work.
 
+### 1.3 Using Embeddings For Sentiment Analysis
 
 **[USING EMBEDDINGS FOR SENTIMENT ANALYSIS LIT REVIEW/INTRO HERE]**
 
