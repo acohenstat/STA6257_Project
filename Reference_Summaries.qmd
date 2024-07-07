@@ -3,102 +3,105 @@ title: "Dataset & Summary"
 format: html
 bibliography: references.bib # file contains bibtex for references
 ---
+
 [Project](index.html) <br>
 
 # Data Set Description
 
-if we want to keep it simple,  IRIS data
-The Iris dataset can work well for demonstrating Bayesian networks because it contains multiple features with potential dependencies that can be modeled probabilistically. Its a classical dataset that we can use to perform inference to predict the class of a new flower by its measurements.  Not very noval but will get the job done
+if we want to keep it simple, IRIS data The Iris dataset can work well for demonstrating Bayesian networks because it contains multiple features with potential dependencies that can be modeled probabilistically. Its a classical dataset that we can use to perform inference to predict the class of a new flower by its measurements. Not very noval but will get the job done
 
 # Summaries
 
-## Group Memember: Michael Zeihen<br>
-Summary: A Bayesian method for the induction of probabilistic networks from data<br>
-(add summary here) <br>
-[@cooper1992bayesian]<br>
+## Group Member: Michael Zeihen<br>
 
-Summary: Bayesian Network Classifiers<br>
-(add summary here) <br>
-[@friedman1997bayesian]<br>
+Summary: A Bayesian method for the induction of probabilistic networks from data<br> (add summary here) <br> [@cooper1992bayesian]<br>
 
-Summary: A tutorial on learning with Bayesian networks<br>
-(add summary here) <br>
-[@heckerman1995tutorial]<br>
+Summary: Bayesian Network Classifiers<br> (add summary here) <br> [@friedman1997bayesian]<br>
 
-Summary: Probabilistic Graphical Models: Principles and Techniques<br>
-(add summary here) <br>
-[@koller2009probabilistic]<br>
+Summary: A tutorial on learning with Bayesian networks<br> (add summary here) <br> [@heckerman1995tutorial]<br>
 
-Summary: Fusion, propagation, and structuring in belief networks <br>
-(add summary here) <br>
-[@pearl1986fusion]<br>
+Summary: Probabilistic Graphical Models: Principles and Techniques<br> (add summary here) <br> [@koller2009probabilistic]<br>
 
-Summary: Dynamic Bayesian Networks: Representation, Inference and Learning<br>
-(add summary here) <br>
-[@Murphy2002]<br>
+Summary: Fusion, propagation, and structuring in belief networks <br> (add summary here) <br> [@pearl1986fusion]<br>
 
-## Group Memember: 2 <br>
-Summary: 1<br>
-(add summary here) <br>
-(add Reference here) <br>
+Summary: Dynamic Bayesian Networks: Representation, Inference and Learning<br> (add summary here) <br> [@Murphy2002]<br>
 
-Summary: 2<br>
-(add summary here) <br>
-(add Reference here) <br>
+## Group Member: 2 <br>
 
-Summary: 3<br>
-(add summary here) <br>
+Summary: 1<br> (add summary here) <br> (add Reference here) <br>
 
-Summary: 4<br>
-(add summary here) <br>
-(add Reference here) <br>
+Summary: 2<br> (add summary here) <br> (add Reference here) <br>
 
-## Group Memember: 3 <br>
-Summary: 1<br>
-(add summary here) <br>
-(add Reference here) <br>
+Summary: 3<br> (add summary here) <br>
 
-Summary: 2<br>
-(add summary here) <br>
-(add Reference here) <br>
+Summary: 4<br> (add summary here) <br> (add Reference here) <br>
 
-Summary: 3<br>
-(add summary here) <br>
-(add Reference here) <br>
+## Group Member: Maxime MARTIN <br>
 
-Summary: 4<br>
-(add summary here) <br>
+Summary: **A single Bayesian Network classifier for monitoring with unknown classes**<br>
 
-## Group Memember: 4 <br>
-Summary: 1<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Goal of the paper:** The goal of the paper is to investigate the use of Bayesian Networks (BN) to create a classifier for monitoring systems with unknown classes.
 
-Summary: 2<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Why is it important:** This is important for improving the fault detection and diagnosis algorithm in complex systems, allowing for better monitoring and management of systems with unknown classes.
 
-Summary: 3<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Method used:** The authors employ Conditional Gaussian Networks (CGN), where each node represents either a discrete or Gaussian random variable linked to multivariate random variables (RV). Their approach involves graphical analysis and a quadratic statistic to determine the class of each multivariate observation, utilizing a control limit (CL) for classification. The system is evaluated using the Tennessee Eastman Process (TEP).
 
-Summary: 4<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Results and limitations:** The effectiveness of the proposed system is demonstrated through the evaluation. Limitations include the need for further research to expand the approach to other data-driven CGN, develop new algorithms for multiple faults, and explore more complex BN structures for integration. <br>
 
-## Group Memember: 5 <br>
-Summary: 1<br>
-(add summary here) <br>
-(add Reference here) <br>
+@ATOUI2019681 <br>
 
-Summary: 2<br>
-(add summary here) <br>
-(add Reference here) <br>
+Summary: **Application of Bayesian Networks in Reliability Evaluation**<br>
 
-Summary: 3<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Goal of the paper:** The goal is to review the use of Bayesian Networks (BN) in reliability evaluation and introduce a classification framework for BN in this field.
 
-Summary: 4<br>
-(add summary here) <br>
-(add Reference here) <br>
+**Why is it important:** The classification framework helps in better understanding and implementing BN for different reliability evaluation tasks, enhancing their practical application and effectiveness in real-world scenarios.
+
+**Method used:** The paper categorizes BN based on the objects of reliability evaluation (hardware, software) and demonstrates their practical implementation through various case studies.
+
+**Results and limitations:** The classification framework and case studies highlight the strengths of BN in modeling complex systems and handling uncertainties. Limitations include the reliance on high-quality data, computational challenges in large systems, and the need for further research to integrate BN with other reliability evaluation methods. <br>
+
+@Cai2020 <br>
+
+Summary: **Quantifying and predicting the Water-Energy-Food-Economy-Society- Environment Nexus based on Bayesian networks - A case study of China**<br>
+
+**Goal of the paper:** The goal is to model the Water-Energy-Food-Economy-Society-Environment Nexus using Bayesian Networks to understand causal relationships and make future simulations.
+
+**Why is it important:** This is important for planning and managing resources in a holistic manner, which is crucial for sustainable development in China.
+
+**Method used:** The authors use an existing Nexus model with variables such as GDP growth rate, population growth rate, annual rainfall, water resource stock, energy consumption growth rate, and food demand growth rate. Relationships are defined using expert knowledge, and data is discretized to fill the states created in the Bayesian Network.
+
+**Results and limitations:** The model successfully answers the research questions and makes forecasts on resource demand. Limitations include the static nature of the relationships in the Bayesian Network and the precision of predicted values, which could be improved by incorporating more indicators. <br>
+
+@CHAI2020120266 <br>
+
+Summary: **Applications of Bayesian networks and Petri nets in safety, reliability, and risk assessments: A review**<br>
+
+**Goal of the paper:** The goal is to review the use of Bayesian Networks and Petri Nets in safety, reliability, and risk assessments of complex systems.
+
+**Why is it important:** The review highlights the advantages of Bayesian Networks and Petri Nets in controlling parameters related to reliability and risk, which is essential for preventing risks in complex systems.
+
+**Method used:** The paper explains the advantages of Bayesian Networks, their creation process, and their integration with other methods such as Petri Nets and Markov chains. It also discusses the mapping process from a fault tree to a Bayesian Network.
+
+**Results and limitations:** The review demonstrates the versatility and functionality of Bayesian Networks in predictive and diagnostic analysis, updating, and optimization. Limitations include the importance of properly defining nodes and parent-child relationships to ensure a coherent model. If these steps are not carefully followed, the model can become complex to analyze. <br>
+
+@KABIR2019154 <br>
+
+## Group Member: 4 <br>
+
+Summary: 1<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 2<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 3<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 4<br> (add summary here) <br> (add Reference here) <br>
+
+## Group Member: 5 <br>
+
+Summary: 1<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 2<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 3<br> (add summary here) <br> (add Reference here) <br>
+
+Summary: 4<br> (add summary here) <br> (add Reference here) <br>
