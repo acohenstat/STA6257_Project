@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Michael Zeihen, Maxime Martin, Meghan Alexander, Sarah Burns, Seth Henry">
-<meta name="dcterms.date" content="2024-07-05">
+<meta name="dcterms.date" content="2024-07-06">
 
 <title>Bayesian Networks - Data Science Capstone</title>
 <style>
@@ -3072,7 +3072,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 5, 2024</p>
+      <p class="date">July 6, 2024</p>
     </div>
   </div>
   
@@ -3126,7 +3126,71 @@ Simple Bayesian Network
 </section>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>Add Data set discription here</p>
+<p>We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in the field of machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper “The use of multiple measurements in taxonomic problems.” The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. There are Four features that were measured from each sample: the length and the width of the sepals and petals, in centimeters<span class="citation" data-cites="wikipedia_iris">(<a href="#ref-wikipedia_iris" role="doc-biblioref">contributors 2023</a>)</span></p>
+<p>Variables:</p>
+<ul>
+<li>Sepal length (in cm)</li>
+<li>Sepal width (in cm)</li>
+<li>Petal length (in cm)</li>
+<li>Petal width (in cm)</li>
+</ul>
+<p>Classes:</p>
+<ul>
+<li>Iris setosa</li>
+<li>Iris versicolor</li>
+<li>Iris virginica</li>
+</ul>
+<p>Since we are looking at contious variables we believe it would help to convert the values to discrete values. Using discrete variables will simplify the structure of the Bayesian network and reduces the complexity of the conditional probability tables (CPTs).</p>
+<p>** Option for team- we just we need to decide if ranges are based on what we believe the ranges are from our experience or we could go a step further and do clustering like kmeans to automatically create the groupings. This will be a good spot for visual of k-cluster of the different class features**</p>
+</section>
+<section id="continous-to-discrete-values-value-range-tbd" class="level2">
+<h2 class="anchored" data-anchor-id="continous-to-discrete-values-value-range-tbd">Continous to Discrete Values (“Value range TBD”)</h2>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Label</th>
+<th>Level</th>
+<th>Sepal Length</th>
+<th>Sepal Width</th>
+<th>Petal Length</th>
+<th>Petal Width</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small</td>
+<td>1</td>
+<td>1-2</td>
+<td>3-4</td>
+<td>5-6</td>
+<td>5-6</td>
+</tr>
+<tr class="even">
+<td>Medium</td>
+<td>2</td>
+<td>1-2</td>
+<td>3-4</td>
+<td>5-6</td>
+<td>5-6</td>
+</tr>
+<tr class="odd">
+<td>Large</td>
+<td>3</td>
+<td>1-2</td>
+<td>3-4</td>
+<td>5-6</td>
+<td>5-6</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
@@ -3139,7 +3203,7 @@ Simple Bayesian Network
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
 <p>Decision Support:</p>
-<p>Validation and Sensitivity Analysis:</p>
+<p>Validation and Sensitivity Analysis: monte carlo</p>
 </section>
 <section id="data-and-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h2>
@@ -3161,6 +3225,9 @@ Simple Bayesian Network
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-wikipedia_iris" class="csl-entry" role="listitem">
+contributors, Wikipedia. 2023. <span>“Iris Flower Data Set.”</span> <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set" class="uri">https://en.wikipedia.org/wiki/Iris_flower_data_set</a>. <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">https://en.wikipedia.org/wiki/Iris_flower_data_set</a>.
+</div>
 <div id="ref-friedman1997bayesian" class="csl-entry" role="listitem">
 Friedman, Nir, Dan Geiger, and Moises Goldszmidt. 1997. <span>“Bayesian Network Classifiers.”</span> <em>Machine Learning</em> 29: 131–63. <a href="https://doi.org/10.1023/A:1007465528199">https://doi.org/10.1023/A:1007465528199</a>.
 </div>

@@ -72,7 +72,33 @@ Avoiding Overfitting:
 Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
 ## Dataset
-Add Data set discription here
+We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in the field of machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. There are Four features that were measured from each sample: the length and the width of the sepals and petals, in centimeters[@wikipedia_iris]
+
+Variables:
+
+- Sepal length (in cm)
+- Sepal width (in cm)
+- Petal length (in cm)
+- Petal width (in cm)
+
+Classes:
+
+- Iris setosa
+- Iris versicolor
+- Iris virginica
+
+Since we are looking at contious variables we believe it would help to convert the values to discrete values. Using discrete variables will simplify the structure of the Bayesian network and  reduces the complexity of the conditional probability tables (CPTs).  
+
+** Option for team- we just we need to decide if ranges are based on what we believe the ranges are from our experience or we could go a step further and do clustering like kmeans to automatically create the groupings. This will be a good spot for visual of k-cluster of the different class features**
+
+
+## Continous to Discrete Values ("Value range TBD")
+
+| Label | Level  | Sepal Length | Sepal Width | Petal Length | Petal Width |
+|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
+| Small   | 1  | 1-2 | 3-4 |5-6 |5-6 |
+| Medium   | 2  | 1-2 | 3-4 |5-6 |5-6 |
+| Large  | 3   | 1-2 | 3-4 |5-6 |5-6 |
 
 ## Methods
 
@@ -91,6 +117,7 @@ Learning: structure and parameter
 Decision Support:
 
 Validation and Sensitivity Analysis:
+monte carlo 
 
 ## Data and Visualization
 directed acyclic graph (DAG).
