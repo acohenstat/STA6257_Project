@@ -17,7 +17,7 @@ editor:
     wrap: 72
 toc: true
 toc-title: "Table of Contents"
-toc-depth: 2
+toc-depth: 3 
 ---
 
 __NEW>>__ [Dataset & Summaries](Reference_Summaries.html)<br>
@@ -77,17 +77,26 @@ Avoiding Overfitting:
 
 Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
+### Applications of Bayesian Networks
+<p style="color: blue;">Idea - where are bayesian networks used.</p>
+
+### Components of Bayesian Networks
+<p style="color: blue;">Idea - talk about the components of bayesian networks( Nodes, Edges, DAG, CPT, Probablistic Inference).</p>
+
+### Limitations of Bayesian Networks
+<p style="color: blue;">Idea - talk about issues inherent with bayesian networks(Complexity, data, assumptions,structure, scalability).</p>
+
 ## Dataset
 We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We measure four features from each sample: the length and width of the sepals and petals in centimeters.[@wikipedia_iris]
 
-Variables:
+### Variables:
 
 - Sepal length (in cm)
 - Sepal width (in cm)
 - Petal length (in cm)
 - Petal width (in cm)
 
-Classes:
+### Classes:
 
 - Iris setosa
 - Iris versicolor
@@ -98,6 +107,8 @@ Since we are looking at contious variables we believe it would help to convert t
 ** Option for team- we just we need to decide if ranges are based on what we believe the ranges are from our experience or we could go a step further and do clustering like kmeans to automatically create the groupings. This will be a good spot for visual of k-cluster of the different class features**
 
 ** just need to work cluster labels better
+
+### Discrete values transformation in Iris Dataset
 
 ```{r, echo=F}
 iris_data <- iris[, -5]

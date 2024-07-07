@@ -3054,13 +3054,28 @@ vertical-align: -.125em;
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of Contents</h2>
    
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#what-is-bayesian-network" id="toc-what-is-bayesian-network" class="nav-link" data-scroll-target="#what-is-bayesian-network">What is “Bayesian Network”?</a></li>
+  <li><a href="#what-are-the-advantages-of-using-bayesian-networks" id="toc-what-are-the-advantages-of-using-bayesian-networks" class="nav-link" data-scroll-target="#what-are-the-advantages-of-using-bayesian-networks">What are the advantages of using Bayesian Networks</a></li>
+  <li><a href="#applications-of-bayesian-networks" id="toc-applications-of-bayesian-networks" class="nav-link" data-scroll-target="#applications-of-bayesian-networks">Applications of Bayesian Networks</a></li>
+  <li><a href="#components-of-bayesian-networks" id="toc-components-of-bayesian-networks" class="nav-link" data-scroll-target="#components-of-bayesian-networks">Components of Bayesian Networks</a></li>
+  <li><a href="#limitations-of-bayesian-networks" id="toc-limitations-of-bayesian-networks" class="nav-link" data-scroll-target="#limitations-of-bayesian-networks">Limitations of Bayesian Networks</a></li>
+  </ul></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a>
+  <ul class="collapse">
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables:</a></li>
+  <li><a href="#classes" id="toc-classes" class="nav-link" data-scroll-target="#classes">Classes:</a></li>
+  <li><a href="#discrete-values-transformation-in-iris-dataset" id="toc-discrete-values-transformation-in-iris-dataset" class="nav-link" data-scroll-target="#discrete-values-transformation-in-iris-dataset">Discrete values transformation in Iris Dataset</a></li>
+  </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a></li>
   <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a></li>
-  <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
+  <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a>
+  <ul class="collapse">
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -3140,18 +3155,39 @@ Simple Bayesian Network
 <p>Avoiding Overfitting:</p>
 <p>Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by “smoothing” models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.</p>
 </section>
+<section id="applications-of-bayesian-networks" class="level3">
+<h3 class="anchored" data-anchor-id="applications-of-bayesian-networks">Applications of Bayesian Networks</h3>
+<p style="color: blue;">
+Idea - where are bayesian networks used.
+</p>
+</section>
+<section id="components-of-bayesian-networks" class="level3">
+<h3 class="anchored" data-anchor-id="components-of-bayesian-networks">Components of Bayesian Networks</h3>
+<p style="color: blue;">
+Idea - talk about the components of bayesian networks( Nodes, Edges, DAG, CPT, Probablistic Inference).
+</p>
+</section>
+<section id="limitations-of-bayesian-networks" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-of-bayesian-networks">Limitations of Bayesian Networks</h3>
+<p style="color: blue;">
+Idea - talk about issues inherent with bayesian networks(Complexity, data, assumptions,structure, scalability).
+</p>
+</section>
 </section>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
 <p>We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper “The use of multiple measurements in taxonomic problems.” The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We measure four features from each sample: the length and width of the sepals and petals in centimeters.<span class="citation" data-cites="wikipedia_iris">(<a href="#ref-wikipedia_iris" role="doc-biblioref">contributors 2023</a>)</span></p>
-<p>Variables:</p>
+<section id="variables" class="level3">
+<h3 class="anchored" data-anchor-id="variables">Variables:</h3>
 <ul>
 <li>Sepal length (in cm)</li>
 <li>Sepal width (in cm)</li>
 <li>Petal length (in cm)</li>
 <li>Petal width (in cm)</li>
 </ul>
-<p>Classes:</p>
+</section>
+<section id="classes" class="level3">
+<h3 class="anchored" data-anchor-id="classes">Classes:</h3>
 <ul>
 <li>Iris setosa</li>
 <li>Iris versicolor</li>
@@ -3160,6 +3196,9 @@ Simple Bayesian Network
 <p>Since we are looking at contious variables we believe it would help to convert the values to discrete values. Using discrete variables will simplify the structure of the Bayesian network and reduces the complexity of the conditional probability tables (CPTs).</p>
 <p>** Option for team- we just we need to decide if ranges are based on what we believe the ranges are from our experience or we could go a step further and do clustering like kmeans to automatically create the groupings. This will be a good spot for visual of k-cluster of the different class features**</p>
 <p>** just need to work cluster labels better</p>
+</section>
+<section id="discrete-values-transformation-in-iris-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-values-transformation-in-iris-dataset">Discrete values transformation in Iris Dataset</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -3238,6 +3277,7 @@ Simple Bayesian Network
 </tr>
 </tbody>
 </table>
+</section>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
