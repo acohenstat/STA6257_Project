@@ -15,6 +15,9 @@ execute:
 editor: 
   markdown: 
     wrap: 72
+toc: true
+toc-title: "Table of Contents"
+toc-depth: 2
 ---
 
 __NEW>>__ [Dataset & Summaries](Reference_Summaries.html)<br>
@@ -146,7 +149,7 @@ ggplot(iris, aes(Petal.Length, Petal.Width, color = Petal.Length.Category, shape
   theme_minimal()
 ```
 
-## Continous to Discrete Values ("Value range TBD")
+__Continous to Discrete Values ("Value range TBD")__
 
 | Label | Level  | Sepal Length | Sepal Width | Petal Length | Petal Width |
 |-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
