@@ -35,6 +35,7 @@ library(dslabs)
 library(datasets)
 library(ggplot2)
 library(cluster)
+library(bnlearn)
 ```
 
 
@@ -173,11 +174,26 @@ __Continous to Discrete Values ("Value range TBD")__
 | Small   | 1  | 4.0-5.5 | 2.0-2.75 |1-2 |0.0-.75 |
 | Medium  | 2  | 5.6-6.5 | 2.76-3.25|3-5 |1.0-1.75 |
 | Large   | 3  | 6.5-8.0 | 3.26-4.5 |5-7 |1.76-2.5 |
+```{r,echo=F}
+# Define Bayesian network structure
+network_structure <- "Species ~ Sepal.Length.Category + Sepal.Width.Category + Petal.Length.Category + Petal.Width.Category"
+
+table_md <- knitr::kable(head(iris), format = "markdown")
+```
+| Sepal.Length| Sepal.Width| Petal.Length| Petal.Width|Species |Sepal.Length.Cluster |Sepal.Width.Cluster |Petal.Length.Cluster |Petal.Width.Cluster |Sepal.Length.Category |Sepal.Width.Category |Petal.Length.Category |Petal.Width.Category |
+|------------:|-----------:|------------:|-----------:|:-------|:--------------------|:-------------------|:--------------------|:-------------------|:---------------------|:--------------------|:---------------------|:--------------------|
+|          5.1|         3.5|          1.4|         0.2|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |
+|          4.9|         3.0|          1.4|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
+|          4.7|         3.2|          1.3|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
+|          4.6|         3.1|          1.5|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
+|          5.0|         3.6|          1.4|         0.2|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |
+|          5.4|         3.9|          1.7|         0.4|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |1
 
 ## Methods
 
 Classification is a fundamental task in data analysis and pattern recognition where the goal is to build a classifier—a function that assigns class labels to instances based on their attributes. Inducing classifiers from datasets of preclassified instances is a key challenge in machine learning. Many methods address this challenge using diverse functional representations like decision trees, decision lists, neural networks, decision graphs, and rules. One of the most effective classifiers, in the sense that its predictive performance is competitive
 with state-of-the-art classifiers, is the so-called naive Bayesian classifier.[@friedman1997bayesian]
+
 
 Define Variables and Dependencies:
 
