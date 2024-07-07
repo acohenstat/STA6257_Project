@@ -47,6 +47,9 @@ $$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 $$
 
+### What is Bayesian Theorem
+
+
 A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables. [@koller2009probabilistic] 
 
 <figure style="text-align: center;">
@@ -56,6 +59,8 @@ A simple Bayesian network can be visualized as a directed acyclic graph (DAG) wi
 
 Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities.
 [@koller2009probabilistic] 
+
+<p style="color: blue;">Idea - Go over the bayes' theorem equation.</p>
 
 ### What are the advantages of using Bayesian Networks
 
@@ -90,6 +95,7 @@ Bayesian networks provide an efficient approach to prevent overfitting. They ach
 We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We measure four features from each sample: the length and width of the sepals and petals in centimeters.[@wikipedia_iris]
 
 ### Variables:
+disctions
 
 - Sepal length (in cm)
 - Sepal width (in cm)
