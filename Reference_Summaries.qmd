@@ -14,24 +14,58 @@ if we want to keep it simple, IRIS data The Iris dataset can work well for demon
 
 ## Group Member: Michael Zeihen<br>
 
-Summary: A Bayesian method for the induction of probabilistic networks from data<br>
-(add summary here) <br>
+Summary: **A Bayesian method for the induction of probabilistic networks from data**<br>
+
+**Goal of the Paper:** The main goal of Cooper and Herskovits' paper is to present a Bayesian method for inducing probabilistic networks, specifically Bayesian networks, from data. The method aims to automate the process of constructing Bayesian networks, which are useful for representing and reasoning about uncertain knowledge <br>
+
+**Why is it important** The proposed method provides a systematic approach to automatically derive the structure and parameters of Bayesian networks from data
+
+**Method Used:** Bayesian Scoring Metric and parameter learning.
+
+**Results and limitations:** The paper demonstrates that the Bayesian method can effectively learn the structure of Bayesian networks from data and provides practical algorithms for Bayesian network induction.<br>
+
  [@cooper1992bayesian]<br>
 
-Summary: Bayesian Network Classifiers<br>
- (add summary here) <br>
+Summary: **Bayesian Network Classifiers**<br>
+**Goal of the Paper:** The primary goal of this paper is to investigate the use of Bayesian networks as classifiers. The authors aim to explore and evaluate the performance of different types of Bayesian network classifiers, particularly focusing on the naive Bayesian classifier and its extensions<br>
+
+**Why is it important** It extends the application of Bayesian networks to the domain of classification, highlighting their potential in handling uncertainty and probabilistic reasoning in classification tasks.
+
+**Method Used:** 
+Naive Bayesian Classifier, TAN (Tree Augmented Naive Bayesian) Classifier, Bayesian Network Classifiers, Evaluation Metrics
+
+**Results and limitations:**  The TAN classifier is shown to outperform the naive Bayesian classifier by capturing dependencies between features while maintaining computational efficiency.General Bayesian network classifiers can achieve higher accuracy than naive Bayesian classifiers by modeling complex dependencies, though at the cost of increased computational complexity.<br>
+
  [@friedman1997bayesian]<br>
 
-Summary: A tutorial on learning with Bayesian networks<br>
- (add summary here) <br>
-  [@heckerman1995tutorial]<br>
+Summary: **A tutorial on learning with Bayesian networks**<br>
+
+**Goal of the Paper:** The primary goal of Heckerman's paper is to provide a comprehensive tutorial on learning Bayesian networks from data. It aims to explain the fundamental concepts and methods used in constructing and utilizing Bayesian networks for probabilistic inference and decision-making processes. <br>
+
+**Why is it important** Bayesian networks are significant, they provide a compact way to represent uncertain knowledge using probabilities, and facilitate efficient inference and decision-making under uncertainty, which is crucial for many applications
+
+**Method Used:** Structured and parameter learning.
+
+**Results and limitations:** This was a tutorial that provides a clear and detailed explanation of the theoretical foundations of Bayesian networks and the practical methods for learning them.<br>
+
+[@heckerman1995tutorial]<br>
 
 Summary: Probabilistic Graphical Models: Principles and Techniques<br>
- (add summary here) <br>
+ This was a text book and not article.<br>
+ **My goal:** my goal was to learn about Bayesian networks and probabilistic graphical models that represent a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Also understanind of nodes edge. Key concepts learnt: Nodes and edges, joint probability  distrubution, conditional dependencies, structured and parameter learning and finally the two types of inference, exact and approximate<br>
+
   [@koller2009probabilistic]<br>
 
 Summary: Fusion, propagation, and structuring in belief networks <br>
- (add summary here) <br>
+
+**Goal of the Paper:**The primary goal of this paper is to present a framework for representing and reasoning with uncertain knowledge using belief networks (also known as Bayesian networks). The paper aims to describe methods for the fusion, propagation, and structuring of probabilistic information in these networks. <br>
+
+**Why is it important** Introduction of Belief Networks and probalistic inference which have become a central tools in AI for managing uncertainty.
+
+**Method Used:** Belief Networks, structured learning, propagation
+
+**Results and limitations:** The paper demonstrates that belief networks can perform efficient probabilistic inference using localized computations, which makes them scalable to larger problems. Despite the efficiency improvements, the computational complexity of inference in belief networks can still be high, especially for densely connected networks or those with large numbers of variables.<br>
+
   [@pearl1986fusion]<br>
 
 Summary: Dynamic Bayesian Networks: Representation, Inference and Learning<br>
@@ -193,7 +227,7 @@ Summary: **Bayesian analysis for emerging infectious diseases**<br>
 
 **Results and limitations:** The research provided a generic modeling framework applicable to various epidemic scenarios, illustrated through case studies on the Foot and Mouth disease epidemic and Avian Influenza risk assessment in the UK poultry industry. Challenges included the scalability of the methodology for large populations and assumptions about infection dynamics, which may not always reflect complex real-world scenarios accurately<br>
 
-[@jewell2009bayesian]<br
+[@jewell2009bayesian]<br>
 
 ## Group Member: 5 <br>
 
