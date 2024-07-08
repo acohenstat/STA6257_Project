@@ -207,11 +207,11 @@ the states of its parent nodes, providing a visual and computational
 tool for working with the network’s probabilistic relationships
 [@pearl1986fusion].
 
-Understanding these components—nodes, edges, the directed acyclic graph,
-probabilistic inferences, conditional independence and the conditional
-probability tree—provides a foundational framework for working with
-Bayesian networks, enabling the modeling of complex systems with
-interdependent variables in a structured and efficient manner.
+Understanding these components, nodes, edges, the directed acyclic
+graph, probabilistic inferences, conditional independence and the
+conditional probability tree provides a foundational framework for
+working with Bayesian networks, enabling the modeling of complex systems
+with interdependent variables in a structured and efficient manner.
 
 </p>
 
