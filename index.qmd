@@ -20,9 +20,8 @@ toc-title: "Table of Contents"
 toc-depth: 3 
 ---
 
-__NEW>>__ [Dataset & Summaries](Reference_Summaries.html)<br>
+**NEW\>\>** [Dataset & Summaries](Reference_Summaries.html)<br>
 [Slides](Slides.html)<br>
-
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
@@ -38,84 +37,231 @@ library(cluster)
 library(bnlearn)
 ```
 
-
 ## Introduction
 
 ### What is "Bayesian Network"?
 
-A Bayesian network, a belief network, or a probabilistic graphical model represents a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is
-$$
+A Bayesian network, a belief network, or a probabilistic graphical model
+represents a set of variables and their conditional dependencies via a
+Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph
+represents a random variable, and the edges between the nodes represent
+probabilistic dependencies among these variables. Bayes' theorem is a
+fundamental concept used in this network. Bayes' thereum describes the
+probability of an event, based on prior knowledge of conditions that
+might be related to the event. The formula for Bayes' theorem is $$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 $$
 
 ### What is Bayesian Theorem
 
-
-A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables. [@koller2009probabilistic] 
+A simple Bayesian network can be visualized as a directed acyclic graph
+(DAG) with nodes representing random variables and directed edges
+representing conditional dependencies between these variables.
+[@koller2009probabilistic]
 
 <figure style="text-align: center;">
-  <img src="img/Simple_Bayesian_Student.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;">
-  <figcaption>Simple Bayesian Network</figcaption>
+
+<img src="img/Simple_Bayesian_Student.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;"/>
+
+<figcaption>Simple Bayesian Network</figcaption>
+
 </figure>
 
-Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities.
-[@koller2009probabilistic] 
+Bayesian networks leverage Bayes' theorem to update the probabilities of
+various hypotheses given new evidence, allowing for probabilistic
+reasoning and decision-making under uncertainty. The process involves
+defining the network structure and conditional probabilities,
+calculating joint and marginal probabilities, and applying Bayes'
+theorem to infer the posterior probabilities. [@koller2009probabilistic]
 
-<p style="color: blue;">Idea - Go over the bayes' theorem equation.</p>
-<p style="color: blue;">Idea - Discuss Propagation.</p>
+<p style="color: blue;">
+
+Idea - Go over the bayes' theorem equation.
+
+</p>
+
+<p style="color: blue;">
+
+Idea - Discuss Propagation.
+
+</p>
 
 ### What are the advantages of using Bayesian Networks
 
-Data analysis offers a variety of tools like rule-based systems, decision trees, and artificial neural networks, along with techniques such as density estimation, classification, regression, and clustering.[@heckerman1995tutorial] What unique advantages do Bayesian networks and Bayesian methods bring to the table in this landscape?
+Data analysis offers a variety of tools like rule-based systems,
+decision trees, and artificial neural networks, along with techniques
+such as density estimation, classification, regression, and
+clustering.[@heckerman1995tutorial] What unique advantages do Bayesian
+networks and Bayesian methods bring to the table in this landscape?
 
 Handling Incomplete Data:
 
-Bayesian networks facilitate learning causal relationships, which are crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
+Bayesian networks facilitate learning causal relationships, which are
+crucial for understanding complex systems and making predictions under
+interventions. For example, determining if increasing advertisement
+exposure causes higher product sales can be analyzed using Bayesian
+networks, even without direct experimental data.
 
 Learning Causal Relationships:
 
-Bayesian networks facilitate learning causal relationships, which is crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
+Bayesian networks facilitate learning causal relationships, which is
+crucial for understanding complex systems and making predictions under
+interventions. For example, determining if increasing advertisement
+exposure causes higher product sales can be analyzed using Bayesian
+networks, even without direct experimental data.
 
 Combining Domain Knowledge and Data:
 
-Bayesian networks seamlessly integrate domain knowledge (prior knowledge) with data. This is particularly beneficial when data is limited or costly. Their causal semantics make it straightforward to incorporate prior knowledge about causal relationships, enhancing the accuracy and reliability of predictions.
+Bayesian networks seamlessly integrate domain knowledge (prior
+knowledge) with data. This is particularly beneficial when data is
+limited or costly. Their causal semantics make it straightforward to
+incorporate prior knowledge about causal relationships, enhancing the
+accuracy and reliability of predictions.
 
 Avoiding Overfitting:
 
-Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
+Bayesian networks provide an efficient approach to prevent overfitting.
+They achieve this by "smoothing" models using all available data during
+training, eliminating the need to reserve data for testing purposes.
+This ensures that models generalize well to new data and avoid capturing
+noise or spurious patterns from the training data.
 
 ### Applications of Bayesian Networks
 
-Bayesian networks are widely applied across many diverse fields due to their capabilities in modeling probabilistic relationships. A few examples being - In healthcare, they can be employed to examine how psychiatric, demographic, and socio-economic variables interrelate [@bilek2018investigation]; in supply chain management, they can play a crucial role in assessing risks, evaluating resilience, and analyzing ripple effects - aiding in making informed decisions among uncertainties [@hosseini2020bayesian]; and in political studies, they can assist to predict online participation patterns by analyzing user interactions and engagement metrics [@kopacheva2021predicting]. Bayesian networks provide dynamic modeling, learning, and inference - enabling an understanding of evolving systems over time in various applications [@shiguihara2021dynamic]. All these example applications underscore the utility of Bayesian networks in addressing complex probabilistic challenges across different domains, and further their practical usefulness.
+Bayesian networks are widely applied across many diverse fields due to
+their capabilities in modeling probabilistic relationships. A few
+examples being - In healthcare, they can be employed to examine how
+psychiatric, demographic, and socio-economic variables interrelate
+[@bilek2018investigation]; in supply chain management, they can play a
+crucial role in assessing risks, evaluating resilience, and analyzing
+ripple effects - aiding in making informed decisions among uncertainties
+[@hosseini2020bayesian]; and in political studies, they can assist to
+predict online participation patterns by analyzing user interactions and
+engagement metrics [@kopacheva2021predicting]. Bayesian networks provide
+dynamic modeling, learning, and inference - enabling an understanding of
+evolving systems over time in various applications
+[@shiguihara2021dynamic]. All these example applications underscore the
+utility of Bayesian networks in addressing complex probabilistic
+challenges across different domains, and further their practical
+usefulness.
 
 ### Components of Bayesian Networks
-<p style="color: blue;">Idea - talk about the components of bayesian networks( Nodes, Edges, DAG, CPT, Probablistic Inference).</p>
+
+<p style="color: blue;">
+
+Idea - talk about the components of bayesian networks( Nodes, Edges,
+DAG, CPT, Probablistic Inference).
+
+Bayesian networks are sophisticated models that represent the
+probabilistic relationships among a set of variables using a directed
+acyclic graph (DAG). The primary components of Bayesian networks include
+nodes, edges, and conditional probability distributions, each playing a
+crucial role in defining the structure and behavior of the network.
+
+Nodes in a Bayesian network represent random variables. These variables
+can be classified into several categories based on their roles within
+the network. Parent nodes are those that have outgoing edges to other
+nodes, signifying causal or influential relationships. Child nodes, on
+the other hand, are the recipients of these edges, representing
+variables that are influenced or caused by the parent nodes.
+Additionally, evidence nodes are those for which we have observed data,
+and these observations can be used to update the beliefs about other
+variables in the network. Query nodes are the variables of interest, for
+which we seek to compute posterior probabilities given the evidence.
+This categorization helps in organizing and understanding the flow of
+information within the network [@pearl1986fusion].
+
+Edges in a Bayesian network are directed and represent probabilistic
+dependencies between the nodes. An edge from node A to node B indicates
+that A is a parent of B, and the probability distribution of B is
+conditionally dependent on the state of A. This directional relationship
+is a critical aspect of Bayesian networks, as it encodes the causal
+assumptions and the flow of influence among the variables
+[@pearl1986fusion].
+
+The structure of a Bayesian network is a directed acyclic graph (DAG). A
+DAG is a graph that is directed and contains no cycles, meaning it is
+impossible to start at any node and follow a consistent direction along
+the edges to return to the starting node. This acyclic property is
+fundamental because it ensures that there is no infinite loop in the
+probabilistic dependencies, allowing for coherent probabilistic
+inferences. The DAG structure facilitates the decomposition of the joint
+probability distribution of the variables into a product of conditional
+probability distributions, greatly simplifying the representation and
+computation of complex probabilistic models [@koller2009probabilistic].
+
+Probabilistic inferences in Bayesian networks involve computing the
+posterior probabilities of query nodes given the evidence nodes. This
+process uses the network’s structure and the conditional probability
+distributions to propagate information and update beliefs. One of the
+key concepts in performing these inferences is conditional independence,
+which allows for significant computational efficiency. Conditional
+independence means that a variable is independent of another variable
+given a set of other variables, reducing the number of direct
+dependencies that need to be considered [@koller2009probabilistic].
+
+Lastly, the conditional probability tree is a way to represent the
+conditional probability distributions associated with each node in the
+network. These trees show how the probability of each node depends on
+the states of its parent nodes, providing a visual and computational
+tool for working with the network’s probabilistic relationships
+[@pearl1986fusion].
+
+Understanding these components—nodes, edges, the directed acyclic graph,
+probabilistic inferences, conditional independence and the conditional
+probability tree—provides a foundational framework for working with
+Bayesian networks, enabling the modeling of complex systems with
+interdependent variables in a structured and efficient manner.
+
+</p>
 
 ### Limitations of Bayesian Networks
-<p style="color: blue;">Idea - talk about issues inherent with bayesian networks(Complexity, data, assumptions,structure, scalability).</p>
+
+<p style="color: blue;">
+
+Idea - talk about issues inherent with bayesian networks(Complexity,
+data, assumptions,structure, scalability).
+
+</p>
 
 ## Dataset
-We are looking for a vetted data set for our project. The Iris dataset is a well-known multivariate dataset in machine learning and statistics. It was introduced by the British biologist and statistician Ronald Fisher in 1936 in his paper "The use of multiple measurements in taxonomic problems." The dataset contains 150 samples from three species of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We measure four features from each sample: the length and width of the sepals and petals in centimeters.[@wikipedia_iris]
+
+We are looking for a vetted data set for our project. The Iris dataset
+is a well-known multivariate dataset in machine learning and statistics.
+It was introduced by the British biologist and statistician Ronald
+Fisher in 1936 in his paper "The use of multiple measurements in
+taxonomic problems." The dataset contains 150 samples from three species
+of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We
+measure four features from each sample: the length and width of the
+sepals and petals in centimeters.[@wikipedia_iris]
 
 ### Variables:
+
 disctions
 
-- Sepal length (in cm)
-- Sepal width (in cm)
-- Petal length (in cm)
-- Petal width (in cm)
+-   Sepal length (in cm)
+-   Sepal width (in cm)
+-   Petal length (in cm)
+-   Petal width (in cm)
 
 ### Classes:
 
-- Iris setosa
-- Iris versicolor
-- Iris virginica
+-   Iris setosa
+-   Iris versicolor
+-   Iris virginica
 
-Since we are looking at contious variables we believe it would help to convert the values to discrete values. Using discrete variables will simplify the structure of the Bayesian network and  reduces the complexity of the conditional probability tables (CPTs).  
+Since we are looking at contious variables we believe it would help to
+convert the values to discrete values. Using discrete variables will
+simplify the structure of the Bayesian network and reduces the
+complexity of the conditional probability tables (CPTs).
 
-** Option for team- we just we need to decide if ranges are based on what we believe the ranges are from our experience or we could go a step further and do clustering like kmeans to automatically create the groupings. This will be a good spot for visual of k-cluster of the different class features**
+\*\* Option for team- we just we need to decide if ranges are based on
+what we believe the ranges are from our experience or we could go a step
+further and do clustering like kmeans to automatically create the
+groupings. This will be a good spot for visual of k-cluster of the
+different class features\*\*
 
-** just need to work cluster labels better
+\*\* just need to work cluster labels better
 
 ### Discrete values transformation in Iris Dataset
 
@@ -169,63 +315,107 @@ ggplot(iris, aes(Petal.Length, Petal.Width, color = Petal.Length.Category, shape
   theme_minimal()
 ```
 
-__Continous to Discrete Values ("Value range TBD")__
+**Continous to Discrete Values ("Value range TBD")**
 
-| Label | Level  | Sepal Length | Sepal Width | Petal Length | Petal Width |
-|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
-| Small   | 1  | 4.0-5.5 | 2.0-2.75 |1-2 |0.0-.75 |
-| Medium  | 2  | 5.6-6.5 | 2.76-3.25|3-5 |1.0-1.75 |
-| Large   | 3  | 6.5-8.0 | 3.26-4.5 |5-7 |1.76-2.5 |
+| Label  | Level | Sepal Length | Sepal Width | Petal Length | Petal Width |
+|--------|-------|--------------|-------------|--------------|-------------|
+| Small  | 1     | 4.0-5.5      | 2.0-2.75    | 1-2          | 0.0-.75     |
+| Medium | 2     | 5.6-6.5      | 2.76-3.25   | 3-5          | 1.0-1.75    |
+| Large  | 3     | 6.5-8.0      | 3.26-4.5    | 5-7          | 1.76-2.5    |
+
 ```{r,echo=F}
 # Define Bayesian network structure
 network_structure <- "Species ~ Sepal.Length.Category + Sepal.Width.Category + Petal.Length.Category + Petal.Width.Category"
 
 table_md <- knitr::kable(head(iris), format = "markdown")
 ```
-| Sepal.Length| Sepal.Width| Petal.Length| Petal.Width|Species |Sepal.Length.Cluster |Sepal.Width.Cluster |Petal.Length.Cluster |Petal.Width.Cluster |Sepal.Length.Category |Sepal.Width.Category |Petal.Length.Category |Petal.Width.Category |
-|------------:|-----------:|------------:|-----------:|:-------|:--------------------|:-------------------|:--------------------|:-------------------|:---------------------|:--------------------|:---------------------|:--------------------|
-|          5.1|         3.5|          1.4|         0.2|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |
-|          4.9|         3.0|          1.4|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
-|          4.7|         3.2|          1.3|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
-|          4.6|         3.1|          1.5|         0.2|setosa  |1                    |1                   |1                    |1                   |Small                 |Small                |Small                 |Small                |
-|          5.0|         3.6|          1.4|         0.2|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |
-|          5.4|         3.9|          1.7|         0.4|setosa  |1                    |3                   |1                    |1                   |Small                 |Large                |Small                 |Small                |1
+
+| Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species | Sepal.Length.Cluster | Sepal.Width.Cluster | Petal.Length.Cluster | Petal.Width.Cluster | Sepal.Length.Category | Sepal.Width.Category | Petal.Length.Category | Petal.Width.Category |
+|-----:|-----:|-----:|-----:|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|
+|          5.1 |         3.5 |          1.4 |         0.2 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
+|          4.9 |         3.0 |          1.4 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
+|          4.7 |         3.2 |          1.3 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
+|          4.6 |         3.1 |          1.5 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
+|          5.0 |         3.6 |          1.4 |         0.2 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
+|          5.4 |         3.9 |          1.7 |         0.4 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
 
 ## Methods
 
-Classification is a fundamental task in data analysis and pattern recognition where the goal is to build a classifier—a function that assigns class labels to instances based on their attributes. Inducing classifiers from datasets of preclassified instances is a key challenge in machine learning. Many methods address this challenge using diverse functional representations like decision trees, decision lists, neural networks, decision graphs, and rules. One of the most effective classifiers, in the sense that its predictive performance is competitive
-with state-of-the-art classifiers, is the so-called naive Bayesian classifier.[@friedman1997bayesian]
-
+Classification is a fundamental task in data analysis and pattern
+recognition where the goal is to build a classifier—a function that
+assigns class labels to instances based on their attributes. Inducing
+classifiers from datasets of preclassified instances is a key challenge
+in machine learning. Many methods address this challenge using diverse
+functional representations like decision trees, decision lists, neural
+networks, decision graphs, and rules. One of the most effective
+classifiers, in the sense that its predictive performance is competitive
+with state-of-the-art classifiers, is the so-called naive Bayesian
+classifier.[@friedman1997bayesian]
 
 Define Variables and Dependencies:
 
-Assign Conditional Probability Tables (CPTs): 
+Assign Conditional Probability Tables (CPTs):
 
 Inference:
 
-Learning: structure and parameter 
+Learning: structure and parameter
 
-<p style="color: blue;">Idea - Define the problem.</p>
-<p style="color: blue;">Idea - Define the structure.</p>
-<p style="color: blue;">Idea - create the paramter learning CPT</p>
-<p style="color: blue;">Idea - use belief propagation to comput probabilities</p>
+<p style="color: blue;">
+
+Idea - Define the problem.
+
+</p>
+
+<p style="color: blue;">
+
+Idea - Define the structure.
+
+</p>
+
+<p style="color: blue;">
+
+Idea - create the paramter learning CPT
+
+</p>
+
+<p style="color: blue;">
+
+Idea - use belief propagation to comput probabilities
+
+</p>
 
 ## Analysis and Results
+
 Decision Support:
 
-Validation and Sensitivity Analysis:
-monte carlo 
+Validation and Sensitivity Analysis: monte carlo
 
-<p style="color: blue;">Idea - Evalulate the networks ability </p>
+<p style="color: blue;">
 
-<p style="color: blue;">Idea - Cross Validate to test models robustness and generalization</p>
+Idea - Evalulate the networks ability
 
-<p style="color: blue;">Idea - Asses how sensitive network is to input and structure chantes</p>
+</p>
 
-<p style="color: blue;">Idea -Use the networks to make a prediction</p>
+<p style="color: blue;">
 
+Idea - Cross Validate to test models robustness and generalization
+
+</p>
+
+<p style="color: blue;">
+
+Idea - Asses how sensitive network is to input and structure chantes
+
+</p>
+
+<p style="color: blue;">
+
+Idea -Use the networks to make a prediction
+
+</p>
 
 ## Data and Visualization
+
 directed acyclic graph (DAG).
 
 Conditional Probability Tables (CPTs)
@@ -233,9 +423,11 @@ Conditional Probability Tables (CPTs)
 Probability Distributions:
 
 ## Statistical Modeling
+
 Add discription of final model possibly after learning
 
 ### Conclusion
+
 Add conclusion here
 
 ## References
