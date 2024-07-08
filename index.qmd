@@ -1,6 +1,6 @@
 ---
 title: "Bayesian Networks - Data Science Capstone"
-author: "Michael Zeihen, Maxime Martin, Meghan Alexander, Sarah Burns, Seth Henry"
+author: "Michael Zeihen, Maxime Martin, Sarah Burns, Seth Henry"
 date: '`r Sys.Date()`'
 format:
   html:
