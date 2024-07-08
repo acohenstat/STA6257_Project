@@ -1,6 +1,15 @@
 ---
 title: "Project Slides"
-format: html
+format: revealjs
 ---
 
-[Project](index.html)
+## Getting up
+
+- Turn off alarm
+- Get out of bed
+
+## Going to sleep
+
+- Get in bed
+- Count sheep
+
