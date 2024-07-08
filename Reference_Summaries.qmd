@@ -40,24 +40,65 @@ Summary: Dynamic Bayesian Networks: Representation, Inference and Learning<br>
 
 ## Group Member: Seth Henry <br>
 
-Summary: Dynamic Bayesian network modeling, learning, and inference: A survey<br>
- (add summary here) <br>
+Summary: **Dynamic Bayesian network modeling, learning, and inference: A survey**<br>
+
+**Goal of the paper:** The goal of the paper is to provide an overview of Dynamic Bayesian Network (DBN) research that has been done to date. This in order to raise questions and awareness of what further studies would add value furthering the research. 
+
+**Why is it important:** This is important because it gives a historical context and timeline of all the previous DBN research, and really gives a timestamp of where the research progress is currently at. This way to help guide further research studies to not duplicate efforts and to make awareness of the previous breakthrough research – and also suggestions where to go from there. 
+
+**Method used:** There were no real methods used in this article. It was more of a timeline of previous research on DBNs and suggestions on where to best further research. 
+
+**Results and limitations:** Not ultra applicable here on this one. This paper would be good to use to add and cite for historicals on DBNs. 
+<br>
+
   [@shiguihara2021dynamic] <br>
 
-Summary: Bayesian networks for supply chain risk, resilience and ripple effect analysis: A literature review<br>
- (add summary here) <br>
-  [@hosseini2020bayesian] <br>
+Summary: **Bayesian networks for supply chain risk, resilience and ripple effect analysis: A literature review**<br>
 
-Summary: Learning Bayesian networks with the bnlearn R package<br>
- (add summary here) <br>
+**Goal of the paper:** The goal of the paper is to investigate the use of Bayesian Networks (BN) to understand and manage risks in supply chain networks.
+
+**Why is it important:** This is important for suggesting BNs and their applicability to supply chain networks and how BNs help model out the complex dependencies between different parts of the supply chain, predict potential disruptions.
+
+**Method used:** The authors employ BNs to show and address their concept of “ripple effects” – where a disruption in one part of the supply chain can impact other parts, and how the networks can be analyzed to mitigate these effects. 
+
+**Results and limitations:** The results of the report were pretty good. It was a government study and it showed effective at predicting through the probability chart or which part of the network is dependent on the other – very well. Overall the conclusion was that – Yes, BNs were assessed to be a successful solution to use in order to enhance supply chain risk management. 
+<br>
+
+[@hosseini2020bayesian] <br>
+
+Summary: **Learning Bayesian networks with the bnlearn R package**<br>
+**Goal of the paper:** The goal of the paper is to showcase the “bnlearn” package in R.
+
+**Why is it important: **This is important for our study because it showcases the most commonly used R package used for BN research in the R language. 
+
+**Method used:** The authors show how they accumulated most of the relevant BN algorithms previously done and incorporated them into the bnlearn package. It goes over multinomial data (the discrete case) commonly referred to as Discrete Bayesian Networks, and also multivariate normal data (continuous) commonly referred to as Gaussian Bayesian Networks. It goes over structured learning algorithms and overall package implementation. 
+
+**Results and limitations:** This report was more on educating everyone on the (at the time) newly created BNlearn package in R. overall, it was and is widely used and cited – I believe more than a couple thousand times so far.  <br>
+
  [@scutari2009learning] <br>
 
-Summary: An investigation into the relationship among psychiatric, demographic and socio-economic variables with Bayesian network modeling<br>
- (add summary here) <br>
+Summary: **An investigation into the relationship among psychiatric, demographic and socio-economic variables with Bayesian network modeling**<br>
+
+**Goal of the paper:** The goal of the paper was to investigate factors influencing depression, hopelessness, self-esteem scores, and the relationship among psychiatric, demographic, and socio-economic variables. More of a practical application of BNs. 
+
+**Why is it important:** This is important for our study because it showcases the actual practical applicability of BNs to wider community outside of our data science bubble. 
+
+**Method used:** The data collected was three types of variables, psychiatric variables, demographic variables, and socio-economic variables. A total of 823 students information was used in the study, and the students psychiatric variables were applied using Beck Depression Inventory, Beck Hopelessness Scale, and Rosenberg Self-Esteem Scale; the demographic values were gender and age; and there were 16 socio-economic variables consisting of smoking status, family income, mother’s education status, ect… The author then build discrete Bayesian netowrks within R using bnlearn package. All of the analysis was done using the following packages: bnlearn, lattice, gRain, and Rgraphviz. 
+
+**Results and limitations:** The author created two Bayesian models and analyzed them, of most not was that “mothers occupation status” had no relation with any variables in both models. In both models, as the level of depression rises, so does the level of hopelessness.
+ <br>
   [@bilek2018investigation] <br>
 
-Summary: Predicting online participation through Bayesian network analysis<br>
- (add summary here) <br>
+Summary: **Predicting online participation through Bayesian network analysis**<br>
+**Goal of the paper:** The goal of the paper was to investigate which preconditions directly affect political participation. 
+
+**Why is it important:** This is important for our study because it showcases the actual practical applicability of BNs to wider community outside of our data science bubble. 
+
+**Method used:** The authors used Bayesian network analysis to analyze the preconditions of the political participation to acquire a probability distribution table of online activism to “raise awareness about political issues”. The authors did this in a three-step process – data collection and preparation to gather data that can help understand factor influencing online participation, building a Bayesian Network to represent relationships between variables influencing online participation, and analyze the results and form predictions by using the Bayesian network to predict the participation – also thoroughly understand the factors influencing the prediction.
+
+**Results and limitations:** The Bayesian network analysis distinguished the structure of causal relations between the variables, and determined which variables directly affect participation.
+<br>
+
   [@kopacheva2021predicting] <br>
 
 ## Group Member: Maxime MARTIN <br>
@@ -110,15 +151,49 @@ Summary: **Applications of Bayesian networks and Petri nets in safety, reliabili
 
 [@KABIR2019154] <br>
 
-## Group Member: 4 <br>
+## Sara Burns: 4 <br>
 
-Summary: 1<br> (add summary here) <br> (add Reference here) <br>
+Summary: **A Bayesian analysis of mortality outcomes in multicentre clinical trials in critical care**<br>
 
-Summary: 2<br> (add summary here) <br> (add Reference here) <br>
+ **Goal of the paper:** The research explores why clinical trials in critical care often fail to show statistically significant mortality outcomes. It investigates whether this phenomenon is due to overestimated effect sizes or low participant responsiveness rather than the interventions themselves being ineffective.
 
-Summary: 3<br> (add summary here) <br> (add Reference here) <br>
+**Why is it important:** This research is important because it improves clinical trials and outcomes in critical care by addressing the gap between expected and actual results, aiding in better decision-making.
 
-Summary: 4<br> (add summary here) <br> (add Reference here) <br>
+**Method used:** The authors conducted a review of 54 randomized trials between the years of 2010 and 2020. Bayesian modeling techniques were employed to analyze trial data, focusing on effect size distributions and participant responsiveness.
+
+**Results and limitations:** Only 9.3% of the trials analyzed reported statistically significant differences in mortality outcomes. The Bayesian model suggests that lower-than-expected effect sizes and low participant responsiveness contribute significantly to this low proportion of significant results. The study relies on published trial data, which may introduce publication bias. Additionally, the Bayesian modeling assumptions may oversimplify the complexities of real-world clinical scenarios.<br>
+
+ [@sidebotham2021bayesian] <br>
+
+Summary: **Beyond p-values: Using Bayesian Data Analysis in Science Education Research. Practical Assessment, Research, and Evaluation, 26**<br> 
+
+**Goal of the paper:** The study introduces p-value-leaning methods and compares them to other methods like Bayesian data analysis in equipping different groups (high school students, graduate students, and professors) with better knowledge of science practice.
+**Why is it important:** Understanding these differences is crucial for enhancing science education strategies at various educational levels, providing insights into how educational backgrounds shape perceptions of scientific methods and practices.
+
+**Method used:** The study utilized both frequentist methods for statistical significance assessment and Bayesian methods for deeper analysis, particularly with small sample sizes. Bayesian analysis provided nuanced insights into differences among the studied groups.
+
+**Results and limitations:** The research highlighted significant differences in perception between high school students, graduate students, and professors regarding scientific practices. Bayesian analysis proved valuable in incorporating prior information and refining estimates, especially with limited data. Challenges included the subjective nature of prior specification in Bayesian analysis and increased computational demands compared to frequentist methods. <br> 
+
+[@kubsch2021beyond] <br>
+
+Summary: **A Gentle Introduction to Bayesian Analysis: Applications to Developmental Research. Child Dev**<br> 
+**Goal of the paper:** This paper explores prior knowledge in Bayesian statistics to enhance statistical inference in social science research.
+**Why is it important:** Incorporating prior beliefs into statistical analysis improves the accuracy and reliability of results, offering researchers better tools to refine hypotheses and contribute to cumulative knowledge in their field.
+**Method used:** The authors demonstrated Bayesian statistical methods by incorporating prior beliefs about parameters. They emphasized how different types of prior distributions influence posterior estimates and the precision of Bayesian credible intervals.
+**Results and limitations:** The paper illustrated that using informative priors derived from previous research or meta-analyses can lead to more precise estimates in Bayesian analysis. Sensitivity analyses were conducted to assess the robustness of results to different prior specifications. Challenges included the potential bias introduced by subjective prior specifications and the computational intensity associated with Bayesian methods.
+
+[@vandeschoot2014gentle] <br>
+
+Summary: **Bayesian analysis for emerging infectious diseases**<br>
+**Goal of the paper:** The paper develops a Bayesian methodology for predicting and managing epidemics in structured animal populations, focusing on infectious diseases.
+
+**Why is it important:** Predicting and controlling infectious diseases in animal populations is crucial for public health, economic stability, and societal well-being, necessitating robust predictive models for effective response planning.
+
+**Method used:** The study employed Bayesian approaches, particularly Markov Chain Monte Carlo (MCMC) methods, for parameter estimation in structured populations like animal farms.
+
+**Results and limitations:** The research provided a generic modeling framework applicable to various epidemic scenarios, illustrated through case studies on the Foot and Mouth disease epidemic and Avian Influenza risk assessment in the UK poultry industry. Challenges included the scalability of the methodology for large populations and assumptions about infection dynamics, which may not always reflect complex real-world scenarios accurately<br>
+
+[@jewell2009bayesian]<br
 
 ## Group Member: 5 <br>
 
