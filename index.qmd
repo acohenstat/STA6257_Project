@@ -147,11 +147,6 @@ usefulness.
 
 ### Components of Bayesian Networks
 
-<p style="color: blue;">
-
-Idea - talk about the components of bayesian networks( Nodes, Edges,
-DAG, CPT, Probablistic Inference).
-
 Bayesian networks are sophisticated models that represent the
 probabilistic relationships among a set of variables using a directed
 acyclic graph (DAG). The primary components of Bayesian networks include
@@ -213,15 +208,11 @@ conditional probability tree provides a foundational framework for
 working with Bayesian networks, enabling the modeling of complex systems
 with interdependent variables in a structured and efficient manner.
 
-</p>
-
 ### Limitations of Bayesian Networks
 
 <p style="color: blue;">
-
 Idea - talk about issues inherent with bayesian networks(Complexity,
 data, assumptions,structure, scalability).
-
 </p>
 
 ## Dataset
@@ -361,27 +352,19 @@ Inference:
 Learning: structure and parameter
 
 <p style="color: blue;">
-
 Idea - Define the problem.
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Define the structure.
-
 </p>
 
 <p style="color: blue;">
-
 Idea - create the paramter learning CPT
-
 </p>
 
 <p style="color: blue;">
-
 Idea - use belief propagation to comput probabilities
-
 </p>
 
 ## Analysis and Results
@@ -391,27 +374,19 @@ Decision Support:
 Validation and Sensitivity Analysis: monte carlo
 
 <p style="color: blue;">
-
 Idea - Evalulate the networks ability
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Cross Validate to test models robustness and generalization
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Asses how sensitive network is to input and structure chantes
-
 </p>
 
 <p style="color: blue;">
-
 Idea -Use the networks to make a prediction
-
 </p>
 
 ## Data and Visualization
