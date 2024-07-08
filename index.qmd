@@ -62,6 +62,7 @@ Bayesian networks leverage Bayes' theorem to update the probabilities of various
 [@koller2009probabilistic] 
 
 <p style="color: blue;">Idea - Go over the bayes' theorem equation.</p>
+<p style="color: blue;">Idea - Discuss Propagation.</p>
 
 ### What are the advantages of using Bayesian Networks
 
