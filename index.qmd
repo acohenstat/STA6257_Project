@@ -26,7 +26,16 @@ __NEW>>__ [Dataset & Summaries](Reference_Summaries.html)<br>
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
-1
+library(rmarkdown)
+library(tidyverse)
+library(knitr)
+library(ggthemes)
+library(ggrepel)
+library(dslabs)
+library(datasets)
+library(ggplot2)
+library(cluster)
+library(bnlearn)
 ```
 
 
