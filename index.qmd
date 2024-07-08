@@ -84,7 +84,8 @@ Avoiding Overfitting:
 Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. This ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
 ### Applications of Bayesian Networks
-<p style="color: blue;">Idea - where are bayesian networks used.</p>
+
+Bayesian networks are widely applied across many diverse fields due to their capabilities in modeling probabilistic relationships. A few examples being - In healthcare, they can be employed to examine how psychiatric, demographic, and socio-economic variables interrelate [@bilek2018investigation]; in supply chain management, they can play a crucial role in assessing risks, evaluating resilience, and analyzing ripple effects - aiding in making informed decisions among uncertainties [@hosseini2020bayesian]; and in political studies, they can assist to predict online participation patterns by analyzing user interactions and engagement metrics [@kopacheva2021predicting]. Bayesian networks provide dynamic modeling, learning, and inference - enabling an understanding of evolving systems over time in various applications [@shiguihara2021dynamic]. All these example applications underscore the utility of Bayesian networks in addressing complex probabilistic challenges across different domains, and further their practical usefulness.
 
 ### Components of Bayesian Networks
 <p style="color: blue;">Idea - talk about the components of bayesian networks( Nodes, Edges, DAG, CPT, Probablistic Inference).</p>
