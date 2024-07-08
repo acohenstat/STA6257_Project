@@ -206,10 +206,23 @@ with interdependent variables in a structured and efficient manner.
 
 ### Limitations of Bayesian Networks
 
-<p style="color: blue;">
-Idea - talk about issues inherent with bayesian networks(Complexity,
-data, assumptions,structure, scalability).
-</p>
+Although Bayesian networks are valuable in modeling and predicting probabilistic relationships, they have their limitations that can hinder effectiveness.
+
+__Complexity__:
+One issue is their complexity which increases with the number of variables introduced, making them computationally intensive to build and then maintain for large, highly connected networks. This makes real-time inference and updates challenging.
+Data Requirements:
+Bayesian networks are largely data-driven; thus, the data requirements make sparse data sets potentially compromise reliability.
+
+__Assumptions__:
+Bayesian networks mostly involve assumptions in the definition of relationships between variables and often make use of expert inputs, thus open to subjectivity and biases (Kubsch 2021). Bayesian models assume that variables are conditionally independent given their parents in the network. In this case, violations to these assumptions affect the correctness of the predictions made with these models.
+
+Structure:
+The structure is another critical limitation. After a Bayesian network structure has been developed, it does not automatically adapt to new data or changes in the problem domain.
+
+__Scalability__:
+Scalability is a significant limitation: large networks need huge computational effort for exact inference and are mostly approximated, hence less accurate (McNeish 2016). Bayesian networks are also limited in that they cannot model complex relationships and nonlinearity between variables; it makes them less successful in modeling real-world complex interactions compared to other approaches, say, neural networks.
+These limitations stress that careful application and possible use of hybrid methodologies may be necessary when solving complex problems with Bayesian networks.
+
 
 ## Dataset
 

@@ -3182,9 +3182,11 @@ Idea - Discuss Propagation.
 </section>
 <section id="limitations-of-bayesian-networks" class="level3">
 <h3 class="anchored" data-anchor-id="limitations-of-bayesian-networks">Limitations of Bayesian Networks</h3>
-<p style="color: blue;">
-Idea - talk about issues inherent with bayesian networks(Complexity, data, assumptions,structure, scalability).
-</p>
+<p>Although Bayesian networks are valuable in modeling and predicting probabilistic relationships, they have their limitations that can hinder effectiveness.</p>
+<p><strong>Complexity</strong>: One issue is their complexity which increases with the number of variables introduced, making them computationally intensive to build and then maintain for large, highly connected networks. This makes real-time inference and updates challenging. Data Requirements: Bayesian networks are largely data-driven; thus, the data requirements make sparse data sets potentially compromise reliability.</p>
+<p><strong>Assumptions</strong>: Bayesian networks mostly involve assumptions in the definition of relationships between variables and often make use of expert inputs, thus open to subjectivity and biases (Kubsch 2021). Bayesian models assume that variables are conditionally independent given their parents in the network. In this case, violations to these assumptions affect the correctness of the predictions made with these models.</p>
+<p>Structure: The structure is another critical limitation. After a Bayesian network structure has been developed, it does not automatically adapt to new data or changes in the problem domain.</p>
+<p><strong>Scalability</strong>: Scalability is a significant limitation: large networks need huge computational effort for exact inference and are mostly approximated, hence less accurate (McNeish 2016). Bayesian networks are also limited in that they cannot model complex relationships and nonlinearity between variables; it makes them less successful in modeling real-world complex interactions compared to other approaches, say, neural networks. These limitations stress that careful application and possible use of hybrid methodologies may be necessary when solving complex problems with Bayesian networks.</p>
 </section>
 </section>
 <section id="dataset" class="level2">
