@@ -21,7 +21,15 @@ editor:
 Sentiment Analysis (SA) is a branch of Natural Language Processing (NLP) that computationally extracts the “treatment of opinions, sentiments and subjectivity” [@MEDHAT20141093] of digital text. 
 
 ### 1.1 Sentiment Analysis
-**[SENTIMENT ANALYSIS LIT REVIEW/INTRO HERE]**
+Sentiment analysis, a crucial facet of natural language processing (NLP), involves interpreting and classifying emotions within text data. By understanding public opinion, businesses can refine marketing strategies, improve products, and enhance customer satisfaction. The rapid growth of social media and e-commerce platforms has amplified the importance of sentiment analysis, enabling real-time feedback and insights into consumer behavior.
+
+The study by Hasan, Maliha, and Arifuzzaman (2019) demonstrates the potential of Twitter data for sentiment analysis, highlighting the application of NLP frameworks to gauge public opinion on products. Their methodology integrates the Bag of Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF) models, coupled with logistic regression, to classify tweets as positive or negative with an accuracy of 85.25%. This approach underscores the benefits of combining BoW and TF-IDF to enhance sentiment analysis precision.
+
+In a similar vein, Kathuria, Sethi, and Negi (2022) explored sentiment analysis on e-commerce reviews, employing machine learning (ML) models such as logistic regression, AdaBoost, SVM, Naive Bayes, and random forest. Utilizing the Women’s E-commerce Clothing Reviews dataset, they analyzed review texts, ratings, and recommendations to understand consumer behavior. Their findings underscore the significance of electronic word-of-mouth (eWOM) in shaping customer attitudes and product sales, providing e-commerce businesses with actionable insights to improve marketing strategies and customer satisfaction.
+
+The foundational work by Nasukawa and Yi (2003) emphasizes a more granular approach to sentiment analysis, focusing on extracting sentiments linked to specific subjects rather than entire documents. Their prototype system, employing a syntactic parser and a sentiment lexicon, achieves high precision in detecting sentiments in web pages and news articles. By concentrating on local sentiment expressions, their method offers detailed insights into specific opinions, aiding businesses in monitoring public opinion and addressing unfavorable sentiments effectively.
+
+Collectively, these studies highlight the evolution and application of sentiment analysis using NLP, illustrating its critical role in extracting valuable insights from vast amounts of text data. By leveraging advanced NLP techniques and ML models, businesses can gain a deeper understanding of consumer sentiment, thereby enhancing their strategic decision-making processes.
 
 ### 1.2 Vector Embeddings In Natural Language Processing
 One technique for encoding or describing the sentiment of a word or group of words is to use vector embeddings (or embeddings). Before discussing the use of embeddings for SA, it’s important to first understand what embeddings are. Embeddings are said to be “one of the most important topics of interest” in NLP in the last decade [@camacho2020embeddings].
@@ -43,6 +51,8 @@ Our two popular pretrained word  methods were each trained on different datasets
 ## Methods
 
 ## Analysis and Results
+### 3.1 Dataset Description
+For sentiment analysis, we will be using a data set that contains computer generated tweets for training data and another collection of tweets for testing. Any tweet with positive emoticons was assumed to be positive, and any tweet with negative emotions was assumed to be negative. The emoticons were removed from the dataset. The dataset was last updated 4 years ago and was posted by Abhishek Shrivastava. The computer-generated tweets that make up the training data are organized into ten columns. The first column is textID used to uniquely identify each tweet in the dataset. The second column is the text which is the entire tweet used. The third column is the selected text of the tweet used to perform sentiment analysis. The fourth column is the labeled sentiment of the tweet, which is classified as neutral, negative, or positive. The fifth column is the time of day the tweet was posted which is classified as morning, noon, or night. The sixth column stores the age range that the user is in. The seventh column is the country the tweet was posted from when the user posted. The eighth column is the given population of the country. The ninth column is the given land area of the country. The tenth column is the given population density of the country. During the literature review process, twitter datasets were often used for sentiment analysis such as “Sentiment Analysis with NLP on Twitter Data” by (Hasan et al. 2019) and “Natural Language Processing for Sentiment Analysis An Exploratory Analysis on Tweets” by (Chong et al. 2014). Therefore, this dataset of generated tweets seems appropriate for our sentiment analysis research project.
 
 ### Data and Visualization
 
