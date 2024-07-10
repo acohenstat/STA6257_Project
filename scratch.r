@@ -1,47 +1,93 @@
-
-library(rmarkdown)
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-library(datasets)
-library(ggplot2)
-library(cluster)
 library(bnlearn)
-# Subset iris dataset
-iris_data <- iris[, -5]  # Exclude the 5th column (Species)
+library(Rgraphviz)  # for plotting DAG
 
-head(iris_data)
+# Load your dataset (adjust path and delimiter as needed)
+dataset <- read.csv('data/adult.csv')
+dataset[dataset == "?"] <- NA
+dataset <- na.omit(dataset)
+dataset <- subset(dataset, select = -fnlwgt)
+breaks <- c(18, 30, 40, 50, 60, 70, 80, 90, 100)  # Adjust as needed
+labels <- c("19-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-100")
+dataset$age <- cut(dataset$age, breaks = breaks, labels = labels, include.lowest = TRUE)
+breaks <- c(0, 5000, 10000, 20000, 100000)  # Adjust as needed
+labels <- c("Low", "Medium", "High", "Rich")
+dataset$capital.gain  <- cut(dataset$capital.gain, breaks = breaks, labels = labels, include.lowest = TRUE)
+dataset$capital.loss  <- cut(dataset$capital.loss, breaks = breaks, labels = labels, include.lowest = TRUE)
+breaks <- c(0, 35, 40, 200)  # Adjust as needed
+labels <- c("Partime", "FullTIme", "Overtime")
+dataset$hours.per.week <- cut(dataset$hours.per.week, breaks = breaks, labels = labels, include.lowest = TRUE)
+dataset$workclass <- as.factor(dataset$workclass)
+dataset$education <- as.factor(dataset$education)
+dataset$education.num <- as.factor(dataset$education.num)
+dataset$marital.status <- as.factor(dataset$marital.status)
+dataset$occupation <- as.factor(dataset$occupation)
+dataset$relationship <- as.factor(dataset$relationship)
+dataset$race <- as.factor(dataset$race)
+dataset$sex <- as.factor(dataset$workclass)
+dataset$native.country <- as.factor(dataset$native.country)
+dataset$income <- as.factor(dataset$income)
 
-# Scale the data
-# iris_scaled <- scale(iris_data)
+# Define your Bayesian network structure
+model <- empty.graph(nodes = c(
+                               "age",
+                               "workclass",
+                               "capital.gain",
+                               "capital.loss",
+                               "hours.per.week",
+                               "education",
+                               #"education.num",
+                               #"marital.status",
+                               #"relationship",
+                               #"occupation",
+                               #"race",
+                               #"sex",
+                               #"native.country",
+                               "income"))
 
-# Set a random seed for reproducibility
-# set.seed(123)
+# Define the structure and edges of your Bayesian network
+model <- set.arc(model, from = "age", to = "income")
+model <- set.arc(model, from = "workclass", to = "income")
+model <- set.arc(model, from = "capital.gain", to = "income")
+model <- set.arc(model, from = "capital.loss", to = "income")
+model <- set.arc(model, from = "hours.per.week", to = "income")
+model <- set.arc(model, from = "education", to = "income")
+#model <- set.arc(model, from = "education.num", to = "income")
+#model <- set.arc(model, from = "marital.status", to = "income")
+#model <- set.arc(model, from = "relationship", to = "income")
+#model <- set.arc(model, from = "occupation", to = "income")
+#model <- set.arc(model, from = "race", to = "income")
+#model <- set.arc(model, from = "sex", to = "income")
+#model <- set.arc(model, from = "native.country", to = "income")
 
-# Apply k-means clustering with 3 clusters
-# kmeans_result <- kmeans(iris_scaled, centers = 3, nstart = 20)
 
-# Add cluster assignment to the original data
-# iris$Sepal.Length.Cluster <- as.factor(kmeans_result$cluster)
-# iris$Sepal.Width.Cluster <- as.factor(kmeans_result$cluster)
-# iris$Petal.Length.Cluster <- as.factor(kmeans_result$cluster)
-# iris$Petal.Width.Cluster <- as.factor(kmeans_result$cluster)
 
-# Map cluster numbers to categories
-# cluster_map <- c("Small", "Medium", "Large")
-# iris$Sepal.Length.Category <- cluster_map[as.numeric(iris$Sepal.Length.Cluster)]
-# iris$Sepal.Width.Category <- cluster_map[as.numeric(iris$Sepal.Width.Cluster)]
-# iris$Petal.Length.Category <- cluster_map[as.numeric(iris$Petal.Length.Cluster)]
-# iris$Petal.Width.Category <- cluster_map[as.numeric(iris$Petal.Width.Cluster)]
+# Select relevant columns from your dataset
+selected_columns <-  c(
+                               "age",
+                               "workclass",
+                               "capital.gain",
+                               "capital.loss",
+                               "hours.per.week",
+                               "education",
+                               #"education.num",
+                               #"marital.status",
+                               #"relationship",
+                               #"occupation",
+                               #"race",
+                               #"sex",
+                               #"native.country",
+                               "income")
+data_subset <- dataset[selected_columns]
 
-# Define Bayesian network structure
-network_structure <- "Species ~ Sepal.Length.Category + Sepal.Width.Category + Petal.Length.Category + Petal.Width.Category"
+# Learn the parameters (fit the model)
+model_fitted <- bn.fit(model, data = data_subset)
 
-# Learn CPTs using Hill-Climbing algorithm
-#bn_iris <- bn.fit(network_structure, data = iris, method = "hc", max.ite = 100)
+# Plot the DAG (Directed Acyclic Graph)
+graphviz.plot(model_fitted)
 
-# Display head of the modified iris dataset
-# table_md <- knitr::kable(head(iris), format = "markdown")
-# print(table_md)
+# Print CPTs
+for (node in nodes(model_fitted)) {
+  cat("CPT for", node, ":\n")
+  print(model_fitted[[node]]$prob)
+  cat("\n")
+}
