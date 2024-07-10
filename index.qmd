@@ -37,6 +37,7 @@ library(cluster)
 library(bnlearn)
 library(e1071)
 library(Rgraphviz)
+library(tidyr)
 ```
 
 ## Introduction
@@ -240,43 +241,55 @@ classifiers, in the sense that its predictive performance is competitive
 with state-of-the-art classifiers, is the so-called naive Bayesian
 classifier.[@friedman1997bayesian]
 
-```{r}
-# Load the Iris dataset
-data(iris)
+```{r, echo=F}
 
-# Separate features and target variable
-iris_data <- iris[, -5]
-iris_target <- iris[, 5]
+dataset <- read.csv("data/adult.csv")
+dataset[dataset == "?"] <- NA
+dataset <- na.omit(dataset)
 
-# Discretize the data
-iris_discrete <- discretize(iris_data, method = "interval", breaks = 3)  # Using 3 intervals
-iris_discrete$Species <- iris_target
+dataset$age <- as.factor(dataset$age)
+dataset$workclass <- as.factor(dataset$workclass)
+dataset$fnlwgt <- as.factor(dataset$fnlwgt)
+dataset$education <- as.factor(dataset$education)
+dataset$education.num <- as.factor(dataset$education.num)
+dataset$marital.status <- as.factor(dataset$marital.status)
+dataset$occupation <- as.factor(dataset$occupation)
+dataset$relationship <- as.factor(dataset$relationship)
+dataset$race <- as.factor(dataset$race)
+dataset$sex <- as.factor(dataset$sex)
+dataset$capital.gain <- as.factor(dataset$capital.gain)
+dataset$capital.loss <- as.factor(dataset$capital.loss)
+dataset$hours.per.week <- as.factor(dataset$hours.per.week)
+dataset$native.country <- as.factor(dataset$native.country)
+dataset$income <- as.factor(dataset$income)
 
 # Split the data into training and test sets
 set.seed(123)  # For reproducibility
-sample_index <- sample(1:nrow(iris_discrete), 0.7 * nrow(iris_discrete))  # 70% training data
-train_data <- iris_discrete[sample_index, ]
-test_data <- iris_discrete[-sample_index, ]
-
-# Train the Naive Bayes model
-nb_model <- naiveBayes(Species ~ ., data = train_data)
+sample_index <- sample(1:nrow(dataset), 0.7 * nrow(dataset))  # 70% training data
+train_data <- dataset[sample_index, ]
+test_data <- dataset[-sample_index, ]
+## Train the Naive Bayes model
+nb_model <- naiveBayes(income ~ ., data = train_data)
 
 # Predict on the test data
 predictions <- predict(nb_model, test_data)
-
+```
+```{r,echo=t}
 # Evaluate the model
-confusion_matrix <- table(predictions, test_data$Species)
+confusion_matrix <- table(predictions, test_data$income)
 print(confusion_matrix)
 
 # Calculate accuracy
 accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
 print(paste("Accuracy:", accuracy))
+#
+## Bayesian Network Structure using bnlearn
+network_string <- "[age|income][workclass|income][fnlwgt|income][education|income][education.num|income][marital.status|income][occupation|income][relationship|income][race|income][sex|income][capital.gain|income][capital.loss|income][hours.per.week|income][native.country|income][income]"
 
-# Bayesian Network Structure using bnlearn
-dag <- model2network("[Sepal.Length|Species][Sepal.Width|Species][Petal.Length|Species][Petal.Width|Species][Species]")
-
+bnlearn:::check.modelstring(network_string)
+dag <- model2network(network_string)
 # Visualize the DAG using Rgraphviz
-graphviz.plot(dag, main = "Naive Bayes Network for Iris Dataset")
+graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 
 # CPT Visualization using bnlearn
 fit <- bn.fit(dag, data = train_data, method = "bayes")
@@ -317,118 +330,17 @@ Idea - use belief propagation to comput probabilities
 
 ### Dataset
 
-We are looking for a vetted data set for our project. The Iris dataset
-is a well-known multivariate dataset in machine learning and statistics.
-It was introduced by the British biologist and statistician Ronald
-Fisher in 1936 in his paper "The use of multiple measurements in
-taxonomic problems." The dataset contains 150 samples from three species
-of Iris flowers: Iris setosa, Iris versicolor, and Iris virginica. We
-measure four features from each sample: the length and width of the
-sepals and petals in centimeters.[@wikipedia_iris]
+This data was sourced from the 1994 Census Bureau database by Ronny Kohavi and Barry Becker (Data Mining and Visualization, Silicon Graphics). They extracted a set of relatively clean records using these criteria: ((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0)).[@misc_adult_2] The objective is to predict whether an individual earns more than $50K annually.
 
-### Variables:
 
-disctions
+```{r, echo=T}
 
--   Sepal length (in cm)
--   Sepal width (in cm)
--   Petal length (in cm)
--   Petal width (in cm)
-
-### Classes:
-
--   Iris setosa
--   Iris versicolor
--   Iris virginica
-
-Since we are looking at contious variables we believe it would help to
-convert the values to discrete values. Using discrete variables will
-simplify the structure of the Bayesian network and reduces the
-complexity of the conditional probability tables (CPTs).
-
-\*\* Option for team- we just we need to decide if ranges are based on
-what we believe the ranges are from our experience or we could go a step
-further and do clustering like kmeans to automatically create the
-groupings. This will be a good spot for visual of k-cluster of the
-different class features\*\*
-
-\*\* just need to work cluster labels better
-
-### Discrete values transformation in Iris Dataset
-
-```{r, echo=F}
-iris_data <- iris[, -5]
-
-# Scale the data
-iris_scaled <- scale(iris_data)
-
-# Set a random seed for reproducibility
-set.seed(123)
-
-# Apply k-means clustering with 3 clusters
-kmeans_result <- kmeans(iris_scaled, centers = 3, nstart = 20)
-
-# Add cluster assignment to the original data
-iris$Sepal.Length.Cluster <- as.factor(kmeans(iris_scaled[,1], centers = 3, nstart = 20)$cluster)
-iris$Sepal.Width.Cluster <- as.factor(kmeans(iris_scaled[,2], centers = 3, nstart = 20)$cluster)
-iris$Petal.Length.Cluster <- as.factor(kmeans(iris_scaled[,3], centers = 3, nstart = 20)$cluster)
-iris$Petal.Width.Cluster <- as.factor(kmeans(iris_scaled[,4], centers = 3, nstart = 20)$cluster)
-
-# Map cluster numbers to categories
-cluster_map <- c("Small", "Medium", "Large")
-iris$Sepal.Length.Category <- cluster_map[as.numeric(iris$Sepal.Length.Cluster)]
-iris$Sepal.Width.Category <- cluster_map[as.numeric(iris$Sepal.Width.Cluster)]
-iris$Petal.Length.Category <- cluster_map[as.numeric(iris$Petal.Length.Cluster)]
-iris$Petal.Width.Category <- cluster_map[as.numeric(iris$Petal.Width.Cluster)]
-
-# Print the first few rows to see the categories
-# print(head(iris))
+head(dataset) %>%
+  kable(caption = "Head of the Adult income Dataset")
 ```
 
-```{r}
-# Remove the species column to cluster only based on measurements
 
 
-# Visualize the clusters for Sepal Length and Sepal Width
-ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Sepal.Length.Category, shape = Sepal.Width.Category)) +
-  geom_point(size = 3) +
-  labs(title = "Clustering of Sepal Length and Width",
-       x = "Sepal Length",
-       y = "Sepal Width") +
-  theme_minimal()
-
-# Visualize the clusters for Petal Length and Petal Width
-ggplot(iris, aes(Petal.Length, Petal.Width, color = Petal.Length.Category, shape = Petal.Width.Category)) +
-  geom_point(size = 3) +
-  labs(title = "Clustering of Petal Length and Width",
-       x = "Petal Length",
-       y = "Petal Width") +
-  theme_minimal()
-```
-
-**Continous to Discrete Values ("Value range TBD")**
-
-| Label  | Level | Sepal Length | Sepal Width | Petal Length | Petal Width |
-|--------|-------|--------------|-------------|--------------|-------------|
-| Small  | 1     | 4.0-5.5      | 2.0-2.75    | 1-2          | 0.0-.75     |
-| Medium | 2     | 5.6-6.5      | 2.76-3.25   | 3-5          | 1.0-1.75    |
-| Large  | 3     | 6.5-8.0      | 3.26-4.5    | 5-7          | 1.76-2.5    |
-
-```{r,echo=F}
-# Define Bayesian network structure
-network_structure <- "Species ~ Sepal.Length.Category + Sepal.Width.Category + Petal.Length.Category + Petal.Width.Category"
-
-table_md <- knitr::kable(head(iris), format = "markdown")
-```
-
-| Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species | Sepal.Length.Cluster | Sepal.Width.Cluster | Petal.Length.Cluster | Petal.Width.Cluster | Sepal.Length.Category | Sepal.Width.Category | Petal.Length.Category | Petal.Width.Category |
-|-----:|-----:|-----:|-----:|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|
-|          5.1 |         3.5 |          1.4 |         0.2 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
-|          4.9 |         3.0 |          1.4 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
-|          4.7 |         3.2 |          1.3 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
-|          4.6 |         3.1 |          1.5 |         0.2 | setosa  | 1                    | 1                   | 1                    | 1                   | Small                 | Small                | Small                 | Small                |
-|          5.0 |         3.6 |          1.4 |         0.2 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
-|          5.4 |         3.9 |          1.7 |         0.4 | setosa  | 1                    | 3                   | 1                    | 1                   | Small                 | Large                | Small                 | Small                |
 
 
 Decision Support:
