@@ -328,7 +328,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 #  cat("\n")
 #}
 ```
-## CPT for age :
+### CPT for age :
 
 
 |age    |income |      Freq|
@@ -350,7 +350,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |80-89  |>50K   | 0.0019056|
 |90-100 |>50K   | 0.0000118|
 
-## CPT for capital.gain :
+### CPT for capital.gain :
 
 
 |capital.gain |income |      Freq|
@@ -364,7 +364,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |High         |>50K   | 0.0683884|
 |Rich         |>50K   | 0.0314601|
 
-## CPT for capital.loss :
+### CPT for capital.loss :
 
 
 |capital.loss |income |      Freq|
@@ -378,7 +378,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |High         |>50K   | 0.0000237|
 |Rich         |>50K   | 0.0000237|
 
-## CPT for education :
+### CPT for education :
 
 
 |education    |income |      Freq|
@@ -416,7 +416,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Prof-school  |>50K   | 0.0554931|
 |Some-college |>50K   | 0.1814281|
 
-## CPT for education.num :
+### CPT for education.num :
 
 
 |education.num |income |      Freq|
@@ -454,7 +454,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |15            |>50K   | 0.0554931|
 |16            |>50K   | 0.0350405|
 
-## CPT for hours.per.week :
+### CPT for hours.per.week :
 
 
 |hours.per.week |income |      Freq|
@@ -466,7 +466,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |FullTIme       |>50K   | 0.4342707|
 |Overtime       |>50K   | 0.4986586|
 
-## CPT for income :
+### CPT for income :
 
 
 |Var1  |      Freq|
@@ -474,7 +474,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |<=50K | 0.7499053|
 |>50K  | 0.2500947|
 
-## CPT for marital.status :
+### CPT for marital.status :
 
 
 |marital.status        |income |      Freq|
@@ -494,7 +494,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Separated             |>50K   | 0.0089142|
 |Widowed               |>50K   | 0.0094823|
 
-## CPT for native.country :
+### CPT for native.country :
 
 
 |native.country             |income |      Freq|
@@ -582,7 +582,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Vietnam                    |>50K   | 0.0007598|
 |Yugoslavia                 |>50K   | 0.0001917|
 
-## CPT for occupation :
+### CPT for occupation :
 
 
 |occupation        |income |      Freq|
@@ -616,7 +616,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Tech-support      |>50K   | 0.0350413|
 |Transport-moving  |>50K   | 0.0452676|
 
-## CPT for race :
+### CPT for race :
 
 
 |race               |income |      Freq|
@@ -632,7 +632,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Other              |>50K   | 0.0032383|
 |White              |>50K   | 0.9052362|
 
-## CPT for relationship :
+### CPT for relationship :
 
 
 |relationship   |income |      Freq|
@@ -650,7 +650,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |Unmarried      |>50K   | 0.0280434|
 |Wife           |>50K   | 0.0897800|
 
-## CPT for sex :
+### CPT for sex :
 
 
 |sex              |income |      Freq|
@@ -670,7 +670,7 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |State-gov        |>50K   | 0.0445169|
 |Without-pay      |>50K   | 0.0000135|
 
-## CPT for workclass :
+### CPT for workclass :
 
 
 |workclass        |income |      Freq|
