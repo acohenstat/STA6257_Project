@@ -386,16 +386,16 @@ Idea -Use the networks to make a prediction
 ggplot(data = dataset, aes(x = age, fill = income)) +
   
 # Add density plots for each income category
-geom_density(alpha = 0.5) +  # Adjust alpha for transparency
+geom_bar(position = "stack", alpha = 0.8) +  # Adjust alpha for transparency
 
 # Customize colors for each income category
 scale_fill_manual(values = c("#FF5733", "#3349FF")) +  # Adjust colors as needed
 
 # Label axes and add title
-labs(x = "Age", y = "Density", title = "Age Distribution by Income") +
+labs(x = "Age", y = "Count", title = "Age Distribution by Income") +
 
-# Add theme elements (optional)
-theme_minimal() +
+# Rotate x-axis labels for better readability
+theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 
 # Customize legend
 guides(fill = guide_legend(title = "Income"))
