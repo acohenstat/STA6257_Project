@@ -373,8 +373,8 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 ### CPT for capital.loss :
 
 
-|capital.loss |income |      Freq|
-|:------------|:------|---------:|
+|capital.loss |income |      Freq|income |      Freq|
+|:------------|:------|---------:|:------|---------:|
 |Low          |<=50K  | 0.9999763|>50K   | 0.9999290|
 |Medium       |<=50K  | 0.0000079|>50K   | 0.0000237|
 |High         |<=50K  | 0.0000079|>50K   | 0.0000237|
@@ -436,13 +436,6 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 |FullTIme       |<=50K  | 0.5237103|>50K   | 0.4342707|
 |Overtime       |<=50K  | 0.2405764|>50K   | 0.4986586|
 
-
-### CPT for income :
-
-
-|Var1  |      Freq|      Freq|
-|:-----|---------:|---------:|
-|<=50K | 0.7499053|0.2500947|
 
 
 ### CPT for marital.status :
@@ -532,16 +525,12 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 
 |race               |income |      Freq|
 |:------------------|:------|---------:|
-|Amer-Indian-Eskimo |<=50K  | 0.0111220|
-|Asian-Pac-Islander |<=50K  | 0.0270376|
-|Black              |<=50K  | 0.1081315|
-|Other              |<=50K  | 0.0088483|
-|White              |<=50K  | 0.8448606|
-|Amer-Indian-Eskimo |>50K   | 0.0045640|
-|Asian-Pac-Islander |>50K   | 0.0350535|
-|Black              |>50K   | 0.0519080|
-|Other              |>50K   | 0.0032383|
-|White              |>50K   | 0.9052362|
+|Amer-Indian-Eskimo |<=50K  | 0.0111220|>50K   | 0.0045640|
+|Asian-Pac-Islander |<=50K  | 0.0270376|>50K   | 0.0350535|
+|Black              |<=50K  | 0.1081315|>50K   | 0.0519080|
+|Other              |<=50K  | 0.0088483|>50K   | 0.0032383|
+|White              |<=50K  | 0.8448606|>50K   | 0.9052362|
+
 
 ### CPT for relationship :
 
