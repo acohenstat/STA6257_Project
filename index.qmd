@@ -259,6 +259,10 @@ labels <- c("Low", "Medium", "High", "Rich")
 dataset$capital.gain  <- cut(dataset$capital.gain, breaks = breaks, labels = labels, include.lowest = TRUE)
 dataset$capital.loss  <- cut(dataset$capital.loss, breaks = breaks, labels = labels, include.lowest = TRUE)
 
+breaks <- c(0, 35, 40, 200)  # Adjust as needed
+labels <- c("Partime", "FullTIme", "Overtime")
+dataset$hours.per.week <- cut(dataset$hours.per.week, breaks = breaks, labels = labels, include.lowest = TRUE)
+
 dataset$workclass <- as.factor(dataset$workclass)
 dataset$education <- as.factor(dataset$education)
 dataset$education.num <- as.factor(dataset$education.num)
@@ -267,7 +271,6 @@ dataset$occupation <- as.factor(dataset$occupation)
 dataset$relationship <- as.factor(dataset$relationship)
 dataset$race <- as.factor(dataset$race)
 dataset$sex <- as.factor(dataset$workclass)
-dataset$hours.per.week <- as.factor(dataset$hours.per.week)
 dataset$native.country <- as.factor(dataset$native.country)
 dataset$income <- as.factor(dataset$income)
 
