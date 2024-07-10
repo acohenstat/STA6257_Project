@@ -230,17 +230,27 @@ These limitations stress that careful application and possible use of hybrid met
 
 
 ## Methods
+(need to expand on this section since we changed data set and goal)
 
-Classification is a fundamental task in data analysis and pattern
-recognition where the goal is to build a classifier—a function that
-assigns class labels to instances based on their attributes. Inducing
-classifiers from datasets of preclassified instances is a key challenge
-in machine learning. Many methods address this challenge using diverse
-functional representations like decision trees, decision lists, neural
-networks, decision graphs, and rules. One of the most effective
-classifiers, in the sense that its predictive performance is competitive
-with state-of-the-art classifiers, is the so-called naive Bayesian
-classifier.[@friedman1997bayesian]
+No longer doing classification of iris, we are deteremine based of probabaility if a person will make more or less then 50k based on these features:
+
+|Feature | Description|
+|:------|---------:|
+|age	|age|
+|workclass	|Work type|
+|fnlwgt	|Current Population Survey (CPS) Weights|
+|education	|Education level|
+|education.num	|Education level number|
+|marital.status	|Marital Status|
+|occupation	|occupation|
+|relationship	|family relationship|
+|race||
+|sex|	Gender|
+|capital.gain	|Capital Gain|
+|capital.loss	|Capital Loss|
+|hours.per.week	|Working hours per week|
+|native.country	|Native nationality|
+|income	|income|
 
 ```{r, echo=F}
 

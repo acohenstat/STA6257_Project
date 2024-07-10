@@ -3208,7 +3208,78 @@ Idea - Discuss Propagation.
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>Classification is a fundamental task in data analysis and pattern recognition where the goal is to build a classifier—a function that assigns class labels to instances based on their attributes. Inducing classifiers from datasets of preclassified instances is a key challenge in machine learning. Many methods address this challenge using diverse functional representations like decision trees, decision lists, neural networks, decision graphs, and rules. One of the most effective classifiers, in the sense that its predictive performance is competitive with state-of-the-art classifiers, is the so-called naive Bayesian classifier.<span class="citation" data-cites="friedman1997bayesian">(<a href="#ref-friedman1997bayesian" role="doc-biblioref">Friedman, Geiger, and Goldszmidt 1997</a>)</span></p>
+<p>(need to expand on this section since we changed data set and goal)</p>
+<p>No longer doing classification of iris, we are deteremine based of probabaility if a person will make more or less then 50k based on these features:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: right;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">age</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">workclass</td>
+<td style="text-align: right;">Work type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fnlwgt</td>
+<td style="text-align: right;">Current Population Survey (CPS) Weights</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">education</td>
+<td style="text-align: right;">Education level</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">education.num</td>
+<td style="text-align: right;">Education level number</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">marital.status</td>
+<td style="text-align: right;">Marital Status</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">occupation</td>
+<td style="text-align: right;">occupation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">relationship</td>
+<td style="text-align: right;">family relationship</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sex</td>
+<td style="text-align: right;">Gender</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">capital.gain</td>
+<td style="text-align: right;">Capital Gain</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">capital.loss</td>
+<td style="text-align: right;">Capital Loss</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hours.per.week</td>
+<td style="text-align: right;">Working hours per week</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">native.country</td>
+<td style="text-align: right;">Native nationality</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">income</td>
+<td style="text-align: right;">income</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>           
@@ -4706,9 +4777,6 @@ Becker, Barry, and Ronny Kohavi. 1996. <span>“<span>Adult</span>.”</span> UC
 </div>
 <div id="ref-bilek2018investigation" class="csl-entry" role="listitem">
 Bilek, Gunal, and Filiz Karaman. 2018. <span>“An Investigation into the Relationship Among Psychiatric, Demographic and Socio-Economic Variables with Bayesian Network Modeling.”</span> <em>Entropy</em> 20 (3): 189.
-</div>
-<div id="ref-friedman1997bayesian" class="csl-entry" role="listitem">
-Friedman, Nir, Dan Geiger, and Moises Goldszmidt. 1997. <span>“Bayesian Network Classifiers.”</span> <em>Machine Learning</em> 29: 131–63. <a href="https://doi.org/10.1023/A:1007465528199">https://doi.org/10.1023/A:1007465528199</a>.
 </div>
 <div id="ref-heckerman1995tutorial" class="csl-entry" role="listitem">
 Heckerman, David. 1995. <span>“A Tutorial on Learning with Bayesian Networks.”</span> In <em>Learning in Graphical Models</em>. MIT Press. <a href="https://www.cis.upenn.edu/~mkearns/papers/barbados/heckerman.pdf">https://www.cis.upenn.edu/~mkearns/papers/barbados/heckerman.pdf</a>.
