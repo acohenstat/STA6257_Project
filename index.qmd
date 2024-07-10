@@ -381,7 +381,62 @@ Idea -Use the networks to make a prediction
 </p>
 
 ## Data and Visualization
+```{r,echo=T}
 
+ggplot(data = dataset, aes(x = age, fill = income)) +
+  
+# Add density plots for each income category
+geom_density(alpha = 0.5) +  # Adjust alpha for transparency
+
+# Customize colors for each income category
+scale_fill_manual(values = c("#FF5733", "#3349FF")) +  # Adjust colors as needed
+
+# Label axes and add title
+labs(x = "Age", y = "Density", title = "Age Distribution by Income") +
+
+# Add theme elements (optional)
+theme_minimal() +
+
+# Customize legend
+guides(fill = guide_legend(title = "Income"))
+
+```
+```{r,echo=T}
+ggplot(data = dataset, aes(x = workclass, fill = income)) +
+  
+# Add a histogram with stacked bars
+geom_bar(position = "stack", alpha = 0.8) +  # Adjust alpha for transparency
+
+# Customize colors for each income category
+scale_fill_manual(values = c("#FF5733", "#3349FF")) +  # Adjust colors as needed
+
+# Label axes and add title
+labs(x = "Workclass", title = "Workclass") +
+
+# Rotate x-axis labels for better readability
+theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+
+# Add legend for income categories
+guides(fill = guide_legend(title = "Income"))
+```
+```{r,echo=T}
+ggplot(data = dataset, aes(x = education, fill = income)) +
+  
+# Add a histogram with stacked bars
+geom_bar(position = "stack", alpha = 0.8) +  # Adjust alpha for transparency
+
+# Customize colors for each income category
+scale_fill_manual(values = c("#FF5733", "#3349FF")) +  # Adjust colors as needed
+
+# Label axes and add title
+labs(x = "Education", title = "Education") +
+
+# Rotate x-axis labels for better readability
+theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+
+# Add legend for income categories
+guides(fill = guide_legend(title = "Income"))
+```
 directed acyclic graph (DAG).
 
 Conditional Probability Tables (CPTs)
