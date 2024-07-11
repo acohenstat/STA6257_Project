@@ -56,7 +56,8 @@ model = set.arc(model, from = "hours_per_week", to = "income")
 
 
 graphviz.plot(model, layout = "fdp")
-
+#evidence node : age, education, occupation, sex, workclass, marital_status
+#query node : income
 fitted_model <- bn.fit(model, data = dataset)
 
 
