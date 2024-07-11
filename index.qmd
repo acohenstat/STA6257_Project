@@ -79,11 +79,15 @@ calculating joint and marginal probabilities, and applying Bayes'
 theorem to infer the posterior probabilities. [@koller2009probabilistic]
 
 <p style="color: blue;">
+
 Idea - Go over the bayes' theorem equation.
+
 </p>
 
 <p style="color: blue;">
+
 Idea - Discuss Propagation.
+
 </p>
 
 ### What are the advantages of using Bayesian Networks
@@ -210,53 +214,79 @@ with interdependent variables in a structured and efficient manner.
 
 ### Limitations of Bayesian Networks
 
-Although Bayesian networks are valuable in modeling and predicting probabilistic relationships, they have their limitations that can hinder effectiveness.
+Although Bayesian networks are valuable in modeling and predicting
+probabilistic relationships, they have their limitations that can hinder
+effectiveness.
 
-__Complexity__:
-One issue is their complexity which increases with the number of variables introduced, making them computationally intensive to build and then maintain for large, highly connected networks. This makes real-time inference and updates challenging.
-Data Requirements:
-Bayesian networks are largely data-driven; thus, the data requirements make sparse data sets potentially compromise reliability.
+**Complexity**: One issue is their complexity which increases with the
+number of variables introduced, making them computationally intensive to
+build and then maintain for large, highly connected networks. This makes
+real-time inference and updates challenging. Data Requirements: Bayesian
+networks are largely data-driven; thus, the data requirements make
+sparse data sets potentially compromise reliability.
 
-__Assumptions__:
-Bayesian networks mostly involve assumptions in the definition of relationships between variables and often make use of expert inputs, thus open to subjectivity and biases [@kubsch2021beyond]. Bayesian models assume that variables are conditionally independent given their parents in the network. In this case, violations to these assumptions affect the correctness of the predictions made with these models.
+**Assumptions**: Bayesian networks mostly involve assumptions in the
+definition of relationships between variables and often make use of
+expert inputs, thus open to subjectivity and biases [@kubsch2021beyond].
+Bayesian models assume that variables are conditionally independent
+given their parents in the network. In this case, violations to these
+assumptions affect the correctness of the predictions made with these
+models.
 
-__Structure:__
-The structure is another critical limitation. After a Bayesian network structure has been developed, it does not automatically adapt to new data or changes in the problem domain.
+**Structure:** The structure is another critical limitation. After a
+Bayesian network structure has been developed, it does not automatically
+adapt to new data or changes in the problem domain.
 
-__Scalability__:
-Scalability is a significant limitation: large networks need huge computational effort for exact inference and are mostly approximated, hence less accurate [@jewell2009bayesian]. Bayesian networks are also limited in that they cannot model complex relationships and nonlinearity between variables; it makes them less successful in modeling real-world complex interactions compared to other approaches, say, neural networks.
-These limitations stress that careful application and possible use of hybrid methodologies may be necessary when solving complex problems with Bayesian networks.
-
-
+**Scalability**: Scalability is a significant limitation: large networks
+need huge computational effort for exact inference and are mostly
+approximated, hence less accurate [@jewell2009bayesian]. Bayesian
+networks are also limited in that they cannot model complex
+relationships and nonlinearity between variables; it makes them less
+successful in modeling real-world complex interactions compared to other
+approaches, say, neural networks. These limitations stress that careful
+application and possible use of hybrid methodologies may be necessary
+when solving complex problems with Bayesian networks.
 
 ## Methods
+
 (need to expand on this section since we changed data set and goal)
 
-No longer doing classification of iris, we are deteremine based of probabaility if a person will make more or less then 50k based on these features:
+dataset link:
+<https://www.kaggle.com/datasets/uciml/adult-census-income>
+
+The main goal is to predict whether an individual's income exceeds
+\$50,000 per year based on various demographic and employment-related
+attributes.
+
+No longer doing classification of iris, we are deteremine based of
+probabaility if a person will make more or less then 50k based on these
+features:
 
 treating every feature as independant you get a flat network:
 
-network_string <- "[age|income][workclass|income][education|income][education.num|income][marital.status|income][occupation|income][relationship|income][race|income][sex|income][capital.gain|income][capital.loss|income][hours.per.week|income][native.country|income][income]
+network_string \<-
+"\[age\|income\]\[workclass\|income\]\[education\|income\]\[education.num\|income\]\[marital.status\|income\]\[occupation\|income\]\[relationship\|income\]\[race\|income\]\[sex\|income\]\[capital.gain\|income\]\[capital.loss\|income\]\[hours.per.week\|income\]\[native.country\|income\]\[income\]
 
-but we could say that education and marriage is dependent on age so might want to workout possible CPDs for this network
+but we could say that education and marriage is dependent on age so
+might want to workout possible CPDs for this network
 
-|Feature | Description|
-|:------|---------:|
-|age	|age|
-|workclass	|Work type|
-|fnlwgt	|Current Population Survey (CPS) Weights|
-|education	|Education level|
-|education.num	|Education level number|
-|marital.status	|Marital Status|
-|occupation	|occupation|
-|relationship	|family relationship|
-|race||
-|sex|	Gender|
-|capital.gain	|Capital Gain|
-|capital.loss	|Capital Loss|
-|hours.per.week	|Working hours per week|
-|native.country	|Native nationality|
-|income	|income|
+| Feature        |                             Description |
+|:---------------|----------------------------------------:|
+| age            |                                     age |
+| workclass      |                               Work type |
+| fnlwgt         | Current Population Survey (CPS) Weights |
+| education      |                         Education level |
+| education.num  |                  Education level number |
+| marital.status |                          Marital Status |
+| occupation     |                              occupation |
+| relationship   |                     family relationship |
+| race           |                                         |
+| sex            |                                  Gender |
+| capital.gain   |                            Capital Gain |
+| capital.loss   |                            Capital Loss |
+| hours.per.week |                  Working hours per week |
+| native.country |                      Native nationality |
+| income         |                                  income |
 
 ```{r, echo=F}
 
@@ -289,7 +319,6 @@ dataset$race <- as.factor(dataset$race)
 dataset$sex <- as.factor(dataset$workclass)
 dataset$native.country <- as.factor(dataset$native.country)
 dataset$income <- as.factor(dataset$income)
-```{r,echo=T}
 ### this is bayes classifier code
 # Split the data into training and test sets
 #set.seed(123)  # For reproducibility
@@ -310,6 +339,7 @@ dataset$income <- as.factor(dataset$income)
 #accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
 #print(paste("Accuracy:", accuracy))
 ```
+
 ```{r,echo=T}
 ### Bayesian Network Structure using bnlearn
 network_string <- "[age|income][workclass|income][education|income][education.num|income][marital.status|income][occupation|income][relationship|income][race|income][sex|income][capital.gain|income][capital.loss|income][hours.per.week|income][native.country|income][income]"
@@ -347,230 +377,203 @@ graphviz.plot(dag, main = "Naive Bayes Network for income Dataset")
 #}
 ```
 
-
 ### CPT for age :
 
-
-|age    |income |      Freq|income |      Freq|
-|:------|:------|---------:|:------|---------:|
-|Young  |<=50K  | 0.6465038|>50K   | 0.3993030|
-|Middle |<=50K  | 0.3243754|>50K   | 0.5755033|
-|Old    |<=50K  | 0.0291209|>50K   | 0.0251937|
-
-
+| age    | income |      Freq | income |      Freq |
+|:-------|:-------|----------:|:-------|----------:|
+| Young  | \<=50K | 0.6465038 | \>50K  | 0.3993030 |
+| Middle | \<=50K | 0.3243754 | \>50K  | 0.5755033 |
+| Old    | \<=50K | 0.0291209 | \>50K  | 0.0251937 |
 
 ### CPT for capital.gain :
 
-
-|capital.gain |income |      Freq|income |      Freq|
-|:------------|:------|---------:|:------|---------:|
-|Low          |<=50K  | 0.9929659|>50K   | 0.8088486|
-|Medium       |<=50K  | 0.0064499|>50K   | 0.0913029|
-|High         |<=50K  | 0.0003237|>50K   | 0.0683884|
-|Rich         |<=50K  | 0.0002605|>50K   | 0.0314601|
-
+| capital.gain | income |      Freq | income |      Freq |
+|:-------------|:-------|----------:|:-------|----------:|
+| Low          | \<=50K | 0.9929659 | \>50K  | 0.8088486 |
+| Medium       | \<=50K | 0.0064499 | \>50K  | 0.0913029 |
+| High         | \<=50K | 0.0003237 | \>50K  | 0.0683884 |
+| Rich         | \<=50K | 0.0002605 | \>50K  | 0.0314601 |
 
 ### CPT for capital.loss :
 
-
-|capital.loss |income |      Freq|income |      Freq|
-|:------------|:------|---------:|:------|---------:|
-|Low          |<=50K  | 0.9999763|>50K   | 0.9999290|
-|Medium       |<=50K  | 0.0000079|>50K   | 0.0000237|
-|High         |<=50K  | 0.0000079|>50K   | 0.0000237|
-|Rich         |<=50K  | 0.0000079|>50K   | 0.0000237|
-
+| capital.loss | income |      Freq | income |      Freq |
+|:-------------|:-------|----------:|:-------|----------:|
+| Low          | \<=50K | 0.9999763 | \>50K  | 0.9999290 |
+| Medium       | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
+| High         | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
+| Rich         | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
 
 ### CPT for education :
 
-
-|education    |income |      Freq|income |      Freq|
-|:------------|:------|---------:|:------|---------:|
-|10th         |<=50K  | 0.0337911|>50K   | 0.0081491|
-|11th         |<=50K  | 0.0445278|>50K   | 0.0087172|
-|12th         |<=50K  | 0.0149071|>50K   | 0.0039828|
-|1st-4th      |<=50K  | 0.0061914|>50K   | 0.0007634|
-|5th-6th      |<=50K  | 0.0128860|>50K   | 0.0013316|
-|7th-8th      |<=50K  | 0.0233701|>50K   | 0.0047403|
-|9th          |<=50K  | 0.0185070|>50K   | 0.0032253|
-|Assoc-acdm   |<=50K  | 0.0333490|>50K   | 0.0325786|
-|Assoc-voc    |<=50K  | 0.0425699|>50K   | 0.0445093|
-|Bachelors    |<=50K  | 0.1277059|>50K   | 0.2846381|
-|Doctorate    |<=50K  | 0.0041704|>50K   | 0.0350405|
-|HS-grad      |<=50K  | 0.3647350|>50K   | 0.2162733|
-|Masters      |<=50K  | 0.0312648|>50K   | 0.1191234|
-|Preschool    |<=50K  | 0.0020230|>50K   | 0.0000059|
-|Prof-school  |<=50K  | 0.0048651|>50K   | 0.0554931|
-|Some-college |<=50K  | 0.2351363|>50K   | 0.1814281|
-
+| education    | income |      Freq | income |      Freq |
+|:-------------|:-------|----------:|:-------|----------:|
+| 10th         | \<=50K | 0.0337911 | \>50K  | 0.0081491 |
+| 11th         | \<=50K | 0.0445278 | \>50K  | 0.0087172 |
+| 12th         | \<=50K | 0.0149071 | \>50K  | 0.0039828 |
+| 1st-4th      | \<=50K | 0.0061914 | \>50K  | 0.0007634 |
+| 5th-6th      | \<=50K | 0.0128860 | \>50K  | 0.0013316 |
+| 7th-8th      | \<=50K | 0.0233701 | \>50K  | 0.0047403 |
+| 9th          | \<=50K | 0.0185070 | \>50K  | 0.0032253 |
+| Assoc-acdm   | \<=50K | 0.0333490 | \>50K  | 0.0325786 |
+| Assoc-voc    | \<=50K | 0.0425699 | \>50K  | 0.0445093 |
+| Bachelors    | \<=50K | 0.1277059 | \>50K  | 0.2846381 |
+| Doctorate    | \<=50K | 0.0041704 | \>50K  | 0.0350405 |
+| HS-grad      | \<=50K | 0.3647350 | \>50K  | 0.2162733 |
+| Masters      | \<=50K | 0.0312648 | \>50K  | 0.1191234 |
+| Preschool    | \<=50K | 0.0020230 | \>50K  | 0.0000059 |
+| Prof-school  | \<=50K | 0.0048651 | \>50K  | 0.0554931 |
+| Some-college | \<=50K | 0.2351363 | \>50K  | 0.1814281 |
 
 ### CPT for education.num :
 
-
-|education.num |income |      Freq|income |      Freq|
-|:-------------|:------|---------:|:------|---------:|
-|1             |<=50K  | 0.0020230|>50K   | 0.0000059|
-|2             |<=50K  | 0.0061914|>50K   | 0.0007634|
-|3             |<=50K  | 0.0128860|>50K   | 0.0013316|
-|4             |<=50K  | 0.0233701|>50K   | 0.0047403|
-|5             |<=50K  | 0.0185070|>50K   | 0.0032253|
-|6             |<=50K  | 0.0337911|>50K   | 0.0081491|
-|7             |<=50K  | 0.0445278|>50K   | 0.0087172|
-|8             |<=50K  | 0.0149071|>50K   | 0.0039828|
-|9             |<=50K  | 0.3647350|>50K   | 0.2162733|
-|10            |<=50K  | 0.2351363|>50K   | 0.1814281|
-|11            |<=50K  | 0.0425699|>50K   | 0.0445093|
-|12            |<=50K  | 0.0333490|>50K   | 0.0325786|
-|13            |<=50K  | 0.1277059|>50K   | 0.2846381|
-|14            |<=50K  | 0.0312648|>50K   | 0.1191234|
-|15            |<=50K  | 0.0048651|>50K   | 0.0554931|
-|16            |<=50K  | 0.0041704|>50K   | 0.0350405|
-
+| education.num | income |      Freq | income |      Freq |
+|:--------------|:-------|----------:|:-------|----------:|
+| 1             | \<=50K | 0.0020230 | \>50K  | 0.0000059 |
+| 2             | \<=50K | 0.0061914 | \>50K  | 0.0007634 |
+| 3             | \<=50K | 0.0128860 | \>50K  | 0.0013316 |
+| 4             | \<=50K | 0.0233701 | \>50K  | 0.0047403 |
+| 5             | \<=50K | 0.0185070 | \>50K  | 0.0032253 |
+| 6             | \<=50K | 0.0337911 | \>50K  | 0.0081491 |
+| 7             | \<=50K | 0.0445278 | \>50K  | 0.0087172 |
+| 8             | \<=50K | 0.0149071 | \>50K  | 0.0039828 |
+| 9             | \<=50K | 0.3647350 | \>50K  | 0.2162733 |
+| 10            | \<=50K | 0.2351363 | \>50K  | 0.1814281 |
+| 11            | \<=50K | 0.0425699 | \>50K  | 0.0445093 |
+| 12            | \<=50K | 0.0333490 | \>50K  | 0.0325786 |
+| 13            | \<=50K | 0.1277059 | \>50K  | 0.2846381 |
+| 14            | \<=50K | 0.0312648 | \>50K  | 0.1191234 |
+| 15            | \<=50K | 0.0048651 | \>50K  | 0.0554931 |
+| 16            | \<=50K | 0.0041704 | \>50K  | 0.0350405 |
 
 ### CPT for hours.per.week :
 
-
-|hours.per.week |income |      Freq|income |      Freq|
-|:--------------|:------|---------:|:------|---------:|
-|Partime        |<=50K  | 0.2357133|>50K   | 0.0670707|
-|FullTIme       |<=50K  | 0.5237103|>50K   | 0.4342707|
-|Overtime       |<=50K  | 0.2405764|>50K   | 0.4986586|
-
-
+| hours.per.week | income |      Freq | income |      Freq |
+|:---------------|:-------|----------:|:-------|----------:|
+| Partime        | \<=50K | 0.2357133 | \>50K  | 0.0670707 |
+| FullTIme       | \<=50K | 0.5237103 | \>50K  | 0.4342707 |
+| Overtime       | \<=50K | 0.2405764 | \>50K  | 0.4986586 |
 
 ### CPT for marital.status :
 
-
-|marital.status        |income |      Freq|income |      Freq|
-|:---------------------|:------|---------:|:------|---------:|
-|Divorced              |<=50K  | 0.1661712|>50K   | 0.0592882|
-|Married-AF-spouse     |<=50K  | 0.0003835|>50K   | 0.0015285|
-|Married-civ-spouse    |<=50K  | 0.3408009|>50K   | 0.8540993|
-|Married-spouse-absent |<=50K  | 0.0140886|>50K   | 0.0041798|
-|Never-married         |<=50K  | 0.4058529|>50K   | 0.0625076|
-|Separated             |<=50K  | 0.0393515|>50K   | 0.0089142|
-|Widowed               |<=50K  | 0.0333515|>50K   | 0.0094823|
-
+| marital.status        | income |      Freq | income |      Freq |
+|:----------------------|:-------|----------:|:-------|----------:|
+| Divorced              | \<=50K | 0.1661712 | \>50K  | 0.0592882 |
+| Married-AF-spouse     | \<=50K | 0.0003835 | \>50K  | 0.0015285 |
+| Married-civ-spouse    | \<=50K | 0.3408009 | \>50K  | 0.8540993 |
+| Married-spouse-absent | \<=50K | 0.0140886 | \>50K  | 0.0041798 |
+| Never-married         | \<=50K | 0.4058529 | \>50K  | 0.0625076 |
+| Separated             | \<=50K | 0.0393515 | \>50K  | 0.0089142 |
+| Widowed               | \<=50K | 0.0333515 | \>50K  | 0.0094823 |
 
 ### CPT for native.country :
 
-
-|native.country             |income |      Freq|income |      Freq|
-|:--------------------------|:------|---------:|:------|---------:|
-|Cambodia                   |<=50K  | 0.0005060|>50K   | 0.0011386|
-|Canada                     |<=50K  | 0.0030323|>50K   | 0.0049261|
-|China                      |<=50K  | 0.0017692|>50K   | 0.0022748|
-|Columbia                   |<=50K  | 0.0023376|>50K   | 0.0003811|
-|Cuba                       |<=50K  | 0.0027797|>50K   | 0.0026536|
-|Dominican-Republic         |<=50K  | 0.0029060|>50K   | 0.0003811|
-|Ecuador                    |<=50K  | 0.0012008|>50K   | 0.0003811|
-|El-Salvador                |<=50K  | 0.0038534|>50K   | 0.0013279|
-|England                    |<=50K  | 0.0024639|>50K   | 0.0041686|
-|France                     |<=50K  | 0.0008850|>50K   | 0.0013279|
-|Germany                    |<=50K  | 0.0041060|>50K   | 0.0060623|
-|Greece                     |<=50K  | 0.0008850|>50K   | 0.0013279|
-|Guatemala                  |<=50K  | 0.0025271|>50K   | 0.0001917|
-|Haiti                      |<=50K  | 0.0015797|>50K   | 0.0005704|
-|Holand-Netherlands         |<=50K  | 0.0000639|>50K   | 0.0000023|
-|Honduras                   |<=50K  | 0.0004429|>50K   | 0.0000023|
-|Hong                       |<=50K  | 0.0005692|>50K   | 0.0011386|
-|Hungary                    |<=50K  | 0.0005692|>50K   | 0.0005704|
-|India                      |<=50K  | 0.0022744|>50K   | 0.0054942|
-|Iran                       |<=50K  | 0.0013902|>50K   | 0.0024642|
-|Ireland                    |<=50K  | 0.0008218|>50K   | 0.0007598|
-|Italy                      |<=50K  | 0.0018323|>50K   | 0.0030323|
-|Jamaica                    |<=50K  | 0.0029692|>50K   | 0.0018961|
-|Japan                      |<=50K  | 0.0013271|>50K   | 0.0036005|
-|Laos                       |<=50K  | 0.0006323|>50K   | 0.0003811|
-|Mexico                     |<=50K  | 0.0264005|>50K   | 0.0034111|
-|Nicaragua                  |<=50K  | 0.0013902|>50K   | 0.0001917|
-|Outlying-US(Guam-USVI-etc) |<=50K  | 0.0006955|>50K   | 0.0000023|
-|Peru                       |<=50K  | 0.0013902|>50K   | 0.0003811|
-|Philippines                |<=50K  | 0.0056218|>50K   | 0.0079561|
-|Poland                     |<=50K  | 0.0018955|>50K   | 0.0015173|
-|Portugal                   |<=50K  | 0.0013902|>50K   | 0.0007598|
-|Puerto-Rico                |<=50K  | 0.0042955|>50K   | 0.0018961|
-|Scotland                   |<=50K  | 0.0003797|>50K   | 0.0003811|
-|South                      |<=50K  | 0.0024639|>50K   | 0.0022748|
-|Taiwan                     |<=50K  | 0.0008850|>50K   | 0.0022748|
-|Thailand                   |<=50K  | 0.0004429|>50K   | 0.0003811|
-|Trinadad&Tobago            |<=50K  | 0.0008218|>50K   | 0.0003811|
-|United-States              |<=50K  | 0.9054228|>50K   | 0.9307854|
-|Vietnam                    |<=50K  | 0.0024639|>50K   | 0.0007598|
-|Yugoslavia                 |<=50K  | 0.0003166|>50K   | 0.0001917|
+| native.country             | income |      Freq | income |      Freq |
+|:---------------------------|:-------|----------:|:-------|----------:|
+| Cambodia                   | \<=50K | 0.0005060 | \>50K  | 0.0011386 |
+| Canada                     | \<=50K | 0.0030323 | \>50K  | 0.0049261 |
+| China                      | \<=50K | 0.0017692 | \>50K  | 0.0022748 |
+| Columbia                   | \<=50K | 0.0023376 | \>50K  | 0.0003811 |
+| Cuba                       | \<=50K | 0.0027797 | \>50K  | 0.0026536 |
+| Dominican-Republic         | \<=50K | 0.0029060 | \>50K  | 0.0003811 |
+| Ecuador                    | \<=50K | 0.0012008 | \>50K  | 0.0003811 |
+| El-Salvador                | \<=50K | 0.0038534 | \>50K  | 0.0013279 |
+| England                    | \<=50K | 0.0024639 | \>50K  | 0.0041686 |
+| France                     | \<=50K | 0.0008850 | \>50K  | 0.0013279 |
+| Germany                    | \<=50K | 0.0041060 | \>50K  | 0.0060623 |
+| Greece                     | \<=50K | 0.0008850 | \>50K  | 0.0013279 |
+| Guatemala                  | \<=50K | 0.0025271 | \>50K  | 0.0001917 |
+| Haiti                      | \<=50K | 0.0015797 | \>50K  | 0.0005704 |
+| Holand-Netherlands         | \<=50K | 0.0000639 | \>50K  | 0.0000023 |
+| Honduras                   | \<=50K | 0.0004429 | \>50K  | 0.0000023 |
+| Hong                       | \<=50K | 0.0005692 | \>50K  | 0.0011386 |
+| Hungary                    | \<=50K | 0.0005692 | \>50K  | 0.0005704 |
+| India                      | \<=50K | 0.0022744 | \>50K  | 0.0054942 |
+| Iran                       | \<=50K | 0.0013902 | \>50K  | 0.0024642 |
+| Ireland                    | \<=50K | 0.0008218 | \>50K  | 0.0007598 |
+| Italy                      | \<=50K | 0.0018323 | \>50K  | 0.0030323 |
+| Jamaica                    | \<=50K | 0.0029692 | \>50K  | 0.0018961 |
+| Japan                      | \<=50K | 0.0013271 | \>50K  | 0.0036005 |
+| Laos                       | \<=50K | 0.0006323 | \>50K  | 0.0003811 |
+| Mexico                     | \<=50K | 0.0264005 | \>50K  | 0.0034111 |
+| Nicaragua                  | \<=50K | 0.0013902 | \>50K  | 0.0001917 |
+| Outlying-US(Guam-USVI-etc) | \<=50K | 0.0006955 | \>50K  | 0.0000023 |
+| Peru                       | \<=50K | 0.0013902 | \>50K  | 0.0003811 |
+| Philippines                | \<=50K | 0.0056218 | \>50K  | 0.0079561 |
+| Poland                     | \<=50K | 0.0018955 | \>50K  | 0.0015173 |
+| Portugal                   | \<=50K | 0.0013902 | \>50K  | 0.0007598 |
+| Puerto-Rico                | \<=50K | 0.0042955 | \>50K  | 0.0018961 |
+| Scotland                   | \<=50K | 0.0003797 | \>50K  | 0.0003811 |
+| South                      | \<=50K | 0.0024639 | \>50K  | 0.0022748 |
+| Taiwan                     | \<=50K | 0.0008850 | \>50K  | 0.0022748 |
+| Thailand                   | \<=50K | 0.0004429 | \>50K  | 0.0003811 |
+| Trinadad&Tobago            | \<=50K | 0.0008218 | \>50K  | 0.0003811 |
+| United-States              | \<=50K | 0.9054228 | \>50K  | 0.9307854 |
+| Vietnam                    | \<=50K | 0.0024639 | \>50K  | 0.0007598 |
+| Yugoslavia                 | \<=50K | 0.0003166 | \>50K  | 0.0001917 |
 
 ### CPT for occupation :
 
-
-|occupation        |income |      Freq|income |      Freq|
-|:-----------------|:------|---------:|:------|---------:|
-|Adm-clerical      |<=50K  | 0.1400850|>50K   | 0.0647734|
-|Armed-Forces      |<=50K  | 0.0003180|>50K   | 0.0001961|
-|Craft-repair      |<=50K  | 0.1410955|>50K   | 0.1238587|
-|Exec-managerial   |<=50K  | 0.0909487|>50K   | 0.2605881|
-|Farming-fishing   |<=50K  | 0.0390334|>50K   | 0.0143993|
-|Handlers-cleaners |<=50K  | 0.0567806|>50K   | 0.0098543|
-|Machine-op-inspct |<=50K  | 0.0756015|>50K   | 0.0312538|
-|Other-service     |<=50K  | 0.1345272|>50K   | 0.0176187|
-|Priv-house-serv   |<=50K  | 0.0060653|>50K   | 0.0001961|
-|Prof-specialty    |<=50K  | 0.0967591|>50K   | 0.2405143|
-|Protective-serv   |<=50K  | 0.0198968|>50K   | 0.0295494|
-|Sales             |<=50K  | 0.1160221|>50K   | 0.1268887|
-|Tech-support      |<=50K  | 0.0275388|>50K   | 0.0350413|
-|Transport-moving  |<=50K  | 0.0553280|>50K   | 0.0452676|
-
+| occupation        | income |      Freq | income |      Freq |
+|:------------------|:-------|----------:|:-------|----------:|
+| Adm-clerical      | \<=50K | 0.1400850 | \>50K  | 0.0647734 |
+| Armed-Forces      | \<=50K | 0.0003180 | \>50K  | 0.0001961 |
+| Craft-repair      | \<=50K | 0.1410955 | \>50K  | 0.1238587 |
+| Exec-managerial   | \<=50K | 0.0909487 | \>50K  | 0.2605881 |
+| Farming-fishing   | \<=50K | 0.0390334 | \>50K  | 0.0143993 |
+| Handlers-cleaners | \<=50K | 0.0567806 | \>50K  | 0.0098543 |
+| Machine-op-inspct | \<=50K | 0.0756015 | \>50K  | 0.0312538 |
+| Other-service     | \<=50K | 0.1345272 | \>50K  | 0.0176187 |
+| Priv-house-serv   | \<=50K | 0.0060653 | \>50K  | 0.0001961 |
+| Prof-specialty    | \<=50K | 0.0967591 | \>50K  | 0.2405143 |
+| Protective-serv   | \<=50K | 0.0198968 | \>50K  | 0.0295494 |
+| Sales             | \<=50K | 0.1160221 | \>50K  | 0.1268887 |
+| Tech-support      | \<=50K | 0.0275388 | \>50K  | 0.0350413 |
+| Transport-moving  | \<=50K | 0.0553280 | \>50K  | 0.0452676 |
 
 ### CPT for race :
 
-
-|race               |income |      Freq|
-|:------------------|:------|---------:|
-|Amer-Indian-Eskimo |<=50K  | 0.0111220|>50K   | 0.0045640|
-|Asian-Pac-Islander |<=50K  | 0.0270376|>50K   | 0.0350535|
-|Black              |<=50K  | 0.1081315|>50K   | 0.0519080|
-|Other              |<=50K  | 0.0088483|>50K   | 0.0032383|
-|White              |<=50K  | 0.8448606|>50K   | 0.9052362|
-
+| race               | income |      Freq |
+|:-------------------|:-------|----------:|
+| Amer-Indian-Eskimo | \<=50K | 0.0111220 |
+| Asian-Pac-Islander | \<=50K | 0.0270376 |
+| Black              | \<=50K | 0.1081315 |
+| Other              | \<=50K | 0.0088483 |
+| White              | \<=50K | 0.8448606 |
 
 ### CPT for relationship :
 
-
-|relationship   |income |      Freq|income |      Freq|
-|:--------------|:------|---------:|:------|---------:|
-|Husband        |<=50K  | 0.3012021|>50K   | 0.7613073|
-|Not-in-family  |<=50K  | 0.3018968|>50K   | 0.1072026|
-|Other-relative |<=50K  | 0.0382785|>50K   | 0.0049396|
-|Own-child      |<=50K  | 0.1955400|>50K   | 0.0087271|
-|Unmarried      |<=50K  | 0.1310565|>50K   | 0.0280434|
-|Wife           |<=50K  | 0.0320260|>50K   | 0.0897800|
-
+| relationship   | income |      Freq | income |      Freq |
+|:---------------|:-------|----------:|:-------|----------:|
+| Husband        | \<=50K | 0.3012021 | \>50K  | 0.7613073 |
+| Not-in-family  | \<=50K | 0.3018968 | \>50K  | 0.1072026 |
+| Other-relative | \<=50K | 0.0382785 | \>50K  | 0.0049396 |
+| Own-child      | \<=50K | 0.1955400 | \>50K  | 0.0087271 |
+| Unmarried      | \<=50K | 0.1310565 | \>50K  | 0.0280434 |
+| Wife           | \<=50K | 0.0320260 | \>50K  | 0.0897800 |
 
 ### CPT for sex :
 
-
-|sex              |income |      Freq|income |      Freq|
-|:----------------|:------|---------:|:------|---------:|
-|Federal-gov      |<=50K  | 0.0253937|>50K   | 0.0484938|
-|Local-gov        |<=50K  | 0.0658775|>50K   | 0.0822027|
-|Private          |<=50K  | 0.7678070|>50K   | 0.6450282|
-|Self-emp-inc     |<=50K  | 0.0210990|>50K   | 0.0833390|
-|Self-emp-not-inc |<=50K  | 0.0786353|>50K   | 0.0964059|
-|State-gov        |<=50K  | 0.0408672|>50K   | 0.0445169|
-|Without-pay      |<=50K  | 0.0003203|>50K   | 0.0000135|
-
+| sex              | income |      Freq | income |      Freq |
+|:-----------------|:-------|----------:|:-------|----------:|
+| Federal-gov      | \<=50K | 0.0253937 | \>50K  | 0.0484938 |
+| Local-gov        | \<=50K | 0.0658775 | \>50K  | 0.0822027 |
+| Private          | \<=50K | 0.7678070 | \>50K  | 0.6450282 |
+| Self-emp-inc     | \<=50K | 0.0210990 | \>50K  | 0.0833390 |
+| Self-emp-not-inc | \<=50K | 0.0786353 | \>50K  | 0.0964059 |
+| State-gov        | \<=50K | 0.0408672 | \>50K  | 0.0445169 |
+| Without-pay      | \<=50K | 0.0003203 | \>50K  | 0.0000135 |
 
 ### CPT for workclass :
 
-
-|workclass        |income |      Freq|income |      Freq|
-|:----------------|:------|---------:|:------|---------:|
-|Federal-gov      |<=50K  | 0.0253937|>50K   | 0.0484938|
-|Local-gov        |<=50K  | 0.0658775|>50K   | 0.0822027|
-|Private          |<=50K  | 0.7678070|>50K   | 0.6450282|
-|Self-emp-inc     |<=50K  | 0.0210990|>50K   | 0.0833390|
-|Self-emp-not-inc |<=50K  | 0.0786353|>50K   | 0.0964059|
-|State-gov        |<=50K  | 0.0408672|>50K   | 0.0445169|
-|Without-pay      |<=50K  | 0.0003203|>50K   | 0.0000135|
+| workclass        | income |      Freq | income |      Freq |
+|:-----------------|:-------|----------:|:-------|----------:|
+| Federal-gov      | \<=50K | 0.0253937 | \>50K  | 0.0484938 |
+| Local-gov        | \<=50K | 0.0658775 | \>50K  | 0.0822027 |
+| Private          | \<=50K | 0.7678070 | \>50K  | 0.6450282 |
+| Self-emp-inc     | \<=50K | 0.0210990 | \>50K  | 0.0833390 |
+| Self-emp-not-inc | \<=50K | 0.0786353 | \>50K  | 0.0964059 |
+| State-gov        | \<=50K | 0.0408672 | \>50K  | 0.0445169 |
+| Without-pay      | \<=50K | 0.0003203 | \>50K  | 0.0000135 |
 
 Define Variables and Dependencies:
 
@@ -581,27 +584,39 @@ Inference:
 Learning: structure and parameter
 
 <p style="color: blue;">
+
 Idea - Define the problem.
+
 </p>
 
 <p style="color: blue;">
+
 Idea - Define the structure.
+
 </p>
 
 <p style="color: blue;">
+
 Idea - create the paramter learning CPT
+
 </p>
 
 <p style="color: blue;">
+
 Idea - use belief propagation to comput probabilities
+
 </p>
 
 ## Analysis and Results
 
 ### Dataset
 
-This data was sourced from the 1994 Census Bureau database by Ronny Kohavi and Barry Becker (Data Mining and Visualization, Silicon Graphics). They extracted a set of relatively clean records using these criteria: ((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0)).[@misc_adult_2] The objective is to predict whether an individual earns more than $50K annually.
-
+This data was sourced from the 1994 Census Bureau database by Ronny
+Kohavi and Barry Becker (Data Mining and Visualization, Silicon
+Graphics). They extracted a set of relatively clean records using these
+criteria: ((AAGE\>16) && (AGI\>100) && (AFNLWGT\>1) &&
+(HRSWK\>0)).[@misc_adult_2] The objective is to predict whether an
+individual earns more than \$50K annually.
 
 ```{r, echo=T}
 
@@ -609,31 +624,36 @@ head(dataset) %>%
   kable(caption = "Head of the Adult income Dataset")
 ```
 
-
-
-
-
 Decision Support:
 
 Validation and Sensitivity Analysis: monte carlo
 
 <p style="color: blue;">
+
 Idea - Evalulate the networks ability
+
 </p>
 
 <p style="color: blue;">
+
 Idea - Cross Validate to test models robustness and generalization
+
 </p>
 
 <p style="color: blue;">
+
 Idea - Asses how sensitive network is to input and structure chantes
+
 </p>
 
 <p style="color: blue;">
+
 Idea -Use the networks to make a prediction
+
 </p>
 
 ## Data and Visualization
+
 ```{r,echo=T}
 
 ggplot(data = dataset, aes(x = age, fill = income)) +
@@ -654,6 +674,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 guides(fill = guide_legend(title = "Income"))
 
 ```
+
 ```{r,echo=T}
 ggplot(data = dataset, aes(x = workclass, fill = income)) +
   
@@ -672,6 +693,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 # Add legend for income categories
 guides(fill = guide_legend(title = "Income"))
 ```
+
 ```{r,echo=T}
 ggplot(data = dataset, aes(x = education, fill = income)) +
   
@@ -690,6 +712,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 # Add legend for income categories
 guides(fill = guide_legend(title = "Income"))
 ```
+
 directed acyclic graph (DAG).
 
 Conditional Probability Tables (CPTs)
