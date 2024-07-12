@@ -272,7 +272,7 @@ reliability analysis [@Sigurdsson2001]</figcaption>
 
 </figure>
 
-Called out by  "Bayesian belief nets for managing expert judgment and modeling reliability"[@Sigurdsson2001], here are the discriptions for each step.
+As described in “Bayesian belief nets for managing expert judgment and modeling reliability” [@Sigurdsson2001], here are the discriptions for each step.
 
 #### Problem Structuring:
 
