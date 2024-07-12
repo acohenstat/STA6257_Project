@@ -270,6 +270,13 @@ network_string \<-
 but we could say that education and marriage is dependent on age so
 might want to workout possible CPDs for this network
 
+![](images/Screenshot 2024-07-11 at 8.53.32 PM.png){width="275"}
+
+					
+
+Figure 1: Steps necessary to build and use BNs for safety and
+reliability analysis [@Sigurdsson2001]
+
 | Feature        |                             Description |
 |:---------------|----------------------------------------:|
 | age            |                                     age |
