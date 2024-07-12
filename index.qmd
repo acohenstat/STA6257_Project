@@ -262,14 +262,6 @@ No longer doing classification of iris, we are deteremine based of
 probabaility if a person will make more or less then 50k based on these
 features:
 
-treating every feature as independant you get a flat network:
-
-network_string \<-
-"\[age\|income\]\[workclass\|income\]\[education\|income\]\[education.num\|income\]\[marital.status\|income\]\[occupation\|income\]\[relationship\|income\]\[race\|income\]\[sex\|income\]\[capital.gain\|income\]\[capital.loss\|income\]\[hours.per.week\|income\]\[native.country\|income\]\[income\]
-
-but we could say that education and marriage is dependent on age so
-might want to workout possible CPDs for this network
-
 
 <figure style="text-align: center;">
 <img src="img/Screenshot 2024-07-11_at_8.53.32 PM.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;"/>
