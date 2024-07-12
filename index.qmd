@@ -369,28 +369,25 @@ features = c("age","workclass","capital.gain","capital.loss",
 "income")
 
 dag = empty.graph(features)
-dag = set.arc(dag, from = "native.country", to = "income")
-dag = set.arc(dag, from = "race", to = "income")
 
+#conditional
 dag = set.arc(dag, from = "age", to = "education")
-dag = set.arc(dag, from = "age", to = "occupation")
 dag = set.arc(dag, from = "education", to = "occupation")
-dag = set.arc(dag, from = "education", to = "income")
-dag = set.arc(dag, from = "capital.gain", to = "income")
-dag = set.arc(dag, from = "age", to = "capital.gain")
-dag = set.arc(dag, from = "workclass", to = "capital.gain")
-dag = set.arc(dag, from = "education", to = "workclass")
-dag = set.arc(dag, from = "capital.loss", to = "income")
-dag = set.arc(dag, from = "occupation", to = "hours.per.week")
-dag = set.arc(dag, from = "occupation", to = "income")
+dag = set.arc(dag, from = "occupation", to = "workclass")
+dag = set.arc(dag, from = "workclass", to = "hours.per.week")
 dag = set.arc(dag, from = "marital.status", to = "relationship")
-dag = set.arc(dag, from = "relationship", to = "income")
+
 dag = set.arc(dag, from = "sex", to = "occupation")
-dag = set.arc(dag, from = "sex", to = "income")
+dag = set.arc(dag, from = "sex", to = "education")
+
+dag = set.arc(dag, from = "race", to = "occupation")
+dag = set.arc(dag, from = "race", to = "education")
 dag = set.arc(dag, from = "hours.per.week", to = "income")
 
-
-
+dag = set.arc(dag, from = "native.country", to = "income")
+dag = set.arc(dag, from = "relationship", to = "income")
+dag = set.arc(dag, from = "capital.gain", to = "income")
+dag = set.arc(dag, from = "capital.loss", to = "income")
 
 graphviz.plot(dag, layout = "fdp")
 
@@ -420,204 +417,7 @@ fit <- bn.fit(dag, data = dataset, method = "bayes")
 #  cat("\n")
 #}
 ```
-
-### CPT for age :
-
-| age    | income |      Freq | income |      Freq |
-|:-------|:-------|----------:|:-------|----------:|
-| Young  | \<=50K | 0.6465038 | \>50K  | 0.3993030 |
-| Middle | \<=50K | 0.3243754 | \>50K  | 0.5755033 |
-| Old    | \<=50K | 0.0291209 | \>50K  | 0.0251937 |
-
-### CPT for capital.gain :
-
-| capital.gain | income |      Freq | income |      Freq |
-|:-------------|:-------|----------:|:-------|----------:|
-| Low          | \<=50K | 0.9929659 | \>50K  | 0.8088486 |
-| Medium       | \<=50K | 0.0064499 | \>50K  | 0.0913029 |
-| High         | \<=50K | 0.0003237 | \>50K  | 0.0683884 |
-| Rich         | \<=50K | 0.0002605 | \>50K  | 0.0314601 |
-
-### CPT for capital.loss :
-
-| capital.loss | income |      Freq | income |      Freq |
-|:-------------|:-------|----------:|:-------|----------:|
-| Low          | \<=50K | 0.9999763 | \>50K  | 0.9999290 |
-| Medium       | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
-| High         | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
-| Rich         | \<=50K | 0.0000079 | \>50K  | 0.0000237 |
-
-### CPT for education :
-
-| education    | income |      Freq | income |      Freq |
-|:-------------|:-------|----------:|:-------|----------:|
-| 10th         | \<=50K | 0.0337911 | \>50K  | 0.0081491 |
-| 11th         | \<=50K | 0.0445278 | \>50K  | 0.0087172 |
-| 12th         | \<=50K | 0.0149071 | \>50K  | 0.0039828 |
-| 1st-4th      | \<=50K | 0.0061914 | \>50K  | 0.0007634 |
-| 5th-6th      | \<=50K | 0.0128860 | \>50K  | 0.0013316 |
-| 7th-8th      | \<=50K | 0.0233701 | \>50K  | 0.0047403 |
-| 9th          | \<=50K | 0.0185070 | \>50K  | 0.0032253 |
-| Assoc-acdm   | \<=50K | 0.0333490 | \>50K  | 0.0325786 |
-| Assoc-voc    | \<=50K | 0.0425699 | \>50K  | 0.0445093 |
-| Bachelors    | \<=50K | 0.1277059 | \>50K  | 0.2846381 |
-| Doctorate    | \<=50K | 0.0041704 | \>50K  | 0.0350405 |
-| HS-grad      | \<=50K | 0.3647350 | \>50K  | 0.2162733 |
-| Masters      | \<=50K | 0.0312648 | \>50K  | 0.1191234 |
-| Preschool    | \<=50K | 0.0020230 | \>50K  | 0.0000059 |
-| Prof-school  | \<=50K | 0.0048651 | \>50K  | 0.0554931 |
-| Some-college | \<=50K | 0.2351363 | \>50K  | 0.1814281 |
-
-### CPT for education.num :
-
-| education.num | income |      Freq | income |      Freq |
-|:--------------|:-------|----------:|:-------|----------:|
-| 1             | \<=50K | 0.0020230 | \>50K  | 0.0000059 |
-| 2             | \<=50K | 0.0061914 | \>50K  | 0.0007634 |
-| 3             | \<=50K | 0.0128860 | \>50K  | 0.0013316 |
-| 4             | \<=50K | 0.0233701 | \>50K  | 0.0047403 |
-| 5             | \<=50K | 0.0185070 | \>50K  | 0.0032253 |
-| 6             | \<=50K | 0.0337911 | \>50K  | 0.0081491 |
-| 7             | \<=50K | 0.0445278 | \>50K  | 0.0087172 |
-| 8             | \<=50K | 0.0149071 | \>50K  | 0.0039828 |
-| 9             | \<=50K | 0.3647350 | \>50K  | 0.2162733 |
-| 10            | \<=50K | 0.2351363 | \>50K  | 0.1814281 |
-| 11            | \<=50K | 0.0425699 | \>50K  | 0.0445093 |
-| 12            | \<=50K | 0.0333490 | \>50K  | 0.0325786 |
-| 13            | \<=50K | 0.1277059 | \>50K  | 0.2846381 |
-| 14            | \<=50K | 0.0312648 | \>50K  | 0.1191234 |
-| 15            | \<=50K | 0.0048651 | \>50K  | 0.0554931 |
-| 16            | \<=50K | 0.0041704 | \>50K  | 0.0350405 |
-
-### CPT for hours.per.week :
-
-| hours.per.week | income |      Freq | income |      Freq |
-|:---------------|:-------|----------:|:-------|----------:|
-| Partime        | \<=50K | 0.2357133 | \>50K  | 0.0670707 |
-| FullTIme       | \<=50K | 0.5237103 | \>50K  | 0.4342707 |
-| Overtime       | \<=50K | 0.2405764 | \>50K  | 0.4986586 |
-
-### CPT for marital.status :
-
-| marital.status        | income |      Freq | income |      Freq |
-|:----------------------|:-------|----------:|:-------|----------:|
-| Divorced              | \<=50K | 0.1661712 | \>50K  | 0.0592882 |
-| Married-AF-spouse     | \<=50K | 0.0003835 | \>50K  | 0.0015285 |
-| Married-civ-spouse    | \<=50K | 0.3408009 | \>50K  | 0.8540993 |
-| Married-spouse-absent | \<=50K | 0.0140886 | \>50K  | 0.0041798 |
-| Never-married         | \<=50K | 0.4058529 | \>50K  | 0.0625076 |
-| Separated             | \<=50K | 0.0393515 | \>50K  | 0.0089142 |
-| Widowed               | \<=50K | 0.0333515 | \>50K  | 0.0094823 |
-
-### CPT for native.country :
-
-| native.country             | income |      Freq | income |      Freq |
-|:---------------------------|:-------|----------:|:-------|----------:|
-| Cambodia                   | \<=50K | 0.0005060 | \>50K  | 0.0011386 |
-| Canada                     | \<=50K | 0.0030323 | \>50K  | 0.0049261 |
-| China                      | \<=50K | 0.0017692 | \>50K  | 0.0022748 |
-| Columbia                   | \<=50K | 0.0023376 | \>50K  | 0.0003811 |
-| Cuba                       | \<=50K | 0.0027797 | \>50K  | 0.0026536 |
-| Dominican-Republic         | \<=50K | 0.0029060 | \>50K  | 0.0003811 |
-| Ecuador                    | \<=50K | 0.0012008 | \>50K  | 0.0003811 |
-| El-Salvador                | \<=50K | 0.0038534 | \>50K  | 0.0013279 |
-| England                    | \<=50K | 0.0024639 | \>50K  | 0.0041686 |
-| France                     | \<=50K | 0.0008850 | \>50K  | 0.0013279 |
-| Germany                    | \<=50K | 0.0041060 | \>50K  | 0.0060623 |
-| Greece                     | \<=50K | 0.0008850 | \>50K  | 0.0013279 |
-| Guatemala                  | \<=50K | 0.0025271 | \>50K  | 0.0001917 |
-| Haiti                      | \<=50K | 0.0015797 | \>50K  | 0.0005704 |
-| Holand-Netherlands         | \<=50K | 0.0000639 | \>50K  | 0.0000023 |
-| Honduras                   | \<=50K | 0.0004429 | \>50K  | 0.0000023 |
-| Hong                       | \<=50K | 0.0005692 | \>50K  | 0.0011386 |
-| Hungary                    | \<=50K | 0.0005692 | \>50K  | 0.0005704 |
-| India                      | \<=50K | 0.0022744 | \>50K  | 0.0054942 |
-| Iran                       | \<=50K | 0.0013902 | \>50K  | 0.0024642 |
-| Ireland                    | \<=50K | 0.0008218 | \>50K  | 0.0007598 |
-| Italy                      | \<=50K | 0.0018323 | \>50K  | 0.0030323 |
-| Jamaica                    | \<=50K | 0.0029692 | \>50K  | 0.0018961 |
-| Japan                      | \<=50K | 0.0013271 | \>50K  | 0.0036005 |
-| Laos                       | \<=50K | 0.0006323 | \>50K  | 0.0003811 |
-| Mexico                     | \<=50K | 0.0264005 | \>50K  | 0.0034111 |
-| Nicaragua                  | \<=50K | 0.0013902 | \>50K  | 0.0001917 |
-| Outlying-US(Guam-USVI-etc) | \<=50K | 0.0006955 | \>50K  | 0.0000023 |
-| Peru                       | \<=50K | 0.0013902 | \>50K  | 0.0003811 |
-| Philippines                | \<=50K | 0.0056218 | \>50K  | 0.0079561 |
-| Poland                     | \<=50K | 0.0018955 | \>50K  | 0.0015173 |
-| Portugal                   | \<=50K | 0.0013902 | \>50K  | 0.0007598 |
-| Puerto-Rico                | \<=50K | 0.0042955 | \>50K  | 0.0018961 |
-| Scotland                   | \<=50K | 0.0003797 | \>50K  | 0.0003811 |
-| South                      | \<=50K | 0.0024639 | \>50K  | 0.0022748 |
-| Taiwan                     | \<=50K | 0.0008850 | \>50K  | 0.0022748 |
-| Thailand                   | \<=50K | 0.0004429 | \>50K  | 0.0003811 |
-| Trinadad&Tobago            | \<=50K | 0.0008218 | \>50K  | 0.0003811 |
-| United-States              | \<=50K | 0.9054228 | \>50K  | 0.9307854 |
-| Vietnam                    | \<=50K | 0.0024639 | \>50K  | 0.0007598 |
-| Yugoslavia                 | \<=50K | 0.0003166 | \>50K  | 0.0001917 |
-
-### CPT for occupation :
-
-| occupation        | income |      Freq | income |      Freq |
-|:------------------|:-------|----------:|:-------|----------:|
-| Adm-clerical      | \<=50K | 0.1400850 | \>50K  | 0.0647734 |
-| Armed-Forces      | \<=50K | 0.0003180 | \>50K  | 0.0001961 |
-| Craft-repair      | \<=50K | 0.1410955 | \>50K  | 0.1238587 |
-| Exec-managerial   | \<=50K | 0.0909487 | \>50K  | 0.2605881 |
-| Farming-fishing   | \<=50K | 0.0390334 | \>50K  | 0.0143993 |
-| Handlers-cleaners | \<=50K | 0.0567806 | \>50K  | 0.0098543 |
-| Machine-op-inspct | \<=50K | 0.0756015 | \>50K  | 0.0312538 |
-| Other-service     | \<=50K | 0.1345272 | \>50K  | 0.0176187 |
-| Priv-house-serv   | \<=50K | 0.0060653 | \>50K  | 0.0001961 |
-| Prof-specialty    | \<=50K | 0.0967591 | \>50K  | 0.2405143 |
-| Protective-serv   | \<=50K | 0.0198968 | \>50K  | 0.0295494 |
-| Sales             | \<=50K | 0.1160221 | \>50K  | 0.1268887 |
-| Tech-support      | \<=50K | 0.0275388 | \>50K  | 0.0350413 |
-| Transport-moving  | \<=50K | 0.0553280 | \>50K  | 0.0452676 |
-
-### CPT for race :
-
-| race               | income |      Freq |
-|:-------------------|:-------|----------:|
-| Amer-Indian-Eskimo | \<=50K | 0.0111220 |
-| Asian-Pac-Islander | \<=50K | 0.0270376 |
-| Black              | \<=50K | 0.1081315 |
-| Other              | \<=50K | 0.0088483 |
-| White              | \<=50K | 0.8448606 |
-
-### CPT for relationship :
-
-| relationship   | income |      Freq | income |      Freq |
-|:---------------|:-------|----------:|:-------|----------:|
-| Husband        | \<=50K | 0.3012021 | \>50K  | 0.7613073 |
-| Not-in-family  | \<=50K | 0.3018968 | \>50K  | 0.1072026 |
-| Other-relative | \<=50K | 0.0382785 | \>50K  | 0.0049396 |
-| Own-child      | \<=50K | 0.1955400 | \>50K  | 0.0087271 |
-| Unmarried      | \<=50K | 0.1310565 | \>50K  | 0.0280434 |
-| Wife           | \<=50K | 0.0320260 | \>50K  | 0.0897800 |
-
-### CPT for sex :
-
-| sex              | income |      Freq | income |      Freq |
-|:-----------------|:-------|----------:|:-------|----------:|
-| Federal-gov      | \<=50K | 0.0253937 | \>50K  | 0.0484938 |
-| Local-gov        | \<=50K | 0.0658775 | \>50K  | 0.0822027 |
-| Private          | \<=50K | 0.7678070 | \>50K  | 0.6450282 |
-| Self-emp-inc     | \<=50K | 0.0210990 | \>50K  | 0.0833390 |
-| Self-emp-not-inc | \<=50K | 0.0786353 | \>50K  | 0.0964059 |
-| State-gov        | \<=50K | 0.0408672 | \>50K  | 0.0445169 |
-| Without-pay      | \<=50K | 0.0003203 | \>50K  | 0.0000135 |
-
-### CPT for workclass :
-
-| workclass        | income |      Freq | income |      Freq |
-|:-----------------|:-------|----------:|:-------|----------:|
-| Federal-gov      | \<=50K | 0.0253937 | \>50K  | 0.0484938 |
-| Local-gov        | \<=50K | 0.0658775 | \>50K  | 0.0822027 |
-| Private          | \<=50K | 0.7678070 | \>50K  | 0.6450282 |
-| Self-emp-inc     | \<=50K | 0.0210990 | \>50K  | 0.0833390 |
-| Self-emp-not-inc | \<=50K | 0.0786353 | \>50K  | 0.0964059 |
-| State-gov        | \<=50K | 0.0408672 | \>50K  | 0.0445169 |
-| Without-pay      | \<=50K | 0.0003203 | \>50K  | 0.0000135 |
+[CPTs for Income](cpt.html)
 
 Define Variables and Dependencies:
 
