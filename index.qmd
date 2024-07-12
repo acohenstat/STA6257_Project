@@ -67,7 +67,7 @@ representing conditional dependencies between these variables.
 
 <img src="img/Simple_Bayesian_Student.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;"/>
 
-<figcaption>Simple Bayesian Network</figcaption>
+<figcaption>Figure 1: Simple Bayesian Network</figcaption>
 
 </figure>
 
@@ -262,14 +262,36 @@ No longer doing classification of iris, we are deteremine based of
 probabaility if a person will make more or less then 50k based on these
 features:
 
-
+### Steps to create a Bayesian netowrk
 <figure style="text-align: center;">
 <img src="img/Screenshot 2024-07-11_at_8.53.32 PM.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;"/>
-
-<figcaption>Figure 1: Steps necessary to build and use BNs for safety and
+<figcaption>Figure 2: Steps necessary to build and use BNs for safety and
 reliability analysis [@Sigurdsson2001]</figcaption>
 
 </figure>
+
+Called out by  "Bayesian belief nets for managing expert judgment and modeling reliability"[@Sigurdsson2001], here are the discriptions for each step.
+
+#### Problem Structuring:
+
+__Identify Variables__: Determine the set of variables relevant to the problem of determining the possible Income.
+
+__Identify Network Structure__: Define the dependencies between the variables. This is done using directed acyclic graphs (DAGs), where nodes represent variables and edges represent conditional dependencies.
+
+__Express as Statistical Variables__: Formalize the relationships between the variables for determining Income. Each variable should be expressed in terms of statistical measures such as probability distributions.
+
+#### Instantiation:
+
+__Specify Conditional Probabilities__: For each variable, specify the conditional probability distribution given its parents in the network. This involves quantifying how likely each state of a variable is, given the states of its parent variables. This can often be done using expert knowledge, historical data, or a combination of both.
+
+#### Inference:
+
+__Enter Evidence__: Input the observed evidence into the network. Evidence is known values for some of the variables in the network.
+
+__Propagate__: Use algorithms like variable elimination, belief propagation, or sampling methods to update the probabilities of the unobserved variables given the observed evidence.
+Interpret Result: Analyze the updated probabilities to make decisions or gain insights. This involves interpreting the posterior distributions of the variables of interest.
+
+
 					
 
 
