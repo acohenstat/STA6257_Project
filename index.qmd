@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Networks - Data Science Capstone"
+title: "Predicting Income with Bayesian Networks: A Case Study Using the Adult Income Dataset - Data Science Capstone"
 author: "Michael Zeihen, Maxime Martin, Sarah Burns, Seth Henry"
 date: '`r Sys.Date()`'
 format:
