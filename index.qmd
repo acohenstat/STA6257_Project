@@ -270,12 +270,16 @@ network_string \<-
 but we could say that education and marriage is dependent on age so
 might want to workout possible CPDs for this network
 
-![](images/Screenshot 2024-07-11 at 8.53.32 PM.png){width="275"}
 
+<figure style="text-align: center;">
+<img src="img/Screenshot 2024-07-11_at_8.53.32 PM.png" alt="Alt text" style="display: block; margin: 0 auto; width: 50%;"/>
+
+<figcaption>Figure 1: Steps necessary to build and use BNs for safety and
+reliability analysis [@Sigurdsson2001]</figcaption>
+
+</figure>
 					
 
-Figure 1: Steps necessary to build and use BNs for safety and
-reliability analysis [@Sigurdsson2001]
 
 | Feature        |                             Description |
 |:---------------|----------------------------------------:|
