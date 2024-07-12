@@ -98,6 +98,8 @@ such as density estimation, classification, regression, and
 clustering.[@heckerman1995tutorial] What unique advantages do Bayesian
 networks and Bayesian methods bring to the table in this landscape?
 
+From the paper "A Bayesian Method for the Induction of Probabilistic Networks from Data"[@cooper1992bayesian], here are some of the advantages mentions using Bayesian Networks:
+
 Handling Incomplete Data:
 
 Bayesian networks facilitate learning causal relationships, which are
