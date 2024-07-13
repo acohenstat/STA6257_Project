@@ -3067,6 +3067,12 @@ vertical-align: -.125em;
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#steps-to-create-a-bayesian-netowrk" id="toc-steps-to-create-a-bayesian-netowrk" class="nav-link" data-scroll-target="#steps-to-create-a-bayesian-netowrk">Steps to create a Bayesian netowrk</a></li>
+  <li><a href="#identify-variables" id="toc-identify-variables" class="nav-link" data-scroll-target="#identify-variables">1. Identify Variables</a></li>
+  <li><a href="#identify-network-structure" id="toc-identify-network-structure" class="nav-link" data-scroll-target="#identify-network-structure">2. Identify Network Structure</a></li>
+  <li><a href="#specify-conditional-probabilities" id="toc-specify-conditional-probabilities" class="nav-link" data-scroll-target="#specify-conditional-probabilities">3. Specify Conditional Probabilities</a></li>
+  <li><a href="#enter-evidence" id="toc-enter-evidence" class="nav-link" data-scroll-target="#enter-evidence">4. Enter Evidence</a></li>
+  <li><a href="#propagate" id="toc-propagate" class="nav-link" data-scroll-target="#propagate">5. Propagate</a></li>
+  <li><a href="#interpret-result" id="toc-interpret-result" class="nav-link" data-scroll-target="#interpret-result">6. Interpret Result</a></li>
   </ul></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
   <ul class="collapse">
@@ -3209,20 +3215,35 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 </figcaption>
 </figure>
 <p>As described in “Bayesian belief nets for managing expert judgment and modeling reliability” <span class="citation" data-cites="Sigurdsson2001">(<a href="#ref-Sigurdsson2001" role="doc-biblioref">Sigurdsson, Walls, and Quigley 2001</a>)</span>, here are the discriptions for each step.</p>
-<section id="problem-structuring" class="level4">
-<h4 class="anchored" data-anchor-id="problem-structuring">Problem Structuring:</h4>
-<p><strong>Identify Variables</strong>: Determine the set of variables relevant to the problem of determining the possible Income.</p>
-<p><strong>Identify Network Structure</strong>: Define the dependencies between the variables. This is done using directed acyclic graphs (DAGs), where nodes represent variables and edges represent conditional dependencies.</p>
-<p><strong>Express as Statistical Variables</strong>: Formalize the relationships between the variables for determining Income. Each variable should be expressed in terms of statistical measures such as probability distributions.</p>
 </section>
-<section id="instantiation" class="level4">
-<h4 class="anchored" data-anchor-id="instantiation">Instantiation:</h4>
-<p><strong>Specify Conditional Probabilities</strong>: For each variable, specify the conditional probability distribution given its parents in the network. This involves quantifying how likely each state of a variable is, given the states of its parent variables. This can often be done using expert knowledge, historical data, or a combination of both.</p>
+<section id="identify-variables" class="level3">
+<h3 class="anchored" data-anchor-id="identify-variables">1. Identify Variables</h3>
+<p>The first step in constructing a Bayesian Network is to identify all relevant variables that will be included in the model. These variables represent the different aspects of the problem domain that need to be analyzed. Variables can be continuous or discrete and should be chosen based on their relevance to the problem and the data available. With continuous variables, the work will be more complicated when comes the discretization because we should base our analyse on expert knowledge. In the other hand, discrete variables are easier to handle but provides less various informations about the data.</p>
 </section>
-<section id="inference" class="level4">
-<h4 class="anchored" data-anchor-id="inference">Inference:</h4>
-<p><strong>Enter Evidence</strong>: Input the observed evidence into the network. Evidence is known values for some of the variables in the network.</p>
-<p><strong>Propagate</strong>: Use algorithms like variable elimination, belief propagation, or sampling methods to update the probabilities of the unobserved variables given the observed evidence. Interpret Result: Analyze the updated probabilities to make decisions or gain insights. This involves interpreting the posterior distributions of the variables of interest.</p>
+<section id="identify-network-structure" class="level3">
+<h3 class="anchored" data-anchor-id="identify-network-structure">2. Identify Network Structure</h3>
+<p>Once the variables are identified, the next step is to determine the structure of the network, which involves specifying the relationships between these variables. This structure can be defined manually based on expert knowledge or learned from data using algorithms. This part is actually the base of the modelisation, any decision made here will change everything on the final result. <span class="citation" data-cites="scutari2009learning">(<a href="#ref-scutari2009learning" role="doc-biblioref">Scutari 2009</a>)</span></p>
+<p>The <code>bnlearn</code> package in R provides various algorithms for learning the network structure from data, such as the Hill-Climbing algorithm, Tabu search, and constraint-based methods like PC algorithm. Using the  <code>graphviz.plot()</code>  function from the  <code>Rgraphviz</code>  package is also a good support for visualization.</p>
+</section>
+<section id="specify-conditional-probabilities" class="level3">
+<h3 class="anchored" data-anchor-id="specify-conditional-probabilities">3. Specify Conditional Probabilities</h3>
+<p>After the network structure is established, the next step is to specify the conditional probability distributions for each variable. For each node in the network, the conditional probability distribution given its parent nodes needs to be defined. Then we can get the conditional probability tables (CPT) which are the results interface of our modelisation.</p>
+<p>These probabilities can be estimated from data or provided by domain experts. The <code>bnlearn</code> package can be used to fit these probabilities to data using maximum likelihood estimation or Bayesian estimation methods. <span class="citation" data-cites="heckerman1995tutorial">(<a href="#ref-heckerman1995tutorial" role="doc-biblioref">Heckerman 1995</a>)</span></p>
+</section>
+<section id="enter-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="enter-evidence">4. Enter Evidence</h3>
+<p>Entering evidence involves incorporating observed values for certain variables into the Bayesian Network, a process often called “instantiating” or “clamping” variables. This updates the network to reflect the current state of knowledge, enabling the computation of posterior probabilities for other variables. The purposes of entering evidence include conditioning the network to calculate posterior probabilities of unobserved variables, aiding in medical diagnosis by using symptoms or test results to identify the likelihood of diseases, and supporting decision-making by updating beliefs based on the most probable outcomes. The process involves identifying which variables have observed values from real-world data, experimental results, or expert knowledge, and then updating the network with these values to adjust the probabilities accordingly.</p>
+<p>In <code>bnlearn</code>, evidence can be entered using the <code>cpquery</code> function, which allows for conditioning on the evidence and querying the network for the posterior probabilities of the remaining variables.</p>
+</section>
+<section id="propagate" class="level3">
+<h3 class="anchored" data-anchor-id="propagate">5. Propagate</h3>
+<p>Propagation in a Bayesian Network refers to the process of computing the posterior distributions of the unobserved variables given the observed evidence. This can be done using various exact and approximate inference algorithms. <span class="citation" data-cites="pearl1986fusion">(<a href="#ref-pearl1986fusion" role="doc-biblioref">Pearl 1986</a>)</span></p>
+<p>The <code>bnlearn</code> package provides functions like <code>grain</code> for exact inference and <code>bn.fit</code> for approximate inference using sampling methods such as Markov Chain Monte Carlo (MCMC).</p>
+</section>
+<section id="interpret-result" class="level3">
+<h3 class="anchored" data-anchor-id="interpret-result">6. Interpret Result</h3>
+<p>The final step is to interpret the results obtained from the propagation step. This involves analyzing the posterior distributions to make decisions, predictions, or to gain insights into the relationships between variables. [<span class="citation" data-cites="cowell">(<a href="#ref-cowell" role="doc-biblioref"><strong>cowell?</strong></a>)</span>]</p>
+<p>The results can be visualized using various plotting functions provided by <code>bnlearn</code>, such as <code>graphviz.plot</code> to visualize the network structure and the conditional probability tables. Here, since the graphviz.chart is not displaying correctly all the resullts we have, we will use the CPT as interface.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -3369,7 +3390,6 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 <p style="color: blue;">
 </p><p>Idea - use belief propagation to comput probabilities</p>
 <p></p>
-</section>
 </section>
 </section>
 <section id="analysis-and-results" class="level2">
@@ -3658,6 +3678,9 @@ Kubsch, Marcus, Ingo Stamer, Martin Steiner, Knut Neumann, and Ilka Parchmann. 2
 </div>
 <div id="ref-pearl1986fusion" class="csl-entry" role="listitem">
 Pearl, Judea. 1986. <span>“Fusion, Propagation, and Structuring in Belief Networks.”</span> <em>Artificial Intelligence</em>. <a href="https://ftp.cs.ucla.edu/pub/stat_ser/r42-reprint.pdf">https://ftp.cs.ucla.edu/pub/stat_ser/r42-reprint.pdf</a>.
+</div>
+<div id="ref-scutari2009learning" class="csl-entry" role="listitem">
+Scutari, Marco. 2009. <span>“Learning Bayesian Networks with the Bnlearn r Package.”</span> <em>arXiv Preprint arXiv:0908.3817</em>.
 </div>
 <div id="ref-shiguihara2021dynamic" class="csl-entry" role="listitem">
 Shiguihara, Pedro, Alneu De Andrade Lopes, and David Mauricio. 2021. <span>“Dynamic Bayesian Network Modeling, Learning, and Inference: A Survey.”</span> <em>IEEE Access</em> 9: 117639–48.

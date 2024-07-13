@@ -274,24 +274,90 @@ reliability analysis [@Sigurdsson2001]</figcaption>
 
 As described in “Bayesian belief nets for managing expert judgment and modeling reliability” [@Sigurdsson2001], here are the discriptions for each step.
 
-#### Problem Structuring:
+### 1. Identify Variables
 
-__Identify Variables__: Determine the set of variables relevant to the problem of determining the possible Income.
+The first step in constructing a Bayesian Network is to identify all
+relevant variables that will be included in the model. These variables
+represent the different aspects of the problem domain that need to be
+analyzed. Variables can be continuous or discrete and should be chosen
+based on their relevance to the problem and the data available. With
+continuous variables, the work will be more complicated when comes the
+discretization because we should base our analyse on expert knowledge.
+In the other hand, discrete variables are easier to handle but provides
+less various informations about the data.
 
-__Identify Network Structure__: Define the dependencies between the variables. This is done using directed acyclic graphs (DAGs), where nodes represent variables and edges represent conditional dependencies.
+### 2. Identify Network Structure
 
-__Express as Statistical Variables__: Formalize the relationships between the variables for determining Income. Each variable should be expressed in terms of statistical measures such as probability distributions.
+Once the variables are identified, the next step is to determine the
+structure of the network, which involves specifying the relationships
+between these variables. This structure can be defined manually based on
+expert knowledge or learned from data using algorithms. This part is
+actually the base of the modelisation, any decision made here will
+change everything on the final result. [@scutari2009learning]
 
-#### Instantiation:
+The `bnlearn` package in R provides various algorithms for learning the
+network structure from data, such as the Hill-Climbing algorithm, Tabu
+search, and constraint-based methods like PC algorithm. Using the
+ `graphviz.plot()`  function from the  `Rgraphviz`  package is also a
+good support for visualization.
 
-__Specify Conditional Probabilities__: For each variable, specify the conditional probability distribution given its parents in the network. This involves quantifying how likely each state of a variable is, given the states of its parent variables. This can often be done using expert knowledge, historical data, or a combination of both.
+### 3. Specify Conditional Probabilities
 
-#### Inference:
+After the network structure is established, the next step is to specify
+the conditional probability distributions for each variable. For each
+node in the network, the conditional probability distribution given its
+parent nodes needs to be defined. Then we can get the conditional
+probability tables (CPT) which are the results interface of our
+modelisation.
 
-__Enter Evidence__: Input the observed evidence into the network. Evidence is known values for some of the variables in the network.
+These probabilities can be estimated from data or provided by domain
+experts. The `bnlearn` package can be used to fit these probabilities to
+data using maximum likelihood estimation or Bayesian estimation methods.
+[@heckerman1995tutorial]
 
-__Propagate__: Use algorithms like variable elimination, belief propagation, or sampling methods to update the probabilities of the unobserved variables given the observed evidence.
-Interpret Result: Analyze the updated probabilities to make decisions or gain insights. This involves interpreting the posterior distributions of the variables of interest.
+### 4. Enter Evidence
+
+Entering evidence involves incorporating observed values for certain
+variables into the Bayesian Network, a process often called
+"instantiating" or "clamping" variables. This updates the network to
+reflect the current state of knowledge, enabling the computation of
+posterior probabilities for other variables. The purposes of entering
+evidence include conditioning the network to calculate posterior
+probabilities of unobserved variables, aiding in medical diagnosis by
+using symptoms or test results to identify the likelihood of diseases,
+and supporting decision-making by updating beliefs based on the most
+probable outcomes. The process involves identifying which variables have
+observed values from real-world data, experimental results, or expert
+knowledge, and then updating the network with these values to adjust the
+probabilities accordingly.
+
+In `bnlearn`, evidence can be entered using the `cpquery` function,
+which allows for conditioning on the evidence and querying the network
+for the posterior probabilities of the remaining variables.
+
+### 5. Propagate
+
+Propagation in a Bayesian Network refers to the process of computing the
+posterior distributions of the unobserved variables given the observed
+evidence. This can be done using various exact and approximate inference
+algorithms. [@pearl1986fusion]
+
+The `bnlearn` package provides functions like `grain` for exact
+inference and `bn.fit` for approximate inference using sampling methods
+such as Markov Chain Monte Carlo (MCMC).
+
+### 6. Interpret Result
+
+The final step is to interpret the results obtained from the propagation
+step. This involves analyzing the posterior distributions to make
+decisions, predictions, or to gain insights into the relationships
+between variables. \[@cowell\]
+
+The results can be visualized using various plotting functions provided
+by `bnlearn`, such as `graphviz.plot` to visualize the network structure
+and the conditional probability tables. Here, since the graphviz.chart
+is not displaying correctly all the resullts we have, we will use the
+CPT as interface.
 
 
 					
