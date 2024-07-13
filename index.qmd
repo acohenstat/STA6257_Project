@@ -381,7 +381,7 @@ CPT as interface.
 | native.country |                      Native nationality |
 | income         |                                  income |
 
-```{r, echo=F}
+```{r, echo=T}
 dataset <- read.csv("data/adult.csv")
 dataset[dataset == "?"] <- NA
 # TCP process becomes to large for limits of R(12.5gb) need to prunce some nodes atm
