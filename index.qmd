@@ -49,6 +49,114 @@ Our two popular pretrained word  methods were each trained on different datasets
 
 
 ## 2. Methods
+```{r}
+install.packages('reticulate', repos = "http://cran.us.r-project.org")
+install.packages('tensorflow', repos = "http://cran.us.r-project.org")
+install.packages('keras', repos = "http://cran.us.r-project.org")
+install.packages('dplyr', repos = "http://cran.us.r-project.org")
+install.packages('text2vec', repos = "http://cran.us.r-project.org")
+install.packages('tidyr', repos = "http://cran.us.r-project.org")
+```
+
+```{r}
+reticulate::install_python()
+library(tensorflow)
+install_tensorflow(envname="r-tensorflow")
+tensorflow::as_tensor(1)
+library(keras)
+install_keras()
+#install.packages('fs')
+
+tensorflow::as_tensor(1)
+library(text2vec)
+library(dplyr)
+library(tidyr)
+```
+
+
+```{r}
+orig = read.csv("training.1600000.processed.noemoticon.csv", header=TRUE)
+names(orig) <- c("polarity", "id", "date", "query", "user", "text")
+```
+
+```{r}
+ds = rbind(head(orig, n=5000), tail(orig, n=5000)) # use small dataset in dev
+# ds <- orig
+max_features <- 5000
+maxlen <- 500
+vector_dimensions <- 7
+
+# First create a vocabulary of all the individual words used in the dataset
+it = itoken(ds$text, preprocessor = tolower, tokenizer=word_tokenizer)
+vocab <- create_vocabulary(it) 
+vocab_sorted <- vocab[order(vocab$term_count, decreasing=TRUE),] %>% mutate(idx = row_number())
+vocab_sorted <- head(vocab_sorted, n=max_features-1) #take only the top most common words
+
+# Now create a mapping from the vocabulary word to a integer
+# representation for each word. Use factor indexing so the word
+# can be looked up quickly and retrieve the mapped integer value.
+vocab_translate = vocab_sorted$idx
+names(vocab_translate) = as.factor(vocab_sorted$term)
+
+```
+
+```{r}
+
+# Vectorize every tweet in the dataset by looking up the integer index
+# from the vocabulary associated with each word in the tweet.
+
+vectorize_row <- function(r) {
+  tokenized = word_tokenizer(r)[[1]]
+  vectorized <- c(sapply(tokenized, function(x) vocab_translate[x]), rep(0,maxlen-length(tokenized)))
+  return(vectorized)
+}
+
+tokenized_ds <- sapply(ds$text, vectorize_row)
+tokenized_ds <- t(tokenized_ds) # transpose since sapply returns the tweets in columns instead of rows
+tokenized_ds <- replace_na(tokenized_ds, 0) # any word outside our top vocab is NA, so replace with 0 for unknown word
+dimnames(tokenized_ds) <- list(NULL, NULL) # remove the tweets as indexes into the matrix
+
+set.seed(42)
+sample_size <- floor(0.7*nrow(tokenized_ds)) # 70% training set
+train_idx <- sample(seq_len(nrow(tokenized_ds)), size=sample_size)
+train_x <- tokenized_ds[train_idx, , drop=FALSE]
+train_y <- ds$polarity[train_idx]
+test_x <- tokenized_ds[-train_idx, , drop=FALSE]
+test_y <- ds$polarity[-train_idx]
+```
+
+```{r}
+embedding_model <- keras_model_sequential() %>%
+  layer_embedding(input_dim = max_features, output_dim = vector_dimensions,  
+                  input_length = maxlen) %>%
+  layer_flatten() %>%
+  layer_dense(units = 1, activation = "sigmoid")
+embedding_model %>% compile(
+  optimizer = "rmsprop",
+  loss = "binary_crossentropy",
+  metrics = c("acc")
+)
+summary(embedding_model)
+```
+
+```{r}
+emb.history <- embedding_model %>% keras::fit(
+  train_x, train_y, 
+  epochs = 6,
+  batch_size = 32,
+  validation_split = 0.2
+)
+```
+
+```{r}
+emb.results <- embedding_model %>% evaluate(test_x, test_y)
+```
+
+
+
+
+
+
 
 ## 3. Analysis and Results
 ### 3.1 Dataset Description
