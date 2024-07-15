@@ -330,18 +330,56 @@
 </div>
 
 </section>
-<section id="getting-up" class="slide level2">
-<h2>Getting up</h2>
-<ul>
-<li>Turn off alarm</li>
-<li>Get out of bed</li>
-</ul>
+<section id="bayesian-theorem" class="slide level2">
+<h2>Bayesian Theorem</h2>
+<p>slide 1</p>
 </section>
-<section id="going-to-sleep" class="slide level2">
-<h2>Going to sleep</h2>
+<section id="bayesian-network" class="slide level2">
+<h2>Bayesian Network</h2>
+<p>this is a test 2</p>
+</section>
+<section id="methodology-used" class="slide level2">
+<h2>Methodology Used</h2>
 <ul>
 <li>Get in bed</li>
 <li>Count sheep</li>
+</ul>
+</section>
+<section id="dag-and-cpt-explained" class="slide level2">
+<h2>DAG and CPT Explained</h2>
+<ul>
+<li>Get in bed</li>
+<li>Count sheep</li>
+</ul>
+</section>
+<section id="data-used" class="slide level2">
+<h2>Data Used</h2>
+<ul>
+<li>Get in bed</li>
+<li>Count sheep</li>
+</ul>
+</section>
+<section id="data-exploration" class="slide level2">
+<h2>Data Exploration</h2>
+<ul>
+<li>Get in bed</li>
+<li>Count sheep</li>
+</ul>
+</section>
+<section id="data-analysis" class="slide level2">
+<h2>Data Analysis</h2>
+<ul>
+<li>Get in bed</li>
+<li>Count sheep<br>
+</li>
+</ul>
+</section>
+<section id="conclusion" class="slide level2">
+<h2>Conclusion</h2>
+<ul>
+<li>Get in bed</li>
+<li>Count sheep<br>
+</li>
 </ul>
 <div class="footer footer-default">
 
@@ -558,6 +596,44 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

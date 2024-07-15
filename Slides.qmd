@@ -3,13 +3,44 @@ title: "Project Slides"
 format: revealjs
 ---
 
-## Getting up
+## Bayesian Theorem
 
-- Turn off alarm
-- Get out of bed
+```{r, child='Michael_Slide1.qmd'}
 
-## Going to sleep
+```
+
+## Bayesian Network
+
+```{r, child='Michael_Slide2.qmd'}
+
+```
+
+## Methodology Used 
 
 - Get in bed
 - Count sheep
 
+## DAG and CPT Explained
+
+- Get in bed
+- Count sheep
+
+## Data Used
+
+- Get in bed
+- Count sheep
+
+## Data Exploration
+
+- Get in bed
+- Count sheep
+
+## Data Analysis
+
+- Get in bed
+- Count sheep\
+
+## Conclusion
+
+- Get in bed
+- Count sheep\
