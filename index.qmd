@@ -276,7 +276,7 @@ reliability analysis [@Sigurdsson2001]</figcaption>
 
 As described in “Bayesian belief nets for managing expert judgment and modeling reliability” [@Sigurdsson2001], here are the discriptions for each step.
 
-1. Identify Variables
+__1. Identify Variables__
 
 The first step in constructing a Bayesian Network is to identify all
 relevant variables that will be included in the model. These variables
@@ -288,7 +288,7 @@ discretization because we should base our analyse on expert knowledge.
 In the other hand, discrete variables are easier to handle but provides
 less various informations about the data.
 
-2. Identify Network Structure
+__2. Identify Network Structure__
 
 Once the variables are identified, the next step is to determine the
 structure of the network, which involves specifying the relationships
@@ -303,7 +303,7 @@ search, and constraint-based methods like PC algorithm. Using the
  `graphviz.plot()`  function from the  `Rgraphviz`  package is also a
 good support for visualization.
 
-### 3. Specify Conditional Probabilities
+__3. Specify Conditional Probabilities__
 
 After the network structure is established, the next step is to specify
 the conditional probability distributions for each variable. For each
@@ -317,7 +317,7 @@ experts. The `bnlearn` package can be used to fit these probabilities to
 data using maximum likelihood estimation or Bayesian estimation methods.
 [@heckerman1995tutorial]
 
-4. Enter Evidence
+__4. Enter Evidence__
 
 Entering evidence involves incorporating observed values for certain
 variables into the Bayesian Network, a process often called
@@ -337,7 +337,7 @@ In `bnlearn`, evidence can be entered using the `cpquery` function,
 which allows for conditioning on the evidence and querying the network
 for the posterior probabilities of the remaining variables.
 
-5. Propagate
+__5. Propagate__
 
 Propagation in a Bayesian Network refers to the process of computing the
 posterior distributions of the unobserved variables given the observed
@@ -348,7 +348,7 @@ The `bnlearn` package provides functions like `grain` for exact
 inference and `bn.fit` for approximate inference using sampling methods
 such as Markov Chain Monte Carlo (MCMC).
 
-6. Interpret Result
+__6. Interpret Result__
 
 The final step is to interpret the results obtained from the propagation
 step. This involves analyzing the posterior distributions to make
@@ -363,7 +363,7 @@ CPT as interface.
 
 
 					
-### Data Description:
+### Define Variables and Dependencies:
 
 | Feature        |                             Description |
 |:---------------|----------------------------------------:|
@@ -382,6 +382,55 @@ CPT as interface.
 | hours.per.week |                  Working hours per week |
 | native.country |                      Native nationality |
 | income         |                                  income |
+
+
+__Age:__ Age is divided into three categories to account for the differences in education level and career progression. Younger individuals may still be in college, and they may not be as advanced in their career paths.
+→ Categories: Young, Middle, Retired
+→ Dependencies: Education
+
+__Workclass:__ Type of employment affects income. There are vast variations in salary, benefits, as well as different career opportunities among different fields of study/work.
+→ Categories: Federal-gov, Local-gov, Private, Self-employed-inc, Self-employed-not-inc, State-gov, Without-pay, etc.
+→ Dependencies: Hours per Week
+
+__Education:__ The level of education attained is a significant determinant because it typically measures eligibility to particular jobs, career promotion opportunities and earnings. The higher the education level most likely means more income.
+→ Categories: 10th - 12th grade, HS-grad, Some-college, Assoc-acdm, Assoc-voc, Bachelors, Masters, Prof-school, etc.
+→ Dependencies: Occupation
+
+__Marital Status:__ Marital status indicates the status of household dynamics and economic dependencies, which affect the level of income. For instance, married individuals may benefit from dual incomes, whereas divorced or widowed individuals may be responsible for other fiscal commitments and constraints. 
+→ Categories: Unmarried, Divorced, Separated, Never-married, Widowed, etc.
+→ Dependencies: Relationship
+
+__Occupation:__ The nature of the occupation directly determines income levels as a function of the varied pay scales and promotional opportunities among the different occupational categories.
+→ Categories: Exec-managerial, Machine-op-inspct, Prof-speciality, Adm-clerical, Other-service, etc.
+→ Dependencies: Workclass
+
+__Relationship:__ The family relationship status might have an effect on income because of financial dependencies or household dynamics such as a family with kids, or no kids.
+→ Categories: Not-in-family, Unmarried, Own-child, Other-relative, etc.
+→ Dependencies: Income
+
+__Race: Ethnicity.__
+→ Categories: Black, White, Asian-Pac-Islander, etc.
+→ Dependencies: Occupation, Education
+
+__Capital Gain:__ Capital gain means additional sources of income and represents money invested financially, which influences total income.
+→ Categories: Low, etc.
+→ Dependencies: Income
+
+__Capital Loss:__ Loss from Investments.
+→ Categories: Low, etc.
+→ Dependencies: Income
+
+__Hours per Week:__ The hours put in work per week are directly associated with income, as it affects earnings coming through wages or salary. 
+→ Categories: Partime, FullTime, Overtime, etc.
+→ Dependencies: Income
+
+__Native Country:__Country of birth can affect income as a result of the effect of educational opportunities, conditions in the job market, and economic policy.
+→ Category: United States, Mexico, Greece, etc.
+→ Dependencies: Income
+
+__Sex: Gender of Individual:__
+→ Categories: Male, Female
+→ Dependencies: Occupation, Education
 
 
 ### Data pre-processing:

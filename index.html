@@ -3067,8 +3067,7 @@ vertical-align: -.125em;
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#steps-to-create-a-bayesian-netowrk" id="toc-steps-to-create-a-bayesian-netowrk" class="nav-link" data-scroll-target="#steps-to-create-a-bayesian-netowrk">Steps to create a Bayesian netowrk</a></li>
-  <li><a href="#specify-conditional-probabilities" id="toc-specify-conditional-probabilities" class="nav-link" data-scroll-target="#specify-conditional-probabilities">3. Specify Conditional Probabilities</a></li>
-  <li><a href="#data-description" id="toc-data-description" class="nav-link" data-scroll-target="#data-description">Data Description:</a></li>
+  <li><a href="#define-variables-and-dependencies" id="toc-define-variables-and-dependencies" class="nav-link" data-scroll-target="#define-variables-and-dependencies">Define Variables and Dependencies:</a></li>
   <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing">Data pre-processing:</a></li>
   </ul></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
@@ -3213,38 +3212,26 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 </figcaption>
 </figure>
 <p>As described in “Bayesian belief nets for managing expert judgment and modeling reliability” <span class="citation" data-cites="Sigurdsson2001">(<a href="#ref-Sigurdsson2001" role="doc-biblioref">Sigurdsson, Walls, and Quigley 2001</a>)</span>, here are the discriptions for each step.</p>
-<ol type="1">
-<li>Identify Variables</li>
-</ol>
+<p><strong>1. Identify Variables</strong></p>
 <p>The first step in constructing a Bayesian Network is to identify all relevant variables that will be included in the model. These variables represent the different aspects of the problem domain that need to be analyzed. Variables can be continuous or discrete and should be chosen based on their relevance to the problem and the data available. With continuous variables, the work will be more complicated when comes the discretization because we should base our analyse on expert knowledge. In the other hand, discrete variables are easier to handle but provides less various informations about the data.</p>
-<ol start="2" type="1">
-<li>Identify Network Structure</li>
-</ol>
+<p><strong>2. Identify Network Structure</strong></p>
 <p>Once the variables are identified, the next step is to determine the structure of the network, which involves specifying the relationships between these variables. This structure can be defined manually based on expert knowledge or learned from data using algorithms. This part is actually the base of the modelisation, any decision made here will change everything on the final result. <span class="citation" data-cites="scutari2009learning">(<a href="#ref-scutari2009learning" role="doc-biblioref">Scutari 2009</a>)</span></p>
 <p>The <code>bnlearn</code> package in R provides various algorithms for learning the network structure from data, such as the Hill-Climbing algorithm, Tabu search, and constraint-based methods like PC algorithm. Using the  <code>graphviz.plot()</code>  function from the  <code>Rgraphviz</code>  package is also a good support for visualization.</p>
-</section>
-<section id="specify-conditional-probabilities" class="level3">
-<h3 class="anchored" data-anchor-id="specify-conditional-probabilities">3. Specify Conditional Probabilities</h3>
+<p><strong>3. Specify Conditional Probabilities</strong></p>
 <p>After the network structure is established, the next step is to specify the conditional probability distributions for each variable. For each node in the network, the conditional probability distribution given its parent nodes needs to be defined. Then we can get the conditional probability tables (CPT) which are the results interface of our modelisation.</p>
 <p>These probabilities can be estimated from data or provided by domain experts. The <code>bnlearn</code> package can be used to fit these probabilities to data using maximum likelihood estimation or Bayesian estimation methods. <span class="citation" data-cites="heckerman1995tutorial">(<a href="#ref-heckerman1995tutorial" role="doc-biblioref">Heckerman 1995</a>)</span></p>
-<ol start="4" type="1">
-<li>Enter Evidence</li>
-</ol>
+<p><strong>4. Enter Evidence</strong></p>
 <p>Entering evidence involves incorporating observed values for certain variables into the Bayesian Network, a process often called “instantiating” or “clamping” variables. This updates the network to reflect the current state of knowledge, enabling the computation of posterior probabilities for other variables. The purposes of entering evidence include conditioning the network to calculate posterior probabilities of unobserved variables, aiding in medical diagnosis by using symptoms or test results to identify the likelihood of diseases, and supporting decision-making by updating beliefs based on the most probable outcomes. The process involves identifying which variables have observed values from real-world data, experimental results, or expert knowledge, and then updating the network with these values to adjust the probabilities accordingly.</p>
 <p>In <code>bnlearn</code>, evidence can be entered using the <code>cpquery</code> function, which allows for conditioning on the evidence and querying the network for the posterior probabilities of the remaining variables.</p>
-<ol start="5" type="1">
-<li>Propagate</li>
-</ol>
+<p><strong>5. Propagate</strong></p>
 <p>Propagation in a Bayesian Network refers to the process of computing the posterior distributions of the unobserved variables given the observed evidence. This can be done using various exact and approximate inference algorithms. <span class="citation" data-cites="pearl1986fusion">(<a href="#ref-pearl1986fusion" role="doc-biblioref">Pearl 1986</a>)</span></p>
 <p>The <code>bnlearn</code> package provides functions like <code>grain</code> for exact inference and <code>bn.fit</code> for approximate inference using sampling methods such as Markov Chain Monte Carlo (MCMC).</p>
-<ol start="6" type="1">
-<li>Interpret Result</li>
-</ol>
+<p><strong>6. Interpret Result</strong></p>
 <p>The final step is to interpret the results obtained from the propagation step. This involves analyzing the posterior distributions to make decisions, predictions, or to gain insights into the relationships between variables. [<span class="citation" data-cites="cowell">(<a href="#ref-cowell" role="doc-biblioref"><strong>cowell?</strong></a>)</span>]</p>
 <p>The results can be visualized using various plotting functions provided by <code>bnlearn</code>, such as <code>graphviz.plot</code> to visualize the network structure and the conditional probability tables. Here, since the graphviz.chart is not displaying correctly all the resullts we have, we will use the CPT as interface.</p>
 </section>
-<section id="data-description" class="level3">
-<h3 class="anchored" data-anchor-id="data-description">Data Description:</h3>
+<section id="define-variables-and-dependencies" class="level3">
+<h3 class="anchored" data-anchor-id="define-variables-and-dependencies">Define Variables and Dependencies:</h3>
 <table class="table">
 <thead>
 <tr class="header">
@@ -3315,6 +3302,18 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 </tr>
 </tbody>
 </table>
+<p><strong>Age:</strong> Age is divided into three categories to account for the differences in education level and career progression. Younger individuals may still be in college, and they may not be as advanced in their career paths. → Categories: Young, Middle, Retired → Dependencies: Education</p>
+<p><strong>Workclass:</strong> Type of employment affects income. There are vast variations in salary, benefits, as well as different career opportunities among different fields of study/work. → Categories: Federal-gov, Local-gov, Private, Self-employed-inc, Self-employed-not-inc, State-gov, Without-pay, etc. → Dependencies: Hours per Week</p>
+<p><strong>Education:</strong> The level of education attained is a significant determinant because it typically measures eligibility to particular jobs, career promotion opportunities and earnings. The higher the education level most likely means more income. → Categories: 10th - 12th grade, HS-grad, Some-college, Assoc-acdm, Assoc-voc, Bachelors, Masters, Prof-school, etc. → Dependencies: Occupation</p>
+<p><strong>Marital Status:</strong> Marital status indicates the status of household dynamics and economic dependencies, which affect the level of income. For instance, married individuals may benefit from dual incomes, whereas divorced or widowed individuals may be responsible for other fiscal commitments and constraints. → Categories: Unmarried, Divorced, Separated, Never-married, Widowed, etc. → Dependencies: Relationship</p>
+<p><strong>Occupation:</strong> The nature of the occupation directly determines income levels as a function of the varied pay scales and promotional opportunities among the different occupational categories. → Categories: Exec-managerial, Machine-op-inspct, Prof-speciality, Adm-clerical, Other-service, etc. → Dependencies: Workclass</p>
+<p><strong>Relationship:</strong> The family relationship status might have an effect on income because of financial dependencies or household dynamics such as a family with kids, or no kids. → Categories: Not-in-family, Unmarried, Own-child, Other-relative, etc. → Dependencies: Income</p>
+<p><strong>Race: Ethnicity.</strong> → Categories: Black, White, Asian-Pac-Islander, etc. → Dependencies: Occupation, Education</p>
+<p><strong>Capital Gain:</strong> Capital gain means additional sources of income and represents money invested financially, which influences total income. → Categories: Low, etc. → Dependencies: Income</p>
+<p><strong>Capital Loss:</strong> Loss from Investments. → Categories: Low, etc. → Dependencies: Income</p>
+<p><strong>Hours per Week:</strong> The hours put in work per week are directly associated with income, as it affects earnings coming through wages or salary. → Categories: Partime, FullTime, Overtime, etc. → Dependencies: Income</p>
+<p>__Native Country:__Country of birth can affect income as a result of the effect of educational opportunities, conditions in the job market, and economic policy. → Category: United States, Mexico, Greece, etc. → Dependencies: Income</p>
+<p><strong>Sex: Gender of Individual:</strong> → Categories: Male, Female → Dependencies: Occupation, Education</p>
 </section>
 <section id="data-pre-processing" class="level3">
 <h3 class="anchored" data-anchor-id="data-pre-processing">Data pre-processing:</h3>

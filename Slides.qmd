@@ -5,42 +5,47 @@ format: revealjs
 
 ## Bayesian Theorem
 
-```{r, child='Michael_Slide1.qmd'}
+```{r, child='Slide_Michael_1.qmd'}
 
 ```
 
 ## Bayesian Network
 
-```{r, child='Michael_Slide2.qmd'}
+```{r, child='Slide_Michael_2.qmd'}
 
 ```
 
 ## Methodology Used 
 
-- Get in bed
-- Count sheep
+```{r, child='Slide_Seth_1.qmd'}
+
+```
 
 ## DAG and CPT Explained
+```{r, child='Slide_Seth_2.qmd'}
 
-- Get in bed
-- Count sheep
+```
 
 ## Data Used
 
-- Get in bed
-- Count sheep
+```{r, child='Slide_Sara_1.qmd'}
+
+```
 
 ## Data Exploration
 
-- Get in bed
-- Count sheep
+```{r, child='Slide_Sara_2.qmd'}
+
+```
 
 ## Data Analysis
 
-- Get in bed
-- Count sheep\
+```{r, child='Slide_Maxime_1.qmd'}
+
+```
 
 ## Conclusion
 
-- Get in bed
-- Count sheep\
+```{r, child='Slide_Maxime_2.qmd'}
+
+```
