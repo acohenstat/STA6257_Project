@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Michael Zeihen, Maxime Martin, Sarah Burns, Seth Henry">
-<meta name="dcterms.date" content="2024-07-12">
+<meta name="dcterms.date" content="2024-07-15">
 
 <title>Predicting Income with Bayesian Networks: A Case Study Using the Adult Income Dataset - Data Science Capstone</title>
 <style>
@@ -3067,12 +3067,9 @@ vertical-align: -.125em;
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#steps-to-create-a-bayesian-netowrk" id="toc-steps-to-create-a-bayesian-netowrk" class="nav-link" data-scroll-target="#steps-to-create-a-bayesian-netowrk">Steps to create a Bayesian netowrk</a></li>
-  <li><a href="#identify-variables" id="toc-identify-variables" class="nav-link" data-scroll-target="#identify-variables">1. Identify Variables</a></li>
-  <li><a href="#identify-network-structure" id="toc-identify-network-structure" class="nav-link" data-scroll-target="#identify-network-structure">2. Identify Network Structure</a></li>
   <li><a href="#specify-conditional-probabilities" id="toc-specify-conditional-probabilities" class="nav-link" data-scroll-target="#specify-conditional-probabilities">3. Specify Conditional Probabilities</a></li>
-  <li><a href="#enter-evidence" id="toc-enter-evidence" class="nav-link" data-scroll-target="#enter-evidence">4. Enter Evidence</a></li>
-  <li><a href="#propagate" id="toc-propagate" class="nav-link" data-scroll-target="#propagate">5. Propagate</a></li>
-  <li><a href="#interpret-result" id="toc-interpret-result" class="nav-link" data-scroll-target="#interpret-result">6. Interpret Result</a></li>
+  <li><a href="#data-description" id="toc-data-description" class="nav-link" data-scroll-target="#data-description">Data Description:</a></li>
+  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing">Data pre-processing:</a></li>
   </ul></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
   <ul class="collapse">
@@ -3108,7 +3105,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 12, 2024</p>
+      <p class="date">July 15, 2024</p>
     </div>
   </div>
   
@@ -3141,6 +3138,7 @@ vertical-align: -.125em;
 </div>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this study, we employ Bayesian Networks to predict whether individuals earn more than $50,000 annually based on demographic and employment-related attributes from the Adult Income Dataset. Bayesian Networks are used to model probabilistic dependencies among variables, providing a structured approach to understanding income factors. The goal is to develop a predictive model that identifies key factors influencing these income levels, offering a methodical approach to understanding socioeconomic dynamics.</p>
 <section id="what-is-bayesian-network" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-bayesian-network">What is “Bayesian Network”?</h3>
 <p>A Bayesian network, a belief network, or a probabilistic graphical model represents a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). <span class="citation" data-cites="pearl1986fusion">(<a href="#ref-pearl1986fusion" role="doc-biblioref">Pearl 1986</a>)</span> Each node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes’ theorem is a fundamental concept used in this network. Bayes’ thereum describes the probability of an event, based on prior knowledge of conditions that might be related to the event. The formula for Bayes’ theorem is <span class="math display">\[
@@ -3215,13 +3213,13 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 </figcaption>
 </figure>
 <p>As described in “Bayesian belief nets for managing expert judgment and modeling reliability” <span class="citation" data-cites="Sigurdsson2001">(<a href="#ref-Sigurdsson2001" role="doc-biblioref">Sigurdsson, Walls, and Quigley 2001</a>)</span>, here are the discriptions for each step.</p>
-</section>
-<section id="identify-variables" class="level3">
-<h3 class="anchored" data-anchor-id="identify-variables">1. Identify Variables</h3>
+<ol type="1">
+<li>Identify Variables</li>
+</ol>
 <p>The first step in constructing a Bayesian Network is to identify all relevant variables that will be included in the model. These variables represent the different aspects of the problem domain that need to be analyzed. Variables can be continuous or discrete and should be chosen based on their relevance to the problem and the data available. With continuous variables, the work will be more complicated when comes the discretization because we should base our analyse on expert knowledge. In the other hand, discrete variables are easier to handle but provides less various informations about the data.</p>
-</section>
-<section id="identify-network-structure" class="level3">
-<h3 class="anchored" data-anchor-id="identify-network-structure">2. Identify Network Structure</h3>
+<ol start="2" type="1">
+<li>Identify Network Structure</li>
+</ol>
 <p>Once the variables are identified, the next step is to determine the structure of the network, which involves specifying the relationships between these variables. This structure can be defined manually based on expert knowledge or learned from data using algorithms. This part is actually the base of the modelisation, any decision made here will change everything on the final result. <span class="citation" data-cites="scutari2009learning">(<a href="#ref-scutari2009learning" role="doc-biblioref">Scutari 2009</a>)</span></p>
 <p>The <code>bnlearn</code> package in R provides various algorithms for learning the network structure from data, such as the Hill-Climbing algorithm, Tabu search, and constraint-based methods like PC algorithm. Using the  <code>graphviz.plot()</code>  function from the  <code>Rgraphviz</code>  package is also a good support for visualization.</p>
 </section>
@@ -3229,21 +3227,24 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 <h3 class="anchored" data-anchor-id="specify-conditional-probabilities">3. Specify Conditional Probabilities</h3>
 <p>After the network structure is established, the next step is to specify the conditional probability distributions for each variable. For each node in the network, the conditional probability distribution given its parent nodes needs to be defined. Then we can get the conditional probability tables (CPT) which are the results interface of our modelisation.</p>
 <p>These probabilities can be estimated from data or provided by domain experts. The <code>bnlearn</code> package can be used to fit these probabilities to data using maximum likelihood estimation or Bayesian estimation methods. <span class="citation" data-cites="heckerman1995tutorial">(<a href="#ref-heckerman1995tutorial" role="doc-biblioref">Heckerman 1995</a>)</span></p>
-</section>
-<section id="enter-evidence" class="level3">
-<h3 class="anchored" data-anchor-id="enter-evidence">4. Enter Evidence</h3>
+<ol start="4" type="1">
+<li>Enter Evidence</li>
+</ol>
 <p>Entering evidence involves incorporating observed values for certain variables into the Bayesian Network, a process often called “instantiating” or “clamping” variables. This updates the network to reflect the current state of knowledge, enabling the computation of posterior probabilities for other variables. The purposes of entering evidence include conditioning the network to calculate posterior probabilities of unobserved variables, aiding in medical diagnosis by using symptoms or test results to identify the likelihood of diseases, and supporting decision-making by updating beliefs based on the most probable outcomes. The process involves identifying which variables have observed values from real-world data, experimental results, or expert knowledge, and then updating the network with these values to adjust the probabilities accordingly.</p>
 <p>In <code>bnlearn</code>, evidence can be entered using the <code>cpquery</code> function, which allows for conditioning on the evidence and querying the network for the posterior probabilities of the remaining variables.</p>
-</section>
-<section id="propagate" class="level3">
-<h3 class="anchored" data-anchor-id="propagate">5. Propagate</h3>
+<ol start="5" type="1">
+<li>Propagate</li>
+</ol>
 <p>Propagation in a Bayesian Network refers to the process of computing the posterior distributions of the unobserved variables given the observed evidence. This can be done using various exact and approximate inference algorithms. <span class="citation" data-cites="pearl1986fusion">(<a href="#ref-pearl1986fusion" role="doc-biblioref">Pearl 1986</a>)</span></p>
 <p>The <code>bnlearn</code> package provides functions like <code>grain</code> for exact inference and <code>bn.fit</code> for approximate inference using sampling methods such as Markov Chain Monte Carlo (MCMC).</p>
-</section>
-<section id="interpret-result" class="level3">
-<h3 class="anchored" data-anchor-id="interpret-result">6. Interpret Result</h3>
+<ol start="6" type="1">
+<li>Interpret Result</li>
+</ol>
 <p>The final step is to interpret the results obtained from the propagation step. This involves analyzing the posterior distributions to make decisions, predictions, or to gain insights into the relationships between variables. [<span class="citation" data-cites="cowell">(<a href="#ref-cowell" role="doc-biblioref"><strong>cowell?</strong></a>)</span>]</p>
 <p>The results can be visualized using various plotting functions provided by <code>bnlearn</code>, such as <code>graphviz.plot</code> to visualize the network structure and the conditional probability tables. Here, since the graphviz.chart is not displaying correctly all the resullts we have, we will use the CPT as interface.</p>
+</section>
+<section id="data-description" class="level3">
+<h3 class="anchored" data-anchor-id="data-description">Data Description:</h3>
 <table class="table">
 <thead>
 <tr class="header">
@@ -3314,6 +3315,14 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 </tr>
 </tbody>
 </table>
+</section>
+<section id="data-pre-processing" class="level3">
+<h3 class="anchored" data-anchor-id="data-pre-processing">Data pre-processing:</h3>
+<p>Column Exclusions: We excluded the columns ‘fnlwgt’ and ‘education.num’ from the dataset. ‘Education.num’ duplicates the information already captured by the ‘education’ column, which represents education levels comprehensively. ‘Fnlwgt’ contained Current Population Survey (CPS) weights, which were removed because Bayesian Networks focus on modeling causal relationships among variables. CPS weights are statistical adjustments applied after sampling to correct biases, rather than causal factors.</p>
+<p>Age Grouping: Age groups were defined to create bins for our Bayesian Network modeling. Individuals aged 18 to 39 were categorized as ‘Young’, those aged 40 to 64 as ‘Middle’, and individuals aged 65 to 100 as ‘Retired’.</p>
+<p>Capital Gain and Loss Grouping: We categorized capital gain and loss into distinct groups: ‘Low’ (0 to 4,999), ‘Medium’ (5,000 to 9,999), ‘High’ (10,000 to 19,999), and ‘Rich’ (20,000 to 100,000).</p>
+<p>Hours per Week Grouping: Hours worked per week were grouped into ‘Partime’ (0 to 34 hours), ‘Fulltime’ (35 to 39 hours), and ‘Overtime’ (40 to 200 hours) bins to facilitate analysis in our Bayesian Network.</p>
+<p>Factor Conversion: To facilitate modeling, we converted the following columns into categorical factors: ‘race’, ‘native.country’, ‘workclass’, ‘education’, ‘marital.status’, ‘occupation’, ‘relationship’, ‘sex’, and ‘income’.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>

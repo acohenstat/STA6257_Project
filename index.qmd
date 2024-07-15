@@ -43,6 +43,8 @@ library(dplyr)
 
 ## Introduction
 
+In this study, we employ Bayesian Networks to predict whether individuals earn more than $50,000 annually based on demographic and employment-related attributes from the Adult Income Dataset. Bayesian Networks are used to model probabilistic dependencies among variables, providing a structured approach to understanding income factors. The goal is to develop a predictive model that identifies key factors influencing these income levels, offering a methodical approach to understanding socioeconomic dynamics.
+
 ### What is "Bayesian Network"?
 
 A Bayesian network, a belief network, or a probabilistic graphical model
@@ -274,7 +276,7 @@ reliability analysis [@Sigurdsson2001]</figcaption>
 
 As described in “Bayesian belief nets for managing expert judgment and modeling reliability” [@Sigurdsson2001], here are the discriptions for each step.
 
-### 1. Identify Variables
+1. Identify Variables
 
 The first step in constructing a Bayesian Network is to identify all
 relevant variables that will be included in the model. These variables
@@ -286,7 +288,7 @@ discretization because we should base our analyse on expert knowledge.
 In the other hand, discrete variables are easier to handle but provides
 less various informations about the data.
 
-### 2. Identify Network Structure
+2. Identify Network Structure
 
 Once the variables are identified, the next step is to determine the
 structure of the network, which involves specifying the relationships
@@ -315,7 +317,7 @@ experts. The `bnlearn` package can be used to fit these probabilities to
 data using maximum likelihood estimation or Bayesian estimation methods.
 [@heckerman1995tutorial]
 
-### 4. Enter Evidence
+4. Enter Evidence
 
 Entering evidence involves incorporating observed values for certain
 variables into the Bayesian Network, a process often called
@@ -335,7 +337,7 @@ In `bnlearn`, evidence can be entered using the `cpquery` function,
 which allows for conditioning on the evidence and querying the network
 for the posterior probabilities of the remaining variables.
 
-### 5. Propagate
+5. Propagate
 
 Propagation in a Bayesian Network refers to the process of computing the
 posterior distributions of the unobserved variables given the observed
@@ -346,7 +348,7 @@ The `bnlearn` package provides functions like `grain` for exact
 inference and `bn.fit` for approximate inference using sampling methods
 such as Markov Chain Monte Carlo (MCMC).
 
-### 6. Interpret Result
+6. Interpret Result
 
 The final step is to interpret the results obtained from the propagation
 step. This involves analyzing the posterior distributions to make
@@ -361,7 +363,7 @@ CPT as interface.
 
 
 					
-
+### Data Description:
 
 | Feature        |                             Description |
 |:---------------|----------------------------------------:|
@@ -380,6 +382,20 @@ CPT as interface.
 | hours.per.week |                  Working hours per week |
 | native.country |                      Native nationality |
 | income         |                                  income |
+
+
+### Data pre-processing:
+
+Column Exclusions: We excluded the columns ‘fnlwgt’ and ‘education.num’ from the dataset. ‘Education.num’ duplicates the information already captured by the ‘education’ column, which represents education levels comprehensively. ‘Fnlwgt’ contained Current Population Survey (CPS) weights, which were removed because Bayesian Networks focus on modeling causal relationships among variables. CPS weights are statistical adjustments applied after sampling to correct biases, rather than causal factors.
+
+Age Grouping: Age groups were defined to create bins for our Bayesian Network modeling. Individuals aged 18 to 39 were categorized as ‘Young’, those aged 40 to 64 as ‘Middle’, and individuals aged 65 to 100 as ‘Retired’.
+
+Capital Gain and Loss Grouping: We categorized capital gain and loss into distinct groups: ‘Low’ (0 to 4,999), ‘Medium’ (5,000 to 9,999), ‘High’ (10,000 to 19,999), and ‘Rich’ (20,000 to 100,000).
+
+Hours per Week Grouping: Hours worked per week were grouped into ‘Partime’ (0 to 34 hours), ‘Fulltime’ (35 to 39 hours), and ‘Overtime’ (40 to 200 hours) bins to facilitate analysis in our Bayesian Network.
+
+Factor Conversion: To facilitate modeling, we converted the following columns into categorical factors: ‘race’, ‘native.country’, ‘workclass’, ‘education’, ‘marital.status’, ‘occupation’, ‘relationship’, ‘sex’, and ‘income’.
+
 
 ```{r, echo=T}
 dataset <- read.csv("data/adult.csv")
