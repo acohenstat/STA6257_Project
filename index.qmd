@@ -43,26 +43,18 @@ library(dplyr)
 
 ## Introduction
 
-In this study, we employ Bayesian Networks to predict whether individuals earn more than $50,000 annually based on demographic and employment-related attributes from the Adult Income Dataset. Bayesian Networks are used to model probabilistic dependencies among variables, providing a structured approach to understanding income factors. The goal is to develop a predictive model that identifies key factors influencing these income levels, offering a methodical approach to understanding socioeconomic dynamics.
+In this study, we employ Bayesian Networks to predict whether individuals earn more than $50,000 annually based on demographic and employment-related attributes from the Adult Income Dataset. We use Bayesian Networks to model probabilistic dependencies among variables, providing a structured approach to understanding income factors. The goal is to develop a predictive model that identifies key factors influencing these income levels, offering a methodical approach to understanding socioeconomic dynamics.
 
-### What is "Bayesian Network"?
+### What is a "Bayesian Network"?
 
-A Bayesian network, a belief network, or a probabilistic graphical model
-represents a set of variables and their conditional dependencies via a
-Directed Acyclic Graph (DAG). [@pearl1986fusion] Each node in the graph
-represents a random variable, and the edges between the nodes represent
-probabilistic dependencies among these variables. Bayes' theorem is a
-fundamental concept used in this network. Bayes' thereum describes the
-probability of an event, based on prior knowledge of conditions that
-might be related to the event. The formula for Bayes' theorem is $$
+A Bayesian network, a belief network, or a probabilistic graphical model represents a set of variables and their conditional dependencies via a Directed Acyclic Graph (DAG). [@pearl1986fusion] EEach node in the graph represents a random variable, and the edges between the nodes represent probabilistic dependencies among these variables. Bayes' theorem is a fundamental concept used in this network. Bayes' theorem describes the probability of an event based on prior knowledge of conditions that might be related to the event. The formula for Bayes' theorem is
+$$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
 $$
 
-### What is Bayesian Theorem
+### What is the Bayesian Theorem
 
-A simple Bayesian network can be visualized as a directed acyclic graph
-(DAG) with nodes representing random variables and directed edges
-representing conditional dependencies between these variables.
+A simple Bayesian network can be visualized as a directed acyclic graph (DAG) with nodes representing random variables and directed edges representing conditional dependencies between these variables.
 [@koller2009probabilistic]
 
 <figure style="text-align: center;">
@@ -73,148 +65,58 @@ representing conditional dependencies between these variables.
 
 </figure>
 
-Bayesian networks leverage Bayes' theorem to update the probabilities of
-various hypotheses given new evidence, allowing for probabilistic
-reasoning and decision-making under uncertainty. The process involves
-defining the network structure and conditional probabilities,
-calculating joint and marginal probabilities, and applying Bayes'
-theorem to infer the posterior probabilities. [@koller2009probabilistic]
+Bayesian networks leverage Bayes' theorem to update the probabilities of various hypotheses given new Evidence, allowing for probabilistic reasoning and decision-making under uncertainty. The process involves defining the network structure and conditional probabilities, calculating joint and marginal probabilities, and applying Bayes' theorem to infer the posterior probabilities. [@koller2009probabilistic]
 
 <p style="color: blue;">
-
 Idea - Go over the bayes' theorem equation.
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Discuss Propagation.
-
 </p>
 
 ### What are the advantages of using Bayesian Networks
 
-Data analysis offers a variety of tools like rule-based systems,
-decision trees, and artificial neural networks, along with techniques
-such as density estimation, classification, regression, and
-clustering.[@heckerman1995tutorial] What unique advantages do Bayesian
-networks and Bayesian methods bring to the table in this landscape?
+Data analysis offers a variety of tools like rule-based systems, decision trees, and artificial neural networks, along with techniques such as density estimation, classification, regression, and clustering. [@heckerman1995tutorial] What unique advantages do Bayesian networks and Bayesian methods bring to the table in this landscape?
 
-From the paper "A Bayesian Method for the Induction of Probabilistic Networks from Data"[@cooper1992bayesian], here are some of the advantages mentions using Bayesian Networks:
+In the paper "A Bayesian Method for the Induction of Probabilistic Networks from Data"[@cooper1992bayesian],  here are some of the advantages mentioned using Bayesian Networks:
 
 Handling Incomplete Data:
 
-Bayesian networks facilitate learning causal relationships, which are
-crucial for understanding complex systems and making predictions under
-interventions. For example, determining if increasing advertisement
-exposure causes higher product sales can be analyzed using Bayesian
-networks, even without direct experimental data.
+Bayesian networks facilitate learning causal relationships, which are crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
 
 Learning Causal Relationships:
 
-Bayesian networks facilitate learning causal relationships, which is
-crucial for understanding complex systems and making predictions under
-interventions. For example, determining if increasing advertisement
-exposure causes higher product sales can be analyzed using Bayesian
-networks, even without direct experimental data.
+Bayesian networks facilitate learning causal relationships, which are crucial for understanding complex systems and making predictions under interventions. For example, determining if increasing advertisement exposure causes higher product sales can be analyzed using Bayesian networks, even without direct experimental data.
 
 Combining Domain Knowledge and Data:
 
-Bayesian networks seamlessly integrate domain knowledge (prior
-knowledge) with data. This is particularly beneficial when data is
-limited or costly. Their causal semantics make it straightforward to
-incorporate prior knowledge about causal relationships, enhancing the
-accuracy and reliability of predictions.
+Bayesian networks seamlessly integrate domain knowledge (prior knowledge) with data. This domain knowledge is particularly beneficial when data is limited or costly. Their causal semantics make it straightforward to incorporate prior knowledge about causal relationships, enhancing the accuracy and reliability of predictions.
 
 Avoiding Overfitting:
 
-Bayesian networks provide an efficient approach to prevent overfitting.
-They achieve this by "smoothing" models using all available data during
-training, eliminating the need to reserve data for testing purposes.
-This ensures that models generalize well to new data and avoid capturing
-noise or spurious patterns from the training data.
+Bayesian networks provide an efficient approach to prevent overfitting. They achieve this by "smoothing" models using all available data during training, eliminating the need to reserve data for testing purposes. Using all data ensures that models generalize well to new data and avoid capturing noise or spurious patterns from the training data.
 
 ### Applications of Bayesian Networks
 
-Bayesian networks are widely applied across many diverse fields due to
-their capabilities in modeling probabilistic relationships. A few
-examples being - In healthcare, they can be employed to examine how
-psychiatric, demographic, and socio-economic variables interrelate
-[@bilek2018investigation]; in supply chain management, they can play a
-crucial role in assessing risks, evaluating resilience, and analyzing
-ripple effects - aiding in making informed decisions among uncertainties
-[@hosseini2020bayesian]; and in political studies, they can assist to
-predict online participation patterns by analyzing user interactions and
-engagement metrics [@kopacheva2021predicting]. Bayesian networks provide
-dynamic modeling, learning, and inference - enabling an understanding of
-evolving systems over time in various applications
-[@shiguihara2021dynamic]. All these example applications underscore the
-utility of Bayesian networks in addressing complex probabilistic
-challenges across different domains, and further their practical
-usefulness.
+We widely apply Bayesian networks across diverse fields due to their capabilities in modeling probabilistic relationships. A few examples are - In healthcare, they are used to examine how psychiatric, demographic, and socioeconomic variables interrelate [@bilek2018investigation]; in supply chain management, they can play a crucial role in assessing risks, evaluating resilience and analyzing ripple effects - aiding in making informed decisions among uncertainties[@hosseini2020bayesian]. In political studies, they can assist in predicting online participation patterns by analyzing user interactions and engagement metrics  [@kopacheva2021predicting]. Bayesian networks provide dynamic modeling, learning, and inference - enabling an understanding of evolving systems over time in various applications [@shiguihara2021dynamic]. All these example applications underscore the utility of Bayesian networks in addressing complex probabilistic challenges across different domains and further their practical usefulness.
 
 ### Components of Bayesian Networks
 
-Bayesian networks are sophisticated models that represent the
-probabilistic relationships among a set of variables using a directed
-acyclic graph (DAG). The primary components of Bayesian networks include
-nodes, edges, and conditional probability distributions, each playing a
-crucial role in defining the structure and behavior of the network.
+Bayesian networks are sophisticated models that represent probabilistic relationships among variables using a directed acyclic graph (DAG). The primary components of Bayesian networks include nodes, edges, and conditional probability distributions, each playing a crucial role in defining the network's structure and behavior.
 
-Nodes in a Bayesian network represent random variables. These variables
-can be classified into several categories based on their roles within
-the network. Parent nodes are those that have outgoing edges to other
-nodes, signifying causal or influential relationships. Child nodes, on
-the other hand, are the recipients of these edges, representing
-variables that are influenced or caused by the parent nodes.
-Additionally, evidence nodes are those for which we have observed data,
-and these observations can be used to update the beliefs about other
-variables in the network. Query nodes are the variables of interest, for
-which we seek to compute posterior probabilities given the evidence.
-This categorization helps in organizing and understanding the flow of
-information within the network [@pearl1986fusion].
+Nodes in a Bayesian network represent random variables. The classification of these variables falls into several categories based on their roles within the network. Parent nodes have outgoing edges to other nodes, signifying causal or influential relationships. On the other hand, child nodes are the recipients of these edges, representing variables influenced or caused by the parent nodes. Additionally, evidence nodes are those for which we have observed data; using these observations can update the beliefs about other variables in the network. Query nodes are the variables of interest for which we seek to compute posterior probabilities given the Evidence. This categorization helps organize and understand the information flow within the network [@pearl1986fusion].
 
-Edges in a Bayesian network are directed and represent probabilistic
-dependencies between the nodes. An edge from node A to node B indicates
-that A is a parent of B, and the probability distribution of B is
-conditionally dependent on the state of A. This directional relationship
-is a critical aspect of Bayesian networks, as it encodes the causal
-assumptions and the flow of influence among the variables
+Edges in a Bayesian network are directed and represent probabilistic dependencies between the nodes. An edge from node A to node B indicates that A is a parent of B, and the probability distribution of B is conditionally dependent on the state of A. This directional relationship is a critical aspect of Bayesian networks, as it encodes the causal assumptions and the flow of influence among the variables es
 [@pearl1986fusion].
 
-The structure of a Bayesian network is a directed acyclic graph (DAG). A
-DAG is a graph that is directed and contains no cycles, meaning it is
-impossible to start at any node and follow a consistent direction along
-the edges to return to the starting node. This acyclic property is
-fundamental because it ensures that there is no infinite loop in the
-probabilistic dependencies, allowing for coherent probabilistic
-inferences. The DAG structure facilitates the decomposition of the joint
-probability distribution of the variables into a product of conditional
-probability distributions, greatly simplifying the representation and
-computation of complex probabilistic models [@koller2009probabilistic].
+The structure of a Bayesian network is a directed acyclic graph (DAG). A DAG is a directed graph containing no cycles. It is impossible to start at any node and follow a consistent direction along the edges to return to the starting node. This acyclic property is fundamental because it ensures no infinite loop in the probabilistic dependencies, allowing for coherent probabilistic inferences. The DAG structure facilitates the decomposition of the joint probability distribution of the variables into a product of conditional probability distributions, greatly simplifying the representation and computation of complex probabilistic models[@koller2009probabilistic].
 
-Probabilistic inferences in Bayesian networks involve computing the
-posterior probabilities of query nodes given the evidence nodes. This
-process uses the network’s structure and the conditional probability
-distributions to propagate information and update beliefs. One of the
-key concepts in performing these inferences is conditional independence,
-which allows for significant computational efficiency. Conditional
-independence means that a variable is independent of another variable
-given a set of other variables, reducing the number of direct
-dependencies that need to be considered [@koller2009probabilistic].
+Probabilistic inferences in Bayesian networks involve computing the posterior probabilities of query nodes given the evidence nodes. This process uses the network's structure and the conditional probability distributions to propagate information and update beliefs. One of the key concepts in performing these inferences is conditional independence, which allows for significant computational efficiency. Conditional independence means that a variable is independent of another variable given a set of other variables, reducing the number of direct dependencies that need to be considered [@koller2009probabilistic].
 
-Lastly, the conditional probability tree is a way to represent the
-conditional probability distributions associated with each node in the
-network. These trees show how the probability of each node depends on
-the states of its parent nodes, providing a visual and computational
-tool for working with the network’s probabilistic relationships
-[@pearl1986fusion].
+Lastly, the conditional probability tree represents the conditional probability distributions associated with each node in the network. These trees show how each node's probability depends on its parent nodes' states, providing a visual and computational tool for working with the network's probabilistic relationships [@pearl1986fusion].
 
-Understanding these components, nodes, edges, the directed acyclic
-graph, probabilistic inferences, conditional independence and the
-conditional probability tree provides a foundational framework for
-working with Bayesian networks, enabling the modeling of complex systems
-with interdependent variables in a structured and efficient manner.
+Understanding these components, nodes, edges, the directed acyclic graph, probabilistic inferences, conditional independence, and the conditional probability tree provides a foundational framework for working with Bayesian networks, enabling the modeling of complex systems with interdependent variables in a structured and efficient manner.
 
 ### Limitations of Bayesian Networks
 
@@ -222,34 +124,13 @@ Although Bayesian networks are valuable in modeling and predicting
 probabilistic relationships, they have their limitations that can hinder
 effectiveness.
 
-**Complexity**: One issue is their complexity which increases with the
-number of variables introduced, making them computationally intensive to
-build and then maintain for large, highly connected networks. This makes
-real-time inference and updates challenging. Data Requirements: Bayesian
-networks are largely data-driven; thus, the data requirements make
-sparse data sets potentially compromise reliability.
+**Complexity**: One issue is their complexity, which increases with the number of variables introduced. Complexity makes Bayesian Networks computationally intensive to build and maintain for large, highly connected networks, making real-time inference and updates challenging. Data Requirements: Bayesian networks are largely data-driven; thus, the data requirements make sparse data sets potentially compromise reliability.
 
-**Assumptions**: Bayesian networks mostly involve assumptions in the
-definition of relationships between variables and often make use of
-expert inputs, thus open to subjectivity and biases [@kubsch2021beyond].
-Bayesian models assume that variables are conditionally independent
-given their parents in the network. In this case, violations to these
-assumptions affect the correctness of the predictions made with these
-models.
+**Assumptions**: Bayesian networks mainly involve assumptions in defining relationships between variables and often use expert inputs, thus being open to subjectivity and biases [@kubsch2021beyond]. Bayesian models assume that variables are conditionally independent given their parents in the network. In this case, violations of these assumptions affect the correctness of the predictions made with these models.
 
-**Structure:** The structure is another critical limitation. After a
-Bayesian network structure has been developed, it does not automatically
-adapt to new data or changes in the problem domain.
+**Structure:** The structure is another critical limitation. Developing a Bayesian network structure does not automatically adapt to new data or changes in the problem domain.
 
-**Scalability**: Scalability is a significant limitation: large networks
-need huge computational effort for exact inference and are mostly
-approximated, hence less accurate [@jewell2009bayesian]. Bayesian
-networks are also limited in that they cannot model complex
-relationships and nonlinearity between variables; it makes them less
-successful in modeling real-world complex interactions compared to other
-approaches, say, neural networks. These limitations stress that careful
-application and possible use of hybrid methodologies may be necessary
-when solving complex problems with Bayesian networks.
+**Scalability**: Scalability is a significant limitation: Large networks require substantial computational effort for exact inference and typically rely on approximations, resulting in lower accuracy, noting this significant limitation [@jewell2009bayesian]. Bayesian networks are also limited in that they cannot model complex relationships and nonlinearity between variables; it makes them less successful in modeling real-world complex interactions compared to other approaches, say, neural networks. These limitations stress that careful application and possible use of hybrid methodologies may be necessary when solving complex problems with Bayesian networks.
 
 ## Methods
 
@@ -262,9 +143,7 @@ The main goal is to predict whether an individual's income exceeds
 \$50,000 per year based on various demographic and employment-related
 attributes.
 
-No longer doing classification of iris, we are deteremine based of
-probabaility if a person will make more or less then 50k based on these
-features:
+
 
 ### Steps to create a Bayesian netowrk
 <figure style="text-align: center;">
@@ -274,92 +153,42 @@ reliability analysis [@Sigurdsson2001]</figcaption>
 
 </figure>
 
-As described in “Bayesian belief nets for managing expert judgment and modeling reliability” [@Sigurdsson2001], here are the discriptions for each step.
+Here are the descriptions for each step, as described in "Bayesian belief nets for managing expert judgment and modeling reliability" [@Sigurdsson2001].
 
 __1. Identify Variables__
 
-The first step in constructing a Bayesian Network is to identify all
-relevant variables that will be included in the model. These variables
-represent the different aspects of the problem domain that need to be
-analyzed. Variables can be continuous or discrete and should be chosen
-based on their relevance to the problem and the data available. With
-continuous variables, the work will be more complicated when comes the
-discretization because we should base our analyse on expert knowledge.
-In the other hand, discrete variables are easier to handle but provides
-less various informations about the data.
+The first step in constructing a Bayesian Network is to identify and include all relevant variables for the model. These variables represent the different aspects of the problem domain that need to be analyzed. Variables can be continuous or discrete and should be chosen based on their relevance to the problem and available data. With continuous variables, the work will be more complicated regarding discretization because we should base our analysis on expert knowledge. On the other hand, discrete variables are easier to handle but provide less information about the data.
 
 __2. Identify Network Structure__
 
-Once the variables are identified, the next step is to determine the
-structure of the network, which involves specifying the relationships
-between these variables. This structure can be defined manually based on
-expert knowledge or learned from data using algorithms. This part is
-actually the base of the modelisation, any decision made here will
-change everything on the final result. [@scutari2009learning]
+The first step in constructing a Bayesian Network is to identify and include all relevant variables for the model. These variables represent the different aspects of the problem domain that need to be analyzed. Variables can be continuous or discrete and should be chosen based on their relevance to the problem and available data. With continuous variables, the work will be more complicated regarding discretization because we should base our analysis on expert knowledge. On the other hand, discrete variables are easier to handle but provide less information about the data. [@scutari2009learning]
 
-The `bnlearn` package in R provides various algorithms for learning the
-network structure from data, such as the Hill-Climbing algorithm, Tabu
-search, and constraint-based methods like PC algorithm. Using the
- `graphviz.plot()`  function from the  `Rgraphviz`  package is also a
-good support for visualization.
+The BNLearn package in R provides various algorithms for learning the network structure from data, such as the Hill-Climbing algorithm, Tabu search, and constraint-based methods like the PC algorithm. Using the graphviz.plot()  function from the  Rgraphviz  package, which also supports visualization.
 
 __3. Specify Conditional Probabilities__
 
-After the network structure is established, the next step is to specify
-the conditional probability distributions for each variable. For each
-node in the network, the conditional probability distribution given its
-parent nodes needs to be defined. Then we can get the conditional
-probability tables (CPT) which are the results interface of our
-modelisation.
+After establishing the network structure, the next step is specifying each variable's conditional probability distributions. Each node in the network must define its conditional probability distribution given its parent nodes. Then, we can get the conditional probability tables (CPT), the results interface of our modelization.
 
-These probabilities can be estimated from data or provided by domain
-experts. The `bnlearn` package can be used to fit these probabilities to
-data using maximum likelihood estimation or Bayesian estimation methods.
+These probabilities can be estimated from data or provided by domain experts. The BNLearn package can fit these probabilities to data using maximum likelihood estimation or Bayesian estimation methods. 
 [@heckerman1995tutorial]
 
 __4. Enter Evidence__
 
-Entering evidence involves incorporating observed values for certain
-variables into the Bayesian Network, a process often called
-"instantiating" or "clamping" variables. This updates the network to
-reflect the current state of knowledge, enabling the computation of
-posterior probabilities for other variables. The purposes of entering
-evidence include conditioning the network to calculate posterior
-probabilities of unobserved variables, aiding in medical diagnosis by
-using symptoms or test results to identify the likelihood of diseases,
-and supporting decision-making by updating beliefs based on the most
-probable outcomes. The process involves identifying which variables have
-observed values from real-world data, experimental results, or expert
-knowledge, and then updating the network with these values to adjust the
-probabilities accordingly.
+Entering Evidence involves incorporating observed values for certain variables into the Bayesian Network, often called "instantiating" or "clamping" variables. This process updates the network to reflect the current state of knowledge, enabling the computation of posterior probabilities for other variables. The purposes of entering Evidence include conditioning the network to calculate posterior probabilities of unobserved variables, aiding in medical diagnosis by using symptoms or test results to identify the likelihood of diseases and supporting decision-making by updating beliefs based on the most probable outcomes. The process involves identifying which variables have observed values from real-world data, experimental results, or expert knowledge and then updating the network with these values to adjust the probabilities accordingly..
 
-In `bnlearn`, evidence can be entered using the `cpquery` function,
-which allows for conditioning on the evidence and querying the network
-for the posterior probabilities of the remaining variables.
+The cpquery function in BNLearn enables entering Evidence, conditioning on it, and querying the network to determine the posterior probabilities of the remaining variables.
 
 __5. Propagate__
 
-Propagation in a Bayesian Network refers to the process of computing the
-posterior distributions of the unobserved variables given the observed
-evidence. This can be done using various exact and approximate inference
-algorithms. [@pearl1986fusion]
+Propagation in a Bayesian Network refers to computing the posterior distributions of the unobserved variables given the observed Evidence. One can perform propagation using various exact and approximate inference algorithms.[@pearl1986fusion]
 
-The `bnlearn` package provides functions like `grain` for exact
-inference and `bn.fit` for approximate inference using sampling methods
-such as Markov Chain Monte Carlo (MCMC).
+The BNLearn package provides functions like "grain" for exact inference and "bn.fit" for approximate inference using sampling methods such as Markov Chain Monte Carlo (MCMC).
 
 __6. Interpret Result__
 
-The final step is to interpret the results obtained from the propagation
-step. This involves analyzing the posterior distributions to make
-decisions, predictions, or to gain insights into the relationships
-between variables. \[@cowell\]
+The final step is to interpret the results obtained from the propagation step. Interpreting results involves analyzing the posterior distributions to make decisions and predictions or to gain insights into the relationships between variables.  [@cowell]
 
-The results can be visualized using various plotting functions provided
-by `bnlearn`, such as `graphviz.plot` to visualize the network structure
-and the conditional probability tables. Here, since the graphviz.chart
-is not displaying correctly all the resullts we have, we will use the
-CPT as interface.
+Users can visualize the results using various plotting functions BNLearn offers, such as "graphviz.plot" to display the network structure and conditional probability tables. Due to issues with "graphviz.chart" not displaying all results correctly, we will utilize the CPT as an interface here.
 
 
 					
@@ -384,19 +213,20 @@ CPT as interface.
 | income         |                                  income |
 
 
-__Age:__ Age is divided into three categories to account for the differences in education level and career progression. Younger individuals may still be in college, and they may not be as advanced in their career paths.
+__Age:__ Age is divided into three categories to account for the differences in education level and career progression. Younger individuals may still be in college and may not be as advanced in their career paths.
+
 → Categories: Young, Middle, Retired
 → Dependencies: Education
 
-__Workclass:__ Type of employment affects income. There are vast variations in salary, benefits, as well as different career opportunities among different fields of study/work.
+__Workclass:__ Type of employment affects income. There are vast variations in salary and benefits, as well as different career opportunities among different fields of study/work.
 → Categories: Federal-gov, Local-gov, Private, Self-employed-inc, Self-employed-not-inc, State-gov, Without-pay, etc.
 → Dependencies: Hours per Week
 
-__Education:__ The level of education attained is a significant determinant because it typically measures eligibility to particular jobs, career promotion opportunities and earnings. The higher the education level most likely means more income.
+__Education:__ TThe level of education attained is a significant determinant because it typically measures eligibility for particular jobs, career promotion opportunities, and earnings. A higher education level means more income compared to lower education.
 → Categories: 10th - 12th grade, HS-grad, Some-college, Assoc-acdm, Assoc-voc, Bachelors, Masters, Prof-school, etc.
 → Dependencies: Occupation
 
-__Marital Status:__ Marital status indicates the status of household dynamics and economic dependencies, which affect the level of income. For instance, married individuals may benefit from dual incomes, whereas divorced or widowed individuals may be responsible for other fiscal commitments and constraints. 
+__Marital Status:__ Marital status indicates the status of household dynamics and economic dependencies, which affect the level of income. For instance, married individuals may benefit from dual incomes, whereas divorced or widowed individuals may be responsible for other fiscal commitments and constraints.
 → Categories: Unmarried, Divorced, Separated, Never-married, Widowed, etc.
 → Dependencies: Relationship
 
@@ -404,7 +234,7 @@ __Occupation:__ The nature of the occupation directly determines income levels a
 → Categories: Exec-managerial, Machine-op-inspct, Prof-speciality, Adm-clerical, Other-service, etc.
 → Dependencies: Workclass
 
-__Relationship:__ The family relationship status might have an effect on income because of financial dependencies or household dynamics such as a family with kids, or no kids.
+__Relationship:__ The family relationship status might affect income because of financial dependencies or household dynamics such as a family with kids or no kids.
 → Categories: Not-in-family, Unmarried, Own-child, Other-relative, etc.
 → Dependencies: Income
 
@@ -424,7 +254,7 @@ __Hours per Week:__ The hours put in work per week are directly associated with 
 → Categories: Partime, FullTime, Overtime, etc.
 → Dependencies: Income
 
-__Native Country:__Country of birth can affect income as a result of the effect of educational opportunities, conditions in the job market, and economic policy.
+__Native Country:__ Country of birth can affect income due to the effect of educational opportunities, conditions in the job market, and economic policy.
 → Category: United States, Mexico, Greece, etc.
 → Dependencies: Income
 
@@ -435,15 +265,15 @@ __Sex: Gender of Individual:__
 
 ### Data pre-processing:
 
-Column Exclusions: We excluded the columns ‘fnlwgt’ and ‘education.num’ from the dataset. ‘Education.num’ duplicates the information already captured by the ‘education’ column, which represents education levels comprehensively. ‘Fnlwgt’ contained Current Population Survey (CPS) weights, which were removed because Bayesian Networks focus on modeling causal relationships among variables. CPS weights are statistical adjustments applied after sampling to correct biases, rather than causal factors.
+Column Exclusions: We excluded the columns 'fnlwgt' and 'education.num' from the dataset. 'Education.num' duplicates the information already captured by the 'education' column, which represents education levels comprehensively. We removed 'Fnlwgt,' which contained Current Population Survey (CPS) weights because Bayesian Networks focus on modeling causal relationships among variables. CPS weights are statistical adjustments applied after sampling to correct biases rather than causal factors.
 
-Age Grouping: Age groups were defined to create bins for our Bayesian Network modeling. Individuals aged 18 to 39 were categorized as ‘Young’, those aged 40 to 64 as ‘Middle’, and individuals aged 65 to 100 as ‘Retired’.
+Age Grouping:  Age groups were defined to create bins for our Bayesian Network modeling. We categorized individuals aged 18 to 39 as 'Young,' 40 to 64 as 'Middle,' and individuals aged 65 to 100 as 'Retired.'
 
-Capital Gain and Loss Grouping: We categorized capital gain and loss into distinct groups: ‘Low’ (0 to 4,999), ‘Medium’ (5,000 to 9,999), ‘High’ (10,000 to 19,999), and ‘Rich’ (20,000 to 100,000).
+Capital Gain and Loss Grouping: We categorized capital gain and loss into distinct groups: 'Low' (0 to 4,999), 'Medium' (5,000 to 9,999), 'High' (10,000 to 19,999), and 'Rich' (20,000 to 100,000).
 
-Hours per Week Grouping: Hours worked per week were grouped into ‘Partime’ (0 to 34 hours), ‘Fulltime’ (35 to 39 hours), and ‘Overtime’ (40 to 200 hours) bins to facilitate analysis in our Bayesian Network.
+Hours per Week Grouping:  To facilitate analysis in our Bayesian network, hours worked per week were grouped into 'Partime' (0 to 34 hours), 'Fulltime' (35 to 39 hours), and 'Overtime' (40 to 200 hours) bins.
 
-Factor Conversion: To facilitate modeling, we converted the following columns into categorical factors: ‘race’, ‘native.country’, ‘workclass’, ‘education’, ‘marital.status’, ‘occupation’, ‘relationship’, ‘sex’, and ‘income’.
+Factor Conversion: To facilitate modeling, we converted the following columns into categorical factors: 'race,' 'native.country', 'workclass,' 'education,' 'marital.status', 'occupation,' 'relationship,' 'sex,' and 'income.'
 
 
 ```{r, echo=T}
@@ -586,39 +416,26 @@ Inference:
 Learning: structure and parameter
 
 <p style="color: blue;">
-
 Idea - Define the problem.
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Define the structure.
-
 </p>
 
 <p style="color: blue;">
-
 Idea - create the paramter learning CPT
-
 </p>
 
 <p style="color: blue;">
-
 Idea - use belief propagation to comput probabilities
-
 </p>
 
 ## Analysis and Results
 
 ### Dataset
 
-This data was sourced from the 1994 Census Bureau database by Ronny
-Kohavi and Barry Becker (Data Mining and Visualization, Silicon
-Graphics). They extracted a set of relatively clean records using these
-criteria: ((AAGE\>16) && (AGI\>100) && (AFNLWGT\>1) &&
-(HRSWK\>0)).[@misc_adult_2] The objective is to predict whether an
-individual earns more than \$50K annually.
+This data was sourced from the 1994 Census Bureau database by Ronny Kohavi and Barry Becker [@misc_adult_2]They extracted a set of relatively clean records using these criteria: ((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0)). (Becker and Kohavi 1996) The objective is to predict whether an individual earns more than $50K annually.
 
 ```{r, echo=T}
 
