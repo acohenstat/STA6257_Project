@@ -716,6 +716,20 @@ guides(fill = guide_legend(title = "Income"))
 ```
 
 ```{r,echo=T}
+sex_income_count <- dataset %>%
+  group_by(sex, income) %>%
+  summarise(count = n()) %>%
+  ungroup()
+
+ggplot(sex_income_count, aes(x = sex, y = count, fill = income)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Number of Males and Females Making Above and Below $50,000",
+       x = "Sex",
+       y = "Count",
+       fill = "Income")
+```
+
+```{r,echo=T}
 occupation_gender_count <- dataset %>%
   group_by(occupation, sex) %>%
   summarise(count = n()) %>% 
@@ -745,6 +759,10 @@ ggplot(occupation_income_count, aes(x = occupation, y = count, fill = income)) +
        fill = "Income")
      
 ```
+
+
+
+
 
 directed acyclic graph (DAG).
 
