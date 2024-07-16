@@ -481,7 +481,7 @@ dataset$education <- as.factor(dataset$education)
 dataset$marital.status <- as.factor(dataset$marital.status)
 dataset$occupation <- as.factor(dataset$occupation)
 dataset$relationship <- as.factor(dataset$relationship)
-dataset$sex <- as.factor(dataset$workclass)
+dataset$sex <- as.factor(dataset$sex)
 dataset$income <- as.factor(dataset$income)
 ```
 
@@ -713,6 +713,37 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 
 # Add legend for income categories
 guides(fill = guide_legend(title = "Income"))
+```
+
+```{r,echo=T}
+occupation_gender_count <- dataset %>%
+  group_by(occupation, sex) %>%
+  summarise(count = n()) %>% 
+  ungroup()
+
+ggplot(occupation_gender_count, aes(x = occupation, y = count, fill = sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Number of Males and Females in Each Occupation",
+       x = "Occupation",
+       y = "Count",
+       fill = "Sex")
+```
+
+```{r,echo=T}
+occupation_income_count <- dataset %>%
+  group_by(occupation, income) %>%
+  summarise(count = n()) %>%
+  ungroup()
+
+ggplot(occupation_income_count, aes(x = occupation, y = count, fill = income)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Number of People in Each Occupation Making Over and Under $50,000",
+       x = "Occupation",
+       y = "Count",
+       fill = "Income")
+     
 ```
 
 directed acyclic graph (DAG).
