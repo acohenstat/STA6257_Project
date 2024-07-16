@@ -716,17 +716,31 @@ guides(fill = guide_legend(title = "Income"))
 ```
 
 ```{r,echo=T}
+
 sex_income_count <- dataset %>%
   group_by(sex, income) %>%
   summarise(count = n()) %>%
   ungroup()
 
-ggplot(sex_income_count, aes(x = sex, y = count, fill = income)) +
-  geom_bar(stat = "identity", position = "dodge") +
+# Combine sex and income into a single factor with ordered levels
+sex_income_count <- sex_income_count %>%
+  mutate(sex_income = factor(interaction(sex, income),
+                             levels = c("Male.<=50K", "Male.>50K", "Female.<=50K", "Female.>50K"),
+                             labels = c("Male <=50K", "Male >50K", "Female <=50K", "Female >50K")))
+
+
+# Create custom color palette
+my_colors <- c("#0072B2", "#56B4E9", "#E69F00", "#F0E442")
+
+# Create the pie chart with custom colors and clockwise rotation
+ggplot(sex_income_count, aes(x = "", y = count, fill = sex_income)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 38) +  # Rotate the pie chart clockwise by 20%
+  scale_fill_manual(values = my_colors) +  # Set custom colors
   labs(title = "Number of Males and Females Making Above and Below $50,000",
-       x = "Sex",
-       y = "Count",
-       fill = "Income")
+       fill = "Sex and Income") +
+  theme_void() +
+  theme(legend.position = "right")
 ```
 
 ```{r,echo=T}
