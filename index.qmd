@@ -186,7 +186,7 @@ The BNLearn package provides functions like "grain" for exact inference and "bn.
 
 __6. Interpret Result__
 
-The final step is to interpret the results obtained from the propagation step. Interpreting results involves analyzing the posterior distributions to make decisions and predictions or to gain insights into the relationships between variables.  [@cowell]
+The final step is to interpret the results obtained from the propagation step. Interpreting results involves analyzing the posterior distributions to make decisions and predictions or to gain insights into the relationships between variables.  [@cowell2003probabilistic]
 
 Users can visualize the results using various plotting functions BNLearn offers, such as "graphviz.plot" to display the network structure and conditional probability tables. Due to issues with "graphviz.chart" not displaying all results correctly, we will utilize the CPT as an interface here.
 

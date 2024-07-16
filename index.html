@@ -3226,7 +3226,7 @@ Figure 2: Steps necessary to build and use BNs for safety and reliability analys
 <p>Propagation in a Bayesian Network refers to computing the posterior distributions of the unobserved variables given the observed Evidence. One can perform propagation using various exact and approximate inference algorithms.<span class="citation" data-cites="pearl1986fusion">(<a href="#ref-pearl1986fusion" role="doc-biblioref">Pearl 1986</a>)</span></p>
 <p>The BNLearn package provides functions like “grain” for exact inference and “bn.fit” for approximate inference using sampling methods such as Markov Chain Monte Carlo (MCMC).</p>
 <p><strong>6. Interpret Result</strong></p>
-<p>The final step is to interpret the results obtained from the propagation step. Interpreting results involves analyzing the posterior distributions to make decisions and predictions or to gain insights into the relationships between variables. <span class="citation" data-cites="cowell">(<a href="#ref-cowell" role="doc-biblioref"><strong>cowell?</strong></a>)</span></p>
+<p>The final step is to interpret the results obtained from the propagation step. Interpreting results involves analyzing the posterior distributions to make decisions and predictions or to gain insights into the relationships between variables. <span class="citation" data-cites="cowell2003probabilistic">(<a href="#ref-cowell2003probabilistic" role="doc-biblioref">Cowell et al. 2003</a>)</span></p>
 <p>Users can visualize the results using various plotting functions BNLearn offers, such as “graphviz.plot” to display the network structure and conditional probability tables. Due to issues with “graphviz.chart” not displaying all results correctly, we will utilize the CPT as an interface here.</p>
 </section>
 <section id="define-variables-and-dependencies" class="level3">
@@ -3778,6 +3778,9 @@ Bilek, Gunal, and Filiz Karaman. 2018. <span>“An Investigation into the Relati
 </div>
 <div id="ref-cooper1992bayesian" class="csl-entry" role="listitem">
 Cooper, Gregory F., and Edward Herskovits. 1992. <span>“A Bayesian Method for the Induction of Probabilistic Networks from Data.”</span> <em>Machine Learning</em>. <a href="https://link.springer.com/article/10.1007/BF00994110">https://link.springer.com/article/10.1007/BF00994110</a>.
+</div>
+<div id="ref-cowell2003probabilistic" class="csl-entry" role="listitem">
+Cowell, R. G., P. Dawid, S. L. Lauritzen, and D. J. Spiegelhalter. 2003. <em>Probabilistic Networks and Expert Systems: Exact Computational Methods for Bayesian Networks</em>. Information Science and Statistics. Springer New York. <a href="https://books.google.com/books?id=X4KiAKDygOIC">https://books.google.com/books?id=X4KiAKDygOIC</a>.
 </div>
 <div id="ref-heckerman1995tutorial" class="csl-entry" role="listitem">
 Heckerman, David. 1995. <span>“A Tutorial on Learning with Bayesian Networks.”</span> In <em>Learning in Graphical Models</em>. MIT Press. <a href="https://www.cis.upenn.edu/~mkearns/papers/barbados/heckerman.pdf">https://www.cis.upenn.edu/~mkearns/papers/barbados/heckerman.pdf</a>.
