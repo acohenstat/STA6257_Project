@@ -39,6 +39,7 @@ library(e1071)
 library(Rgraphviz)
 library(tidyr)
 library(dplyr)
+library(rjags)
 ```
 
 ## Introduction
@@ -382,28 +383,11 @@ graphviz.plot(dag, layout = "fdp")
 ```
 
 ```{r,echo=F}
-# CPT Visualization using bnlearn
-#print(features)
-#print(names(dataset))
-#print(nodes(dag))
 
 
-fit <- bn.fit(dag, data = dataset, method = "bayes")
+bn_fitted <- bn.fit(dag, data = dataset, method = "bayes")
 
-## Print CPTs
-#for(node in nodes(fit)) {
-#  cat("## CPT for", node, ":\n")
-#  cpt <- fit[[node]]$prob
-#  if (is.table(cpt)) {
-#    print(knitr::kable(as.data.frame(cpt)))
-#  } else {
-#    for (state in names(cpt)) {
-#      cat("### State:", state, "\n")
-#      print(knitr::kable(as.data.frame(cpt[[state]])))
-#    }
-#  }
-#  cat("\n")
-#}
+
 ```
 [CPTs for Income](cpt.html)
 
@@ -448,27 +432,19 @@ Decision Support:
 Validation and Sensitivity Analysis: monte carlo
 
 <p style="color: blue;">
-
 Idea - Evalulate the networks ability
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Cross Validate to test models robustness and generalization
-
 </p>
 
 <p style="color: blue;">
-
 Idea - Asses how sensitive network is to input and structure chantes
-
 </p>
 
 <p style="color: blue;">
-
 Idea -Use the networks to make a prediction
-
 </p>
 
 ## Data and Visualization
@@ -591,7 +567,11 @@ ggplot(occupation_income_count, aes(x = occupation, y = count, fill = income)) +
      
 ```
 
+### Markov Monte Carlo
 
+```{r}#
+
+```
 
 
 
@@ -607,6 +587,22 @@ Add discription of final model possibly after learning
 
 ### Conclusion
 
-Add conclusion here
+<p style="color: blue;">
+Idea - Talk about succeffully employing the Bayesian Network
+</p>
+
+<p style="color: blue;">
+Idea - Highlight how the advantages of bayesian networks was used.
+</p>
+
+<p style="color: blue;">
+Idea - Talk about what limitations we ran into, complexity, assumptions, conditional independencies
+</p>
+
+<p style="color: blue;">
+Idea - Talk about our method and how it can be applied in a real-world scenario, offering valuable insights and predictive capabilities. 
+</p>
+
+In conclusion, Bayesian Networks offer a robust framework for probabilistic modeling and decision-making under uncertainty. While they have certain limitations, their advantages make them a powerful tool for understanding and predicting complex relationships in diverse fields. Future work could explore integrating Bayesian Networks with other modeling techniques to address their limitations and further enhance their predictive performance.
 
 ## References
