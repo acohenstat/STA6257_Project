@@ -343,6 +343,13 @@ network must define its conditional probability distribution given its
 parent nodes. Then, we can get the conditional probability tables (CPT),
 the results interface of our modelization.
 
+<span style="color:blue">
+
+Idea - Look over the joint probability function and the chain rule of
+probabilities.
+
+</span>
+
 These probabilities can be estimated from data or provided by domain
 experts. The BNLearn package can fit these probabilities to data using
 maximum likelihood estimation or Bayesian estimation methods.
