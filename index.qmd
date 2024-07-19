@@ -343,7 +343,7 @@ network must define its conditional probability distribution given its
 parent nodes. Then, we can get the conditional probability tables (CPT),
 the results interface of our modelization.
 
-<span style="color:blue">
+\<span style="color:blue"\>
 
 Idea - Look over the joint probability function and the chain rule of
 probabilities.
@@ -381,6 +381,13 @@ Propagation in a Bayesian Network refers to computing the posterior
 distributions of the unobserved variables given the observed Evidence.
 One can perform propagation using various exact and approximate
 inference algorithms.[@pearl1986fusion]
+
+\<span style="color:blue"\>
+
+Idea - Look over the propagation into the networks and how it works with
+different type of networks.
+
+</span>
 
 The BNLearn package provides functions like "grain" for exact inference
 and "bn.fit" for approximate inference using sampling methods such as
