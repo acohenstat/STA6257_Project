@@ -118,12 +118,6 @@ more chance to get the car by changing door. The whole principle of the
 Bayes' equation is used in the Bayesian Networks when taking a look at
 the conditional probability tables.
 
-<p style="color: blue;">
-
-Idea - Discuss Propagation.
-
-</p>
-
 ### What are the advantages of using Bayesian Networks
 
 Data analysis offers a variety of tools like rule-based systems,
