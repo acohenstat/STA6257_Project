@@ -380,10 +380,43 @@ of the remaining variables.
 Propagation in a Bayesian Network refers to computing the posterior
 distributions of the unobserved variables given the observed Evidence.
 One can perform propagation using various exact and approximate
-inference algorithms.[@pearl1986fusion]
+inference algorithms.
 
-***Idea - Look over the propagation into the networks and how it works
-with different type of networks.***
+Belief propagation in Bayesian networks, as described in
+[@pearl1986fusion], involves the iterative updating of probabilities
+through the network's nodes to achieve a consistent set of beliefs. This
+process leverages the network's structure, which encodes conditional
+dependencies among variables, allowing for the efficient computation of
+marginal and joint probabilities. The joint probability function plays a
+central role, as it is decomposed into a product of conditional
+probabilities corresponding to the network's edges.
+
+Through belief propagation, local computations are performed at each
+node, combining incoming messages (probability distributions) from
+neighboring nodes and sending updated messages back. This iterative
+exchange continues until convergence, enabling the network to
+incorporate new evidence and update beliefs consistently across the
+entire system. Pearl's framework revolutionized probabilistic reasoning
+by making complex probabilistic inference computationally feasible.
+
+The joint probability function is a fundamental concept in probability
+theory and statistics, representing the probability of simultaneous
+occurrences of a set of random variables. For a set of random variables
+$X_1, X_2, \ldots, X_n$, the joint probability function
+$P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$ gives the likelihood that
+these variables take on specific values $(x_1, x_2, \ldots, x_n)$. In
+the context of Bayesian networks, the joint probability distribution of
+a set of variables can be factorized into a product of conditional
+probabilities based on the network's structure, which is typically a
+directed acyclic graph (DAG). This factorization is expressed as:
+
+$P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^n P(X_i \mid \text{Parents}(X_i))$,
+
+where $\text{Parents}(X_i)$ denotes the set of parent nodes for the node
+$(X_i)$ in the Bayesian network. This factorization leverages the
+conditional independence properties encoded in the network,
+significantly simplifying the computation of the joint distribution.
+[@friedman1997bayesian]
 
 The BNLearn package provides functions like "grain" for exact inference
 and "bn.fit" for approximate inference using sampling methods such as
@@ -704,15 +737,37 @@ Idea -Use the networks to make a prediction
 
 ## III-2. Data shaping and Visualization
 
-The distribution of income is significantly influenced by age. Individuals aged between 18 and 39 years typically earn $50,000 or less annually. This is likely because they are in the early stages of their careers and have not yet attained a high level of education or substantial work experience. Conversely, those aged between 40 and 64 years are more likely to earn over $50,000 annually, reflecting their greater experience and more advanced career stages.
-Most workers are employed in the private sector, which tends to employ younger individuals with varying education levels, although at least a bachelor's degree is commonly observed. Notably, workers with a doctorate level of education often earn more than $50,000 per year.
-Gender also plays a role in income distribution. Higher-earning individuals are predominantly male, with jobs in categories such as "exec-managerial" and "prof-specialty," which are typically male-dominated. In contrast, occupations often filled by women, such as "adm-clerical" and "other-service," generally lead to lower incomes. 
-Most occupations with incomes above $50,000 are in the "Exec-managerial" and "Prof-specialty" categories, followed by "Sales," "Craft-repair," and "Adm-clerical." However, within each of these occupational categories, the majority of workers earn $50,000 or less annually.
+The distribution of income is significantly influenced by age.
+Individuals aged between 18 and 39 years typically earn \$50,000 or less
+annually. This is likely because they are in the early stages of their
+careers and have not yet attained a high level of education or
+substantial work experience. Conversely, those aged between 40 and 64
+years are more likely to earn over \$50,000 annually, reflecting their
+greater experience and more advanced career stages. Most workers are
+employed in the private sector, which tends to employ younger
+individuals with varying education levels, although at least a
+bachelor's degree is commonly observed. Notably, workers with a
+doctorate level of education often earn more than \$50,000 per year.
+Gender also plays a role in income distribution. Higher-earning
+individuals are predominantly male, with jobs in categories such as
+"exec-managerial" and "prof-specialty," which are typically
+male-dominated. In contrast, occupations often filled by women, such as
+"adm-clerical" and "other-service," generally lead to lower incomes.
+Most occupations with incomes above \$50,000 are in the
+"Exec-managerial" and "Prof-specialty" categories, followed by "Sales,"
+"Craft-repair," and "Adm-clerical." However, within each of these
+occupational categories, the majority of workers earn \$50,000 or less
+annually.
 
-
-__Age Distribution by Income__
-Individuals between the ages of 18 and 39, categorized as “young,” have a larger majority who are making $50,000 or less a year. Individuals between the ages of 40 and 64, categorized as “middle,” have a higher number of people making over $50,000. It is important to note that the “young” category has a much larger sample size. The amount of “middle-aged"  individuals making over $50,000 is not much larger than the amount of “young” individuals. Retired individuals have a much smaller sample size, with the majority making under $50,000.
-
+**Age Distribution by Income** Individuals between the ages of 18 and
+39, categorized as “young,” have a larger majority who are making
+\$50,000 or less a year. Individuals between the ages of 40 and 64,
+categorized as “middle,” have a higher number of people making over
+\$50,000. It is important to note that the “young” category has a much
+larger sample size. The amount of “middle-aged" individuals making over
+\$50,000 is not much larger than the amount of “young” individuals.
+Retired individuals have a much smaller sample size, with the majority
+making under \$50,000.
 
 ```{r,echo=T}
 
@@ -735,10 +790,14 @@ guides(fill = guide_legend(title = "Income"))
 
 ```
 
+**Workclass**
 
-__Workclass__
-
-The majority of individuals in the census data work in the private sector and make $50,000 or less; this makes sense considering how a large percentage of individuals in the dataset are grouped in the “young” category. In addition, the trend in education is lower level education, such as being a high school graduate, having some college, or having a bachelor's. 
+The majority of individuals in the census data work in the private
+sector and make \$50,000 or less; this makes sense considering how a
+large percentage of individuals in the dataset are grouped in the
+“young” category. In addition, the trend in education is lower level
+education, such as being a high school graduate, having some college, or
+having a bachelor's.
 
 ```{r,echo=T}
 ggplot(data = dataset, aes(x = workclass, fill = income)) +
@@ -759,10 +818,15 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 guides(fill = guide_legend(title = "Income"))
 ```
 
+**Education**
 
-__Education__
-
-Most people in the census data have either graduated high school, have had some college, or have a bachelor’s degree. A vast majority of people who have obtained a doctorate degree make over $50,000. About half of people who obtained their master’s make over $50,000. A little under half of the people who obtained their bachelors make over $50,000. Most people stopped their education at high school, or some college, and make under $50,000.
+Most people in the census data have either graduated high school, have
+had some college, or have a bachelor’s degree. A vast majority of people
+who have obtained a doctorate degree make over \$50,000. About half of
+people who obtained their master’s make over \$50,000. A little under
+half of the people who obtained their bachelors make over \$50,000. Most
+people stopped their education at high school, or some college, and make
+under \$50,000.
 
 ```{r,echo=T}
 ggplot(data = dataset, aes(x = education, fill = income)) +
@@ -783,10 +847,12 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
 guides(fill = guide_legend(title = "Income"))
 ```
 
+**Number of Males and Females Making Above and Below \$50,000**
 
-__Number of Males and Females Making Above and Below $50,000__ 
-
-Almost half of the data consists of males making under $50,000. About a quarter of the data consists of males making over $50,000. The other quarter consists of females making under $50,000. There is a small percentage of the data with women making over $50,000.
+Almost half of the data consists of males making under \$50,000. About a
+quarter of the data consists of males making over \$50,000. The other
+quarter consists of females making under \$50,000. There is a small
+percentage of the data with women making over \$50,000.
 
 ```{r,echo=T}
 
@@ -816,9 +882,13 @@ ggplot(sex_income_count, aes(x = "", y = count, fill = sex_income)) +
   theme(legend.position = "right")
 ```
 
-__Number of Males and Females in Each Occupation__
+**Number of Males and Females in Each Occupation**
 
-The more prominent occupations in the data are “Adm-clerical,” “Craft-repair,” “Exec-managerial,” Prof-speciality,” and “Sales.” Women predominantly work in “adm-clerical,” with the rest being male-dominated occupations. The only other women-dominated field is listed as “Other-Service.” 
+The more prominent occupations in the data are “Adm-clerical,”
+“Craft-repair,” “Exec-managerial,” Prof-speciality,” and “Sales.” Women
+predominantly work in “adm-clerical,” with the rest being male-dominated
+occupations. The only other women-dominated field is listed as
+“Other-Service.”
 
 ```{r,echo=T}
 occupation_gender_count <- dataset %>%
@@ -835,10 +905,15 @@ ggplot(occupation_gender_count, aes(x = occupation, y = count, fill = sex)) +
        fill = "Sex")
 ```
 
+**Number of People in Each Occupation Making Over and Under \$50,000**
 
-__Number of People in Each Occupation Making Over and Under $50,000__
-
-The occupations that are paying over $50,000 more than the rest of the occupations include “Exec-managerial,” “Prof-specialty,” “Sales,” “Craft-repair,” and “Adm-clerical.” The top occupations, though, are “Exec-managerial” and “Prof-specialty” by far. Most individuals are working in “Adm-clerical,” “Craf-repair,” “Other-Service,” and “Sales.” The vast majority of all individuals in the data make less than $50,000.
+The occupations that are paying over \$50,000 more than the rest of the
+occupations include “Exec-managerial,” “Prof-specialty,” “Sales,”
+“Craft-repair,” and “Adm-clerical.” The top occupations, though, are
+“Exec-managerial” and “Prof-specialty” by far. Most individuals are
+working in “Adm-clerical,” “Craf-repair,” “Other-Service,” and “Sales.”
+The vast majority of all individuals in the data make less than
+\$50,000.
 
 ```{r,echo=T}
 occupation_income_count <- dataset %>%
