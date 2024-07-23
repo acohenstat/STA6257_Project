@@ -42,7 +42,7 @@ library(dplyr)
 library(rjags)
 ```
 
-## Introduction
+# I) Introduction
 
 In this study, we employ Bayesian Networks to predict whether
 individuals earn more than \$50,000 annually based on demographic and
@@ -53,7 +53,7 @@ goal is to develop a predictive model that identifies key factors
 influencing these income levels, offering a methodical approach to
 understanding socioeconomic dynamics.
 
-### What is a "Bayesian Network"?
+### I-1. What is a "Bayesian Network"?
 
 A Bayesian network, a belief network, or a probabilistic graphical model
 represents a set of variables and their conditional dependencies via a
@@ -76,7 +76,7 @@ formulation is crucial for understanding how evidence impacts our belief
 in a hypothesis by combining prior knowledge with new evidence to
 provide an updated probability [@Gelman2022]
 
-### What is the Bayesian Theorem
+### I-2. What is the Bayesian Theorem?
 
 A simple Bayesian network can be visualized as a directed acyclic graph
 (DAG) with nodes representing random variables and directed edges
@@ -118,7 +118,7 @@ more chance to get the car by changing door. The whole principle of the
 Bayes' equation is used in the Bayesian Networks when taking a look at
 the conditional probability tables.
 
-### What are the advantages of using Bayesian Networks
+### I-3. What are the advantages of using Bayesian Networks
 
 Data analysis offers a variety of tools like rule-based systems,
 decision trees, and artificial neural networks, along with techniques
@@ -162,7 +162,7 @@ training, eliminating the need to reserve data for testing purposes.
 Using all data ensures that models generalize well to new data and avoid
 capturing noise or spurious patterns from the training data.
 
-### Applications of Bayesian Networks
+### I-4. Applications of Bayesian Networks
 
 We widely apply Bayesian networks across diverse fields due to their
 capabilities in modeling probabilistic relationships. A few examples
@@ -181,7 +181,7 @@ utility of Bayesian networks in addressing complex probabilistic
 challenges across different domains and further their practical
 usefulness.
 
-### Components of Bayesian Networks
+### I-5. Components of Bayesian Networks
 
 Bayesian networks are sophisticated models that represent probabilistic
 relationships among variables using a directed acyclic graph (DAG). The
@@ -243,7 +243,7 @@ conditional probability tree provides a foundational framework for
 working with Bayesian networks, enabling the modeling of complex systems
 with interdependent variables in a structured and efficient manner.
 
-### Limitations of Bayesian Networks
+### I-6. Limitations of Bayesian Networks
 
 Although Bayesian networks are valuable in modeling and predicting
 probabilistic relationships, they have their limitations that can hinder
@@ -279,7 +279,7 @@ say, neural networks. These limitations stress that careful application
 and possible use of hybrid methodologies may be necessary when solving
 complex problems with Bayesian networks.
 
-## Methods
+# II) Methods
 
 (need to expand on this section since we changed data set and goal)
 
@@ -290,7 +290,7 @@ The main goal is to predict whether an individual's income exceeds
 \$50,000 per year based on various demographic and employment-related
 attributes.
 
-### Steps to create a Bayesian netowrk
+### II-1. Steps to create a Bayesian netowrk
 
 <figure style="text-align: center;">
 
@@ -382,12 +382,8 @@ distributions of the unobserved variables given the observed Evidence.
 One can perform propagation using various exact and approximate
 inference algorithms.[@pearl1986fusion]
 
-\<span style="color:blue"\>
-
-Idea - Look over the propagation into the networks and how it works with
-different type of networks.
-
-</span>
+***Idea - Look over the propagation into the networks and how it works
+with different type of networks.***
 
 The BNLearn package provides functions like "grain" for exact inference
 and "bn.fit" for approximate inference using sampling methods such as
@@ -406,7 +402,35 @@ conditional probability tables. Due to issues with "graphviz.chart" not
 displaying all results correctly, we will utilize the CPT as an
 interface here.
 
-### Define Variables and Dependencies:
+# III) Analyse and visualisation
+
+## III-1. Dataset and description
+
+This data was sourced from the 1994 Census Bureau database by Ronny
+Kohavi and Barry Becker [@misc_adult_2]They extracted a set of
+relatively clean records using these criteria: ((AAGE\>16) && (AGI\>100)
+&& (AFNLWGT\>1) && (HRSWK\>0)). (Becker and Kohavi 1996) The objective
+is to predict whether an individual earns more than \$50K annually.
+
+```{r, echo=T}
+dataset <- read.csv("data/adult.csv")
+dataset[dataset == "?"] <- NA
+# TCP process becomes to large for limits of R(12.5gb) need to prunce some nodes atm
+
+dataset <- na.omit(dataset)
+dataset <- subset(dataset, select = -fnlwgt)
+dataset <- subset(dataset, select = -education.num)
+
+
+#dataset$fnlwgt <- as.factor(dataset$fnlwgt)
+
+#dataset$education.num <- as.factor(dataset$education.num)
+
+head(dataset) %>%
+  kable(caption = "Head of the Adult income Dataset")
+```
+
+### III-1.a Define Variables and Dependencies:
 
 | Feature        |                             Description |
 |:---------------|----------------------------------------:|
@@ -488,7 +512,7 @@ Income
 **Sex: Gender of Individual:** → Categories: Male, Female →
 Dependencies: Occupation, Education
 
-### Data pre-processing:
+### III-1.b Data pre-processing:
 
 Column Exclusions: We excluded the columns 'fnlwgt' and 'education.num'
 from the dataset. 'Education.num' duplicates the information already
@@ -516,19 +540,7 @@ columns into categorical factors: 'race,' 'native.country', 'workclass,'
 'income.'
 
 ```{r, echo=T}
-dataset <- read.csv("data/adult.csv")
-dataset[dataset == "?"] <- NA
-# TCP process becomes to large for limits of R(12.5gb) need to prunce some nodes atm
-
-dataset <- na.omit(dataset)
-dataset <- subset(dataset, select = -fnlwgt)
-dataset <- subset(dataset, select = -education.num)
-
-
-#dataset$fnlwgt <- as.factor(dataset$fnlwgt)
-
-#dataset$education.num <- as.factor(dataset$education.num)
-
+# Data transformation
 
 breaks <- c(18, 40, 65, 100)  # Adjust as needed
 labels <- c("Young", "Middle", "Retired")
@@ -662,22 +674,6 @@ Idea - use belief propagation to comput probabilities
 
 </p>
 
-## Analysis and Results
-
-### Dataset
-
-This data was sourced from the 1994 Census Bureau database by Ronny
-Kohavi and Barry Becker [@misc_adult_2]They extracted a set of
-relatively clean records using these criteria: ((AAGE\>16) && (AGI\>100)
-&& (AFNLWGT\>1) && (HRSWK\>0)). (Becker and Kohavi 1996) The objective
-is to predict whether an individual earns more than \$50K annually.
-
-```{r, echo=T}
-
-head(dataset) %>%
-  kable(caption = "Head of the Adult income Dataset")
-```
-
 Decision Support:
 
 Validation and Sensitivity Analysis: monte carlo
@@ -706,7 +702,7 @@ Idea -Use the networks to make a prediction
 
 </p>
 
-## Data and Visualization
+## III-2. Data shaping and Visualization
 
 ```{r,echo=T}
 
@@ -826,7 +822,7 @@ ggplot(occupation_income_count, aes(x = occupation, y = count, fill = income)) +
      
 ```
 
-### Markov Monte Carlo
+### III-2.a Markov Monte Carlo
 
 \`\`\`{r}#
 
@@ -838,11 +834,11 @@ Conditional Probability Tables (CPTs)
 
 Probability Distributions:
 
-## Statistical Modeling
+## III-3. Statistical Modeling
 
 Add discription of final model possibly after learning
 
-### Conclusion
+# IV) Conclusion
 
 <p style="color: blue;">
 
